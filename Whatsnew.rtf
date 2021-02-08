@@ -1,0 +1,154 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1040\deflangfe1040{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\froman\fprq2\fcharset0 Times New Roman;}}
+{\*\generator Msftedit 5.41.15.1507;}\viewkind4\uc1\pard\nowidctlpar\f0\fs20\par
+\par
+\tab\tab\tab\tab\tab\tab\tab\tab\tab\lang2057\b\f1\fs24 University of Messina\par
+\tab\tab\tab\tab\tab\tab\tab\tab\tab Visilab Research Lab\par
+\par
+\b0\par
+\b Nanodesktop distribution version 0.3\par
+\par
+\f0 CHANGELOG\par
+\f1\par
+\f0\fs20 0.1\tab\tab 23/12/2006\tab\par
+\par
+\tab\tab\b0 First release\par
+\par
+\b 0.2\tab\tab 16/02/2007\tab\par
+\tab\tab\par
+\tab\tab\b0 1. Introduced NanoTile video acceleration;\par
+\tab\tab 2. Introduced \i code deviation\i0 : it guarantees the compatibility of our modified PSPSDK with not\par
+\tab\tab     Nanodesktop applications;\par
+\tab\tab 3. ndDevIL has been updated on base of 1.6.8 RC2 version of DevIL , integrating new bug fixes;\par
+\tab\tab 4. Introduced n different scopes in Nanodesktop library;\par
+\tab\tab 5. Introduced KSU (Kernel Services to User) mode;\par
+\tab\tab 6. Introduced Raw-IR code in Nanodesktop_HAL;\par
+\tab\tab 7. ndHighGUI has been rewritten to ensure fastest rendering;\par
+\tab\tab 8. ndHighGUI now supports new error manager system;\par
+\pard\nowidctlpar\li720\tab 9. Makefile_PSPE.mak and Makefile_PSP.mak has been updated to ensure less compilation \par
+\pard\nowidctlpar\fi720\li720     troubles;\par
+\pard\nowidctlpar\tab           10.  Fixed a trouble in WMI routines that caused a crash when a WinMenuItem had a ZString \par
+\pard\nowidctlpar\fi720\li720     different from its NameItem;\par
+\pard\nowidctlpar                        11.  Introduced ndHAL_XFPU wrapper that provides trasparent mathematical acceleration   \par
+\pard\nowidctlpar\li1440     support;\par
+\pard\nowidctlpar\li1290 12.  Written new cvSumPixels.cpp, with Ultra Fast Integration for faster performances in objects  \par
+\pard\nowidctlpar\li1440     recognition;\par
+\pard\nowidctlpar\tab           13.  Memory manager (malloc and free) now is very faster;\par
+\tab           14.  Fixed a trouble in windows maximization/minimization under PSP.\par
+\tab           15.  Introduced ndHAL_GetPad_Analog for using PSP pad in analog mode\tab\par
+\tab\par
+\b 0.3\tab           10/7/2007\par
+\b0\tab\par
+\tab\tab 1.  Introduced Phoenix Graphical Subsystem: now nd supports multithreading applications;\par
+\tab\tab 2.  Added support for TextBoxes, ListBoxes, TextAreas, Control Boxes;\par
+\tab\tab 3.  Introduced new API for VirtualKeyboard;\par
+\tab\tab 4.  Introduced new type of VirtualKeyboard;\par
+\tab\tab 5.  Introduced new API for USB support;\par
+\tab\tab 6.  Introduced support for USB attach/detach;\par
+\tab\tab 7.  Introduced ndUSBDrv.Prx for USB transfer mode support;\par
+\tab\tab 8.  Introduced webcam API and fast video interface;\tab\par
+\tab\tab 9.  Scanf and derived functions have been totally rewritten;\par
+\tab\tab 10.  Fixed a trouble that caused the missed inhibition of VirtualKeyboard when NanoC broke\par
+\tab\tab      data flux from stdin stream;\par
+\tab\tab 11.  Added functions difftime, localtime, asctime, mktime, ctime, gmtime, strftime in NanoC;\tab\par
+\tab\tab 12.  Added function freopen in stdio.h\par
+\tab\tab 13.  Introduce EMI and EMIEMU libraries for VFPU support and VFPU emulation (integrated in\par
+\tab\tab        NanoM)\par
+\tab             14.  Fixed a trouble that caused a system hang when the user tried to open an image with \par
+\tab\tab        DevIL routines, in KSU mode;\par
+\tab\tab 15.  ndHighGUI has a new version of cvShowImage, fully optimized\par
+\tab\tab 16.  ndHighGUI now supports OpenCV functions for webcam (cvGrabImage, cvReleaseCapture,\par
+\tab\tab        and the other functions.....)\par
+\tab\tab 17.  cvSumPixel.cpp in OpenCV now can use EMI interface for very faster and hardware assisted \par
+\tab\tab        computations;\par
+\tab\tab 18.  Introduced Eyeserver/Eyeclient;\par
+\tab\tab 19.  Introduced BootScreen and ExitManager when the system works in KSU mode;\par
+\tab\tab 20.  Introduced new API for manages mouse events\par
+\tab\tab 21.  Introduced ndDelay and new functions ndHAL_HardDelay, ndHAL_SoftDelay, ndHAL_ClockDelay;\tab\par
+\tab\tab 22.  Introduced ndLP_CreateWindow (ndLP_AllocateWindow and others are deprecated now)\tab\tab    \tab\tab\tab   \tab\par
+\par
+\b 0.3.2\tab\tab 24/10/2007\par
+\par
+\tab\tab\b0 1.    Fixed a trouble with Virtual Keyboard (Dancol bug)\par
+\tab\tab 2.    Introduced network support in KSU mode\par
+\tab\tab 3.    Introduced ndCurl library for network support\par
+\tab\tab 4.    Introduced the first gCurl job\par
+\tab\tab 5.    Introduced EAS (Envelope Audio System) for audio support\par
+\tab\tab 6.    Introduced Media API per Media Engine WAVE and MP3 decoding (hardware assisted)\par
+\tab\tab 7.    Introduced ndFLite for voice synthesis\par
+\tab\tab 8.    NanoC has a new architecture, more portable\par
+\tab\tab 9.    Fixed troubles with fstat and time functions\par
+\tab\tab 10.  Introduced cvAux support in ndOpenCV. Now PentLand (PCA) and EigenFaces recognition\par
+\tab\tab        alghoritms are available\par
+\tab\tab 11.  ndHAL_WebCam has a new design, ready for future GoCam support\par
+\tab\tab 12.  Introduced trasparent firmware control\tab\par
+\tab\tab 13.  Fixed a bug that caused missed passage of 64-bit LBoxCode to the LBox items\par
+\par
+\b 0.3.3\tab\tab 15/1/2008\par
+\b0\tab\tab\tab\par
+\tab\tab 1.    Introduced new CFW HAL: now nd works also on PSP SLIM or on custom firmwares;\par
+\tab\tab 2.    Introduced support for Sony GoCam (only CFW HAL)\par
+\tab\tab 3.    Fixed a bug with ndLP_ResizeWindow that caused the hang of Phoenix Subsystem;\par
+\tab\tab 4.    Introduced ndHAL_SystemExec function;\par
+\tab\tab 5.    Introduced pseudoExec syscall;\par
+\tab\tab 6.    Fixed a trouble in network layer that caused the hang of system when DNS was unreachable;\par
+\tab\tab 7.    Introduced support for CVAUX alghoritms\par
+\tab\tab 8.    Introduced support for SQLLite library;\par
+\tab\tab 9.    Introduced support for SIFT alghoritm;\par
+\tab\tab 10.  cvFloor and cvCeil have been fixed;\par
+\tab\tab 11.  Introduced support for GOCR optical recognition\par
+\tab\tab 12.  Improved support for VFPU acceleration;\par
+\tab\tab 13.  Phoenix Graphical System is very very faster;\par
+\par
+\b 0.3.4\b0\tab\tab\b 18/6/2008\b0\par
+\par
+\tab\tab 1.    Added support for TrueType fonts (via ndFreeType library)\par
+\tab\tab 2.    Redesigned NanoC with support for UTF8 widechar and POSIX threads\par
+\tab\tab        (via GNU UTF-8 library and EMBPThread library)\tab\par
+\tab\tab 3.    Added new NanoC functions (setenv/getenv emulation, mktemp, mkstemp)\par
+\tab\tab 4.    Added new NanoCPP (Apache STDCXX standard library) for C++ compatibility;\par
+\tab\tab 5.    Introduced ndISpell ortographical corrector\par
+\tab\tab 6.    Introduced ndOCRAD (C++ OCR engine)\par
+\tab\tab 7.    Cleaned code for TIFF support\par
+\tab\tab 8.    Introduced ndZIP for compression/decompression support\par
+\tab\tab 9.    Introduced libraries ndeXOSIP2, ndORTP, ndOSIP2 for VOIP support (they will\par
+\tab\tab           be used in future ndFurikup support)\par
+\tab\tab 10.  Introduced new functions for GoCAM support (ndHAL_CAM_ChangeHwResolution,\par
+\tab\tab           \tab ndHAL_CAM_ChangeHwBrightness, ndHAL_CAM_ChangeHwContrast,\par
+\tab\tab\tab ndHAL_CAM_ChangeHwSharpness,\par
+\tab\tab\tab ndHAL_CAM_GetSaturationLevel, ndHAL_CAM_GetBrightness,\par
+\tab\tab\tab ndHAL_CAM_GetContrast, ndHAL_CAM_GetSharpness,\par
+\tab\tab\tab ndHAL_CAM_GetHwSensorMode, ndHAL_CAM_GetEvLevel) \par
+\tab\tab 11.  Introduced support for GoCam Microphone recording\par
+\tab\tab 12.  Introduced Smart JPEG support for GoCam\par
+\tab\tab 13.  Introduced support for VFPU assisted LPC-resampling (speed up ndFLite)\par
+\tab\tab 14.  Fixed a bug that caused the incorrect termination of media files when the user\par
+\tab\tab        asked the interruction of the playing. \par
+\tab\tab 15.  Fixed a bug that caused the impossibility to use ndHAL_GetPad when Phoenix\par
+\tab\tab       Subsystem was operative and the mouse pointer was on the screen\par
+\tab\tab 16.  Fixed a bug that caused an incorrect visualization in the TextBoxes\par
+\tab\tab 17.  Fixed a bug that caused a conflict between Windows mkdir and Cygwin mkdir\par
+\tab\tab 18.  Fixed a bug that caused an incorrect determination of the memory that is\par
+\tab\tab        available in memfree() when the programmer uses memalign\par
+\tab\tab 19.  Fixed a trouble of memory violation when the programmer uses malloc and\par
+\tab\tab        memset together (critical).  \par
+\tab\tab 20.  New chapters in the user guide (TrueType support, network support, ndOpenCV, \par
+\tab\tab        ndHighGUI).\par
+\tab\tab 21.  Fixed a bug that caused a memory leakage when the programmer used cvEqualizeHist\par
+\tab\tab 22.  Fixed a serious bug with ndHAL_UnlockPhoenixGraphThread \par
+\tab\tab 23.  Introduced new function ndHAL_MouseControlledByAnalog().\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+          \tab\tab\tab\tab\tab\par
+\tab\tab\b\f1\fs24\par
+}
+ 

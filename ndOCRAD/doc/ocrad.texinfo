@@ -1,0 +1,302 @@
+\input texinfo @c -*-texinfo-*-
+@c %**start of header
+@setfilename ocrad.info
+@settitle GNU Ocrad
+@finalout
+@c %**end of header
+
+@set UPDATED 29 June 2007
+@set VERSION 0.17
+
+@dircategory GNU Packages
+@direntry
+* Ocrad: (ocrad).               The GNU OCR program.
+@end direntry
+
+
+@titlepage
+@title GNU Ocrad
+@subtitle The GNU OCR Program
+@subtitle for Ocrad version @value{VERSION}, @value{UPDATED}
+@author by Antonio Diaz Diaz
+
+@page
+@vskip 0pt plus 1filll
+@end titlepage
+
+@contents
+
+@node Top
+@top
+
+@ifinfo
+This manual is for GNU Ocrad (version @value{VERSION}, @value{UPDATED}).
+
+@sp 1
+GNU Ocrad is an OCR (Optical Character Recognition) program based on a
+feature extraction method. It reads images in pbm (bitmap), pgm
+(greyscale) or ppm (color) formats and produces text in @w{byte (8-bit)}
+or UTF-8 formats. The pbm, pgm and ppm formats are collectively known as
+pnm.
+
+Ocrad includes a layout analyser able to separate the columns or blocks
+of text normally found on printed pages.
+@end ifinfo
+
+@menu
+* Character Sets::		Input charsets and output formats
+* Invoking Ocrad::		Command line interface
+* Image Format Conversion::	How to convert other formats to pnm
+* Algorithm::			How ocrad does its job
+* Problems::			Reporting bugs
+* Concept Index::		Index of concepts
+@end menu
+
+@sp 1
+Copyright @copyright{} 2003, 2004, 2005, 2006 Antonio Diaz Diaz.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+
+@node Character Sets
+@chapter Character Sets
+@cindex input charsets
+@cindex output format
+
+The character set internally used by ocrad is ISO 10646, also known as
+UCS (Universal Character Set), which can represent over two thousand
+million characters (2^31).
+
+As it is unpractical to try to recognize one among so many different
+characters, you can tell ocrad what character sets to recognize. You do
+this with the @samp{--charset} option.
+
+If the input page contains characters from only one character set, say
+@w{@samp{ISO-8859-15}}, you can use the default @samp{byte} output
+format. But in a page with @w{@samp{ISO-8859-9}} and
+@w{@samp{ISO-8859-15}} characters, you can't tell if a code of 0xFD
+represents a 'latin small letter i dotless' or a 'latin small letter y
+with acute'. You should use @w{@samp{--format=utf8}} instead.@*
+Of course, you may request UTF-8 output in any case.
+
+@sp 1
+NOTE: Don't believe everything Usamericans tell you. A billion is a
+million millions (million^2), a trillion is a million million millions
+(million^3), and so on. Please, respect the meaning of prefixes to make
+communication among all people possible. Thanks.
+
+
+@node Invoking Ocrad
+@chapter Invoking Ocrad
+@cindex invoking
+@cindex options
+@cindex usage
+@cindex version
+
+The format for running ocrad is:
+
+@example
+ocrad [@var{options}] [@var{files}]
+@end example
+
+Ocrad supports the following options:
+
+@table @samp
+@item --help
+@itemx -h
+Print an informative help message describing the options and exit.
+@w{@samp{ocrad --verbose --help}} describes also hidden options.
+
+@item --version
+@itemx -V
+Print the version number of ocrad on the standard output and exit.
+
+@item --append
+@itemx -a
+Append generated text to the output file instead of overwriting it.
+
+@item --block=@var{number}
+@itemx -b @var{number}
+Process only the specified text block, beginning from 1. Is only useful
+when used in conjunction with layout analysis (see below).
+
+@item --charset=@var{name}
+@itemx -c @var{name}
+Enable recognition of the characters belonging to the given character set.
+You can repeat this option multiple times with different names for
+processing a page with characters from different character sets.@*
+If no charset is specified, @w{@samp{iso-8859-15}} (latin9) is assumed.@*
+Try @w{@samp{--charset=help}} for a list of valid charset names.
+
+@item --crop=@var{left},@var{top},@var{right},@var{bottom}
+@itemx -p @var{left},@var{top},@var{right},@var{bottom}
+Crop the input image by the rectangle defined by @var{left}, @var{top},
+@var{right} and @var{bottom}. The values of @var{left}, @var{top},
+@var{right} and @var{bottom} may be relative to the image size
+@w{(0.0 <= value <= 1.0)}, or absolute @w{(value > 1)}. Absolute and
+relative values may be mixed. For example @w{@samp{ocrad --crop 700,960,1,1}}
+will work as expected.@*
+The cropping is performed before any other transformation (rotation or
+mirroring) on the input image, and before scaling, layout analysis and
+recognition.
+
+@item --filter=@var{name}
+@itemx -e @var{name}
+Pass the output text through the given postprocessing filter.@*
+@w{@samp{--filter=letters}} forces every character that resembles a
+letter to be recognized as a letter. Other characters will be output
+without change.@*
+@w{@samp{--filter=letters_only}}, same as @w{@samp{--filter=letters}},
+but other characters will be discarded.@*
+@w{@samp{--filter=numbers}} forces every character that resembles a
+number to be recognized as a number. Other characters will be output
+without change.@*
+@w{@samp{--filter=numbers_only}}, same as @w{@samp{--filter=numbers}}
+but other characters will be discarded.@*
+Try @w{@samp{--filter=help}} for a list of valid filter names.
+
+@item --force
+@itemx -f
+Force overwrite of output file.
+
+@item --format=@var{name}
+@itemx -F @var{name}
+Select the output format. The valid names are @samp{byte} and @samp{utf8}.@*
+If no output format is specified, @samp{byte} (8 bit) is assumed.
+
+@item --invert
+@itemx -i
+Invert image levels (white on black).
+
+@item --layout=@var{mode}
+@itemx -l @var{mode}
+Enable page layout analysis. The meaning of @var{mode} is:@*
+@samp{0} no analysis at all, @samp{1} column separation, @samp{2} full analysis.
+
+@item -o @var{file}
+Place the output into @var{file} instead of into the standard output.
+
+@item --scale=@var{value}
+@itemx -s @var{value}
+Scale the input image by @var{value} before layout analysis and recognition.
+If @var{value} is negative, the input image is scaled down by @var{-value}.
+
+@item --transform=@var{name}
+@itemx -t @var{name}
+Perform given transformation (rotation or mirroring) on the input image
+before scaling, layout analysis and recognition.@*
+Try @w{@samp{--transform=help}} for a list of valid transformation names.
+
+@item --threshold=@var{value}
+@itemx -T @var{value}
+Set binarization threshold for pgm or ppm files or for @samp{--scale}
+option (only for scaled down images). @var{value} should be a rational
+number between 0 an 1, and may be given as a percentage (50%), a
+fraction (1/2), or a decimal value (0.5). Image values greater than
+threshold are converted to white. The default value is 0.5.
+
+@item --verbose
+@itemx -v
+Verbose mode.
+
+@item -x @var{file}
+Write (export) OCR Results File to @var{file}. @w{@samp{-x -}} writes to
+stdout, overriding text output except if output has been also redirected
+with the -o option.
+@end table
+
+
+@node Image Format Conversion
+@chapter Image Format Conversion
+@cindex image format conversion
+
+There are a lot of image formats, but ocrad is able to decode only three
+of them; pbm, pgm and ppm. In this chapter you will find command
+examples and advice about how to convert image files to a format that
+ocrad can manage.
+
+@table @samp
+@item .png
+Portable Network Graphics file. Use the command
+@w{@code{pngtopnm filename.png | ocrad}}.@*
+In some cases, like the ocrad.png icon, you have to invert the image
+with the @samp{-i} option: @w{@code{pngtopnm filename.png | ocrad -i}}.
+
+@item .ps
+@itemx .pdf
+Postscript or Portable Document Format file. Use the command
+@w{@code{gs -sPAPERSIZE=a4 -sDEVICE=pnmraw -r300 -dNOPAUSE -dBATCH -sOutputFile=- -q filename.ps | ocrad}}.@*
+You may also use the command
+@w{@code{pstopnm -stdout -dpi=300 -pgm filename.ps | ocrad}},@*
+but it seems not to work with pdf files. Also old versions of
+@code{pstopnm} don't recognize the @samp{-dpi} option and produce an
+image too small for OCR.
+
+@item .tiff
+TIFF file. Use the command@*
+@w{@code{tifftopnm filename.tiff | ocrad}}.
+
+@item .jpg
+JPEG file. Use the command
+@w{@code{djpeg -greyscale -pnm filename.jpg | ocrad}}.@*
+JPEG is a lossy format and is in general not recommended for text images.
+
+@item .pnm.bz2
+Pnm file compressed with bzip2. Use the command
+@w{@code{bunzip2 -c filename.pnm.bz2 | ocrad}}
+
+@item .pnm.gz
+Pnm file compressed with gzip. Use the command
+@w{@code{gunzip -c filename.pnm.gz | ocrad}}
+@end table
+
+
+@node Algorithm
+@chapter Algorithm
+@cindex algorithm
+
+Ocrad is mainly a research project. Many of the algorithms ocrad uses
+are ad hoc, and will change in successive releases as I myself gain
+understanding about OCR issues.
+
+The overall working of ocrad may be described as follows:@*
+1) read the image.@*
+2) optionally, perform some transformations (crop, rotate, scale, etc).@*
+3) optionally, perform layout detection.@*
+4) remove frames and images.@*
+5) detect characters and group them in lines.@*
+6) recognize characters (very ad hoc; one algorithm per character).@*
+7) correct some errors (transform l.OOO into 1.000, etc).@*
+8) output result.
+
+@sp 1
+Ocrad recognizes characters by its shape, and the reason it is so fast
+is that it does not compare the shape of every character against some
+sort of database of shapes and then chooses the best match. Instead of
+this, ocrad only compares the shape differences that are relevant to
+choose between two character categories, mostly like a binary search.
+
+As there is no such thing as a free lunch, this approach has some
+drawbacks. It makes ocrad very sensitive to character defects, and makes
+difficult to modify ocrad to recognize new characters.
+
+
+@node Problems
+@chapter Reporting Bugs
+@cindex bugs
+@cindex getting help
+
+If you find a bug in GNU Ocrad, please send electronic mail to
+@email{bug-ocrad@@gnu.org}. Include the version number, which you can
+find by running @w{@samp{ocrad --version}}.
+
+
+@node Concept Index
+@unnumbered Concept Index
+
+@printindex cp
+
+@bye

@@ -1,0 +1,6 @@
+gentables.c
+libc.c
+locale_is.c
+mbsinit.c
+mb_cur_max.c
+setlocale.c

@@ -1,0 +1,33 @@
+# Define the exports for the prx
+PSP_BEGIN_EXPORTS
+
+# These four lines are mandatory (although you can add other functions like module_stop)
+# syslib is a psynonym for the single mandatory export.
+PSP_EXPORT_START(syslib, 0, 0x8000)
+PSP_EXPORT_FUNC(module_start)
+PSP_EXPORT_FUNC(module_stop)
+PSP_EXPORT_VAR(module_info)
+PSP_EXPORT_END
+
+PSP_EXPORT_START(ndUSBDriver, 0, 0x4001)
+PSP_EXPORT_FUNC(USB_PRX_AsyncRegister)
+PSP_EXPORT_FUNC(USB_PRX_AsyncUnregister)
+PSP_EXPORT_FUNC(USB_PRX_AsyncRead)
+PSP_EXPORT_FUNC(USB_PRX_AsyncWrite)
+PSP_EXPORT_FUNC(USB_PRX_AsyncFlush)
+PSP_EXPORT_FUNC(USB_PRX_WaitForConnect)
+
+PSP_EXPORT_FUNC(USB_PRX_WriteBulkData)
+
+PSP_EXPORT_FUNC(USB_PRX_ReadData)
+PSP_EXPORT_FUNC(USB_PRX_WriteData)
+
+PSP_EXPORT_FUNC(USB_PRX_PassCommAreaAdr)
+
+PSP_EXPORT_FUNC(USB_PRX_CommXChg)
+
+
+PSP_EXPORT_END
+
+PSP_END_EXPORTS
+

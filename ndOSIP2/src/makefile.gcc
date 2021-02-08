@@ -1,0 +1,502 @@
+# -------------------------------------------------------------
+#
+# Nanodesktop ndOSIP2 (PSPE/PSP)
+#
+# -------------------------------------------------------------
+
+
+C = psp-gcc
+LINK = psp-ar
+
+
+## Librerie di sistema
+
+
+OUTLIB_PSPE = ../lib/libndOSIP2_PSPE.a
+
+OUTLIB_PSP  = ../lib/libndOSIP2_PSP.a
+
+
+
+
+# File oggetto
+
+OBJS_PSPE =  ../obj_PSPE/fsm_misc.o 	../obj_PSPE/ict.o \
+	    ../obj_PSPE/ict_fsm.o 	../obj_PSPE/ist.o \
+	    ../obj_PSPE/ist_fsm.o	../obj_PSPE/nict.o \
+	    ../obj_PSPE/nict_fsm.o 	../obj_PSPE/nist.o \
+	    ../obj_PSPE/nist_fsm.o  	../obj_PSPE/osip.o \
+	    ../obj_PSPE/osip_dialog.o 	../obj_PSPE/osip_event.o \
+	    ../obj_PSPE/osip_time.o 	../obj_PSPE/osip_transaction.o \
+	    ../obj_PSPE/port_condv.o	../obj_PSPE/port_fifo.o \
+	    ../obj_PSPE/port_sema.o	../obj_PSPE/port_thread.o \
+	    ../obj_PSPE/osip_accept.o \
+	    ../obj_PSPE/osip_accept_encoding.o \
+	    ../obj_PSPE/osip_accept_language.o \
+	    ../obj_PSPE/osip_alert_info.o \
+	    ../obj_PSPE/osip_allow.o \
+	    ../obj_PSPE/osip_authentication_info.o \
+	    ../obj_PSPE/osip_authorization.o \
+	    ../obj_PSPE/osip_body.o \
+	    ../obj_PSPE/osip_call_id.o \
+	    ../obj_PSPE/osip_call_info.o \
+ 	    ../obj_PSPE/osip_contact.o \
+  	    ../obj_PSPE/osip_content_disposition.o \
+ 	    ../obj_PSPE/osip_content_encoding.o \
+	    ../obj_PSPE/osip_content_length.o \
+	    ../obj_PSPE/osip_content_type.o \
+	    ../obj_PSPE/osip_cseq.o \
+	    ../obj_PSPE/osip_error_info.o \
+	    ../obj_PSPE/osip_from.o \
+	    ../obj_PSPE/osip_header.o \
+	    ../obj_PSPE/osip_list.o \
+	    ../obj_PSPE/osip_md5c.o \
+	    ../obj_PSPE/osip_message.o \
+	    ../obj_PSPE/osip_message_parse.o \
+	    ../obj_PSPE/osip_message_to_str.o \
+	    ../obj_PSPE/osip_mime_version.o \
+	    ../obj_PSPE/osip_parser_cfg.o \
+	    ../obj_PSPE/osip_port.o \
+	    ../obj_PSPE/osip_proxy_authenticate.o \
+	    ../obj_PSPE/osip_proxy_authentication_info.o \
+	    ../obj_PSPE/osip_proxy_authorization.o \
+	    ../obj_PSPE/osip_record_route.o \
+	    ../obj_PSPE/osip_route.o \
+	    ../obj_PSPE/osip_to.o \
+	    ../obj_PSPE/osip_uri.o \
+	    ../obj_PSPE/osip_via.o \
+	    ../obj_PSPE/osip_www_authenticate.o \
+	    ../obj_PSPE/sdp_accessor.o \
+	    ../obj_PSPE/sdp_message.o 
+
+
+OBJS_PSP =  ../obj_PSP/fsm_misc.o 	../obj_PSP/ict.o \
+	    ../obj_PSP/ict_fsm.o 	../obj_PSP/ist.o \
+	    ../obj_PSP/ist_fsm.o	../obj_PSP/nict.o \
+	    ../obj_PSP/nict_fsm.o 	../obj_PSP/nist.o \
+	    ../obj_PSP/nist_fsm.o  	../obj_PSP/osip.o \
+	    ../obj_PSP/osip_dialog.o 	../obj_PSP/osip_event.o \
+	    ../obj_PSP/osip_time.o 	../obj_PSP/osip_transaction.o \
+	    ../obj_PSP/port_condv.o	../obj_PSP/port_fifo.o \
+	    ../obj_PSP/port_sema.o	../obj_PSP/port_thread.o \
+	    ../obj_PSP/osip_accept.o \
+	    ../obj_PSP/osip_accept_encoding.o \
+	    ../obj_PSP/osip_accept_language.o \
+	    ../obj_PSP/osip_alert_info.o \
+	    ../obj_PSP/osip_allow.o \
+	    ../obj_PSP/osip_authentication_info.o \
+	    ../obj_PSP/osip_authorization.o \
+	    ../obj_PSP/osip_body.o \
+	    ../obj_PSP/osip_call_id.o \
+	    ../obj_PSP/osip_call_info.o \
+ 	    ../obj_PSP/osip_contact.o \
+  	    ../obj_PSP/osip_content_disposition.o \
+ 	    ../obj_PSP/osip_content_encoding.o \
+	    ../obj_PSP/osip_content_length.o \
+	    ../obj_PSP/osip_content_type.o \
+	    ../obj_PSP/osip_cseq.o \
+	    ../obj_PSP/osip_error_info.o \
+	    ../obj_PSP/osip_from.o \
+	    ../obj_PSP/osip_header.o \
+	    ../obj_PSP/osip_list.o \
+	    ../obj_PSP/osip_md5c.o \
+	    ../obj_PSP/osip_message.o \
+	    ../obj_PSP/osip_message_parse.o \
+	    ../obj_PSP/osip_message_to_str.o \
+	    ../obj_PSP/osip_mime_version.o \
+	    ../obj_PSP/osip_parser_cfg.o \
+	    ../obj_PSP/osip_port.o \
+	    ../obj_PSP/osip_proxy_authenticate.o \
+	    ../obj_PSP/osip_proxy_authentication_info.o \
+	    ../obj_PSP/osip_proxy_authorization.o \
+	    ../obj_PSP/osip_record_route.o \
+	    ../obj_PSP/osip_route.o \
+	    ../obj_PSP/osip_to.o \
+	    ../obj_PSP/osip_uri.o \
+	    ../obj_PSP/osip_via.o \
+	    ../obj_PSP/osip_www_authenticate.o \
+	    ../obj_PSP/sdp_accessor.o \
+	    ../obj_PSP/sdp_message.o 
+
+
+## Path di ricerca per gli headers files
+
+ 
+INC0 = -I"." 
+INC1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include" 
+INC5 = -I"$(NDENV_PATH)\PSP\ndOSIP2\src\osip2"
+INC5 = -I"$(NDENV_PATH)\PSP\ndOSIP2\src\osipparser2"
+INC7 = -I"$(NDENV_PATH)\PSP\ndOSIP2\include\osip2"
+INC8 = -I"$(NDENV_PATH)\PSP\ndOSIP2\include\osipparser2"
+
+INCLUDE = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6) $(INC7) $(INC8)
+
+
+## Flags di compilazione
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -O3 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -fshort-double -Wall -mfp32 -msym32 -ffast-math -v
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -Wall -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -v
+
+
+
+
+## Compilazione di librerie
+
+all : $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+$(OUTLIB_PSPE): $(OBJS_PSPE)
+	$(LINK) r $(OUTLIB_PSPE) $(OBJS_PSPE)
+	
+$(OUTLIB_PSP): $(OBJS_PSP)
+	$(LINK) r $(OUTLIB_PSP) $(OBJS_PSP)
+
+
+
+## Compilazione dei moduli per PSPE
+
+../obj_PSPE/fsm_misc.o: ./fsm_misc.c
+	$(C) -c fsm_misc.c -o ../obj_PSPE/fsm_misc.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/ict.o: ./ict.c
+	$(C) -c ict.c -o ../obj_PSPE/ict.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/ict_fsm.o: ./ict_fsm.c
+	$(C) -c ict_fsm.c -o ../obj_PSPE/ict_fsm.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/ist.o: ./ist.c
+	$(C) -c ist.c -o ../obj_PSPE/ist.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/ist_fsm.o: ./ist_fsm.c
+	$(C) -c ist_fsm.c -o ../obj_PSPE/ist_fsm.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/nict.o: ./nict.c
+	$(C) -c nict.c -o ../obj_PSPE/nict.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/nict_fsm.o: ./nict_fsm.c
+	$(C) -c nict_fsm.c -o ../obj_PSPE/nict_fsm.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/nist.o: ./nist.c
+	$(C) -c nist.c -o ../obj_PSPE/nist.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/nist_fsm.o: ./nist_fsm.c
+	$(C) -c nist_fsm.c -o ../obj_PSPE/nist_fsm.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/osip.o: ./osip.c
+	$(C) -c osip.c -o ../obj_PSPE/osip.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/osip_dialog.o: ./osip_dialog.c
+	$(C) -c osip_dialog.c -o ../obj_PSPE/osip_dialog.o $(CFLAGS_PSPE) $(INCLUDE)
+	     	
+../obj_PSPE/osip_event.o: ./osip_event.c
+	$(C) -c osip_event.c -o ../obj_PSPE/osip_event.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/osip_time.o: ./osip_time.c
+	$(C) -c osip_time.c -o ../obj_PSPE/osip_time.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/osip_transaction.o: ./osip_transaction.c
+	$(C) -c osip_transaction.c -o ../obj_PSPE/osip_transaction.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/port_condv.o: ./port_condv.c
+	$(C) -c port_condv.c -o ../obj_PSPE/port_condv.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/port_fifo.o: ./port_fifo.c
+	$(C) -c port_fifo.c -o ../obj_PSPE/port_fifo.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/port_sema.o: ./port_sema.c
+	$(C) -c port_sema.c -o ../obj_PSPE/port_sema.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/port_thread.o: ./port_thread.c
+	$(C) -c port_thread.c -o ../obj_PSPE/port_thread.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/osip_accept.o: ./osipparser2/osip_accept.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_accept.c -o ../obj_PSPE/osip_accept.o 
+
+../obj_PSPE/osip_accept_encoding.o: ./osipparser2/osip_accept_encoding.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_accept_encoding.c -o ../obj_PSPE/osip_accept_encoding.o 
+
+../obj_PSPE/osip_accept_language.o: ./osipparser2/osip_accept_language.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_accept_language.c -o ../obj_PSPE/osip_accept_language.o 
+
+../obj_PSPE/osip_alert_info.o: ./osipparser2/osip_alert_info.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_alert_info.c -o ../obj_PSPE/osip_alert_info.o 
+
+../obj_PSPE/osip_allow.o: ./osipparser2/osip_allow.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_allow.c -o ../obj_PSPE/osip_allow.o 
+
+../obj_PSPE/osip_authentication_info.o: ./osipparser2/osip_authentication_info.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_authentication_info.c -o ../obj_PSPE/osip_authentication_info.o 
+
+../obj_PSPE/osip_authorization.o: ./osipparser2/osip_authorization.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_authorization.c -o ../obj_PSPE/osip_authorization.o 
+
+../obj_PSPE/osip_body.o: ./osipparser2/osip_body.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_body.c -o ../obj_PSPE/osip_body.o 
+
+../obj_PSPE/osip_call_id.o: ./osipparser2/osip_call_id.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_call_id.c -o ../obj_PSPE/osip_call_id.o 
+
+../obj_PSPE/osip_call_info.o: ./osipparser2/osip_call_info.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_call_info.c -o ../obj_PSPE/osip_call_info.o 
+
+../obj_PSPE/osip_contact.o: ./osipparser2/osip_contact.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_contact.c -o ../obj_PSPE/osip_contact.o 
+
+../obj_PSPE/osip_content_disposition.o: ./osipparser2/osip_content_disposition.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_content_disposition.c -o ../obj_PSPE/osip_content_disposition.o 
+
+../obj_PSPE/osip_content_encoding.o: ./osipparser2/osip_content_encoding.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_content_encoding.c -o ../obj_PSPE/osip_content_encoding.o 
+
+../obj_PSPE/osip_content_length.o: ./osipparser2/osip_content_length.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_content_length.c -o ../obj_PSPE/osip_content_length.o 
+
+../obj_PSPE/osip_content_type.o: ./osipparser2/osip_content_type.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_content_type.c -o ../obj_PSPE/osip_content_type.o 
+
+../obj_PSPE/osip_cseq.o: ./osipparser2/osip_cseq.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_cseq.c -o ../obj_PSPE/osip_cseq.o 
+
+../obj_PSPE/osip_error_info.o: ./osipparser2/osip_error_info.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_error_info.c -o ../obj_PSPE/osip_error_info.o 
+
+../obj_PSPE/osip_from.o: ./osipparser2/osip_from.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_from.c -o ../obj_PSPE/osip_from.o 
+
+../obj_PSPE/osip_header.o: ./osipparser2/osip_header.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_header.c -o ../obj_PSPE/osip_header.o 
+
+../obj_PSPE/osip_list.o: ./osipparser2/osip_list.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_list.c -o ../obj_PSPE/osip_list.o 
+
+../obj_PSPE/osip_md5c.o: ./osipparser2/osip_md5c.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_md5c.c -o ../obj_PSPE/osip_md5c.o 
+
+../obj_PSPE/osip_message.o: ./osipparser2/osip_message.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_message.c -o ../obj_PSPE/osip_message.o 
+
+../obj_PSPE/osip_message_parse.o: ./osipparser2/osip_message_parse.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_message_parse.c -o ../obj_PSPE/osip_message_parse.o 
+
+../obj_PSPE/osip_message_to_str.o: ./osipparser2/osip_message_to_str.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_message_to_str.c -o ../obj_PSPE/osip_message_to_str.o 
+
+../obj_PSPE/osip_mime_version.o: ./osipparser2/osip_mime_version.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_mime_version.c -o ../obj_PSPE/osip_mime_version.o 
+
+../obj_PSPE/osip_parser_cfg.o: ./osipparser2/osip_parser_cfg.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_parser_cfg.c -o ../obj_PSPE/osip_parser_cfg.o 
+
+../obj_PSPE/osip_port.o: ./osipparser2/osip_port.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_port.c -o ../obj_PSPE/osip_port.o 
+
+../obj_PSPE/osip_proxy_authenticate.o: ./osipparser2/osip_proxy_authenticate.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_proxy_authenticate.c -o ../obj_PSPE/osip_proxy_authenticate.o 
+
+../obj_PSPE/osip_proxy_authentication_info.o: ./osipparser2/osip_proxy_authentication_info.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_proxy_authentication_info.c -o ../obj_PSPE/osip_proxy_authentication_info.o 
+
+../obj_PSPE/osip_proxy_authorization.o: ./osipparser2/osip_proxy_authorization.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_proxy_authorization.c -o ../obj_PSPE/osip_proxy_authorization.o 
+
+../obj_PSPE/osip_record_route.o: ./osipparser2/osip_record_route.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_record_route.c -o ../obj_PSPE/osip_record_route.o 
+
+../obj_PSPE/osip_route.o: ./osipparser2/osip_route.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_route.c -o ../obj_PSPE/osip_route.o 
+
+../obj_PSPE/osip_to.o: ./osipparser2/osip_to.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_to.c -o ../obj_PSPE/osip_to.o 
+
+../obj_PSPE/osip_uri.o: ./osipparser2/osip_uri.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_uri.c -o ../obj_PSPE/osip_uri.o 
+
+../obj_PSPE/osip_via.o: ./osipparser2/osip_via.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_via.c -o ../obj_PSPE/osip_via.o 
+
+../obj_PSPE/osip_www_authenticate.o: ./osipparser2/osip_www_authenticate.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/osip_www_authenticate.c -o ../obj_PSPE/osip_www_authenticate.o 
+
+../obj_PSPE/sdp_accessor.o: ./osipparser2/sdp_accessor.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/sdp_accessor.c -o ../obj_PSPE/sdp_accessor.o 
+
+../obj_PSPE/sdp_message.o: ./osipparser2/sdp_message.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./osipparser2/sdp_message.c -o ../obj_PSPE/sdp_message.o 
+
+
+
+
+
+
+## Compilazione dei moduli per PSP
+
+../obj_PSP/fsm_misc.o: ./fsm_misc.c
+	$(C) -c fsm_misc.c -o ../obj_PSP/fsm_misc.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/ict.o: ./ict.c
+	$(C) -c ict.c -o ../obj_PSP/ict.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/ict_fsm.o: ./ict_fsm.c
+	$(C) -c ict_fsm.c -o ../obj_PSP/ict_fsm.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/ist.o: ./ist.c
+	$(C) -c ist.c -o ../obj_PSP/ist.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/ist_fsm.o: ./ist_fsm.c
+	$(C) -c ist_fsm.c -o ../obj_PSP/ist_fsm.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/nict.o: ./nict.c
+	$(C) -c nict.c -o ../obj_PSP/nict.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/nict_fsm.o: ./nict_fsm.c
+	$(C) -c nict_fsm.c -o ../obj_PSP/nict_fsm.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/nist.o: ./nist.c
+	$(C) -c nist.c -o ../obj_PSP/nist.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/nist_fsm.o: ./nist_fsm.c
+	$(C) -c nist_fsm.c -o ../obj_PSP/nist_fsm.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/osip.o: ./osip.c
+	$(C) -c osip.c -o ../obj_PSP/osip.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/osip_dialog.o: ./osip_dialog.c
+	$(C) -c osip_dialog.c -o ../obj_PSP/osip_dialog.o $(CFLAGS_PSP) $(INCLUDE)
+	     	
+../obj_PSP/osip_event.o: ./osip_event.c
+	$(C) -c osip_event.c -o ../obj_PSP/osip_event.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/osip_time.o: ./osip_time.c
+	$(C) -c osip_time.c -o ../obj_PSP/osip_time.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/osip_transaction.o: ./osip_transaction.c
+	$(C) -c osip_transaction.c -o ../obj_PSP/osip_transaction.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/port_condv.o: ./port_condv.c
+	$(C) -c port_condv.c -o ../obj_PSP/port_condv.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/port_fifo.o: ./port_fifo.c
+	$(C) -c port_fifo.c -o ../obj_PSP/port_fifo.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/port_sema.o: ./port_sema.c
+	$(C) -c port_sema.c -o ../obj_PSP/port_sema.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/port_thread.o: ./port_thread.c
+	$(C) -c port_thread.c -o ../obj_PSP/port_thread.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/osip_accept.o: ./osipparser2/osip_accept.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_accept.c -o ../obj_PSP/osip_accept.o 
+
+../obj_PSP/osip_accept_encoding.o: ./osipparser2/osip_accept_encoding.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_accept_encoding.c -o ../obj_PSP/osip_accept_encoding.o 
+
+../obj_PSP/osip_accept_language.o: ./osipparser2/osip_accept_language.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_accept_language.c -o ../obj_PSP/osip_accept_language.o 
+
+../obj_PSP/osip_alert_info.o: ./osipparser2/osip_alert_info.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_alert_info.c -o ../obj_PSP/osip_alert_info.o 
+
+../obj_PSP/osip_allow.o: ./osipparser2/osip_allow.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_allow.c -o ../obj_PSP/osip_allow.o 
+
+../obj_PSP/osip_authentication_info.o: ./osipparser2/osip_authentication_info.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_authentication_info.c -o ../obj_PSP/osip_authentication_info.o 
+
+../obj_PSP/osip_authorization.o: ./osipparser2/osip_authorization.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_authorization.c -o ../obj_PSP/osip_authorization.o 
+
+../obj_PSP/osip_body.o: ./osipparser2/osip_body.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_body.c -o ../obj_PSP/osip_body.o 
+
+../obj_PSP/osip_call_id.o: ./osipparser2/osip_call_id.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_call_id.c -o ../obj_PSP/osip_call_id.o 
+
+../obj_PSP/osip_call_info.o: ./osipparser2/osip_call_info.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_call_info.c -o ../obj_PSP/osip_call_info.o 
+
+../obj_PSP/osip_contact.o: ./osipparser2/osip_contact.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_contact.c -o ../obj_PSP/osip_contact.o 
+
+../obj_PSP/osip_content_disposition.o: ./osipparser2/osip_content_disposition.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_content_disposition.c -o ../obj_PSP/osip_content_disposition.o 
+
+../obj_PSP/osip_content_encoding.o: ./osipparser2/osip_content_encoding.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_content_encoding.c -o ../obj_PSP/osip_content_encoding.o 
+
+../obj_PSP/osip_content_length.o: ./osipparser2/osip_content_length.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_content_length.c -o ../obj_PSP/osip_content_length.o 
+
+../obj_PSP/osip_content_type.o: ./osipparser2/osip_content_type.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_content_type.c -o ../obj_PSP/osip_content_type.o 
+
+../obj_PSP/osip_cseq.o: ./osipparser2/osip_cseq.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_cseq.c -o ../obj_PSP/osip_cseq.o 
+
+../obj_PSP/osip_error_info.o: ./osipparser2/osip_error_info.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_error_info.c -o ../obj_PSP/osip_error_info.o 
+
+../obj_PSP/osip_from.o: ./osipparser2/osip_from.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_from.c -o ../obj_PSP/osip_from.o 
+
+../obj_PSP/osip_header.o: ./osipparser2/osip_header.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_header.c -o ../obj_PSP/osip_header.o 
+
+../obj_PSP/osip_list.o: ./osipparser2/osip_list.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_list.c -o ../obj_PSP/osip_list.o 
+
+../obj_PSP/osip_md5c.o: ./osipparser2/osip_md5c.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_md5c.c -o ../obj_PSP/osip_md5c.o 
+
+../obj_PSP/osip_message.o: ./osipparser2/osip_message.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_message.c -o ../obj_PSP/osip_message.o 
+
+../obj_PSP/osip_message_parse.o: ./osipparser2/osip_message_parse.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_message_parse.c -o ../obj_PSP/osip_message_parse.o 
+
+../obj_PSP/osip_message_to_str.o: ./osipparser2/osip_message_to_str.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_message_to_str.c -o ../obj_PSP/osip_message_to_str.o 
+
+../obj_PSP/osip_mime_version.o: ./osipparser2/osip_mime_version.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_mime_version.c -o ../obj_PSP/osip_mime_version.o 
+
+../obj_PSP/osip_parser_cfg.o: ./osipparser2/osip_parser_cfg.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_parser_cfg.c -o ../obj_PSP/osip_parser_cfg.o 
+
+../obj_PSP/osip_port.o: ./osipparser2/osip_port.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_port.c -o ../obj_PSP/osip_port.o 
+
+../obj_PSP/osip_proxy_authenticate.o: ./osipparser2/osip_proxy_authenticate.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_proxy_authenticate.c -o ../obj_PSP/osip_proxy_authenticate.o 
+
+../obj_PSP/osip_proxy_authentication_info.o: ./osipparser2/osip_proxy_authentication_info.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_proxy_authentication_info.c -o ../obj_PSP/osip_proxy_authentication_info.o 
+
+../obj_PSP/osip_proxy_authorization.o: ./osipparser2/osip_proxy_authorization.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_proxy_authorization.c -o ../obj_PSP/osip_proxy_authorization.o 
+
+../obj_PSP/osip_record_route.o: ./osipparser2/osip_record_route.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_record_route.c -o ../obj_PSP/osip_record_route.o 
+
+../obj_PSP/osip_route.o: ./osipparser2/osip_route.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_route.c -o ../obj_PSP/osip_route.o 
+
+../obj_PSP/osip_to.o: ./osipparser2/osip_to.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_to.c -o ../obj_PSP/osip_to.o 
+
+../obj_PSP/osip_uri.o: ./osipparser2/osip_uri.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_uri.c -o ../obj_PSP/osip_uri.o 
+
+../obj_PSP/osip_via.o: ./osipparser2/osip_via.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_via.c -o ../obj_PSP/osip_via.o 
+
+../obj_PSP/osip_www_authenticate.o: ./osipparser2/osip_www_authenticate.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/osip_www_authenticate.c -o ../obj_PSP/osip_www_authenticate.o 
+
+../obj_PSP/sdp_accessor.o: ./osipparser2/sdp_accessor.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/sdp_accessor.c -o ../obj_PSP/sdp_accessor.o 
+
+../obj_PSP/sdp_message.o: ./osipparser2/sdp_message.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./osipparser2/sdp_message.c -o ../obj_PSP/sdp_message.o 

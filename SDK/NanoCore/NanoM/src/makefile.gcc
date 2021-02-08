@@ -1,0 +1,2286 @@
+#   ---------------------------------------------------------------------------
+#   Libreria Nano-M
+#   ---------------------------------------------------------------------------
+#   
+
+
+#   ----------------------------------------------------------------------------
+
+
+# Makefile for GNU C/C++ 3.x or later
+
+C   = psp-gcc
+CXX = psp-g++
+LINK = psp-ar
+
+
+OUTLIB_PSPE = ../lib/libnanoM_PSPE.a
+OUTLIB_PSP  = ../lib/libnanoM_PSP.a
+
+
+OBJ_PSPE   = ../obj_PSPE/common/s_cbrt.o ../obj_PSPE/common/sf_cbrt.o \
+../obj_PSPE/common/sf_copysign.o ../obj_PSPE/common/sf_expm1.o \
+../obj_PSPE/common/sf_fdim.o ../obj_PSPE/common/sf_finite.o \
+../obj_PSPE/common/sf_fma.o ../obj_PSPE/common/sf_fmax.o \
+../obj_PSPE/common/sf_fmin.o ../obj_PSPE/common/sf_ilogb.o \
+../obj_PSPE/common/sf_infinity.o ../obj_PSPE/common/sf_log1p.o \
+../obj_PSPE/common/sf_logb.o ../obj_PSPE/common/sf_lrint.o \
+../obj_PSPE/common/sf_lround.o ../obj_PSPE/common/sf_modf.o \
+../obj_PSPE/common/sf_nan.o ../obj_PSPE/common/sf_nearbyint.o \
+../obj_PSPE/common/sf_nextafter.o ../obj_PSPE/common/sf_remquo.o \
+../obj_PSPE/common/sf_rint.o ../obj_PSPE/common/sf_round.o \
+../obj_PSPE/common/sf_scalbln.o ../obj_PSPE/common/sf_scalbn.o\
+../obj_PSPE/common/s_trunc.o ../obj_PSPE/common/s_cbrt.o \
+../obj_PSPE/common/s_copysign.o ../obj_PSPE/common/s_expm1.o \
+../obj_PSPE/common/s_fdim.o ../obj_PSPE/common/s_finite.o \
+../obj_PSPE/common/s_fma.o ../obj_PSPE/common/s_fmax.o \
+../obj_PSPE/common/s_fmin.o ../obj_PSPE/common/s_fpclassify.o \
+../obj_PSPE/common/s_ilogb.o ../obj_PSPE/common/s_infinity.o \
+../obj_PSPE/common/s_lib_ver.o ../obj_PSPE/common/s_log1p.o \
+../obj_PSPE/common/s_logb.o ../obj_PSPE/common/s_lrint.o \
+../obj_PSPE/common/s_lround.o ../obj_PSPE/common/s_matherr.o \
+../obj_PSPE/common/s_modf.o ../obj_PSPE/common/s_nan.o \
+../obj_PSPE/common/s_nearbyint.o ../obj_PSPE/common/s_nextafter.o \
+../obj_PSPE/common/s_remquo.o ../obj_PSPE/common/s_rint.o \
+../obj_PSPE/common/s_round.o ../obj_PSPE/common/s_scalbln.o \
+../obj_PSPE/common/s_scalbn.o ../obj_PSPE/common/s_signbit.o \
+../obj_PSPE/common/s_trunc.o \
+../obj_PSPE/ieee754/ef_acos.o ../obj_PSPE/ieee754/ef_acosh.o \
+../obj_PSPE/ieee754/ef_asin.o ../obj_PSPE/ieee754/ef_atan2.o \
+../obj_PSPE/ieee754/ef_atanh.o ../obj_PSPE/ieee754/ef_cosh.o \
+../obj_PSPE/ieee754/ef_exp.o ../obj_PSPE/ieee754/ef_fmod.o \
+../obj_PSPE/ieee754/ef_hypot.o ../obj_PSPE/ieee754/ef_j0.o \
+../obj_PSPE/ieee754/ef_j1.o ../obj_PSPE/ieee754/ef_jn.o \
+../obj_PSPE/ieee754/ef_log.o ../obj_PSPE/ieee754/ef_log10.o \
+../obj_PSPE/ieee754/ef_pow.o ../obj_PSPE/ieee754/ef_remainder.o \
+../obj_PSPE/ieee754/ef_rem_pio2.o ../obj_PSPE/ieee754/ef_scalb.o \
+../obj_PSPE/ieee754/ef_sinh.o ../obj_PSPE/ieee754/ef_sqrt.o \
+../obj_PSPE/ieee754/erf_gamma.o ../obj_PSPE/ieee754/erf_lgamma.o \
+../obj_PSPE/ieee754/er_gamma.o ../obj_PSPE/ieee754/er_lgamma.o \
+../obj_PSPE/ieee754/e_acos.o ../obj_PSPE/ieee754/e_acosh.o \
+../obj_PSPE/ieee754/e_asin.o ../obj_PSPE/ieee754/e_atan2.o \
+../obj_PSPE/ieee754/e_atanh.o ../obj_PSPE/ieee754/e_cosh.o \
+../obj_PSPE/ieee754/e_exp.o ../obj_PSPE/ieee754/e_fmod.o \
+../obj_PSPE/ieee754/e_hypot.o ../obj_PSPE/ieee754/e_j0.o \
+../obj_PSPE/ieee754/e_j1.o ../obj_PSPE/ieee754/e_jn.o \
+../obj_PSPE/ieee754/e_log.o ../obj_PSPE/ieee754/e_log10.o \
+../obj_PSPE/ieee754/e_pow.o ../obj_PSPE/ieee754/e_remainder.o \
+../obj_PSPE/ieee754/e_rem_pio2.o ../obj_PSPE/ieee754/e_scalb.o \
+../obj_PSPE/ieee754/e_sinh.o ../obj_PSPE/ieee754/e_sqrt.o \
+../obj_PSPE/ieee754/kf_cos.o ../obj_PSPE/ieee754/kf_rem_pio2.o \
+../obj_PSPE/ieee754/kf_sin.o ../obj_PSPE/ieee754/kf_tan.o \
+../obj_PSPE/ieee754/k_cos.o ../obj_PSPE/ieee754/k_rem_pio2.o \
+../obj_PSPE/ieee754/k_sin.o ../obj_PSPE/ieee754/k_standard.o \
+../obj_PSPE/ieee754/k_tan.o ../obj_PSPE/ieee754/sf_asinh.o \
+../obj_PSPE/ieee754/sf_atan.o ../obj_PSPE/ieee754/sf_ceil.o \
+../obj_PSPE/ieee754/sf_cos.o ../obj_PSPE/ieee754/sf_erf.o \
+../obj_PSPE/ieee754/sf_fabs.o ../obj_PSPE/ieee754/sf_floor.o \
+../obj_PSPE/ieee754/sf_frexp.o ../obj_PSPE/ieee754/sf_isinf.o \
+../obj_PSPE/ieee754/sf_isnan.o ../obj_PSPE/ieee754/sf_ldexp.o \
+../obj_PSPE/ieee754/sf_signif.o ../obj_PSPE/ieee754/sf_sin.o \
+../obj_PSPE/ieee754/sf_tan.o ../obj_PSPE/ieee754/sf_tanh.o \
+../obj_PSPE/ieee754/s_asinh.o ../obj_PSPE/ieee754/s_atan.o \
+../obj_PSPE/ieee754/s_ceil.o ../obj_PSPE/ieee754/s_cos.o \
+../obj_PSPE/ieee754/s_erf.o ../obj_PSPE/ieee754/s_fabs.o \
+../obj_PSPE/ieee754/s_floor.o ../obj_PSPE/ieee754/s_frexp.o \
+../obj_PSPE/ieee754/s_infconst.o ../obj_PSPE/ieee754/s_isinf.o \
+../obj_PSPE/ieee754/s_isnan.o ../obj_PSPE/ieee754/s_ldexp.o \
+../obj_PSPE/ieee754/s_signif.o ../obj_PSPE/ieee754/s_sin.o \
+../obj_PSPE/ieee754/s_tan.o ../obj_PSPE/ieee754/s_tanh.o \
+../obj_PSPE/ieee754/wf_acos.o ../obj_PSPE/ieee754/wf_acosh.o \
+../obj_PSPE/ieee754/wf_asin.o ../obj_PSPE/ieee754/wf_atan2.o \
+../obj_PSPE/ieee754/wf_atanh.o ../obj_PSPE/ieee754/wf_cabs.o \
+../obj_PSPE/ieee754/wf_cosh.o ../obj_PSPE/ieee754/wf_drem.o \
+../obj_PSPE/ieee754/wf_exp.o ../obj_PSPE/ieee754/wf_exp2.o \
+../obj_PSPE/ieee754/wf_fmod.o ../obj_PSPE/ieee754/wf_gamma.o \
+../obj_PSPE/ieee754/wf_hypot.o ../obj_PSPE/ieee754/wf_j0.o \
+../obj_PSPE/ieee754/wf_j1.o ../obj_PSPE/ieee754/wf_jn.o \
+../obj_PSPE/ieee754/wf_lgamma.o ../obj_PSPE/ieee754/wf_log.o \
+../obj_PSPE/ieee754/wf_log10.o ../obj_PSPE/ieee754/wf_pow.o \
+../obj_PSPE/ieee754/wf_remainder.o ../obj_PSPE/ieee754/wf_scalb.o \
+../obj_PSPE/ieee754/wf_sincos.o ../obj_PSPE/ieee754/wf_sinh.o \
+../obj_PSPE/ieee754/wf_sqrt.o ../obj_PSPE/ieee754/wf_tgamma.o \
+../obj_PSPE/ieee754/wrf_gamma.o ../obj_PSPE/ieee754/wrf_lgamma.o \
+../obj_PSPE/ieee754/wr_gamma.o ../obj_PSPE/ieee754/wr_lgamma.o \
+../obj_PSPE/ieee754/w_acos.o ../obj_PSPE/ieee754/w_acosh.o \
+../obj_PSPE/ieee754/w_asin.o ../obj_PSPE/ieee754/w_atan2.o \
+../obj_PSPE/ieee754/w_atanh.o ../obj_PSPE/ieee754/w_cabs.o \
+../obj_PSPE/ieee754/w_cosh.o ../obj_PSPE/ieee754/w_drem.o \
+../obj_PSPE/ieee754/w_exp.o ../obj_PSPE/ieee754/w_exp2.o \
+../obj_PSPE/ieee754/w_fmod.o ../obj_PSPE/ieee754/w_gamma.o \
+../obj_PSPE/ieee754/w_hypot.o ../obj_PSPE/ieee754/w_j0.o \
+../obj_PSPE/ieee754/w_j1.o ../obj_PSPE/ieee754/w_jn.o \
+../obj_PSPE/ieee754/w_lgamma.o ../obj_PSPE/ieee754/w_log.o \
+../obj_PSPE/ieee754/w_log10.o ../obj_PSPE/ieee754/w_pow.o \
+../obj_PSPE/ieee754/w_remainder.o ../obj_PSPE/ieee754/w_scalb.o \
+../obj_PSPE/ieee754/w_sincos.o ../obj_PSPE/ieee754/w_sinh.o \
+../obj_PSPE/ieee754/w_sqrt.o ../obj_PSPE/ieee754/w_tgamma.o \
+../obj_PSPE/fp/ef_acosh.o ../obj_PSPE/fp/ef_atanh.o \
+../obj_PSPE/fp/ef_hypot.o ../obj_PSPE/fp/ef_j0.o \
+../obj_PSPE/fp/ef_j1.o ../obj_PSPE/fp/ef_remainder.o \
+../obj_PSPE/fp/ef_scalb.o ../obj_PSPE/fp/erf_gamma.o \
+../obj_PSPE/fp/erf_lgamma.o ../obj_PSPE/fp/er_gamma.o \
+../obj_PSPE/fp/er_lgamma.o ../obj_PSPE/fp/e_acosh.o \
+../obj_PSPE/fp/e_atanh.o ../obj_PSPE/fp/e_hypot.o \
+../obj_PSPE/fp/e_j0.o ../obj_PSPE/fp/e_j1.o \
+../obj_PSPE/fp/e_remainder.o ../obj_PSPE/fp/e_scalb.o \
+../obj_PSPE/fp/sf_acos.o ../obj_PSPE/fp/sf_asin.o \
+../obj_PSPE/fp/sf_asine.o ../obj_PSPE/fp/sf_asinh.o \
+../obj_PSPE/fp/sf_atan.o ../obj_PSPE/fp/sf_atan2.o \
+../obj_PSPE/fp/sf_atangent.o ../obj_PSPE/fp/sf_ceil.o \
+../obj_PSPE/fp/sf_cos.o ../obj_PSPE/fp/sf_cosh.o \
+../obj_PSPE/fp/sf_erf.o ../obj_PSPE/fp/sf_exp.o \
+../obj_PSPE/fp/sf_exp2.o ../obj_PSPE/fp/sf_fabs.o \
+../obj_PSPE/fp/sf_floor.o ../obj_PSPE/fp/sf_fmod.o \
+../obj_PSPE/fp/sf_frexp.o ../obj_PSPE/fp/sf_isinf.o \
+../obj_PSPE/fp/sf_isnan.o ../obj_PSPE/fp/sf_ispos.o \
+../obj_PSPE/fp/sf_ldexp.o ../obj_PSPE/fp/sf_log.o \
+../obj_PSPE/fp/sf_log10.o ../obj_PSPE/fp/sf_logarithm.o \
+../obj_PSPE/fp/sf_numtest.o ../obj_PSPE/fp/sf_pow.o \
+../obj_PSPE/fp/sf_signif.o ../obj_PSPE/fp/sf_sin.o \
+../obj_PSPE/fp/sf_sincos.o ../obj_PSPE/fp/sf_sine.o \
+../obj_PSPE/fp/sf_sineh.o ../obj_PSPE/fp/sf_sinh.o \
+../obj_PSPE/fp/sf_sqrt.o ../obj_PSPE/fp/sf_tan.o \
+../obj_PSPE/fp/sf_tanh.o ../obj_PSPE/fp/sf_tgamma.o \
+../obj_PSPE/fp/s_acos.o ../obj_PSPE/fp/s_asin.o \
+../obj_PSPE/fp/s_asine.o ../obj_PSPE/fp/s_asinh.o \
+../obj_PSPE/fp/s_atan.o ../obj_PSPE/fp/s_atan2.o \
+../obj_PSPE/fp/s_atangent.o ../obj_PSPE/fp/s_ceil.o \
+../obj_PSPE/fp/s_cos.o ../obj_PSPE/fp/s_cosh.o \
+../obj_PSPE/fp/s_erf.o ../obj_PSPE/fp/s_exp.o \
+../obj_PSPE/fp/s_exp2.o ../obj_PSPE/fp/s_fabs.o \
+../obj_PSPE/fp/s_floor.o ../obj_PSPE/fp/s_fmod.o \
+../obj_PSPE/fp/s_frexp.o ../obj_PSPE/fp/s_infconst.o \
+../obj_PSPE/fp/s_isinf.o ../obj_PSPE/fp/s_isnan.o \
+../obj_PSPE/fp/s_ispos.o ../obj_PSPE/fp/s_ldexp.o \
+../obj_PSPE/fp/s_log.o ../obj_PSPE/fp/s_log10.o \
+../obj_PSPE/fp/s_logarithm.o ../obj_PSPE/fp/s_mathcnst.o \
+../obj_PSPE/fp/s_numtest.o ../obj_PSPE/fp/s_pow.o \
+../obj_PSPE/fp/s_signif.o ../obj_PSPE/fp/s_sin.o \
+../obj_PSPE/fp/s_sincos.o ../obj_PSPE/fp/s_sine.o \
+../obj_PSPE/fp/s_sineh.o ../obj_PSPE/fp/s_sinf.o \
+../obj_PSPE/fp/s_sinh.o ../obj_PSPE/fp/s_sqrt.o \
+../obj_PSPE/fp/s_tan.o ../obj_PSPE/fp/s_tanh.o \
+../obj_PSPE/fp/s_tgamma.o ../obj_PSPE/fp/wf_cabs.o \
+../obj_PSPE/fp/wf_drem.o ../obj_PSPE/fp/wf_jn.o \
+../obj_PSPE/fp/w_cabs.o ../obj_PSPE/fp/w_drem.o \
+../obj_PSPE/fp/w_jn.o 
+
+
+
+OBJ_PSP   = ../obj_PSP/common/s_cbrt.o ../obj_PSP/common/sf_cbrt.o \
+../obj_PSP/common/sf_copysign.o ../obj_PSP/common/sf_expm1.o \
+../obj_PSP/common/sf_fdim.o ../obj_PSP/common/sf_finite.o \
+../obj_PSP/common/sf_fma.o ../obj_PSP/common/sf_fmax.o \
+../obj_PSP/common/sf_fmin.o ../obj_PSP/common/sf_ilogb.o \
+../obj_PSP/common/sf_infinity.o ../obj_PSP/common/sf_log1p.o \
+../obj_PSP/common/sf_logb.o ../obj_PSP/common/sf_lrint.o \
+../obj_PSP/common/sf_lround.o ../obj_PSP/common/sf_modf.o \
+../obj_PSP/common/sf_nan.o ../obj_PSP/common/sf_nearbyint.o \
+../obj_PSP/common/sf_nextafter.o ../obj_PSP/common/sf_remquo.o \
+../obj_PSP/common/sf_rint.o ../obj_PSP/common/sf_round.o \
+../obj_PSP/common/sf_scalbln.o ../obj_PSP/common/sf_scalbn.o\
+../obj_PSP/common/s_trunc.o ../obj_PSP/common/s_cbrt.o \
+../obj_PSP/common/s_copysign.o ../obj_PSP/common/s_expm1.o \
+../obj_PSP/common/s_fdim.o ../obj_PSP/common/s_finite.o \
+../obj_PSP/common/s_fma.o ../obj_PSP/common/s_fmax.o \
+../obj_PSP/common/s_fmin.o ../obj_PSP/common/s_fpclassify.o \
+../obj_PSP/common/s_ilogb.o ../obj_PSP/common/s_infinity.o \
+../obj_PSP/common/s_lib_ver.o ../obj_PSP/common/s_log1p.o \
+../obj_PSP/common/s_logb.o ../obj_PSP/common/s_lrint.o \
+../obj_PSP/common/s_lround.o ../obj_PSP/common/s_matherr.o \
+../obj_PSP/common/s_modf.o ../obj_PSP/common/s_nan.o \
+../obj_PSP/common/s_nearbyint.o ../obj_PSP/common/s_nextafter.o \
+../obj_PSP/common/s_remquo.o ../obj_PSP/common/s_rint.o \
+../obj_PSP/common/s_round.o ../obj_PSP/common/s_scalbln.o \
+../obj_PSP/common/s_scalbn.o ../obj_PSP/common/s_signbit.o \
+../obj_PSP/common/s_trunc.o \
+../obj_PSP/ieee754/ef_acos.o ../obj_PSP/ieee754/ef_acosh.o \
+../obj_PSP/ieee754/ef_asin.o ../obj_PSP/ieee754/ef_atan2.o \
+../obj_PSP/ieee754/ef_atanh.o ../obj_PSP/ieee754/ef_cosh.o \
+../obj_PSP/ieee754/ef_exp.o ../obj_PSP/ieee754/ef_fmod.o \
+../obj_PSP/ieee754/ef_hypot.o ../obj_PSP/ieee754/ef_j0.o \
+../obj_PSP/ieee754/ef_j1.o ../obj_PSP/ieee754/ef_jn.o \
+../obj_PSP/ieee754/ef_log.o ../obj_PSP/ieee754/ef_log10.o \
+../obj_PSP/ieee754/ef_pow.o ../obj_PSP/ieee754/ef_remainder.o \
+../obj_PSP/ieee754/ef_rem_pio2.o ../obj_PSP/ieee754/ef_scalb.o \
+../obj_PSP/ieee754/ef_sinh.o ../obj_PSP/ieee754/ef_sqrt.o \
+../obj_PSP/ieee754/erf_gamma.o ../obj_PSP/ieee754/erf_lgamma.o \
+../obj_PSP/ieee754/er_gamma.o ../obj_PSP/ieee754/er_lgamma.o \
+../obj_PSP/ieee754/e_acos.o ../obj_PSP/ieee754/e_acosh.o \
+../obj_PSP/ieee754/e_asin.o ../obj_PSP/ieee754/e_atan2.o \
+../obj_PSP/ieee754/e_atanh.o ../obj_PSP/ieee754/e_cosh.o \
+../obj_PSP/ieee754/e_exp.o ../obj_PSP/ieee754/e_fmod.o \
+../obj_PSP/ieee754/e_hypot.o ../obj_PSP/ieee754/e_j0.o \
+../obj_PSP/ieee754/e_j1.o ../obj_PSP/ieee754/e_jn.o \
+../obj_PSP/ieee754/e_log.o ../obj_PSP/ieee754/e_log10.o \
+../obj_PSP/ieee754/e_pow.o ../obj_PSP/ieee754/e_remainder.o \
+../obj_PSP/ieee754/e_rem_pio2.o ../obj_PSP/ieee754/e_scalb.o \
+../obj_PSP/ieee754/e_sinh.o ../obj_PSP/ieee754/e_sqrt.o \
+../obj_PSP/ieee754/kf_cos.o ../obj_PSP/ieee754/kf_rem_pio2.o \
+../obj_PSP/ieee754/kf_sin.o ../obj_PSP/ieee754/kf_tan.o \
+../obj_PSP/ieee754/k_cos.o ../obj_PSP/ieee754/k_rem_pio2.o \
+../obj_PSP/ieee754/k_sin.o ../obj_PSP/ieee754/k_standard.o \
+../obj_PSP/ieee754/k_tan.o ../obj_PSP/ieee754/sf_asinh.o \
+../obj_PSP/ieee754/sf_atan.o ../obj_PSP/ieee754/sf_ceil.o \
+../obj_PSP/ieee754/sf_cos.o ../obj_PSP/ieee754/sf_erf.o \
+../obj_PSP/ieee754/sf_fabs.o ../obj_PSP/ieee754/sf_floor.o \
+../obj_PSP/ieee754/sf_frexp.o ../obj_PSP/ieee754/sf_isinf.o \
+../obj_PSP/ieee754/sf_isnan.o ../obj_PSP/ieee754/sf_ldexp.o \
+../obj_PSP/ieee754/sf_signif.o ../obj_PSP/ieee754/sf_sin.o \
+../obj_PSP/ieee754/sf_tan.o ../obj_PSP/ieee754/sf_tanh.o \
+../obj_PSP/ieee754/s_asinh.o ../obj_PSP/ieee754/s_atan.o \
+../obj_PSP/ieee754/s_ceil.o ../obj_PSP/ieee754/s_cos.o \
+../obj_PSP/ieee754/s_erf.o ../obj_PSP/ieee754/s_fabs.o \
+../obj_PSP/ieee754/s_floor.o ../obj_PSP/ieee754/s_frexp.o \
+../obj_PSP/ieee754/s_infconst.o ../obj_PSP/ieee754/s_isinf.o \
+../obj_PSP/ieee754/s_isnan.o ../obj_PSP/ieee754/s_ldexp.o \
+../obj_PSP/ieee754/s_signif.o ../obj_PSP/ieee754/s_sin.o \
+../obj_PSP/ieee754/s_tan.o ../obj_PSP/ieee754/s_tanh.o \
+../obj_PSP/ieee754/wf_acos.o ../obj_PSP/ieee754/wf_acosh.o \
+../obj_PSP/ieee754/wf_asin.o ../obj_PSP/ieee754/wf_atan2.o \
+../obj_PSP/ieee754/wf_atanh.o ../obj_PSP/ieee754/wf_cabs.o \
+../obj_PSP/ieee754/wf_cosh.o ../obj_PSP/ieee754/wf_drem.o \
+../obj_PSP/ieee754/wf_exp.o ../obj_PSP/ieee754/wf_exp2.o \
+../obj_PSP/ieee754/wf_fmod.o ../obj_PSP/ieee754/wf_gamma.o \
+../obj_PSP/ieee754/wf_hypot.o ../obj_PSP/ieee754/wf_j0.o \
+../obj_PSP/ieee754/wf_j1.o ../obj_PSP/ieee754/wf_jn.o \
+../obj_PSP/ieee754/wf_lgamma.o ../obj_PSP/ieee754/wf_log.o \
+../obj_PSP/ieee754/wf_log10.o ../obj_PSP/ieee754/wf_pow.o \
+../obj_PSP/ieee754/wf_remainder.o ../obj_PSP/ieee754/wf_scalb.o \
+../obj_PSP/ieee754/wf_sincos.o ../obj_PSP/ieee754/wf_sinh.o \
+../obj_PSP/ieee754/wf_sqrt.o ../obj_PSP/ieee754/wf_tgamma.o \
+../obj_PSP/ieee754/wrf_gamma.o ../obj_PSP/ieee754/wrf_lgamma.o \
+../obj_PSP/ieee754/wr_gamma.o ../obj_PSP/ieee754/wr_lgamma.o \
+../obj_PSP/ieee754/w_acos.o ../obj_PSP/ieee754/w_acosh.o \
+../obj_PSP/ieee754/w_asin.o ../obj_PSP/ieee754/w_atan2.o \
+../obj_PSP/ieee754/w_atanh.o ../obj_PSP/ieee754/w_cabs.o \
+../obj_PSP/ieee754/w_cosh.o ../obj_PSP/ieee754/w_drem.o \
+../obj_PSP/ieee754/w_exp.o ../obj_PSP/ieee754/w_exp2.o \
+../obj_PSP/ieee754/w_fmod.o ../obj_PSP/ieee754/w_gamma.o \
+../obj_PSP/ieee754/w_hypot.o ../obj_PSP/ieee754/w_j0.o \
+../obj_PSP/ieee754/w_j1.o ../obj_PSP/ieee754/w_jn.o \
+../obj_PSP/ieee754/w_lgamma.o ../obj_PSP/ieee754/w_log.o \
+../obj_PSP/ieee754/w_log10.o ../obj_PSP/ieee754/w_pow.o \
+../obj_PSP/ieee754/w_remainder.o ../obj_PSP/ieee754/w_scalb.o \
+../obj_PSP/ieee754/w_sincos.o ../obj_PSP/ieee754/w_sinh.o \
+../obj_PSP/ieee754/w_sqrt.o ../obj_PSP/ieee754/w_tgamma.o \
+../obj_PSP/fp/ef_acosh.o ../obj_PSP/fp/ef_atanh.o \
+../obj_PSP/fp/ef_hypot.o ../obj_PSP/fp/ef_j0.o \
+../obj_PSP/fp/ef_j1.o ../obj_PSP/fp/ef_remainder.o \
+../obj_PSP/fp/ef_scalb.o ../obj_PSP/fp/erf_gamma.o \
+../obj_PSP/fp/erf_lgamma.o ../obj_PSP/fp/er_gamma.o \
+../obj_PSP/fp/er_lgamma.o ../obj_PSP/fp/e_acosh.o \
+../obj_PSP/fp/e_atanh.o ../obj_PSP/fp/e_hypot.o \
+../obj_PSP/fp/e_j0.o ../obj_PSP/fp/e_j1.o \
+../obj_PSP/fp/e_remainder.o ../obj_PSP/fp/e_scalb.o \
+../obj_PSP/fp/sf_acos.o ../obj_PSP/fp/sf_asin.o \
+../obj_PSP/fp/sf_asine.o ../obj_PSP/fp/sf_asinh.o \
+../obj_PSP/fp/sf_atan.o ../obj_PSP/fp/sf_atan2.o \
+../obj_PSP/fp/sf_atangent.o ../obj_PSP/fp/sf_ceil.o \
+../obj_PSP/fp/sf_cos.o ../obj_PSP/fp/sf_cosh.o \
+../obj_PSP/fp/sf_erf.o ../obj_PSP/fp/sf_exp.o \
+../obj_PSP/fp/sf_exp2.o ../obj_PSP/fp/sf_fabs.o \
+../obj_PSP/fp/sf_floor.o ../obj_PSP/fp/sf_fmod.o \
+../obj_PSP/fp/sf_frexp.o ../obj_PSP/fp/sf_isinf.o \
+../obj_PSP/fp/sf_isnan.o ../obj_PSP/fp/sf_ispos.o \
+../obj_PSP/fp/sf_ldexp.o ../obj_PSP/fp/sf_log.o \
+../obj_PSP/fp/sf_log10.o ../obj_PSP/fp/sf_logarithm.o \
+../obj_PSP/fp/sf_numtest.o ../obj_PSP/fp/sf_pow.o \
+../obj_PSP/fp/sf_signif.o ../obj_PSP/fp/sf_sin.o \
+../obj_PSP/fp/sf_sincos.o ../obj_PSP/fp/sf_sine.o \
+../obj_PSP/fp/sf_sineh.o ../obj_PSP/fp/sf_sinh.o \
+../obj_PSP/fp/sf_sqrt.o ../obj_PSP/fp/sf_tan.o \
+../obj_PSP/fp/sf_tanh.o ../obj_PSP/fp/sf_tgamma.o \
+../obj_PSP/fp/s_acos.o ../obj_PSP/fp/s_asin.o \
+../obj_PSP/fp/s_asine.o ../obj_PSP/fp/s_asinh.o \
+../obj_PSP/fp/s_atan.o ../obj_PSP/fp/s_atan2.o \
+../obj_PSP/fp/s_atangent.o ../obj_PSP/fp/s_ceil.o \
+../obj_PSP/fp/s_cos.o ../obj_PSP/fp/s_cosh.o \
+../obj_PSP/fp/s_erf.o ../obj_PSP/fp/s_exp.o \
+../obj_PSP/fp/s_exp2.o ../obj_PSP/fp/s_fabs.o \
+../obj_PSP/fp/s_floor.o ../obj_PSP/fp/s_fmod.o \
+../obj_PSP/fp/s_frexp.o ../obj_PSP/fp/s_infconst.o \
+../obj_PSP/fp/s_isinf.o ../obj_PSP/fp/s_isnan.o \
+../obj_PSP/fp/s_ispos.o ../obj_PSP/fp/s_ldexp.o \
+../obj_PSP/fp/s_log.o ../obj_PSP/fp/s_log10.o \
+../obj_PSP/fp/s_logarithm.o ../obj_PSP/fp/s_mathcnst.o \
+../obj_PSP/fp/s_numtest.o ../obj_PSP/fp/s_pow.o \
+../obj_PSP/fp/s_signif.o ../obj_PSP/fp/s_sin.o \
+../obj_PSP/fp/s_sincos.o ../obj_PSP/fp/s_sine.o \
+../obj_PSP/fp/s_sineh.o ../obj_PSP/fp/s_sinf.o \
+../obj_PSP/fp/s_sinh.o ../obj_PSP/fp/s_sqrt.o \
+../obj_PSP/fp/s_tan.o ../obj_PSP/fp/s_tanh.o \
+../obj_PSP/fp/s_tgamma.o ../obj_PSP/fp/wf_cabs.o \
+../obj_PSP/fp/wf_drem.o ../obj_PSP/fp/wf_jn.o \
+../obj_PSP/fp/w_cabs.o ../obj_PSP/fp/w_drem.o \
+../obj_PSP/fp/w_jn.o 
+
+
+## Moduli VFPU (solo PSP)
+
+OBJ_PSP_VFPU = ../obj_PSP/vfpu/printMatrixFloat.o \
+../obj_PSP/vfpu/vfpu_acosf.o ../obj_PSP/vfpu/vfpu_asinf.o \
+../obj_PSP/vfpu/vfpu_atanf.o ../obj_PSP/vfpu/vfpu_atanf_s.o\
+../obj_PSP/vfpu/vfpu_cosf.o ../obj_PSP/vfpu/vfpu_coshf.o \
+../obj_PSP/vfpu/vfpu_ease_in_out.o ../obj_PSP/vfpu/vfpu_expf.o \
+../obj_PSP/vfpu/vfpu_fabsf.o ../obj_PSP/vfpu/vfpu_fmaxf.o \
+../obj_PSP/vfpu/vfpu_fminf.o ../obj_PSP/vfpu/vfpu_fmodf.o \
+../obj_PSP/vfpu/vfpu_identity_matrix.o ../obj_PSP/vfpu/vfpu_logf.o \
+../obj_PSP/vfpu/vfpu_normalize_vector.o ../obj_PSP/vfpu/vfpu_ortho_matrix.o \
+../obj_PSP/vfpu/vfpu_perspective_matrix.o ../obj_PSP/vfpu/vfpu_powf.o \
+../obj_PSP/vfpu/vfpu_quaternion_copy.o ../obj_PSP/vfpu/vfpu_quaternion_exp.o \
+../obj_PSP/vfpu/vfpu_quaternion_from_euler.o ../obj_PSP/vfpu/vfpu_quaternion_identity.o \
+../obj_PSP/vfpu/vfpu_quaternion_ln.o ../obj_PSP/vfpu/vfpu_quaternion_multiply.o \
+../obj_PSP/vfpu/vfpu_quaternion_normalize.o ../obj_PSP/vfpu/vfpu_quaternion_sample_linear.o \
+../obj_PSP/vfpu/vfpu_quaternion_to_matrix.o ../obj_PSP/vfpu/vfpu_randf.o \
+../obj_PSP/vfpu/vfpu_rand_8888.o ../obj_PSP/vfpu/vfpu_sincos.o \
+../obj_PSP/vfpu/vfpu_sinf.o ../obj_PSP/vfpu/vfpu_sinhf.o \
+../obj_PSP/vfpu/vfpu_sphere_to_cartesian.o ../obj_PSP/vfpu/vfpu_sqrtf.o \
+../obj_PSP/vfpu/vfpu_srand.o ../obj_PSP/vfpu/vfpu_tanf.o \
+../obj_PSP/vfpu/vfpu_tanhf.o ../obj_PSP/vfpu/vfpu_translate_matrix.o 
+
+## Emulatore funzionalità EMI per PSPE
+
+OBJ_PSPE_EMIEMU = ../obj_PSPE/emiemu/emiemu.o
+
+## Acceleratore EMI (solo PSP)
+
+OBJ_PSP_EMI = ../obj_PSP/emi/emi.o
+
+
+
+
+## Include
+
+INC = -I"." -I"$(NDENV_PATH)/PSP/SDK/NanoCore/NanoC/src" -I"$(NDENV_PATH)/PSP/SDK/Nanodesktop/src" -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include" 
+
+INC_PSPE = -I"./pspe/common"
+
+INC_PSP = -I"./psp/common"
+
+
+
+## Opzioni per il compilatore
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -D"_DOUBLE_IS_32BITS" $(INC) $(INC_PSPE) -O3 -g -march=mips2 -fomit-frame-pointer -fno-exceptions -mgp32 -mfp32 -msym32 -ffast-math -fshort-double -v -Wall
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -D"_DOUBLE_IS_32BITS" $(INC) $(INC_PSP) -O3 -G0 -g -march=allegrex -fomit-frame-pointer -fno-exceptions -mgp32 -mfp32 -msym32 -ffast-math -mhard-float -fshort-double -v -Wall
+
+CFLAGS_PSP_EMI = -D"PSP_PLATFORM" -D"ND_LIBRARY" -D"_DOUBLE_IS_32BITS" $(INC) $(INC_PSP) -O3 -G0 -g -march=allegrex -fomit-frame-pointer -fno-exceptions -mgp32 -mfp32 -msym32 -ffast-math -mhard-float -fshort-double -fno-float-store -v -Wall
+
+PACKFLAGS = r 
+
+
+
+all: $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+## Questa sezione provvede alla creazione delle librerie statiche necessarie
+
+
+$(OUTLIB_PSPE): $(OBJ_PSPE) $(OBJ_PSPE_EMIEMU)
+	$(LINK) $(PACKFLAGS) $(OUTLIB_PSPE) $(OBJ_PSPE) $(OBJ_PSPE_EMIEMU) 
+	
+$(OUTLIB_PSP): $(OBJ_PSP) $(OBJ_PSP_VFPU) $(OBJ_PSP_EMI)
+	$(LINK) $(PACKFLAGS) $(OUTLIB_PSP) $(OBJ_PSP) $(OBJ_PSP_VFPU) $(OBJ_PSP_EMI)
+
+
+
+## Compilazione dei sorgenti per PSPE
+	
+../obj_PSPE/common/s_cbrt.o: ./pspe/common/s_cbrt.c
+	$(C) -c ./pspe/common/s_cbrt.c -o ../obj_PSPE/common/s_cbrt.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/sf_cbrt.o: ./pspe/common/sf_cbrt.c
+	$(C) -c ./pspe/common/sf_cbrt.c -o ../obj_PSPE/common/sf_cbrt.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_copysign.o: ./pspe/common/sf_copysign.c
+	$(C) -c ./pspe/common/sf_copysign.c -o ../obj_PSPE/common/sf_copysign.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/sf_expm1.o: ./pspe/common/sf_expm1.c
+	$(C) -c ./pspe/common/sf_expm1.c -o ../obj_PSPE/common/sf_expm1.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_fdim.o: ./pspe/common/sf_fdim.c
+	$(C) -c ./pspe/common/sf_fdim.c -o ../obj_PSPE/common/sf_fdim.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_finite.o: ./pspe/common/sf_finite.c
+	$(C) -c ./pspe/common/sf_finite.c -o ../obj_PSPE/common/sf_finite.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_fma.o: ./pspe/common/sf_fma.c
+	$(C) -c ./pspe/common/sf_fma.c -o ../obj_PSPE/common/sf_fma.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/sf_fmax.o: ./pspe/common/sf_fmax.c
+	$(C) -c ./pspe/common/sf_fmax.c -o ../obj_PSPE/common/sf_fmax.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_fmin.o: ./pspe/common/sf_fmin.c
+	$(C) -c ./pspe/common/sf_fmin.c -o ../obj_PSPE/common/sf_fmin.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_ilogb.o: ./pspe/common/sf_ilogb.c
+	$(C) -c ./pspe/common/sf_ilogb.c -o ../obj_PSPE/common/sf_ilogb.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_infinity.o: ./pspe/common/sf_infinity.c
+	$(C) -c ./pspe/common/sf_infinity.c -o ../obj_PSPE/common/sf_infinity.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/sf_log1p.o: ./pspe/common/sf_log1p.c
+	$(C) -c ./pspe/common/sf_log1p.c -o ../obj_PSPE/common/sf_log1p.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_logb.o: ./pspe/common/sf_logb.c
+	$(C) -c ./pspe/common/sf_logb.c -o ../obj_PSPE/common/sf_logb.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_lrint.o: ./pspe/common/sf_lrint.c
+	$(C) -c ./pspe/common/sf_lrint.c -o ../obj_PSPE/common/sf_lrint.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_lround.o: ./pspe/common/sf_lround.c
+	$(C) -c ./pspe/common/sf_lround.c -o ../obj_PSPE/common/sf_lround.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/sf_modf.o: ./pspe/common/sf_modf.c
+	$(C) -c ./pspe/common/sf_modf.c -o ../obj_PSPE/common/sf_modf.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/sf_nan.o: ./pspe/common/sf_nan.c
+	$(C) -c ./pspe/common/sf_nan.c -o ../obj_PSPE/common/sf_nan.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_nearbyint.o: ./pspe/common/sf_nearbyint.c
+	$(C) -c ./pspe/common/sf_nearbyint.c -o ../obj_PSPE/common/sf_nearbyint.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_nextafter.o: ./pspe/common/sf_nextafter.c
+	$(C) -c ./pspe/common/sf_nextafter.c -o ../obj_PSPE/common/sf_nextafter.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_remquo.o: ./pspe/common/sf_remquo.c
+	$(C) -c ./pspe/common/sf_remquo.c -o ../obj_PSPE/common/sf_remquo.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/sf_rint.o: ./pspe/common/sf_rint.c
+	$(C) -c ./pspe/common/sf_rint.c -o ../obj_PSPE/common/sf_rint.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_round.o: ./pspe/common/sf_round.c
+	$(C) -c ./pspe/common/sf_round.c -o ../obj_PSPE/common/sf_round.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_scalbln.o: ./pspe/common/sf_scalbln.c
+	$(C) -c ./pspe/common/sf_scalbln.c -o ../obj_PSPE/common/sf_scalbln.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/sf_scalbn.o: ./pspe/common/sf_scalbn.c
+	$(C) -c ./pspe/common/sf_scalbn.c -o ../obj_PSPE/common/sf_scalbn.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/sf_trunc.o: ./pspe/common/sf_trunc.c
+	$(C) -c ./pspe/common/sf_trunc.c -o ../obj_PSPE/common/sf_trunc.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/s_copysign.o: ./pspe/common/s_copysign.c
+	$(C) -c ./pspe/common/s_copysign.c -o ../obj_PSPE/common/s_copysign.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_expm1.o: ./pspe/common/s_expm1.c
+	$(C) -c ./pspe/common/s_expm1.c -o ../obj_PSPE/common/s_expm1.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_fdim.o: ./pspe/common/s_fdim.c
+	$(C) -c ./pspe/common/s_fdim.c -o ../obj_PSPE/common/s_fdim.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_finite.o: ./pspe/common/s_finite.c
+	$(C) -c ./pspe/common/s_finite.c -o ../obj_PSPE/common/s_finite.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/s_fma.o: ./pspe/common/s_fma.c
+	$(C) -c ./pspe/common/s_fma.c -o ../obj_PSPE/common/s_fma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/s_fmax.o: ./pspe/common/s_fmax.c
+	$(C) -c ./pspe/common/s_fmax.c -o ../obj_PSPE/common/s_fmax.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_fmin.o: ./pspe/common/s_fmin.c
+	$(C) -c ./pspe/common/s_fmin.c -o ../obj_PSPE/common/s_fmin.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_fpclassify.o: ./pspe/common/s_fpclassify.c
+	$(C) -c ./pspe/common/s_fpclassify.c -o ../obj_PSPE/common/s_fpclassify.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_ilogb.o: ./pspe/common/s_ilogb.c
+	$(C) -c ./pspe/common/s_ilogb.c -o ../obj_PSPE/common/s_ilogb.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/s_infinity.o: ./pspe/common/s_infinity.c
+	$(C) -c ./pspe/common/s_infinity.c -o ../obj_PSPE/common/s_infinity.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_lib_ver.o: ./pspe/common/s_lib_ver.c
+	$(C) -c ./pspe/common/s_lib_ver.c -o ../obj_PSPE/common/s_lib_ver.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_log1p.o: ./pspe/common/s_log1p.c
+	$(C) -c ./pspe/common/s_log1p.c -o ../obj_PSPE/common/s_log1p.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/s_logb.o: ./pspe/common/s_logb.c
+	$(C) -c ./pspe/common/s_logb.c -o ../obj_PSPE/common/s_logb.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_lrint.o: ./pspe/common/s_lrint.c
+	$(C) -c ./pspe/common/s_lrint.c -o ../obj_PSPE/common/s_lrint.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_lround.o: ./pspe/common/s_lround.c
+	$(C) -c ./pspe/common/s_lround.c -o ../obj_PSPE/common/s_lround.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/s_matherr.o: ./pspe/common/s_matherr.c
+	$(C) -c ./pspe/common/s_matherr.c -o ../obj_PSPE/common/s_matherr.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_modf.o: ./pspe/common/s_modf.c
+	$(C) -c ./pspe/common/s_modf.c -o ../obj_PSPE/common/s_modf.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_nan.o: ./pspe/common/s_nan.c
+	$(C) -c ./pspe/common/s_nan.c -o ../obj_PSPE/common/s_nan.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/s_nearbyint.o: ./pspe/common/s_nearbyint.c
+	$(C) -c ./pspe/common/s_nearbyint.c -o ../obj_PSPE/common/s_nearbyint.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_nextafter.o: ./pspe/common/s_nextafter.c
+	$(C) -c ./pspe/common/s_nextafter.c -o ../obj_PSPE/common/s_nextafter.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_remquo.o: ./pspe/common/s_remquo.c
+	$(C) -c ./pspe/common/s_remquo.c -o ../obj_PSPE/common/s_remquo.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/s_rint.o: ./pspe/common/s_rint.c
+	$(C) -c ./pspe/common/s_rint.c -o ../obj_PSPE/common/s_rint.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_round.o: ./pspe/common/s_round.c
+	$(C) -c ./pspe/common/s_round.c -o ../obj_PSPE/common/s_round.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/common/s_scalbln.o: ./pspe/common/s_scalbln.c
+	$(C) -c ./pspe/common/s_scalbln.c -o ../obj_PSPE/common/s_scalbln.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/s_scalbn.o: ./pspe/common/s_scalbn.c
+	$(C) -c ./pspe/common/s_scalbn.c -o ../obj_PSPE/common/s_scalbn.o $(CFLAGS_PSPE)
+		
+../obj_PSPE/common/s_signbit.o: ./pspe/common/s_signbit.c
+	$(C) -c ./pspe/common/s_signbit.c -o ../obj_PSPE/common/s_signbit.o $(CFLAGS_PSPE)
+
+../obj_PSPE/common/s_trunc.o: ./pspe/common/s_trunc.c
+	$(C) -c ./pspe/common/s_trunc.c -o ../obj_PSPE/common/s_trunc.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/ef_acos.o: ./pspe/ieee754/ef_acos.c
+	$(C) -c ./pspe/ieee754/ef_acos.c -o ../obj_PSPE/ieee754/ef_acos.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/ef_acosh.o: ./pspe/ieee754/ef_acosh.c
+	$(C) -c ./pspe/ieee754/ef_acosh.c -o ../obj_PSPE/ieee754/ef_acosh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/ef_asin.o: ./pspe/ieee754/ef_asin.c
+	$(C) -c ./pspe/ieee754/ef_asin.c -o ../obj_PSPE/ieee754/ef_asin.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/ef_atanh.o: ./pspe/ieee754/ef_atanh.c
+	$(C) -c ./pspe/ieee754/ef_atanh.c -o ../obj_PSPE/ieee754/ef_atanh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/ef_atan2.o: ./pspe/ieee754/ef_atan2.c
+	$(C) -c ./pspe/ieee754/ef_atan2.c -o ../obj_PSPE/ieee754/ef_atan2.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/ef_cosh.o: ./pspe/ieee754/ef_cosh.c
+	$(C) -c ./pspe/ieee754/ef_cosh.c -o ../obj_PSPE/ieee754/ef_cosh.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/ef_exp.o: ./pspe/ieee754/ef_exp.c
+	$(C) -c ./pspe/ieee754/ef_exp.c -o ../obj_PSPE/ieee754/ef_exp.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/ef_fmod.o: ./pspe/ieee754/ef_fmod.c
+	$(C) -c ./pspe/ieee754/ef_fmod.c -o ../obj_PSPE/ieee754/ef_fmod.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/ef_hypot.o: ./pspe/ieee754/ef_hypot.c
+	$(C) -c ./pspe/ieee754/ef_hypot.c -o ../obj_PSPE/ieee754/ef_hypot.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/ef_j0.o: ./pspe/ieee754/ef_j0.c
+	$(C) -c ./pspe/ieee754/ef_j0.c -o ../obj_PSPE/ieee754/ef_j0.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/ef_j1.o: ./pspe/ieee754/ef_j1.c
+	$(C) -c ./pspe/ieee754/ef_j1.c -o ../obj_PSPE/ieee754/ef_j1.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/ef_jn.o: ./pspe/ieee754/ef_jn.c
+	$(C) -c ./pspe/ieee754/ef_jn.c -o ../obj_PSPE/ieee754/ef_jn.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/ef_log.o: ./pspe/ieee754/ef_log.c
+	$(C) -c ./pspe/ieee754/ef_log.c -o ../obj_PSPE/ieee754/ef_log.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/ef_log10.o: ./pspe/ieee754/ef_log10.c
+	$(C) -c ./pspe/ieee754/ef_log10.c -o ../obj_PSPE/ieee754/ef_log10.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/ef_pow.o: ./pspe/ieee754/ef_pow.c
+	$(C) -c ./pspe/ieee754/ef_pow.c -o ../obj_PSPE/ieee754/ef_pow.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/ef_remainder.o: ./pspe/ieee754/ef_remainder.c
+	$(C) -c ./pspe/ieee754/ef_remainder.c -o ../obj_PSPE/ieee754/ef_remainder.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/ef_rem_pio2.o: ./pspe/ieee754/ef_rem_pio2.c
+	$(C) -c ./pspe/ieee754/ef_rem_pio2.c -o ../obj_PSPE/ieee754/ef_rem_pio2.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/ef_scalb.o: ./pspe/ieee754/ef_scalb.c
+	$(C) -c ./pspe/ieee754/ef_scalb.c -o ../obj_PSPE/ieee754/ef_scalb.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/ef_sinh.o: ./pspe/ieee754/ef_sinh.c
+	$(C) -c ./pspe/ieee754/ef_sinh.c -o ../obj_PSPE/ieee754/ef_sinh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/ef_sqrt.o: ./pspe/ieee754/ef_sqrt.c
+	$(C) -c ./pspe/ieee754/ef_sqrt.c -o ../obj_PSPE/ieee754/ef_sqrt.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/erf_gamma.o: ./pspe/ieee754/erf_gamma.c
+	$(C) -c ./pspe/ieee754/erf_gamma.c -o ../obj_PSPE/ieee754/erf_gamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/erf_lgamma.o: ./pspe/ieee754/erf_lgamma.c
+	$(C) -c ./pspe/ieee754/erf_lgamma.c -o ../obj_PSPE/ieee754/erf_lgamma.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/er_lgamma.o: ./pspe/ieee754/er_lgamma.c
+	$(C) -c ./pspe/ieee754/er_lgamma.c -o ../obj_PSPE/ieee754/er_lgamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/er_gamma.o: ./pspe/ieee754/er_gamma.c
+	$(C) -c ./pspe/ieee754/er_gamma.c -o ../obj_PSPE/ieee754/er_gamma.o $(CFLAGS_PSPE)
+		
+../obj_PSPE/ieee754/e_acos.o: ./pspe/ieee754/e_acos.c
+	$(C) -c ./pspe/ieee754/e_acos.c -o ../obj_PSPE/ieee754/e_acos.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/e_acosh.o: ./pspe/ieee754/e_acosh.c
+	$(C) -c ./pspe/ieee754/e_acosh.c -o ../obj_PSPE/ieee754/e_acosh.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/e_asin.o: ./pspe/ieee754/e_asin.c
+	$(C) -c ./pspe/ieee754/e_asin.c -o ../obj_PSPE/ieee754/e_asin.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/e_atan2.o: ./pspe/ieee754/e_atan2.c
+	$(C) -c ./pspe/ieee754/e_atan2.c -o ../obj_PSPE/ieee754/e_atan2.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/e_atanh.o: ./pspe/ieee754/e_atanh.c
+	$(C) -c ./pspe/ieee754/e_atanh.c -o ../obj_PSPE/ieee754/e_atanh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/e_cosh.o: ./pspe/ieee754/e_cosh.c
+	$(C) -c ./pspe/ieee754/e_cosh.c -o ../obj_PSPE/ieee754/e_cosh.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/e_exp.o: ./pspe/ieee754/e_exp.c
+	$(C) -c ./pspe/ieee754/e_exp.c -o ../obj_PSPE/ieee754/e_exp.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/e_fmod.o: ./pspe/ieee754/e_fmod.c
+	$(C) -c ./pspe/ieee754/e_fmod.c -o ../obj_PSPE/ieee754/e_fmod.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/e_hypot.o: ./pspe/ieee754/e_hypot.c
+	$(C) -c ./pspe/ieee754/e_hypot.c -o ../obj_PSPE/ieee754/e_hypot.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/e_j0.o: ./pspe/ieee754/e_j0.c
+	$(C) -c ./pspe/ieee754/e_j0.c -o ../obj_PSPE/ieee754/e_j0.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/e_j1.o: ./pspe/ieee754/e_j1.c
+	$(C) -c ./pspe/ieee754/e_j1.c -o ../obj_PSPE/ieee754/e_j1.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/e_jn.o: ./pspe/ieee754/e_jn.c
+	$(C) -c ./pspe/ieee754/e_jn.c -o ../obj_PSPE/ieee754/e_jn.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/e_log.o: ./pspe/ieee754/e_log.c
+	$(C) -c ./pspe/ieee754/e_log.c -o ../obj_PSPE/ieee754/e_log.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/e_log10.o: ./pspe/ieee754/e_log10.c
+	$(C) -c ./pspe/ieee754/e_log10.c -o ../obj_PSPE/ieee754/e_log10.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/e_pow.o: ./pspe/ieee754/e_pow.c
+	$(C) -c ./pspe/ieee754/e_pow.c -o ../obj_PSPE/ieee754/e_pow.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/e_remainder.o: ./pspe/ieee754/e_remainder.c
+	$(C) -c ./pspe/ieee754/e_remainder.c -o ../obj_PSPE/ieee754/e_remainder.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/e_rem_pio2.o: ./pspe/ieee754/e_rem_pio2.c
+	$(C) -c ./pspe/ieee754/e_rem_pio2.c -o ../obj_PSPE/ieee754/e_rem_pio2.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/e_scalb.o: ./pspe/ieee754/e_scalb.c
+	$(C) -c ./pspe/ieee754/e_scalb.c -o ../obj_PSPE/ieee754/e_scalb.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/e_sinh.o: ./pspe/ieee754/e_sinh.c
+	$(C) -c ./pspe/ieee754/e_sinh.c -o ../obj_PSPE/ieee754/e_sinh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/e_sqrt.o: ./pspe/ieee754/e_sqrt.c
+	$(C) -c ./pspe/ieee754/e_sqrt.c -o ../obj_PSPE/ieee754/e_sqrt.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/kf_cos.o: ./pspe/ieee754/kf_cos.c
+	$(C) -c ./pspe/ieee754/kf_cos.c -o ../obj_PSPE/ieee754/kf_cos.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/kf_rem_pio2.o: ./pspe/ieee754/kf_rem_pio2.c
+	$(C) -c ./pspe/ieee754/kf_rem_pio2.c -o ../obj_PSPE/ieee754/kf_rem_pio2.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/kf_sin.o: ./pspe/ieee754/kf_sin.c
+	$(C) -c ./pspe/ieee754/kf_sin.c -o ../obj_PSPE/ieee754/kf_sin.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/$1.o: ./pspe/ieee754/$1.c
+	$(C) -c ./pspe/ieee754/$1.c -o ../obj_PSPE/ieee754/$1.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/kf_tan.o: ./pspe/ieee754/kf_tan.c
+	$(C) -c ./pspe/ieee754/kf_tan.c -o ../obj_PSPE/ieee754/kf_tan.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/k_cos.o: ./pspe/ieee754/k_cos.c
+	$(C) -c ./pspe/ieee754/k_cos.c -o ../obj_PSPE/ieee754/k_cos.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/k_rem_pio2.o: ./pspe/ieee754/k_rem_pio2.c
+	$(C) -c ./pspe/ieee754/k_rem_pio2.c -o ../obj_PSPE/ieee754/k_rem_pio2.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/k_sin.o: ./pspe/ieee754/k_sin.c
+	$(C) -c ./pspe/ieee754/k_sin.c -o ../obj_PSPE/ieee754/k_sin.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/k_standard.o: ./pspe/ieee754/k_standard.c
+	$(C) -c ./pspe/ieee754/k_standard.c -o ../obj_PSPE/ieee754/k_standard.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/k_tan.o: ./pspe/ieee754/k_tan.c
+	$(C) -c ./pspe/ieee754/k_tan.c -o ../obj_PSPE/ieee754/k_tan.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/sf_asinh.o: ./pspe/ieee754/sf_asinh.c
+	$(C) -c ./pspe/ieee754/sf_asinh.c -o ../obj_PSPE/ieee754/sf_asinh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/sf_atan.o: ./pspe/ieee754/sf_atan.c
+	$(C) -c ./pspe/ieee754/sf_atan.c -o ../obj_PSPE/ieee754/sf_atan.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/sf_ceil.o: ./pspe/ieee754/sf_ceil.c
+	$(C) -c ./pspe/ieee754/sf_ceil.c -o ../obj_PSPE/ieee754/sf_ceil.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/sf_cos.o: ./pspe/ieee754/sf_cos.c
+	$(C) -c ./pspe/ieee754/sf_cos.c -o ../obj_PSPE/ieee754/sf_cos.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/sf_erf.o: ./pspe/ieee754/sf_erf.c
+	$(C) -c ./pspe/ieee754/sf_erf.c -o ../obj_PSPE/ieee754/sf_erf.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/sf_fabs.o: ./pspe/ieee754/sf_fabs.c
+	$(C) -c ./pspe/ieee754/sf_fabs.c -o ../obj_PSPE/ieee754/sf_fabs.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/sf_floor.o: ./pspe/ieee754/sf_floor.c
+	$(C) -c ./pspe/ieee754/sf_floor.c -o ../obj_PSPE/ieee754/sf_floor.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/sf_frexp.o: ./pspe/ieee754/sf_frexp.c
+	$(C) -c ./pspe/ieee754/sf_frexp.c -o ../obj_PSPE/ieee754/sf_frexp.o $(CFLAGS_PSPE)
+	
+../obj_PSPE/ieee754/sf_isinf.o: ./pspe/ieee754/sf_isinf.c
+	$(C) -c ./pspe/ieee754/sf_isinf.c -o ../obj_PSPE/ieee754/sf_isinf.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/sf_isnan.o: ./pspe/ieee754/sf_isnan.c
+	$(C) -c ./pspe/ieee754/sf_isnan.c -o ../obj_PSPE/ieee754/sf_isnan.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/sf_ldexp.o: ./pspe/ieee754/sf_ldexp.c
+	$(C) -c ./pspe/ieee754/sf_ldexp.c -o ../obj_PSPE/ieee754/sf_ldexp.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/sf_signif.o: ./pspe/ieee754/sf_signif.c
+	$(C) -c ./pspe/ieee754/sf_signif.c -o ../obj_PSPE/ieee754/sf_signif.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/sf_sin.o: ./pspe/ieee754/sf_sin.c
+	$(C) -c ./pspe/ieee754/sf_sin.c -o ../obj_PSPE/ieee754/sf_sin.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/sf_tan.o: ./pspe/ieee754/sf_tan.c
+	$(C) -c ./pspe/ieee754/sf_tan.c -o ../obj_PSPE/ieee754/sf_tan.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/sf_tanh.o: ./pspe/ieee754/sf_tanh.c
+	$(C) -c ./pspe/ieee754/sf_tanh.c -o ../obj_PSPE/ieee754/sf_tanh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_asinh.o: ./pspe/ieee754/s_asinh.c
+	$(C) -c ./pspe/ieee754/s_asinh.c -o ../obj_PSPE/ieee754/s_asinh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_atan.o: ./pspe/ieee754/s_atan.c
+	$(C) -c ./pspe/ieee754/s_atan.c -o ../obj_PSPE/ieee754/s_atan.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_ceil.o: ./pspe/ieee754/s_ceil.c
+	$(C) -c ./pspe/ieee754/s_ceil.c -o ../obj_PSPE/ieee754/s_ceil.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_cos.o: ./pspe/ieee754/s_cos.c
+	$(C) -c ./pspe/ieee754/s_cos.c -o ../obj_PSPE/ieee754/s_cos.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_erf.o: ./pspe/ieee754/s_erf.c
+	$(C) -c ./pspe/ieee754/s_erf.c -o ../obj_PSPE/ieee754/s_erf.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_fabs.o: ./pspe/ieee754/s_fabs.c
+	$(C) -c ./pspe/ieee754/s_fabs.c -o ../obj_PSPE/ieee754/s_fabs.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_floor.o: ./pspe/ieee754/s_floor.c
+	$(C) -c ./pspe/ieee754/s_floor.c -o ../obj_PSPE/ieee754/s_floor.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_frexp.o: ./pspe/ieee754/s_frexp.c
+	$(C) -c ./pspe/ieee754/s_frexp.c -o ../obj_PSPE/ieee754/s_frexp.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_infconst.o: ./pspe/ieee754/s_infconst.c
+	$(C) -c ./pspe/ieee754/s_infconst.c -o ../obj_PSPE/ieee754/s_infconst.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_isinf.o: ./pspe/ieee754/s_isinf.c
+	$(C) -c ./pspe/ieee754/s_isinf.c -o ../obj_PSPE/ieee754/s_isinf.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_isnan.o: ./pspe/ieee754/s_isnan.c
+	$(C) -c ./pspe/ieee754/s_isnan.c -o ../obj_PSPE/ieee754/s_isnan.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_ldexp.o: ./pspe/ieee754/s_ldexp.c
+	$(C) -c ./pspe/ieee754/s_ldexp.c -o ../obj_PSPE/ieee754/s_ldexp.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_signif.o: ./pspe/ieee754/s_signif.c
+	$(C) -c ./pspe/ieee754/s_signif.c -o ../obj_PSPE/ieee754/s_signif.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_sin.o: ./pspe/ieee754/s_sin.c
+	$(C) -c ./pspe/ieee754/s_sin.c -o ../obj_PSPE/ieee754/s_sin.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_tan.o: ./pspe/ieee754/s_tan.c
+	$(C) -c ./pspe/ieee754/s_tan.c -o ../obj_PSPE/ieee754/s_tan.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/s_tanh.o: ./pspe/ieee754/s_tanh.c
+	$(C) -c ./pspe/ieee754/s_tanh.c -o ../obj_PSPE/ieee754/s_tanh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_acos.o: ./pspe/ieee754/wf_acos.c
+	$(C) -c ./pspe/ieee754/wf_acos.c -o ../obj_PSPE/ieee754/wf_acos.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_acosh.o: ./pspe/ieee754/wf_acosh.c
+	$(C) -c ./pspe/ieee754/wf_acosh.c -o ../obj_PSPE/ieee754/wf_acosh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_asin.o: ./pspe/ieee754/wf_asin.c
+	$(C) -c ./pspe/ieee754/wf_asin.c -o ../obj_PSPE/ieee754/wf_asin.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_atan2.o: ./pspe/ieee754/wf_atan2.c
+	$(C) -c ./pspe/ieee754/wf_atan2.c -o ../obj_PSPE/ieee754/wf_atan2.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_atanh.o: ./pspe/ieee754/wf_atanh.c
+	$(C) -c ./pspe/ieee754/wf_atanh.c -o ../obj_PSPE/ieee754/wf_atanh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_cabs.o: ./pspe/ieee754/wf_cabs.c
+	$(C) -c ./pspe/ieee754/wf_cabs.c -o ../obj_PSPE/ieee754/wf_cabs.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_cosh.o: ./pspe/ieee754/wf_cosh.c
+	$(C) -c ./pspe/ieee754/wf_cosh.c -o ../obj_PSPE/ieee754/wf_cosh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_drem.o: ./pspe/ieee754/wf_drem.c
+	$(C) -c ./pspe/ieee754/wf_drem.c -o ../obj_PSPE/ieee754/wf_drem.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_exp.o: ./pspe/ieee754/wf_exp.c
+	$(C) -c ./pspe/ieee754/wf_exp.c -o ../obj_PSPE/ieee754/wf_exp.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_exp2.o: ./pspe/ieee754/wf_exp2.c
+	$(C) -c ./pspe/ieee754/wf_exp2.c -o ../obj_PSPE/ieee754/wf_exp2.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_fmod.o: ./pspe/ieee754/wf_fmod.c
+	$(C) -c ./pspe/ieee754/wf_fmod.c -o ../obj_PSPE/ieee754/wf_fmod.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_gamma.o: ./pspe/ieee754/wf_gamma.c
+	$(C) -c ./pspe/ieee754/wf_gamma.c -o ../obj_PSPE/ieee754/wf_gamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_hypot.o: ./pspe/ieee754/wf_hypot.c
+	$(C) -c ./pspe/ieee754/wf_hypot.c -o ../obj_PSPE/ieee754/wf_hypot.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_j0.o: ./pspe/ieee754/wf_j0.c
+	$(C) -c ./pspe/ieee754/wf_j0.c -o ../obj_PSPE/ieee754/wf_j0.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_j1.o: ./pspe/ieee754/wf_j1.c
+	$(C) -c ./pspe/ieee754/wf_j1.c -o ../obj_PSPE/ieee754/wf_j1.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_jn.o: ./pspe/ieee754/wf_jn.c
+	$(C) -c ./pspe/ieee754/wf_jn.c -o ../obj_PSPE/ieee754/wf_jn.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_lgamma.o: ./pspe/ieee754/wf_lgamma.c
+	$(C) -c ./pspe/ieee754/wf_lgamma.c -o ../obj_PSPE/ieee754/wf_lgamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_log.o: ./pspe/ieee754/wf_log.c
+	$(C) -c ./pspe/ieee754/wf_log.c -o ../obj_PSPE/ieee754/wf_log.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_log10.o: ./pspe/ieee754/wf_log10.c
+	$(C) -c ./pspe/ieee754/wf_log10.c -o ../obj_PSPE/ieee754/wf_log10.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_pow.o: ./pspe/ieee754/wf_pow.c
+	$(C) -c ./pspe/ieee754/wf_pow.c -o ../obj_PSPE/ieee754/wf_pow.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_remainder.o: ./pspe/ieee754/wf_remainder.c
+	$(C) -c ./pspe/ieee754/wf_remainder.c -o ../obj_PSPE/ieee754/wf_remainder.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_scalb.o: ./pspe/ieee754/wf_scalb.c
+	$(C) -c ./pspe/ieee754/wf_scalb.c -o ../obj_PSPE/ieee754/wf_scalb.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_sincos.o: ./pspe/ieee754/wf_sincos.c
+	$(C) -c ./pspe/ieee754/wf_sincos.c -o ../obj_PSPE/ieee754/wf_sincos.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_sinh.o: ./pspe/ieee754/wf_sinh.c
+	$(C) -c ./pspe/ieee754/wf_sinh.c -o ../obj_PSPE/ieee754/wf_sinh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_sqrt.o: ./pspe/ieee754/wf_sqrt.c
+	$(C) -c ./pspe/ieee754/wf_sqrt.c -o ../obj_PSPE/ieee754/wf_sqrt.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wf_tgamma.o: ./pspe/ieee754/wf_tgamma.c
+	$(C) -c ./pspe/ieee754/wf_tgamma.c -o ../obj_PSPE/ieee754/wf_tgamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wrf_gamma.o: ./pspe/ieee754/wrf_gamma.c
+	$(C) -c ./pspe/ieee754/wrf_gamma.c -o ../obj_PSPE/ieee754/wrf_gamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wrf_lgamma.o: ./pspe/ieee754/wrf_lgamma.c
+	$(C) -c ./pspe/ieee754/wrf_lgamma.c -o ../obj_PSPE/ieee754/wrf_lgamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wr_gamma.o: ./pspe/ieee754/wr_gamma.c
+	$(C) -c ./pspe/ieee754/wr_gamma.c -o ../obj_PSPE/ieee754/wr_gamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/wr_lgamma.o: ./pspe/ieee754/wr_lgamma.c
+	$(C) -c ./pspe/ieee754/wr_lgamma.c -o ../obj_PSPE/ieee754/wr_lgamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_acos.o: ./pspe/ieee754/w_acos.c
+	$(C) -c ./pspe/ieee754/w_acos.c -o ../obj_PSPE/ieee754/w_acos.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_acosh.o: ./pspe/ieee754/w_acosh.c
+	$(C) -c ./pspe/ieee754/w_acosh.c -o ../obj_PSPE/ieee754/w_acosh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_asin.o: ./pspe/ieee754/w_asin.c
+	$(C) -c ./pspe/ieee754/w_asin.c -o ../obj_PSPE/ieee754/w_asin.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_atan2.o: ./pspe/ieee754/w_atan2.c
+	$(C) -c ./pspe/ieee754/w_atan2.c -o ../obj_PSPE/ieee754/w_atan2.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_atanh.o: ./pspe/ieee754/w_atanh.c
+	$(C) -c ./pspe/ieee754/w_atanh.c -o ../obj_PSPE/ieee754/w_atanh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_cabs.o: ./pspe/ieee754/w_cabs.c
+	$(C) -c ./pspe/ieee754/w_cabs.c -o ../obj_PSPE/ieee754/w_cabs.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_cosh.o: ./pspe/ieee754/w_cosh.c
+	$(C) -c ./pspe/ieee754/w_cosh.c -o ../obj_PSPE/ieee754/w_cosh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_drem.o: ./pspe/ieee754/w_drem.c
+	$(C) -c ./pspe/ieee754/w_drem.c -o ../obj_PSPE/ieee754/w_drem.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_exp.o: ./pspe/ieee754/w_exp.c
+	$(C) -c ./pspe/ieee754/w_exp.c -o ../obj_PSPE/ieee754/w_exp.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_exp2.o: ./pspe/ieee754/w_exp2.c
+	$(C) -c ./pspe/ieee754/w_exp2.c -o ../obj_PSPE/ieee754/w_exp2.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_fmod.o: ./pspe/ieee754/w_fmod.c
+	$(C) -c ./pspe/ieee754/w_fmod.c -o ../obj_PSPE/ieee754/w_fmod.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_gamma.o: ./pspe/ieee754/w_gamma.c
+	$(C) -c ./pspe/ieee754/w_gamma.c -o ../obj_PSPE/ieee754/w_gamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_hypot.o: ./pspe/ieee754/w_hypot.c
+	$(C) -c ./pspe/ieee754/w_hypot.c -o ../obj_PSPE/ieee754/w_hypot.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_j0.o: ./pspe/ieee754/w_j0.c
+	$(C) -c ./pspe/ieee754/w_j0.c -o ../obj_PSPE/ieee754/w_j0.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_j1.o: ./pspe/ieee754/w_j1.c
+	$(C) -c ./pspe/ieee754/w_j1.c -o ../obj_PSPE/ieee754/w_j1.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_jn.o: ./pspe/ieee754/w_jn.c
+	$(C) -c ./pspe/ieee754/w_jn.c -o ../obj_PSPE/ieee754/w_jn.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_lgamma.o: ./pspe/ieee754/w_lgamma.c
+	$(C) -c ./pspe/ieee754/w_lgamma.c -o ../obj_PSPE/ieee754/w_lgamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_log.o: ./pspe/ieee754/w_log.c
+	$(C) -c ./pspe/ieee754/w_log.c -o ../obj_PSPE/ieee754/w_log.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_log10.o: ./pspe/ieee754/w_log10.c
+	$(C) -c ./pspe/ieee754/w_log10.c -o ../obj_PSPE/ieee754/w_log10.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_pow.o: ./pspe/ieee754/w_pow.c
+	$(C) -c ./pspe/ieee754/w_pow.c -o ../obj_PSPE/ieee754/w_pow.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_remainder.o: ./pspe/ieee754/w_remainder.c
+	$(C) -c ./pspe/ieee754/w_remainder.c -o ../obj_PSPE/ieee754/w_remainder.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_scalb.o: ./pspe/ieee754/w_scalb.c
+	$(C) -c ./pspe/ieee754/w_scalb.c -o ../obj_PSPE/ieee754/w_scalb.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_sincos.o: ./pspe/ieee754/w_sincos.c
+	$(C) -c ./pspe/ieee754/w_sincos.c -o ../obj_PSPE/ieee754/w_sincos.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_sinh.o: ./pspe/ieee754/w_sinh.c
+	$(C) -c ./pspe/ieee754/w_sinh.c -o ../obj_PSPE/ieee754/w_sinh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_sqrt.o: ./pspe/ieee754/w_sqrt.c
+	$(C) -c ./pspe/ieee754/w_sqrt.c -o ../obj_PSPE/ieee754/w_sqrt.o $(CFLAGS_PSPE)
+
+../obj_PSPE/ieee754/w_tgamma.o: ./pspe/ieee754/w_tgamma.c
+	$(C) -c ./pspe/ieee754/w_tgamma.c -o ../obj_PSPE/ieee754/w_tgamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/ef_acosh.o: ./pspe/fp/ef_acosh.c
+	$(C) -c ./pspe/fp/ef_acosh.c -o ../obj_PSPE/fp/ef_acosh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/ef_atanh.o: ./pspe/fp/ef_atanh.c
+	$(C) -c ./pspe/fp/ef_atanh.c -o ../obj_PSPE/fp/ef_atanh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/ef_hypot.o: ./pspe/fp/ef_hypot.c
+	$(C) -c ./pspe/fp/ef_hypot.c -o ../obj_PSPE/fp/ef_hypot.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/ef_j0.o: ./pspe/fp/ef_j0.c
+	$(C) -c ./pspe/fp/ef_j0.c -o ../obj_PSPE/fp/ef_j0.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/ef_j1.o: ./pspe/fp/ef_j1.c
+	$(C) -c ./pspe/fp/ef_j1.c -o ../obj_PSPE/fp/ef_j1.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/ef_remainder.o: ./pspe/fp/ef_remainder.c
+	$(C) -c ./pspe/fp/ef_remainder.c -o ../obj_PSPE/fp/ef_remainder.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/ef_scalb.o: ./pspe/fp/ef_scalb.c
+	$(C) -c ./pspe/fp/ef_scalb.c -o ../obj_PSPE/fp/ef_scalb.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/erf_gamma.o: ./pspe/fp/erf_gamma.c
+	$(C) -c ./pspe/fp/erf_gamma.c -o ../obj_PSPE/fp/erf_gamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/erf_lgamma.o: ./pspe/fp/erf_lgamma.c
+	$(C) -c ./pspe/fp/erf_lgamma.c -o ../obj_PSPE/fp/erf_lgamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/er_gamma.o: ./pspe/fp/er_gamma.c
+	$(C) -c ./pspe/fp/er_gamma.c -o ../obj_PSPE/fp/er_gamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/er_lgamma.o: ./pspe/fp/er_lgamma.c
+	$(C) -c ./pspe/fp/er_lgamma.c -o ../obj_PSPE/fp/er_lgamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/e_acosh.o: ./pspe/fp/e_acosh.c
+	$(C) -c ./pspe/fp/e_acosh.c -o ../obj_PSPE/fp/e_acosh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/e_atanh.o: ./pspe/fp/e_atanh.c
+	$(C) -c ./pspe/fp/e_atanh.c -o ../obj_PSPE/fp/e_atanh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/e_hypot.o: ./pspe/fp/e_hypot.c
+	$(C) -c ./pspe/fp/e_hypot.c -o ../obj_PSPE/fp/e_hypot.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/e_j0.o: ./pspe/fp/e_j0.c
+	$(C) -c ./pspe/fp/e_j0.c -o ../obj_PSPE/fp/e_j0.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/e_j1.o: ./pspe/fp/e_j1.c
+	$(C) -c ./pspe/fp/e_j1.c -o ../obj_PSPE/fp/e_j1.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/e_remainder.o: ./pspe/fp/e_remainder.c
+	$(C) -c ./pspe/fp/e_remainder.c -o ../obj_PSPE/fp/e_remainder.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/e_scalb.o: ./pspe/fp/e_scalb.c
+	$(C) -c ./pspe/fp/e_scalb.c -o ../obj_PSPE/fp/e_scalb.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_acos.o: ./pspe/fp/sf_acos.c
+	$(C) -c ./pspe/fp/sf_acos.c -o ../obj_PSPE/fp/sf_acos.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_asin.o: ./pspe/fp/sf_asin.c
+	$(C) -c ./pspe/fp/sf_asin.c -o ../obj_PSPE/fp/sf_asin.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_asine.o: ./pspe/fp/sf_asine.c
+	$(C) -c ./pspe/fp/sf_asine.c -o ../obj_PSPE/fp/sf_asine.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_asinh.o: ./pspe/fp/sf_asinh.c
+	$(C) -c ./pspe/fp/sf_asinh.c -o ../obj_PSPE/fp/sf_asinh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_atan.o: ./pspe/fp/sf_atan.c
+	$(C) -c ./pspe/fp/sf_atan.c -o ../obj_PSPE/fp/sf_atan.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_atan2.o: ./pspe/fp/sf_atan2.c
+	$(C) -c ./pspe/fp/sf_atan2.c -o ../obj_PSPE/fp/sf_atan2.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_atangent.o: ./pspe/fp/sf_atangent.c
+	$(C) -c ./pspe/fp/sf_atangent.c -o ../obj_PSPE/fp/sf_atangent.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_ceil.o: ./pspe/fp/sf_ceil.c
+	$(C) -c ./pspe/fp/sf_ceil.c -o ../obj_PSPE/fp/sf_ceil.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_cos.o: ./pspe/fp/sf_cos.c
+	$(C) -c ./pspe/fp/sf_cos.c -o ../obj_PSPE/fp/sf_cos.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_cosh.o: ./pspe/fp/sf_cosh.c
+	$(C) -c ./pspe/fp/sf_cosh.c -o ../obj_PSPE/fp/sf_cosh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_erf.o: ./pspe/fp/sf_erf.c
+	$(C) -c ./pspe/fp/sf_erf.c -o ../obj_PSPE/fp/sf_erf.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_exp.o: ./pspe/fp/sf_exp.c
+	$(C) -c ./pspe/fp/sf_exp.c -o ../obj_PSPE/fp/sf_exp.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_exp2.o: ./pspe/fp/sf_exp2.c
+	$(C) -c ./pspe/fp/sf_exp2.c -o ../obj_PSPE/fp/sf_exp2.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_fabs.o: ./pspe/fp/sf_fabs.c
+	$(C) -c ./pspe/fp/sf_fabs.c -o ../obj_PSPE/fp/sf_fabs.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_floor.o: ./pspe/fp/sf_floor.c
+	$(C) -c ./pspe/fp/sf_floor.c -o ../obj_PSPE/fp/sf_floor.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_fmod.o: ./pspe/fp/sf_fmod.c
+	$(C) -c ./pspe/fp/sf_fmod.c -o ../obj_PSPE/fp/sf_fmod.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_frexp.o: ./pspe/fp/sf_frexp.c
+	$(C) -c ./pspe/fp/sf_frexp.c -o ../obj_PSPE/fp/sf_frexp.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_isinf.o: ./pspe/fp/sf_isinf.c
+	$(C) -c ./pspe/fp/sf_isinf.c -o ../obj_PSPE/fp/sf_isinf.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_isnan.o: ./pspe/fp/sf_isnan.c
+	$(C) -c ./pspe/fp/sf_isnan.c -o ../obj_PSPE/fp/sf_isnan.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_ispos.o: ./pspe/fp/sf_ispos.c
+	$(C) -c ./pspe/fp/sf_ispos.c -o ../obj_PSPE/fp/sf_ispos.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_ldexp.o: ./pspe/fp/sf_ldexp.c
+	$(C) -c ./pspe/fp/sf_ldexp.c -o ../obj_PSPE/fp/sf_ldexp.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_log.o: ./pspe/fp/sf_log.c
+	$(C) -c ./pspe/fp/sf_log.c -o ../obj_PSPE/fp/sf_log.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_log10.o: ./pspe/fp/sf_log10.c
+	$(C) -c ./pspe/fp/sf_log10.c -o ../obj_PSPE/fp/sf_log10.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_logarithm.o: ./pspe/fp/sf_logarithm.c
+	$(C) -c ./pspe/fp/sf_logarithm.c -o ../obj_PSPE/fp/sf_logarithm.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_numtest.o: ./pspe/fp/sf_numtest.c
+	$(C) -c ./pspe/fp/sf_numtest.c -o ../obj_PSPE/fp/sf_numtest.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_pow.o: ./pspe/fp/sf_pow.c
+	$(C) -c ./pspe/fp/sf_pow.c -o ../obj_PSPE/fp/sf_pow.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_signif.o: ./pspe/fp/sf_signif.c
+	$(C) -c ./pspe/fp/sf_signif.c -o ../obj_PSPE/fp/sf_signif.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_sin.o: ./pspe/fp/sf_sin.c
+	$(C) -c ./pspe/fp/sf_sin.c -o ../obj_PSPE/fp/sf_sin.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_sincos.o: ./pspe/fp/sf_sincos.c
+	$(C) -c ./pspe/fp/sf_sincos.c -o ../obj_PSPE/fp/sf_sincos.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_sine.o: ./pspe/fp/sf_sine.c
+	$(C) -c ./pspe/fp/sf_sine.c -o ../obj_PSPE/fp/sf_sine.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_sineh.o: ./pspe/fp/sf_sineh.c
+	$(C) -c ./pspe/fp/sf_sineh.c -o ../obj_PSPE/fp/sf_sineh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_sinh.o: ./pspe/fp/sf_sinh.c
+	$(C) -c ./pspe/fp/sf_sinh.c -o ../obj_PSPE/fp/sf_sinh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_sqrt.o: ./pspe/fp/sf_sqrt.c
+	$(C) -c ./pspe/fp/sf_sqrt.c -o ../obj_PSPE/fp/sf_sqrt.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_tan.o: ./pspe/fp/sf_tan.c
+	$(C) -c ./pspe/fp/sf_tan.c -o ../obj_PSPE/fp/sf_tan.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_tanh.o: ./pspe/fp/sf_tanh.c
+	$(C) -c ./pspe/fp/sf_tanh.c -o ../obj_PSPE/fp/sf_tanh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/sf_tgamma.o: ./pspe/fp/sf_tgamma.c
+	$(C) -c ./pspe/fp/sf_tgamma.c -o ../obj_PSPE/fp/sf_tgamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_acos.o: ./pspe/fp/s_acos.c
+	$(C) -c ./pspe/fp/s_acos.c -o ../obj_PSPE/fp/s_acos.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_asin.o: ./pspe/fp/s_asin.c
+	$(C) -c ./pspe/fp/s_asin.c -o ../obj_PSPE/fp/s_asin.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_asine.o: ./pspe/fp/s_asine.c
+	$(C) -c ./pspe/fp/s_asine.c -o ../obj_PSPE/fp/s_asine.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_asinh.o: ./pspe/fp/s_asinh.c
+	$(C) -c ./pspe/fp/s_asinh.c -o ../obj_PSPE/fp/s_asinh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_atan.o: ./pspe/fp/s_atan.c
+	$(C) -c ./pspe/fp/s_atan.c -o ../obj_PSPE/fp/s_atan.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_atan2.o: ./pspe/fp/s_atan2.c
+	$(C) -c ./pspe/fp/s_atan2.c -o ../obj_PSPE/fp/s_atan2.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_atangent.o: ./pspe/fp/s_atangent.c
+	$(C) -c ./pspe/fp/s_atangent.c -o ../obj_PSPE/fp/s_atangent.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_ceil.o: ./pspe/fp/s_ceil.c
+	$(C) -c ./pspe/fp/s_ceil.c -o ../obj_PSPE/fp/s_ceil.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_cos.o: ./pspe/fp/s_cos.c
+	$(C) -c ./pspe/fp/s_cos.c -o ../obj_PSPE/fp/s_cos.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_cosh.o: ./pspe/fp/s_cosh.c
+	$(C) -c ./pspe/fp/s_cosh.c -o ../obj_PSPE/fp/s_cosh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_erf.o: ./pspe/fp/s_erf.c
+	$(C) -c ./pspe/fp/s_erf.c -o ../obj_PSPE/fp/s_erf.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_exp.o: ./pspe/fp/s_exp.c
+	$(C) -c ./pspe/fp/s_exp.c -o ../obj_PSPE/fp/s_exp.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_exp2.o: ./pspe/fp/s_exp2.c
+	$(C) -c ./pspe/fp/s_exp2.c -o ../obj_PSPE/fp/s_exp2.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_fabs.o: ./pspe/fp/s_fabs.c
+	$(C) -c ./pspe/fp/s_fabs.c -o ../obj_PSPE/fp/s_fabs.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_floor.o: ./pspe/fp/s_floor.c
+	$(C) -c ./pspe/fp/s_floor.c -o ../obj_PSPE/fp/s_floor.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_fmod.o: ./pspe/fp/s_fmod.c
+	$(C) -c ./pspe/fp/s_fmod.c -o ../obj_PSPE/fp/s_fmod.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_frexp.o: ./pspe/fp/s_frexp.c
+	$(C) -c ./pspe/fp/s_frexp.c -o ../obj_PSPE/fp/s_frexp.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_infconst.o: ./pspe/fp/s_infconst.c
+	$(C) -c ./pspe/fp/s_infconst.c -o ../obj_PSPE/fp/s_infconst.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_isinf.o: ./pspe/fp/s_isinf.c
+	$(C) -c ./pspe/fp/s_isinf.c -o ../obj_PSPE/fp/s_isinf.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_isnan.o: ./pspe/fp/s_isnan.c
+	$(C) -c ./pspe/fp/s_isnan.c -o ../obj_PSPE/fp/s_isnan.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_ispos.o: ./pspe/fp/s_ispos.c
+	$(C) -c ./pspe/fp/s_ispos.c -o ../obj_PSPE/fp/s_ispos.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_ldexp.o: ./pspe/fp/s_ldexp.c
+	$(C) -c ./pspe/fp/s_ldexp.c -o ../obj_PSPE/fp/s_ldexp.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_log.o: ./pspe/fp/s_log.c
+	$(C) -c ./pspe/fp/s_log.c -o ../obj_PSPE/fp/s_log.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_log10.o: ./pspe/fp/s_log10.c
+	$(C) -c ./pspe/fp/s_log10.c -o ../obj_PSPE/fp/s_log10.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_logarithm.o: ./pspe/fp/s_logarithm.c
+	$(C) -c ./pspe/fp/s_logarithm.c -o ../obj_PSPE/fp/s_logarithm.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_mathcnst.o: ./pspe/fp/s_mathcnst.c
+	$(C) -c ./pspe/fp/s_mathcnst.c -o ../obj_PSPE/fp/s_mathcnst.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_numtest.o: ./pspe/fp/s_numtest.c
+	$(C) -c ./pspe/fp/s_numtest.c -o ../obj_PSPE/fp/s_numtest.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_pow.o: ./pspe/fp/s_pow.c
+	$(C) -c ./pspe/fp/s_pow.c -o ../obj_PSPE/fp/s_pow.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_signif.o: ./pspe/fp/s_signif.c
+	$(C) -c ./pspe/fp/s_signif.c -o ../obj_PSPE/fp/s_signif.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_sin.o: ./pspe/fp/s_sin.c
+	$(C) -c ./pspe/fp/s_sin.c -o ../obj_PSPE/fp/s_sin.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_sincos.o: ./pspe/fp/s_sincos.c
+	$(C) -c ./pspe/fp/s_sincos.c -o ../obj_PSPE/fp/s_sincos.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_sine.o: ./pspe/fp/s_sine.c
+	$(C) -c ./pspe/fp/s_sine.c -o ../obj_PSPE/fp/s_sine.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_sineh.o: ./pspe/fp/s_sineh.c
+	$(C) -c ./pspe/fp/s_sineh.c -o ../obj_PSPE/fp/s_sineh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_sinf.o: ./pspe/fp/s_sinf.c
+	$(C) -c ./pspe/fp/s_sinf.c -o ../obj_PSPE/fp/s_sinf.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_sinh.o: ./pspe/fp/s_sinh.c
+	$(C) -c ./pspe/fp/s_sinh.c -o ../obj_PSPE/fp/s_sinh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_sqrt.o: ./pspe/fp/s_sqrt.c
+	$(C) -c ./pspe/fp/s_sqrt.c -o ../obj_PSPE/fp/s_sqrt.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_tan.o: ./pspe/fp/s_tan.c
+	$(C) -c ./pspe/fp/s_tan.c -o ../obj_PSPE/fp/s_tan.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_tanh.o: ./pspe/fp/s_tanh.c
+	$(C) -c ./pspe/fp/s_tanh.c -o ../obj_PSPE/fp/s_tanh.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/s_tgamma.o: ./pspe/fp/s_tgamma.c
+	$(C) -c ./pspe/fp/s_tgamma.c -o ../obj_PSPE/fp/s_tgamma.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/wf_drem.o: ./pspe/fp/wf_drem.c
+	$(C) -c ./pspe/fp/wf_drem.c -o ../obj_PSPE/fp/wf_drem.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/wf_jn.o: ./pspe/fp/wf_jn.c
+	$(C) -c ./pspe/fp/wf_jn.c -o ../obj_PSPE/fp/wf_jn.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/wf_cabs.o: ./pspe/fp/wf_cabs.c
+	$(C) -c ./pspe/fp/wf_cabs.c -o ../obj_PSPE/fp/wf_cabs.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/w_cabs.o: ./pspe/fp/w_cabs.c
+	$(C) -c ./pspe/fp/w_cabs.c -o ../obj_PSPE/fp/w_cabs.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/w_drem.o: ./pspe/fp/w_drem.c
+	$(C) -c ./pspe/fp/w_drem.c -o ../obj_PSPE/fp/w_drem.o $(CFLAGS_PSPE)
+
+../obj_PSPE/fp/w_jn.o: ./pspe/fp/w_jn.c
+	$(C) -c ./pspe/fp/w_jn.c -o ../obj_PSPE/fp/w_jn.o $(CFLAGS_PSPE)
+
+
+## Compilazione dei moduli EMIEMU per PSPE
+
+../obj_PSPE/emiemu/emiemu.o: ./pspe/emiemu/emiemu.c 
+	$(C) -c ./pspe/emiemu/emiemu.c -o ../obj_PSPE/emiemu/emiemu.o $(CFLAGS_PSPE) 
+
+
+
+
+
+
+
+
+## Compilazione dei sorgenti per PSP
+	
+../obj_PSP/common/s_cbrt.o: ./psp/common/s_cbrt.c
+	$(C) -c ./psp/common/s_cbrt.c -o ../obj_PSP/common/s_cbrt.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/sf_cbrt.o: ./psp/common/sf_cbrt.c
+	$(C) -c ./psp/common/sf_cbrt.c -o ../obj_PSP/common/sf_cbrt.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_copysign.o: ./psp/common/sf_copysign.c
+	$(C) -c ./psp/common/sf_copysign.c -o ../obj_PSP/common/sf_copysign.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/sf_expm1.o: ./psp/common/sf_expm1.c
+	$(C) -c ./psp/common/sf_expm1.c -o ../obj_PSP/common/sf_expm1.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_fdim.o: ./psp/common/sf_fdim.c
+	$(C) -c ./psp/common/sf_fdim.c -o ../obj_PSP/common/sf_fdim.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_finite.o: ./psp/common/sf_finite.c
+	$(C) -c ./psp/common/sf_finite.c -o ../obj_PSP/common/sf_finite.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_fma.o: ./psp/common/sf_fma.c
+	$(C) -c ./psp/common/sf_fma.c -o ../obj_PSP/common/sf_fma.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/sf_fmax.o: ./psp/common/sf_fmax.c
+	$(C) -c ./psp/common/sf_fmax.c -o ../obj_PSP/common/sf_fmax.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_fmin.o: ./psp/common/sf_fmin.c
+	$(C) -c ./psp/common/sf_fmin.c -o ../obj_PSP/common/sf_fmin.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_ilogb.o: ./psp/common/sf_ilogb.c
+	$(C) -c ./psp/common/sf_ilogb.c -o ../obj_PSP/common/sf_ilogb.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_infinity.o: ./psp/common/sf_infinity.c
+	$(C) -c ./psp/common/sf_infinity.c -o ../obj_PSP/common/sf_infinity.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/sf_log1p.o: ./psp/common/sf_log1p.c
+	$(C) -c ./psp/common/sf_log1p.c -o ../obj_PSP/common/sf_log1p.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_logb.o: ./psp/common/sf_logb.c
+	$(C) -c ./psp/common/sf_logb.c -o ../obj_PSP/common/sf_logb.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_lrint.o: ./psp/common/sf_lrint.c
+	$(C) -c ./psp/common/sf_lrint.c -o ../obj_PSP/common/sf_lrint.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_lround.o: ./psp/common/sf_lround.c
+	$(C) -c ./psp/common/sf_lround.c -o ../obj_PSP/common/sf_lround.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/sf_modf.o: ./psp/common/sf_modf.c
+	$(C) -c ./psp/common/sf_modf.c -o ../obj_PSP/common/sf_modf.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/sf_nan.o: ./psp/common/sf_nan.c
+	$(C) -c ./psp/common/sf_nan.c -o ../obj_PSP/common/sf_nan.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_nearbyint.o: ./psp/common/sf_nearbyint.c
+	$(C) -c ./psp/common/sf_nearbyint.c -o ../obj_PSP/common/sf_nearbyint.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_nextafter.o: ./psp/common/sf_nextafter.c
+	$(C) -c ./psp/common/sf_nextafter.c -o ../obj_PSP/common/sf_nextafter.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_remquo.o: ./psp/common/sf_remquo.c
+	$(C) -c ./psp/common/sf_remquo.c -o ../obj_PSP/common/sf_remquo.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/sf_rint.o: ./psp/common/sf_rint.c
+	$(C) -c ./psp/common/sf_rint.c -o ../obj_PSP/common/sf_rint.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_round.o: ./psp/common/sf_round.c
+	$(C) -c ./psp/common/sf_round.c -o ../obj_PSP/common/sf_round.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_scalbln.o: ./psp/common/sf_scalbln.c
+	$(C) -c ./psp/common/sf_scalbln.c -o ../obj_PSP/common/sf_scalbln.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/sf_scalbn.o: ./psp/common/sf_scalbn.c
+	$(C) -c ./psp/common/sf_scalbn.c -o ../obj_PSP/common/sf_scalbn.o $(CFLAGS_PSP)
+
+../obj_PSP/common/sf_trunc.o: ./psp/common/sf_trunc.c
+	$(C) -c ./psp/common/sf_trunc.c -o ../obj_PSP/common/sf_trunc.o $(CFLAGS_PSP)
+
+../obj_PSP/common/s_copysign.o: ./psp/common/s_copysign.c
+	$(C) -c ./psp/common/s_copysign.c -o ../obj_PSP/common/s_copysign.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_expm1.o: ./psp/common/s_expm1.c
+	$(C) -c ./psp/common/s_expm1.c -o ../obj_PSP/common/s_expm1.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_fdim.o: ./psp/common/s_fdim.c
+	$(C) -c ./psp/common/s_fdim.c -o ../obj_PSP/common/s_fdim.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_finite.o: ./psp/common/s_finite.c
+	$(C) -c ./psp/common/s_finite.c -o ../obj_PSP/common/s_finite.o $(CFLAGS_PSP)
+
+../obj_PSP/common/s_fma.o: ./psp/common/s_fma.c
+	$(C) -c ./psp/common/s_fma.c -o ../obj_PSP/common/s_fma.o $(CFLAGS_PSP)
+
+../obj_PSP/common/s_fmax.o: ./psp/common/s_fmax.c
+	$(C) -c ./psp/common/s_fmax.c -o ../obj_PSP/common/s_fmax.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_fmin.o: ./psp/common/s_fmin.c
+	$(C) -c ./psp/common/s_fmin.c -o ../obj_PSP/common/s_fmin.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_fpclassify.o: ./psp/common/s_fpclassify.c
+	$(C) -c ./psp/common/s_fpclassify.c -o ../obj_PSP/common/s_fpclassify.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_ilogb.o: ./psp/common/s_ilogb.c
+	$(C) -c ./psp/common/s_ilogb.c -o ../obj_PSP/common/s_ilogb.o $(CFLAGS_PSP)
+
+../obj_PSP/common/s_infinity.o: ./psp/common/s_infinity.c
+	$(C) -c ./psp/common/s_infinity.c -o ../obj_PSP/common/s_infinity.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_lib_ver.o: ./psp/common/s_lib_ver.c
+	$(C) -c ./psp/common/s_lib_ver.c -o ../obj_PSP/common/s_lib_ver.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_log1p.o: ./psp/common/s_log1p.c
+	$(C) -c ./psp/common/s_log1p.c -o ../obj_PSP/common/s_log1p.o $(CFLAGS_PSP)
+
+../obj_PSP/common/s_logb.o: ./psp/common/s_logb.c
+	$(C) -c ./psp/common/s_logb.c -o ../obj_PSP/common/s_logb.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_lrint.o: ./psp/common/s_lrint.c
+	$(C) -c ./psp/common/s_lrint.c -o ../obj_PSP/common/s_lrint.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_lround.o: ./psp/common/s_lround.c
+	$(C) -c ./psp/common/s_lround.c -o ../obj_PSP/common/s_lround.o $(CFLAGS_PSP)
+
+../obj_PSP/common/s_matherr.o: ./psp/common/s_matherr.c
+	$(C) -c ./psp/common/s_matherr.c -o ../obj_PSP/common/s_matherr.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_modf.o: ./psp/common/s_modf.c
+	$(C) -c ./psp/common/s_modf.c -o ../obj_PSP/common/s_modf.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_nan.o: ./psp/common/s_nan.c
+	$(C) -c ./psp/common/s_nan.c -o ../obj_PSP/common/s_nan.o $(CFLAGS_PSP)
+
+../obj_PSP/common/s_nearbyint.o: ./psp/common/s_nearbyint.c
+	$(C) -c ./psp/common/s_nearbyint.c -o ../obj_PSP/common/s_nearbyint.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_nextafter.o: ./psp/common/s_nextafter.c
+	$(C) -c ./psp/common/s_nextafter.c -o ../obj_PSP/common/s_nextafter.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_remquo.o: ./psp/common/s_remquo.c
+	$(C) -c ./psp/common/s_remquo.c -o ../obj_PSP/common/s_remquo.o $(CFLAGS_PSP)
+
+../obj_PSP/common/s_rint.o: ./psp/common/s_rint.c
+	$(C) -c ./psp/common/s_rint.c -o ../obj_PSP/common/s_rint.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_round.o: ./psp/common/s_round.c
+	$(C) -c ./psp/common/s_round.c -o ../obj_PSP/common/s_round.o $(CFLAGS_PSP)
+	
+../obj_PSP/common/s_scalbln.o: ./psp/common/s_scalbln.c
+	$(C) -c ./psp/common/s_scalbln.c -o ../obj_PSP/common/s_scalbln.o $(CFLAGS_PSP)
+
+../obj_PSP/common/s_scalbn.o: ./psp/common/s_scalbn.c
+	$(C) -c ./psp/common/s_scalbn.c -o ../obj_PSP/common/s_scalbn.o $(CFLAGS_PSP)
+		
+../obj_PSP/common/s_signbit.o: ./psp/common/s_signbit.c
+	$(C) -c ./psp/common/s_signbit.c -o ../obj_PSP/common/s_signbit.o $(CFLAGS_PSP)
+
+../obj_PSP/common/s_trunc.o: ./psp/common/s_trunc.c
+	$(C) -c ./psp/common/s_trunc.c -o ../obj_PSP/common/s_trunc.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/ef_acos.o: ./psp/ieee754/ef_acos.c
+	$(C) -c ./psp/ieee754/ef_acos.c -o ../obj_PSP/ieee754/ef_acos.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/ef_acosh.o: ./psp/ieee754/ef_acosh.c
+	$(C) -c ./psp/ieee754/ef_acosh.c -o ../obj_PSP/ieee754/ef_acosh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/ef_asin.o: ./psp/ieee754/ef_asin.c
+	$(C) -c ./psp/ieee754/ef_asin.c -o ../obj_PSP/ieee754/ef_asin.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/ef_atanh.o: ./psp/ieee754/ef_atanh.c
+	$(C) -c ./psp/ieee754/ef_atanh.c -o ../obj_PSP/ieee754/ef_atanh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/ef_atan2.o: ./psp/ieee754/ef_atan2.c
+	$(C) -c ./psp/ieee754/ef_atan2.c -o ../obj_PSP/ieee754/ef_atan2.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/ef_cosh.o: ./psp/ieee754/ef_cosh.c
+	$(C) -c ./psp/ieee754/ef_cosh.c -o ../obj_PSP/ieee754/ef_cosh.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/ef_exp.o: ./psp/ieee754/ef_exp.c
+	$(C) -c ./psp/ieee754/ef_exp.c -o ../obj_PSP/ieee754/ef_exp.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/ef_fmod.o: ./psp/ieee754/ef_fmod.c
+	$(C) -c ./psp/ieee754/ef_fmod.c -o ../obj_PSP/ieee754/ef_fmod.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/ef_hypot.o: ./psp/ieee754/ef_hypot.c
+	$(C) -c ./psp/ieee754/ef_hypot.c -o ../obj_PSP/ieee754/ef_hypot.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/ef_j0.o: ./psp/ieee754/ef_j0.c
+	$(C) -c ./psp/ieee754/ef_j0.c -o ../obj_PSP/ieee754/ef_j0.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/ef_j1.o: ./psp/ieee754/ef_j1.c
+	$(C) -c ./psp/ieee754/ef_j1.c -o ../obj_PSP/ieee754/ef_j1.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/ef_jn.o: ./psp/ieee754/ef_jn.c
+	$(C) -c ./psp/ieee754/ef_jn.c -o ../obj_PSP/ieee754/ef_jn.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/ef_log.o: ./psp/ieee754/ef_log.c
+	$(C) -c ./psp/ieee754/ef_log.c -o ../obj_PSP/ieee754/ef_log.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/ef_log10.o: ./psp/ieee754/ef_log10.c
+	$(C) -c ./psp/ieee754/ef_log10.c -o ../obj_PSP/ieee754/ef_log10.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/ef_pow.o: ./psp/ieee754/ef_pow.c
+	$(C) -c ./psp/ieee754/ef_pow.c -o ../obj_PSP/ieee754/ef_pow.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/ef_remainder.o: ./psp/ieee754/ef_remainder.c
+	$(C) -c ./psp/ieee754/ef_remainder.c -o ../obj_PSP/ieee754/ef_remainder.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/ef_rem_pio2.o: ./psp/ieee754/ef_rem_pio2.c
+	$(C) -c ./psp/ieee754/ef_rem_pio2.c -o ../obj_PSP/ieee754/ef_rem_pio2.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/ef_scalb.o: ./psp/ieee754/ef_scalb.c
+	$(C) -c ./psp/ieee754/ef_scalb.c -o ../obj_PSP/ieee754/ef_scalb.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/ef_sinh.o: ./psp/ieee754/ef_sinh.c
+	$(C) -c ./psp/ieee754/ef_sinh.c -o ../obj_PSP/ieee754/ef_sinh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/ef_sqrt.o: ./psp/ieee754/ef_sqrt.c
+	$(C) -c ./psp/ieee754/ef_sqrt.c -o ../obj_PSP/ieee754/ef_sqrt.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/erf_gamma.o: ./psp/ieee754/erf_gamma.c
+	$(C) -c ./psp/ieee754/erf_gamma.c -o ../obj_PSP/ieee754/erf_gamma.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/erf_lgamma.o: ./psp/ieee754/erf_lgamma.c
+	$(C) -c ./psp/ieee754/erf_lgamma.c -o ../obj_PSP/ieee754/erf_lgamma.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/er_lgamma.o: ./psp/ieee754/er_lgamma.c
+	$(C) -c ./psp/ieee754/er_lgamma.c -o ../obj_PSP/ieee754/er_lgamma.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/er_gamma.o: ./psp/ieee754/er_gamma.c
+	$(C) -c ./psp/ieee754/er_gamma.c -o ../obj_PSP/ieee754/er_gamma.o $(CFLAGS_PSP)
+		
+../obj_PSP/ieee754/e_acos.o: ./psp/ieee754/e_acos.c
+	$(C) -c ./psp/ieee754/e_acos.c -o ../obj_PSP/ieee754/e_acos.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/e_acosh.o: ./psp/ieee754/e_acosh.c
+	$(C) -c ./psp/ieee754/e_acosh.c -o ../obj_PSP/ieee754/e_acosh.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/e_asin.o: ./psp/ieee754/e_asin.c
+	$(C) -c ./psp/ieee754/e_asin.c -o ../obj_PSP/ieee754/e_asin.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/e_atan2.o: ./psp/ieee754/e_atan2.c
+	$(C) -c ./psp/ieee754/e_atan2.c -o ../obj_PSP/ieee754/e_atan2.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/e_atanh.o: ./psp/ieee754/e_atanh.c
+	$(C) -c ./psp/ieee754/e_atanh.c -o ../obj_PSP/ieee754/e_atanh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/e_cosh.o: ./psp/ieee754/e_cosh.c
+	$(C) -c ./psp/ieee754/e_cosh.c -o ../obj_PSP/ieee754/e_cosh.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/e_exp.o: ./psp/ieee754/e_exp.c
+	$(C) -c ./psp/ieee754/e_exp.c -o ../obj_PSP/ieee754/e_exp.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/e_fmod.o: ./psp/ieee754/e_fmod.c
+	$(C) -c ./psp/ieee754/e_fmod.c -o ../obj_PSP/ieee754/e_fmod.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/e_hypot.o: ./psp/ieee754/e_hypot.c
+	$(C) -c ./psp/ieee754/e_hypot.c -o ../obj_PSP/ieee754/e_hypot.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/e_j0.o: ./psp/ieee754/e_j0.c
+	$(C) -c ./psp/ieee754/e_j0.c -o ../obj_PSP/ieee754/e_j0.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/e_j1.o: ./psp/ieee754/e_j1.c
+	$(C) -c ./psp/ieee754/e_j1.c -o ../obj_PSP/ieee754/e_j1.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/e_jn.o: ./psp/ieee754/e_jn.c
+	$(C) -c ./psp/ieee754/e_jn.c -o ../obj_PSP/ieee754/e_jn.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/e_log.o: ./psp/ieee754/e_log.c
+	$(C) -c ./psp/ieee754/e_log.c -o ../obj_PSP/ieee754/e_log.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/e_log10.o: ./psp/ieee754/e_log10.c
+	$(C) -c ./psp/ieee754/e_log10.c -o ../obj_PSP/ieee754/e_log10.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/e_pow.o: ./psp/ieee754/e_pow.c
+	$(C) -c ./psp/ieee754/e_pow.c -o ../obj_PSP/ieee754/e_pow.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/e_remainder.o: ./psp/ieee754/e_remainder.c
+	$(C) -c ./psp/ieee754/e_remainder.c -o ../obj_PSP/ieee754/e_remainder.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/e_rem_pio2.o: ./psp/ieee754/e_rem_pio2.c
+	$(C) -c ./psp/ieee754/e_rem_pio2.c -o ../obj_PSP/ieee754/e_rem_pio2.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/e_scalb.o: ./psp/ieee754/e_scalb.c
+	$(C) -c ./psp/ieee754/e_scalb.c -o ../obj_PSP/ieee754/e_scalb.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/e_sinh.o: ./psp/ieee754/e_sinh.c
+	$(C) -c ./psp/ieee754/e_sinh.c -o ../obj_PSP/ieee754/e_sinh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/e_sqrt.o: ./psp/ieee754/e_sqrt.c
+	$(C) -c ./psp/ieee754/e_sqrt.c -o ../obj_PSP/ieee754/e_sqrt.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/kf_cos.o: ./psp/ieee754/kf_cos.c
+	$(C) -c ./psp/ieee754/kf_cos.c -o ../obj_PSP/ieee754/kf_cos.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/kf_rem_pio2.o: ./psp/ieee754/kf_rem_pio2.c
+	$(C) -c ./psp/ieee754/kf_rem_pio2.c -o ../obj_PSP/ieee754/kf_rem_pio2.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/kf_sin.o: ./psp/ieee754/kf_sin.c
+	$(C) -c ./psp/ieee754/kf_sin.c -o ../obj_PSP/ieee754/kf_sin.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/$1.o: ./psp/ieee754/$1.c
+	$(C) -c ./psp/ieee754/$1.c -o ../obj_PSP/ieee754/$1.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/kf_tan.o: ./psp/ieee754/kf_tan.c
+	$(C) -c ./psp/ieee754/kf_tan.c -o ../obj_PSP/ieee754/kf_tan.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/k_cos.o: ./psp/ieee754/k_cos.c
+	$(C) -c ./psp/ieee754/k_cos.c -o ../obj_PSP/ieee754/k_cos.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/k_rem_pio2.o: ./psp/ieee754/k_rem_pio2.c
+	$(C) -c ./psp/ieee754/k_rem_pio2.c -o ../obj_PSP/ieee754/k_rem_pio2.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/k_sin.o: ./psp/ieee754/k_sin.c
+	$(C) -c ./psp/ieee754/k_sin.c -o ../obj_PSP/ieee754/k_sin.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/k_standard.o: ./psp/ieee754/k_standard.c
+	$(C) -c ./psp/ieee754/k_standard.c -o ../obj_PSP/ieee754/k_standard.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/k_tan.o: ./psp/ieee754/k_tan.c
+	$(C) -c ./psp/ieee754/k_tan.c -o ../obj_PSP/ieee754/k_tan.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/sf_asinh.o: ./psp/ieee754/sf_asinh.c
+	$(C) -c ./psp/ieee754/sf_asinh.c -o ../obj_PSP/ieee754/sf_asinh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/sf_atan.o: ./psp/ieee754/sf_atan.c
+	$(C) -c ./psp/ieee754/sf_atan.c -o ../obj_PSP/ieee754/sf_atan.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/sf_ceil.o: ./psp/ieee754/sf_ceil.c
+	$(C) -c ./psp/ieee754/sf_ceil.c -o ../obj_PSP/ieee754/sf_ceil.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/sf_cos.o: ./psp/ieee754/sf_cos.c
+	$(C) -c ./psp/ieee754/sf_cos.c -o ../obj_PSP/ieee754/sf_cos.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/sf_erf.o: ./psp/ieee754/sf_erf.c
+	$(C) -c ./psp/ieee754/sf_erf.c -o ../obj_PSP/ieee754/sf_erf.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/sf_fabs.o: ./psp/ieee754/sf_fabs.c
+	$(C) -c ./psp/ieee754/sf_fabs.c -o ../obj_PSP/ieee754/sf_fabs.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/sf_floor.o: ./psp/ieee754/sf_floor.c
+	$(C) -c ./psp/ieee754/sf_floor.c -o ../obj_PSP/ieee754/sf_floor.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/sf_frexp.o: ./psp/ieee754/sf_frexp.c
+	$(C) -c ./psp/ieee754/sf_frexp.c -o ../obj_PSP/ieee754/sf_frexp.o $(CFLAGS_PSP)
+	
+../obj_PSP/ieee754/sf_isinf.o: ./psp/ieee754/sf_isinf.c
+	$(C) -c ./psp/ieee754/sf_isinf.c -o ../obj_PSP/ieee754/sf_isinf.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/sf_isnan.o: ./psp/ieee754/sf_isnan.c
+	$(C) -c ./psp/ieee754/sf_isnan.c -o ../obj_PSP/ieee754/sf_isnan.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/sf_ldexp.o: ./psp/ieee754/sf_ldexp.c
+	$(C) -c ./psp/ieee754/sf_ldexp.c -o ../obj_PSP/ieee754/sf_ldexp.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/sf_signif.o: ./psp/ieee754/sf_signif.c
+	$(C) -c ./psp/ieee754/sf_signif.c -o ../obj_PSP/ieee754/sf_signif.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/sf_sin.o: ./psp/ieee754/sf_sin.c
+	$(C) -c ./psp/ieee754/sf_sin.c -o ../obj_PSP/ieee754/sf_sin.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/sf_tan.o: ./psp/ieee754/sf_tan.c
+	$(C) -c ./psp/ieee754/sf_tan.c -o ../obj_PSP/ieee754/sf_tan.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/sf_tanh.o: ./psp/ieee754/sf_tanh.c
+	$(C) -c ./psp/ieee754/sf_tanh.c -o ../obj_PSP/ieee754/sf_tanh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_asinh.o: ./psp/ieee754/s_asinh.c
+	$(C) -c ./psp/ieee754/s_asinh.c -o ../obj_PSP/ieee754/s_asinh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_atan.o: ./psp/ieee754/s_atan.c
+	$(C) -c ./psp/ieee754/s_atan.c -o ../obj_PSP/ieee754/s_atan.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_ceil.o: ./psp/ieee754/s_ceil.c
+	$(C) -c ./psp/ieee754/s_ceil.c -o ../obj_PSP/ieee754/s_ceil.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_cos.o: ./psp/ieee754/s_cos.c
+	$(C) -c ./psp/ieee754/s_cos.c -o ../obj_PSP/ieee754/s_cos.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_erf.o: ./psp/ieee754/s_erf.c
+	$(C) -c ./psp/ieee754/s_erf.c -o ../obj_PSP/ieee754/s_erf.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_fabs.o: ./psp/ieee754/s_fabs.c
+	$(C) -c ./psp/ieee754/s_fabs.c -o ../obj_PSP/ieee754/s_fabs.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_floor.o: ./psp/ieee754/s_floor.c
+	$(C) -c ./psp/ieee754/s_floor.c -o ../obj_PSP/ieee754/s_floor.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_frexp.o: ./psp/ieee754/s_frexp.c
+	$(C) -c ./psp/ieee754/s_frexp.c -o ../obj_PSP/ieee754/s_frexp.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_infconst.o: ./psp/ieee754/s_infconst.c
+	$(C) -c ./psp/ieee754/s_infconst.c -o ../obj_PSP/ieee754/s_infconst.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_isinf.o: ./psp/ieee754/s_isinf.c
+	$(C) -c ./psp/ieee754/s_isinf.c -o ../obj_PSP/ieee754/s_isinf.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_isnan.o: ./psp/ieee754/s_isnan.c
+	$(C) -c ./psp/ieee754/s_isnan.c -o ../obj_PSP/ieee754/s_isnan.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_ldexp.o: ./psp/ieee754/s_ldexp.c
+	$(C) -c ./psp/ieee754/s_ldexp.c -o ../obj_PSP/ieee754/s_ldexp.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_signif.o: ./psp/ieee754/s_signif.c
+	$(C) -c ./psp/ieee754/s_signif.c -o ../obj_PSP/ieee754/s_signif.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_sin.o: ./psp/ieee754/s_sin.c
+	$(C) -c ./psp/ieee754/s_sin.c -o ../obj_PSP/ieee754/s_sin.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_tan.o: ./psp/ieee754/s_tan.c
+	$(C) -c ./psp/ieee754/s_tan.c -o ../obj_PSP/ieee754/s_tan.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/s_tanh.o: ./psp/ieee754/s_tanh.c
+	$(C) -c ./psp/ieee754/s_tanh.c -o ../obj_PSP/ieee754/s_tanh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_acos.o: ./psp/ieee754/wf_acos.c
+	$(C) -c ./psp/ieee754/wf_acos.c -o ../obj_PSP/ieee754/wf_acos.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_acosh.o: ./psp/ieee754/wf_acosh.c
+	$(C) -c ./psp/ieee754/wf_acosh.c -o ../obj_PSP/ieee754/wf_acosh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_asin.o: ./psp/ieee754/wf_asin.c
+	$(C) -c ./psp/ieee754/wf_asin.c -o ../obj_PSP/ieee754/wf_asin.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_atan2.o: ./psp/ieee754/wf_atan2.c
+	$(C) -c ./psp/ieee754/wf_atan2.c -o ../obj_PSP/ieee754/wf_atan2.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_atanh.o: ./psp/ieee754/wf_atanh.c
+	$(C) -c ./psp/ieee754/wf_atanh.c -o ../obj_PSP/ieee754/wf_atanh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_cabs.o: ./psp/ieee754/wf_cabs.c
+	$(C) -c ./psp/ieee754/wf_cabs.c -o ../obj_PSP/ieee754/wf_cabs.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_cosh.o: ./psp/ieee754/wf_cosh.c
+	$(C) -c ./psp/ieee754/wf_cosh.c -o ../obj_PSP/ieee754/wf_cosh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_drem.o: ./psp/ieee754/wf_drem.c
+	$(C) -c ./psp/ieee754/wf_drem.c -o ../obj_PSP/ieee754/wf_drem.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_exp.o: ./psp/ieee754/wf_exp.c
+	$(C) -c ./psp/ieee754/wf_exp.c -o ../obj_PSP/ieee754/wf_exp.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_exp2.o: ./psp/ieee754/wf_exp2.c
+	$(C) -c ./psp/ieee754/wf_exp2.c -o ../obj_PSP/ieee754/wf_exp2.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_fmod.o: ./psp/ieee754/wf_fmod.c
+	$(C) -c ./psp/ieee754/wf_fmod.c -o ../obj_PSP/ieee754/wf_fmod.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_gamma.o: ./psp/ieee754/wf_gamma.c
+	$(C) -c ./psp/ieee754/wf_gamma.c -o ../obj_PSP/ieee754/wf_gamma.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_hypot.o: ./psp/ieee754/wf_hypot.c
+	$(C) -c ./psp/ieee754/wf_hypot.c -o ../obj_PSP/ieee754/wf_hypot.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_j0.o: ./psp/ieee754/wf_j0.c
+	$(C) -c ./psp/ieee754/wf_j0.c -o ../obj_PSP/ieee754/wf_j0.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_j1.o: ./psp/ieee754/wf_j1.c
+	$(C) -c ./psp/ieee754/wf_j1.c -o ../obj_PSP/ieee754/wf_j1.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_jn.o: ./psp/ieee754/wf_jn.c
+	$(C) -c ./psp/ieee754/wf_jn.c -o ../obj_PSP/ieee754/wf_jn.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_lgamma.o: ./psp/ieee754/wf_lgamma.c
+	$(C) -c ./psp/ieee754/wf_lgamma.c -o ../obj_PSP/ieee754/wf_lgamma.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_log.o: ./psp/ieee754/wf_log.c
+	$(C) -c ./psp/ieee754/wf_log.c -o ../obj_PSP/ieee754/wf_log.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_log10.o: ./psp/ieee754/wf_log10.c
+	$(C) -c ./psp/ieee754/wf_log10.c -o ../obj_PSP/ieee754/wf_log10.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_pow.o: ./psp/ieee754/wf_pow.c
+	$(C) -c ./psp/ieee754/wf_pow.c -o ../obj_PSP/ieee754/wf_pow.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_remainder.o: ./psp/ieee754/wf_remainder.c
+	$(C) -c ./psp/ieee754/wf_remainder.c -o ../obj_PSP/ieee754/wf_remainder.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_scalb.o: ./psp/ieee754/wf_scalb.c
+	$(C) -c ./psp/ieee754/wf_scalb.c -o ../obj_PSP/ieee754/wf_scalb.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_sincos.o: ./psp/ieee754/wf_sincos.c
+	$(C) -c ./psp/ieee754/wf_sincos.c -o ../obj_PSP/ieee754/wf_sincos.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_sinh.o: ./psp/ieee754/wf_sinh.c
+	$(C) -c ./psp/ieee754/wf_sinh.c -o ../obj_PSP/ieee754/wf_sinh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_sqrt.o: ./psp/ieee754/wf_sqrt.c
+	$(C) -c ./psp/ieee754/wf_sqrt.c -o ../obj_PSP/ieee754/wf_sqrt.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wf_tgamma.o: ./psp/ieee754/wf_tgamma.c
+	$(C) -c ./psp/ieee754/wf_tgamma.c -o ../obj_PSP/ieee754/wf_tgamma.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wrf_gamma.o: ./psp/ieee754/wrf_gamma.c
+	$(C) -c ./psp/ieee754/wrf_gamma.c -o ../obj_PSP/ieee754/wrf_gamma.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wrf_lgamma.o: ./psp/ieee754/wrf_lgamma.c
+	$(C) -c ./psp/ieee754/wrf_lgamma.c -o ../obj_PSP/ieee754/wrf_lgamma.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wr_gamma.o: ./psp/ieee754/wr_gamma.c
+	$(C) -c ./psp/ieee754/wr_gamma.c -o ../obj_PSP/ieee754/wr_gamma.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/wr_lgamma.o: ./psp/ieee754/wr_lgamma.c
+	$(C) -c ./psp/ieee754/wr_lgamma.c -o ../obj_PSP/ieee754/wr_lgamma.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_acos.o: ./psp/ieee754/w_acos.c
+	$(C) -c ./psp/ieee754/w_acos.c -o ../obj_PSP/ieee754/w_acos.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_acosh.o: ./psp/ieee754/w_acosh.c
+	$(C) -c ./psp/ieee754/w_acosh.c -o ../obj_PSP/ieee754/w_acosh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_asin.o: ./psp/ieee754/w_asin.c
+	$(C) -c ./psp/ieee754/w_asin.c -o ../obj_PSP/ieee754/w_asin.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_atan2.o: ./psp/ieee754/w_atan2.c
+	$(C) -c ./psp/ieee754/w_atan2.c -o ../obj_PSP/ieee754/w_atan2.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_atanh.o: ./psp/ieee754/w_atanh.c
+	$(C) -c ./psp/ieee754/w_atanh.c -o ../obj_PSP/ieee754/w_atanh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_cabs.o: ./psp/ieee754/w_cabs.c
+	$(C) -c ./psp/ieee754/w_cabs.c -o ../obj_PSP/ieee754/w_cabs.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_cosh.o: ./psp/ieee754/w_cosh.c
+	$(C) -c ./psp/ieee754/w_cosh.c -o ../obj_PSP/ieee754/w_cosh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_drem.o: ./psp/ieee754/w_drem.c
+	$(C) -c ./psp/ieee754/w_drem.c -o ../obj_PSP/ieee754/w_drem.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_exp.o: ./psp/ieee754/w_exp.c
+	$(C) -c ./psp/ieee754/w_exp.c -o ../obj_PSP/ieee754/w_exp.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_exp2.o: ./psp/ieee754/w_exp2.c
+	$(C) -c ./psp/ieee754/w_exp2.c -o ../obj_PSP/ieee754/w_exp2.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_fmod.o: ./psp/ieee754/w_fmod.c
+	$(C) -c ./psp/ieee754/w_fmod.c -o ../obj_PSP/ieee754/w_fmod.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_gamma.o: ./psp/ieee754/w_gamma.c
+	$(C) -c ./psp/ieee754/w_gamma.c -o ../obj_PSP/ieee754/w_gamma.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_hypot.o: ./psp/ieee754/w_hypot.c
+	$(C) -c ./psp/ieee754/w_hypot.c -o ../obj_PSP/ieee754/w_hypot.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_j0.o: ./psp/ieee754/w_j0.c
+	$(C) -c ./psp/ieee754/w_j0.c -o ../obj_PSP/ieee754/w_j0.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_j1.o: ./psp/ieee754/w_j1.c
+	$(C) -c ./psp/ieee754/w_j1.c -o ../obj_PSP/ieee754/w_j1.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_jn.o: ./psp/ieee754/w_jn.c
+	$(C) -c ./psp/ieee754/w_jn.c -o ../obj_PSP/ieee754/w_jn.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_lgamma.o: ./psp/ieee754/w_lgamma.c
+	$(C) -c ./psp/ieee754/w_lgamma.c -o ../obj_PSP/ieee754/w_lgamma.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_log.o: ./psp/ieee754/w_log.c
+	$(C) -c ./psp/ieee754/w_log.c -o ../obj_PSP/ieee754/w_log.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_log10.o: ./psp/ieee754/w_log10.c
+	$(C) -c ./psp/ieee754/w_log10.c -o ../obj_PSP/ieee754/w_log10.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_pow.o: ./psp/ieee754/w_pow.c
+	$(C) -c ./psp/ieee754/w_pow.c -o ../obj_PSP/ieee754/w_pow.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_remainder.o: ./psp/ieee754/w_remainder.c
+	$(C) -c ./psp/ieee754/w_remainder.c -o ../obj_PSP/ieee754/w_remainder.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_scalb.o: ./psp/ieee754/w_scalb.c
+	$(C) -c ./psp/ieee754/w_scalb.c -o ../obj_PSP/ieee754/w_scalb.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_sincos.o: ./psp/ieee754/w_sincos.c
+	$(C) -c ./psp/ieee754/w_sincos.c -o ../obj_PSP/ieee754/w_sincos.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_sinh.o: ./psp/ieee754/w_sinh.c
+	$(C) -c ./psp/ieee754/w_sinh.c -o ../obj_PSP/ieee754/w_sinh.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_sqrt.o: ./psp/ieee754/w_sqrt.c
+	$(C) -c ./psp/ieee754/w_sqrt.c -o ../obj_PSP/ieee754/w_sqrt.o $(CFLAGS_PSP)
+
+../obj_PSP/ieee754/w_tgamma.o: ./psp/ieee754/w_tgamma.c
+	$(C) -c ./psp/ieee754/w_tgamma.c -o ../obj_PSP/ieee754/w_tgamma.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/ef_acosh.o: ./psp/fp/ef_acosh.c
+	$(C) -c ./psp/fp/ef_acosh.c -o ../obj_PSP/fp/ef_acosh.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/ef_atanh.o: ./psp/fp/ef_atanh.c
+	$(C) -c ./psp/fp/ef_atanh.c -o ../obj_PSP/fp/ef_atanh.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/ef_hypot.o: ./psp/fp/ef_hypot.c
+	$(C) -c ./psp/fp/ef_hypot.c -o ../obj_PSP/fp/ef_hypot.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/ef_j0.o: ./psp/fp/ef_j0.c
+	$(C) -c ./psp/fp/ef_j0.c -o ../obj_PSP/fp/ef_j0.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/ef_j1.o: ./psp/fp/ef_j1.c
+	$(C) -c ./psp/fp/ef_j1.c -o ../obj_PSP/fp/ef_j1.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/ef_remainder.o: ./psp/fp/ef_remainder.c
+	$(C) -c ./psp/fp/ef_remainder.c -o ../obj_PSP/fp/ef_remainder.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/ef_scalb.o: ./psp/fp/ef_scalb.c
+	$(C) -c ./psp/fp/ef_scalb.c -o ../obj_PSP/fp/ef_scalb.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/erf_gamma.o: ./psp/fp/erf_gamma.c
+	$(C) -c ./psp/fp/erf_gamma.c -o ../obj_PSP/fp/erf_gamma.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/erf_lgamma.o: ./psp/fp/erf_lgamma.c
+	$(C) -c ./psp/fp/erf_lgamma.c -o ../obj_PSP/fp/erf_lgamma.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/er_gamma.o: ./psp/fp/er_gamma.c
+	$(C) -c ./psp/fp/er_gamma.c -o ../obj_PSP/fp/er_gamma.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/er_lgamma.o: ./psp/fp/er_lgamma.c
+	$(C) -c ./psp/fp/er_lgamma.c -o ../obj_PSP/fp/er_lgamma.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/e_acosh.o: ./psp/fp/e_acosh.c
+	$(C) -c ./psp/fp/e_acosh.c -o ../obj_PSP/fp/e_acosh.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/e_atanh.o: ./psp/fp/e_atanh.c
+	$(C) -c ./psp/fp/e_atanh.c -o ../obj_PSP/fp/e_atanh.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/e_hypot.o: ./psp/fp/e_hypot.c
+	$(C) -c ./psp/fp/e_hypot.c -o ../obj_PSP/fp/e_hypot.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/e_j0.o: ./psp/fp/e_j0.c
+	$(C) -c ./psp/fp/e_j0.c -o ../obj_PSP/fp/e_j0.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/e_j1.o: ./psp/fp/e_j1.c
+	$(C) -c ./psp/fp/e_j1.c -o ../obj_PSP/fp/e_j1.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/e_remainder.o: ./psp/fp/e_remainder.c
+	$(C) -c ./psp/fp/e_remainder.c -o ../obj_PSP/fp/e_remainder.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/e_scalb.o: ./psp/fp/e_scalb.c
+	$(C) -c ./psp/fp/e_scalb.c -o ../obj_PSP/fp/e_scalb.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_acos.o: ./psp/fp/sf_acos.c
+	$(C) -c ./psp/fp/sf_acos.c -o ../obj_PSP/fp/sf_acos.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_asin.o: ./psp/fp/sf_asin.c
+	$(C) -c ./psp/fp/sf_asin.c -o ../obj_PSP/fp/sf_asin.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_asine.o: ./psp/fp/sf_asine.c
+	$(C) -c ./psp/fp/sf_asine.c -o ../obj_PSP/fp/sf_asine.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_asinh.o: ./psp/fp/sf_asinh.c
+	$(C) -c ./psp/fp/sf_asinh.c -o ../obj_PSP/fp/sf_asinh.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_atan.o: ./psp/fp/sf_atan.c
+	$(C) -c ./psp/fp/sf_atan.c -o ../obj_PSP/fp/sf_atan.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_atan2.o: ./psp/fp/sf_atan2.c
+	$(C) -c ./psp/fp/sf_atan2.c -o ../obj_PSP/fp/sf_atan2.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_atangent.o: ./psp/fp/sf_atangent.c
+	$(C) -c ./psp/fp/sf_atangent.c -o ../obj_PSP/fp/sf_atangent.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_ceil.o: ./psp/fp/sf_ceil.c
+	$(C) -c ./psp/fp/sf_ceil.c -o ../obj_PSP/fp/sf_ceil.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_cos.o: ./psp/fp/sf_cos.c
+	$(C) -c ./psp/fp/sf_cos.c -o ../obj_PSP/fp/sf_cos.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_cosh.o: ./psp/fp/sf_cosh.c
+	$(C) -c ./psp/fp/sf_cosh.c -o ../obj_PSP/fp/sf_cosh.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_erf.o: ./psp/fp/sf_erf.c
+	$(C) -c ./psp/fp/sf_erf.c -o ../obj_PSP/fp/sf_erf.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_exp.o: ./psp/fp/sf_exp.c
+	$(C) -c ./psp/fp/sf_exp.c -o ../obj_PSP/fp/sf_exp.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_exp2.o: ./psp/fp/sf_exp2.c
+	$(C) -c ./psp/fp/sf_exp2.c -o ../obj_PSP/fp/sf_exp2.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_fabs.o: ./psp/fp/sf_fabs.c
+	$(C) -c ./psp/fp/sf_fabs.c -o ../obj_PSP/fp/sf_fabs.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_floor.o: ./psp/fp/sf_floor.c
+	$(C) -c ./psp/fp/sf_floor.c -o ../obj_PSP/fp/sf_floor.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_fmod.o: ./psp/fp/sf_fmod.c
+	$(C) -c ./psp/fp/sf_fmod.c -o ../obj_PSP/fp/sf_fmod.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_frexp.o: ./psp/fp/sf_frexp.c
+	$(C) -c ./psp/fp/sf_frexp.c -o ../obj_PSP/fp/sf_frexp.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_isinf.o: ./psp/fp/sf_isinf.c
+	$(C) -c ./psp/fp/sf_isinf.c -o ../obj_PSP/fp/sf_isinf.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_isnan.o: ./psp/fp/sf_isnan.c
+	$(C) -c ./psp/fp/sf_isnan.c -o ../obj_PSP/fp/sf_isnan.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_ispos.o: ./psp/fp/sf_ispos.c
+	$(C) -c ./psp/fp/sf_ispos.c -o ../obj_PSP/fp/sf_ispos.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_ldexp.o: ./psp/fp/sf_ldexp.c
+	$(C) -c ./psp/fp/sf_ldexp.c -o ../obj_PSP/fp/sf_ldexp.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_log.o: ./psp/fp/sf_log.c
+	$(C) -c ./psp/fp/sf_log.c -o ../obj_PSP/fp/sf_log.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_log10.o: ./psp/fp/sf_log10.c
+	$(C) -c ./psp/fp/sf_log10.c -o ../obj_PSP/fp/sf_log10.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_logarithm.o: ./psp/fp/sf_logarithm.c
+	$(C) -c ./psp/fp/sf_logarithm.c -o ../obj_PSP/fp/sf_logarithm.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_numtest.o: ./psp/fp/sf_numtest.c
+	$(C) -c ./psp/fp/sf_numtest.c -o ../obj_PSP/fp/sf_numtest.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_pow.o: ./psp/fp/sf_pow.c
+	$(C) -c ./psp/fp/sf_pow.c -o ../obj_PSP/fp/sf_pow.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_signif.o: ./psp/fp/sf_signif.c
+	$(C) -c ./psp/fp/sf_signif.c -o ../obj_PSP/fp/sf_signif.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_sin.o: ./psp/fp/sf_sin.c
+	$(C) -c ./psp/fp/sf_sin.c -o ../obj_PSP/fp/sf_sin.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_sincos.o: ./psp/fp/sf_sincos.c
+	$(C) -c ./psp/fp/sf_sincos.c -o ../obj_PSP/fp/sf_sincos.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_sine.o: ./psp/fp/sf_sine.c
+	$(C) -c ./psp/fp/sf_sine.c -o ../obj_PSP/fp/sf_sine.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_sineh.o: ./psp/fp/sf_sineh.c
+	$(C) -c ./psp/fp/sf_sineh.c -o ../obj_PSP/fp/sf_sineh.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_sinh.o: ./psp/fp/sf_sinh.c
+	$(C) -c ./psp/fp/sf_sinh.c -o ../obj_PSP/fp/sf_sinh.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_sqrt.o: ./psp/fp/sf_sqrt.c
+	$(C) -c ./psp/fp/sf_sqrt.c -o ../obj_PSP/fp/sf_sqrt.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_tan.o: ./psp/fp/sf_tan.c
+	$(C) -c ./psp/fp/sf_tan.c -o ../obj_PSP/fp/sf_tan.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_tanh.o: ./psp/fp/sf_tanh.c
+	$(C) -c ./psp/fp/sf_tanh.c -o ../obj_PSP/fp/sf_tanh.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/sf_tgamma.o: ./psp/fp/sf_tgamma.c
+	$(C) -c ./psp/fp/sf_tgamma.c -o ../obj_PSP/fp/sf_tgamma.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_acos.o: ./psp/fp/s_acos.c
+	$(C) -c ./psp/fp/s_acos.c -o ../obj_PSP/fp/s_acos.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_asin.o: ./psp/fp/s_asin.c
+	$(C) -c ./psp/fp/s_asin.c -o ../obj_PSP/fp/s_asin.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_asine.o: ./psp/fp/s_asine.c
+	$(C) -c ./psp/fp/s_asine.c -o ../obj_PSP/fp/s_asine.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_asinh.o: ./psp/fp/s_asinh.c
+	$(C) -c ./psp/fp/s_asinh.c -o ../obj_PSP/fp/s_asinh.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_atan.o: ./psp/fp/s_atan.c
+	$(C) -c ./psp/fp/s_atan.c -o ../obj_PSP/fp/s_atan.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_atan2.o: ./psp/fp/s_atan2.c
+	$(C) -c ./psp/fp/s_atan2.c -o ../obj_PSP/fp/s_atan2.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_atangent.o: ./psp/fp/s_atangent.c
+	$(C) -c ./psp/fp/s_atangent.c -o ../obj_PSP/fp/s_atangent.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_ceil.o: ./psp/fp/s_ceil.c
+	$(C) -c ./psp/fp/s_ceil.c -o ../obj_PSP/fp/s_ceil.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_cos.o: ./psp/fp/s_cos.c
+	$(C) -c ./psp/fp/s_cos.c -o ../obj_PSP/fp/s_cos.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_cosh.o: ./psp/fp/s_cosh.c
+	$(C) -c ./psp/fp/s_cosh.c -o ../obj_PSP/fp/s_cosh.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_erf.o: ./psp/fp/s_erf.c
+	$(C) -c ./psp/fp/s_erf.c -o ../obj_PSP/fp/s_erf.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_exp.o: ./psp/fp/s_exp.c
+	$(C) -c ./psp/fp/s_exp.c -o ../obj_PSP/fp/s_exp.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_exp2.o: ./psp/fp/s_exp2.c
+	$(C) -c ./psp/fp/s_exp2.c -o ../obj_PSP/fp/s_exp2.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_fabs.o: ./psp/fp/s_fabs.c
+	$(C) -c ./psp/fp/s_fabs.c -o ../obj_PSP/fp/s_fabs.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_floor.o: ./psp/fp/s_floor.c
+	$(C) -c ./psp/fp/s_floor.c -o ../obj_PSP/fp/s_floor.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_fmod.o: ./psp/fp/s_fmod.c
+	$(C) -c ./psp/fp/s_fmod.c -o ../obj_PSP/fp/s_fmod.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_frexp.o: ./psp/fp/s_frexp.c
+	$(C) -c ./psp/fp/s_frexp.c -o ../obj_PSP/fp/s_frexp.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_infconst.o: ./psp/fp/s_infconst.c
+	$(C) -c ./psp/fp/s_infconst.c -o ../obj_PSP/fp/s_infconst.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_isinf.o: ./psp/fp/s_isinf.c
+	$(C) -c ./psp/fp/s_isinf.c -o ../obj_PSP/fp/s_isinf.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_isnan.o: ./psp/fp/s_isnan.c
+	$(C) -c ./psp/fp/s_isnan.c -o ../obj_PSP/fp/s_isnan.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_ispos.o: ./psp/fp/s_ispos.c
+	$(C) -c ./psp/fp/s_ispos.c -o ../obj_PSP/fp/s_ispos.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_ldexp.o: ./psp/fp/s_ldexp.c
+	$(C) -c ./psp/fp/s_ldexp.c -o ../obj_PSP/fp/s_ldexp.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_log.o: ./psp/fp/s_log.c
+	$(C) -c ./psp/fp/s_log.c -o ../obj_PSP/fp/s_log.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_log10.o: ./psp/fp/s_log10.c
+	$(C) -c ./psp/fp/s_log10.c -o ../obj_PSP/fp/s_log10.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_logarithm.o: ./psp/fp/s_logarithm.c
+	$(C) -c ./psp/fp/s_logarithm.c -o ../obj_PSP/fp/s_logarithm.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_mathcnst.o: ./psp/fp/s_mathcnst.c
+	$(C) -c ./psp/fp/s_mathcnst.c -o ../obj_PSP/fp/s_mathcnst.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_numtest.o: ./psp/fp/s_numtest.c
+	$(C) -c ./psp/fp/s_numtest.c -o ../obj_PSP/fp/s_numtest.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_pow.o: ./psp/fp/s_pow.c
+	$(C) -c ./psp/fp/s_pow.c -o ../obj_PSP/fp/s_pow.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_signif.o: ./psp/fp/s_signif.c
+	$(C) -c ./psp/fp/s_signif.c -o ../obj_PSP/fp/s_signif.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_sin.o: ./psp/fp/s_sin.c
+	$(C) -c ./psp/fp/s_sin.c -o ../obj_PSP/fp/s_sin.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_sincos.o: ./psp/fp/s_sincos.c
+	$(C) -c ./psp/fp/s_sincos.c -o ../obj_PSP/fp/s_sincos.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_sine.o: ./psp/fp/s_sine.c
+	$(C) -c ./psp/fp/s_sine.c -o ../obj_PSP/fp/s_sine.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_sineh.o: ./psp/fp/s_sineh.c
+	$(C) -c ./psp/fp/s_sineh.c -o ../obj_PSP/fp/s_sineh.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_sinf.o: ./psp/fp/s_sinf.c
+	$(C) -c ./psp/fp/s_sinf.c -o ../obj_PSP/fp/s_sinf.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_sinh.o: ./psp/fp/s_sinh.c
+	$(C) -c ./psp/fp/s_sinh.c -o ../obj_PSP/fp/s_sinh.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_sqrt.o: ./psp/fp/s_sqrt.c
+	$(C) -c ./psp/fp/s_sqrt.c -o ../obj_PSP/fp/s_sqrt.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_tan.o: ./psp/fp/s_tan.c
+	$(C) -c ./psp/fp/s_tan.c -o ../obj_PSP/fp/s_tan.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_tanh.o: ./psp/fp/s_tanh.c
+	$(C) -c ./psp/fp/s_tanh.c -o ../obj_PSP/fp/s_tanh.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/s_tgamma.o: ./psp/fp/s_tgamma.c
+	$(C) -c ./psp/fp/s_tgamma.c -o ../obj_PSP/fp/s_tgamma.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/wf_drem.o: ./psp/fp/wf_drem.c
+	$(C) -c ./psp/fp/wf_drem.c -o ../obj_PSP/fp/wf_drem.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/wf_jn.o: ./psp/fp/wf_jn.c
+	$(C) -c ./psp/fp/wf_jn.c -o ../obj_PSP/fp/wf_jn.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/wf_cabs.o: ./psp/fp/wf_cabs.c
+	$(C) -c ./psp/fp/wf_cabs.c -o ../obj_PSP/fp/wf_cabs.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/w_cabs.o: ./psp/fp/w_cabs.c
+	$(C) -c ./psp/fp/w_cabs.c -o ../obj_PSP/fp/w_cabs.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/w_drem.o: ./psp/fp/w_drem.c
+	$(C) -c ./psp/fp/w_drem.c -o ../obj_PSP/fp/w_drem.o $(CFLAGS_PSP)
+
+../obj_PSP/fp/w_jn.o: ./psp/fp/w_jn.c
+	$(C) -c ./psp/fp/w_jn.c -o ../obj_PSP/fp/w_jn.o $(CFLAGS_PSP)
+
+
+
+
+## Compilazione dei moduli VFPU per la PSP
+
+../obj_PSP/vfpu/printMatrixFloat.o:
+	$(C) -c ./psp/vfpu/printMatrixFloat.c -o ../obj_PSP/vfpu/printMatrixFloat.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_acosf.o: 
+	$(C) -c ./psp/vfpu/vfpu_acosf.c -o ../obj_PSP/vfpu/vfpu_acosf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_asinf.o:
+	$(C) -c ./psp/vfpu/vfpu_asinf.c -o ../obj_PSP/vfpu/vfpu_asinf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_atanf.o: 
+	$(C) -c ./psp/vfpu/vfpu_atanf.c -o ../obj_PSP/vfpu/vfpu_atanf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_atanf_s.o: 
+	$(C) -c ./psp/vfpu/vfpu_atanf.s -o ../obj_PSP/vfpu/vfpu_atanf_s.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_cosf.o: 
+	$(C) -c ./psp/vfpu/vfpu_cosf.c -o ../obj_PSP/vfpu/vfpu_cosf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_coshf.o:
+	$(C) -c ./psp/vfpu/vfpu_coshf.c -o ../obj_PSP/vfpu/vfpu_coshf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_ease_in_out.o:
+	$(C) -c ./psp/vfpu/vfpu_ease_in_out.c -o ../obj_PSP/vfpu/vfpu_ease_in_out.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_expf.o:
+	$(C) -c ./psp/vfpu/vfpu_expf.c -o ../obj_PSP/vfpu/vfpu_expf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_fabsf.o: 
+	$(C) -c ./psp/vfpu/vfpu_fabsf.c -o ../obj_PSP/vfpu/vfpu_fabsf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_fmaxf.o:
+	$(C) -c ./psp/vfpu/vfpu_fmaxf.c -o ../obj_PSP/vfpu/vfpu_fmaxf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_fminf.o:
+	$(C) -c ./psp/vfpu/vfpu_fminf.c -o ../obj_PSP/vfpu/vfpu_fminf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_fmodf.o:
+	$(C) -c ./psp/vfpu/vfpu_fmodf.c -o ../obj_PSP/vfpu/vfpu_fmodf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_identity_matrix.o: 
+	$(C) -c ./psp/vfpu/vfpu_identity_matrix.c -o ../obj_PSP/vfpu/vfpu_identity_matrix.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_logf.o:
+	$(C) -c ./psp/vfpu/vfpu_logf.c -o ../obj_PSP/vfpu/vfpu_logf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_normalize_vector.o: 
+	$(C) -c ./psp/vfpu/vfpu_normalize_vector.c -o ../obj_PSP/vfpu/vfpu_normalize_vector.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_ortho_matrix.o:
+	$(C) -c ./psp/vfpu/vfpu_ortho_matrix.c -o ../obj_PSP/vfpu/vfpu_ortho_matrix.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_perspective_matrix.o: 
+	$(C) -c ./psp/vfpu/vfpu_perspective_matrix.c -o ../obj_PSP/vfpu/vfpu_perspective_matrix.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_powf.o:
+	$(C) -c ./psp/vfpu/vfpu_powf.c -o ../obj_PSP/vfpu/vfpu_powf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_quaternion_copy.o: 
+	$(C) -c ./psp/vfpu/vfpu_quaternion_copy.c -o ../obj_PSP/vfpu/vfpu_quaternion_copy.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_quaternion_exp.o:
+	$(C) -c ./psp/vfpu/vfpu_quaternion_exp.c -o ../obj_PSP/vfpu/vfpu_quaternion_exp.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_quaternion_from_euler.o:
+	$(C) -c ./psp/vfpu/vfpu_quaternion_from_euler.c -o ../obj_PSP/vfpu/vfpu_quaternion_from_euler.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_quaternion_identity.o:
+	$(C) -c ./psp/vfpu/vfpu_quaternion_identity.c -o ../obj_PSP/vfpu/vfpu_quaternion_identity.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_quaternion_ln.o: 
+	$(C) -c ./psp/vfpu/vfpu_quaternion_ln.c -o ../obj_PSP/vfpu/vfpu_quaternion_ln.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_quaternion_multiply.o:
+	$(C) -c ./psp/vfpu/vfpu_quaternion_multiply.c -o ../obj_PSP/vfpu/vfpu_quaternion_multiply.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_quaternion_normalize.o: 
+	$(C) -c ./psp/vfpu/vfpu_quaternion_normalize.c -o ../obj_PSP/vfpu/vfpu_quaternion_normalize.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_quaternion_sample_linear.o:
+	$(C) -c ./psp/vfpu/vfpu_quaternion_sample_linear.c -o ../obj_PSP/vfpu/vfpu_quaternion_sample_linear.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_quaternion_to_matrix.o: 
+	$(C) -c ./psp/vfpu/vfpu_quaternion_to_matrix.c -o ../obj_PSP/vfpu/vfpu_quaternion_to_matrix.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_randf.o:
+	$(C) -c ./psp/vfpu/vfpu_randf.c -o ../obj_PSP/vfpu/vfpu_randf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_rand_8888.o:
+	$(C) -c ./psp/vfpu/vfpu_rand_8888.c -o ../obj_PSP/vfpu/vfpu_rand_8888.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_sincos.o:
+	$(C) -c ./psp/vfpu/vfpu_sincos.c -o ../obj_PSP/vfpu/vfpu_sincos.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_sinf.o:
+	$(C) -c ./psp/vfpu/vfpu_sinf.c -o ../obj_PSP/vfpu/vfpu_sinf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_sinhf.o:
+	$(C) -c ./psp/vfpu/vfpu_sinhf.c -o ../obj_PSP/vfpu/vfpu_sinhf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_sphere_to_cartesian.o: 
+	$(C) -c ./psp/vfpu/vfpu_sphere_to_cartesian.c -o ../obj_PSP/vfpu/vfpu_sphere_to_cartesian.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_sqrtf.o:
+	$(C) -c ./psp/vfpu/vfpu_sqrtf.c -o ../obj_PSP/vfpu/vfpu_sqrtf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_srand.o: 
+	$(C) -c ./psp/vfpu/vfpu_srand.c -o ../obj_PSP/vfpu/vfpu_srand.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_tanf.o:
+	$(C) -c ./psp/vfpu/vfpu_tanf.c -o ../obj_PSP/vfpu/vfpu_tanf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_tanhf.o: 
+	$(C) -c ./psp/vfpu/vfpu_tanhf.c -o ../obj_PSP/vfpu/vfpu_tanhf.o $(CFLAGS_PSP)
+
+../obj_PSP/vfpu/vfpu_translate_matrix.o: 
+	$(C) -c ./psp/vfpu/vfpu_translate_matrix.c -o ../obj_PSP/vfpu/vfpu_translate_matrix.o $(CFLAGS_PSP)
+
+
+
+
+## Compilazione dei moduli EMI per la PSP
+
+../obj_PSP/emi/emi.o: ./psp/emi/emi.c 
+	$(C) -c ./psp/emi/emi.c -o ../obj_PSP/emi/emi.o $(CFLAGS_PSP_EMI)

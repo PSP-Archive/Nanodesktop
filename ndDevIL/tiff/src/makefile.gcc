@@ -1,0 +1,344 @@
+# TIFF Library for Nanodesktop
+#
+# La TIFF Library si occupa di fornire il supporto per la lettura e scrittura
+# dei file TIF sotto Nanodesktop
+#
+#
+
+
+C = psp-gcc
+PACK = psp-ar
+
+
+## Librerie finali del sistema
+
+OUTLIB1 = ../../DevILCore/lib/libNdTiff_PSPE.a
+
+OUTLIB2 = ../../DevILCore/lib/libNdTiff_PSP.a
+
+
+
+## Nomi brevi dei file oggetto
+
+OBJ_SHRT = tif_aux.o tif_close.o tif_codec.o tif_color.o tif_compress.o \
+tif_dir.o tif_dirinfo.o tif_dirread.o tif_dirwrite.o tif_dumpmode.o \
+tif_error.o tif_extension.o tif_fax3.o tif_fax3sm.o tif_flush.o \
+tif_getimage.o tif_jpeg.o tif_luv.o tif_lzw.o tif_next.o \
+tif_ojpeg.o tif_open.o tif_packbits.o tif_pixarlog.o tif_predict.o \
+tif_print.o tif_read.o tif_strip.o tif_swab.o tif_thunder.o \
+tif_tile.o tif_unix.o tif_version.o tif_warning.o tif_write.o \
+tif_zip.o
+
+
+
+## Nomi dei file oggetto per PSPE e per PSP
+
+OBJS_PSPE = ../obj_PSPE/tif_aux.o ../obj_PSPE/tif_close.o \
+../obj_PSPE/tif_codec.o ../obj_PSPE/tif_color.o \
+../obj_PSPE/tif_compress.o ../obj_PSPE/tif_dir.o \
+../obj_PSPE/tif_dirinfo.o ../obj_PSPE/tif_dirread.o \
+../obj_PSPE/tif_dirwrite.o ../obj_PSPE/tif_dumpmode.o \
+../obj_PSPE/tif_error.o ../obj_PSPE/tif_extension.o \
+../obj_PSPE/tif_fax3.o ../obj_PSPE/tif_fax3sm.o \
+../obj_PSPE/tif_flush.o ../obj_PSPE/tif_getimage.o \
+../obj_PSPE/tif_jpeg.o ../obj_PSPE/tif_luv.o \
+../obj_PSPE/tif_lzw.o ../obj_PSPE/tif_next.o \
+../obj_PSPE/tif_ojpeg.o ../obj_PSPE/tif_open.o \
+../obj_PSPE/tif_packbits.o ../obj_PSPE/tif_pixarlog.o \
+../obj_PSPE/tif_predict.o ../obj_PSPE/tif_print.o \
+../obj_PSPE/tif_read.o ../obj_PSPE/tif_strip.o \
+../obj_PSPE/tif_swab.o ../obj_PSPE/tif_thunder.o \
+../obj_PSPE/tif_tile.o ../obj_PSPE/tif_unix.o \
+../obj_PSPE/tif_version.o ../obj_PSPE/tif_warning.o \
+../obj_PSPE/tif_write.o ../obj_PSPE/tif_zip.o
+	    
+OBJS_PSP = ../obj_PSP/tif_aux.o ../obj_PSP/tif_close.o \
+../obj_PSP/tif_codec.o ../obj_PSP/tif_color.o \
+../obj_PSP/tif_compress.o ../obj_PSP/tif_dir.o \
+../obj_PSP/tif_dirinfo.o ../obj_PSP/tif_dirread.o \
+../obj_PSP/tif_dirwrite.o ../obj_PSP/tif_dumpmode.o \
+../obj_PSP/tif_error.o ../obj_PSP/tif_extension.o \
+../obj_PSP/tif_fax3.o ../obj_PSP/tif_fax3sm.o \
+../obj_PSP/tif_flush.o ../obj_PSP/tif_getimage.o \
+../obj_PSP/tif_jpeg.o ../obj_PSP/tif_luv.o \
+../obj_PSP/tif_lzw.o ../obj_PSP/tif_next.o \
+../obj_PSP/tif_ojpeg.o ../obj_PSP/tif_open.o \
+../obj_PSP/tif_packbits.o ../obj_PSP/tif_pixarlog.o \
+../obj_PSP/tif_predict.o ../obj_PSP/tif_print.o \
+../obj_PSP/tif_read.o ../obj_PSP/tif_strip.o \
+../obj_PSP/tif_swab.o ../obj_PSP/tif_thunder.o \
+../obj_PSP/tif_tile.o ../obj_PSP/tif_unix.o \
+../obj_PSP/tif_version.o ../obj_PSP/tif_warning.o \
+../obj_PSP/tif_write.o ../obj_PSP/tif_zip.o
+	  
+
+
+## Directory di servizio
+
+INC1 = -I"." 
+INC2 = -I"../../zlib/src" 
+INC3 = -I"../../jpeglib/src"
+INC4 = -I"../../../SDK/Nanodesktop/src" 
+INC5 = -I"../../../SDK/NanoCore/NanoC/src" -I"../../../SDK/NanoCore/NanoM/src" 
+INC6 = -I"../../../SDK/pspdev/psp/sdk/include"
+
+XINC = $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6)	
+
+
+## Flags di piattaforma
+
+XFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -O3 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -mfp32 -msym32 -fshort-double -Wall -v
+
+XFLAGS_PSP = -D"PSP_PLATFORM" -D"ND_LIBRARY" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -mfp32 -msym32 -fshort-double -ffast-math -mhard-float -Wall -v
+
+
+## CFlags per PSPE e PSP
+
+CFLAGS_PSPE = $(XINC) $(XFLAGS_PSPE)
+
+CFLAGS_PSP = $(XINC) $(XFLAGS_PSP)
+
+
+## Opzioni per il packer
+
+PACKFLAGS = r
+
+
+## Compilazione di tutto il package
+
+all : $(OUTLIB1) $(OUTLIB2)
+
+
+## Esecuzione del packer
+
+$(OUTLIB1): $(OBJS_PSPE)
+	$(PACK) $(PACKFLAGS) $(OUTLIB1) $(OBJS_PSPE) 
+	
+$(OUTLIB2): $(OBJS_PSP)
+	$(PACK) $(PACKFLAGS) $(OUTLIB2) $(OBJS_PSP) 
+	
+
+
+
+## Compilazione dei file oggetto per PSPE
+
+../obj_PSPE/tif_aux.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_aux.o -c ./tif_aux.c
+
+../obj_PSPE/tif_close.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_close.o -c ./tif_close.c
+
+../obj_PSPE/tif_codec.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_codec.o -c ./tif_codec.c
+
+../obj_PSPE/tif_color.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_color.o -c ./tif_color.c
+
+../obj_PSPE/tif_compress.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_compress.o -c ./tif_compress.c
+
+../obj_PSPE/tif_dir.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_dir.o -c ./tif_dir.c
+
+../obj_PSPE/tif_dirinfo.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_dirinfo.o -c ./tif_dirinfo.c
+
+../obj_PSPE/tif_dirread.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_dirread.o -c ./tif_dirread.c 
+
+../obj_PSPE/tif_dirwrite.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_dirwrite.o -c ./tif_dirwrite.c
+
+../obj_PSPE/tif_dumpmode.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_dumpmode.o -c ./tif_dumpmode.c
+
+../obj_PSPE/tif_error.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_error.o -c ./tif_error.c
+
+../obj_PSPE/tif_extension.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_extension.o -c ./tif_extension.c
+
+../obj_PSPE/tif_fax3.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_fax3.o -c ./tif_fax3.c
+
+../obj_PSPE/tif_fax3sm.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_fax3sm.o -c ./tif_fax3sm.c
+
+../obj_PSPE/tif_flush.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_flush.o -c ./tif_flush.c
+
+../obj_PSPE/tif_getimage.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_getimage.o -c ./tif_getimage.c
+
+../obj_PSPE/tif_jpeg.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_jpeg.o -c ./tif_jpeg.c
+
+../obj_PSPE/tif_luv.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_luv.o -c ./tif_luv.c
+
+../obj_PSPE/tif_lzw.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_lzw.o -c ./tif_lzw.c
+
+../obj_PSPE/tif_next.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_next.o -c ./tif_next.c
+
+../obj_PSPE/tif_ojpeg.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_ojpeg.o -c ./tif_ojpeg.c
+
+../obj_PSPE/tif_open.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_open.o -c ./tif_open.c
+
+../obj_PSPE/tif_packbits.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_packbits.o -c ./tif_packbits.c
+
+../obj_PSPE/tif_pixarlog.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_pixarlog.o -c ./tif_pixarlog.c
+
+../obj_PSPE/tif_predict.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_predict.o -c ./tif_predict.c
+
+../obj_PSPE/tif_print.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_print.o -c ./tif_print.c
+
+../obj_PSPE/tif_read.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_read.o -c ./tif_read.c
+
+../obj_PSPE/tif_strip.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_strip.o -c ./tif_strip.c
+
+../obj_PSPE/tif_swab.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_swab.o -c ./tif_swab.c
+
+../obj_PSPE/tif_thunder.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_thunder.o -c ./tif_thunder.c
+
+../obj_PSPE/tif_tile.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_tile.o -c ./tif_tile.c
+
+../obj_PSPE/tif_unix.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_unix.o -c ./tif_unix.c
+
+../obj_PSPE/tif_version.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_version.o -c ./tif_version.c
+
+../obj_PSPE/tif_warning.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_warning.o -c ./tif_warning.c
+
+../obj_PSPE/tif_write.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_write.o -c ./tif_write.c
+
+../obj_PSPE/tif_zip.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/tif_zip.o -c ./tif_zip.c
+
+	
+	
+## Compilazione dei file oggetto per PSP
+
+../obj_PSP/tif_aux.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_aux.o -c ./tif_aux.c
+
+../obj_PSP/tif_close.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_close.o -c ./tif_close.c
+
+../obj_PSP/tif_codec.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_codec.o -c ./tif_codec.c
+
+../obj_PSP/tif_color.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_color.o -c ./tif_color.c
+
+../obj_PSP/tif_compress.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_compress.o -c ./tif_compress.c
+
+../obj_PSP/tif_dir.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_dir.o -c ./tif_dir.c
+
+../obj_PSP/tif_dirinfo.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_dirinfo.o -c ./tif_dirinfo.c
+
+../obj_PSP/tif_dirread.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_dirread.o -c ./tif_dirread.c 
+
+../obj_PSP/tif_dirwrite.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_dirwrite.o -c ./tif_dirwrite.c
+
+../obj_PSP/tif_dumpmode.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_dumpmode.o -c ./tif_dumpmode.c
+
+../obj_PSP/tif_error.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_error.o -c ./tif_error.c
+
+../obj_PSP/tif_extension.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_extension.o -c ./tif_extension.c
+
+../obj_PSP/tif_fax3.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_fax3.o -c ./tif_fax3.c
+
+../obj_PSP/tif_fax3sm.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_fax3sm.o -c ./tif_fax3sm.c
+
+../obj_PSP/tif_flush.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_flush.o -c ./tif_flush.c
+
+../obj_PSP/tif_getimage.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_getimage.o -c ./tif_getimage.c
+
+../obj_PSP/tif_jpeg.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_jpeg.o -c ./tif_jpeg.c
+
+../obj_PSP/tif_luv.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_luv.o -c ./tif_luv.c
+
+../obj_PSP/tif_lzw.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_lzw.o -c ./tif_lzw.c
+
+../obj_PSP/tif_next.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_next.o -c ./tif_next.c
+
+../obj_PSP/tif_ojpeg.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_ojpeg.o -c ./tif_ojpeg.c
+
+../obj_PSP/tif_open.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_open.o -c ./tif_open.c 
+
+../obj_PSP/tif_packbits.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_packbits.o -c ./tif_packbits.c
+
+../obj_PSP/tif_pixarlog.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_pixarlog.o -c ./tif_pixarlog.c
+
+../obj_PSP/tif_predict.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_predict.o -c ./tif_predict.c
+
+../obj_PSP/tif_print.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_print.o -c ./tif_print.c
+
+../obj_PSP/tif_read.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_read.o -c ./tif_read.c
+
+../obj_PSP/tif_strip.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_strip.o -c ./tif_strip.c
+
+../obj_PSP/tif_swab.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_swab.o -c ./tif_swab.c
+
+../obj_PSP/tif_thunder.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_thunder.o -c ./tif_thunder.c
+
+../obj_PSP/tif_tile.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_tile.o -c ./tif_tile.c
+
+../obj_PSP/tif_unix.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_unix.o -c ./tif_unix.c
+
+../obj_PSP/tif_version.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_version.o -c ./tif_version.c
+
+../obj_PSP/tif_warning.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_warning.o -c ./tif_warning.c
+
+../obj_PSP/tif_write.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_write.o -c ./tif_write.c
+
+../obj_PSP/tif_zip.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/tif_zip.o -c ./tif_zip.c
+

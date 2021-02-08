@@ -1,0 +1,7 @@
+noppage.c
+towctrans.c
+towlower.c
+towupper.c
+wcscasecmp.c
+wcsncasecmp.c
+wctrans.c

@@ -1,0 +1,303 @@
+# -------------------------------------------------------------
+#
+# Nanodesktop eXOSIP2 (PSPE/PSP)
+# di Filippo Battaglia
+#
+# -------------------------------------------------------------
+
+
+C = psp-gcc
+LINK = psp-ar
+
+
+## Librerie di sistema
+
+
+OUTLIB_PSPE = ../lib/libndExOSIP2_PSPE.a
+
+OUTLIB_PSP  = ../lib/libndExOSIP2_PSP.a
+
+
+
+
+# File oggetto
+
+OBJS_PSPE =	../obj_PSPE/eXcall_api.o		../obj_PSPE/eXsubscription_api.o \
+		../obj_PSPE/eXconf.o			../obj_PSPE/eXtl.o \
+		../obj_PSPE/eXinsubscription_api.o	../obj_PSPE/eXtl_dtls.o \
+		../obj_PSPE/eXmessage_api.o		../obj_PSPE/eXtl_tcp.o \
+		../obj_PSPE/eXoptions_api.o		../obj_PSPE/eXtl_tls.o \
+		../obj_PSPE/eXosip.o			../obj_PSPE/eXtl_udp.o \
+		../obj_PSPE/eXpublish_api.o		../obj_PSPE/eXtransport.o \
+		../obj_PSPE/eXrefer_api.o		../obj_PSPE/eXutils.o \
+		../obj_PSPE/eXregister_api.o		../obj_PSPE/inet_ntop.o \
+		../obj_PSPE/jauth.o			../obj_PSPE/jrequest.o \
+		../obj_PSPE/jcallback.o			../obj_PSPE/jresponse.o \
+		../obj_PSPE/jcall.o			../obj_PSPE/jsubscribe.o \
+		../obj_PSPE/jdialog.o			../obj_PSPE/misc.o \
+		../obj_PSPE/jevents.o			../obj_PSPE/sdp_offans.o \
+		../obj_PSPE/jnotify.o			../obj_PSPE/udp.o \
+		../obj_PSPE/jpipe.o			../obj_PSPE/jpublish.o \
+		../obj_PSPE/jreg.o \
+
+OBJS_PSP =      ../obj_PSP/eXcall_api.o			../obj_PSP/eXsubscription_api.o \
+		../obj_PSP/eXconf.o			../obj_PSP/eXtl.o \
+		../obj_PSP/eXinsubscription_api.o	../obj_PSP/eXtl_dtls.o \
+		../obj_PSP/eXmessage_api.o		../obj_PSP/eXtl_tcp.o \
+		../obj_PSP/eXoptions_api.o		../obj_PSP/eXtl_tls.o \
+		../obj_PSP/eXosip.o			../obj_PSP/eXtl_udp.o \
+		../obj_PSP/eXpublish_api.o		../obj_PSP/eXtransport.o \
+		../obj_PSP/eXrefer_api.o		../obj_PSP/eXutils.o \
+		../obj_PSP/eXregister_api.o		../obj_PSP/inet_ntop.o \
+		../obj_PSP/jauth.o			../obj_PSP/jrequest.o \
+		../obj_PSP/jcallback.o			../obj_PSP/jresponse.o \
+		../obj_PSP/jcall.o			../obj_PSP/jsubscribe.o \
+		../obj_PSP/jdialog.o			../obj_PSP/misc.o \
+		../obj_PSP/jevents.o			../obj_PSP/sdp_offans.o \
+		../obj_PSP/jnotify.o			../obj_PSP/udp.o \
+		../obj_PSP/jpipe.o			../obj_PSP/jpublish.o \
+		../obj_PSP/jreg.o \
+
+
+## Path di ricerca per gli headers files
+
+ 
+INC0 = -I"." 
+INC1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include" 
+INC5 = -I"$(NDENV_PATH)\PSP\ndeXOSIP2\src"
+INC6 = -I"$(NDENV_PATH)\PSP\ndeXOSIP2\include"
+INC7 = -I"$(NDENV_PATH)\PSP\ndOSIP2\include"
+INC8 = -I"$(NDENV_PATH)\PSP\ndOSIP2\src"
+INC9 = -I"$(NDENV_PATH)\PSP\ndOSIP2\src\osip2"
+INC10= -I"$(NDENV_PATH)\PSP\ndOSIP2\src\osipparser2"
+
+
+INCLUDE = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6) $(INC7) $(INC8) $(INC9) $(INC10)
+
+
+## Flags di compilazione
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -O3 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -fshort-double -Wall -mfp32 -msym32 -ffast-math -v
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -Wall -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -v
+
+
+
+
+## Compilazione di librerie
+
+all: $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+$(OUTLIB_PSPE): $(OBJS_PSPE)
+	$(LINK) r $(OUTLIB_PSPE) $(OBJS_PSPE)
+	
+$(OUTLIB_PSP): $(OBJS_PSP)
+	$(LINK) r $(OUTLIB_PSP) $(OBJS_PSP)
+
+
+
+## Compilazione dei moduli per PSPE
+
+../obj_PSPE/eXcall_api.o: ./eXcall_api.c
+	$(C) -c eXcall_api.c -o ../obj_PSPE/eXcall_api.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXsubscription_api.o: ./eXsubscription_api.c
+	$(C) -c ./eXsubscription_api.c -o ../obj_PSPE/eXsubscription_api.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/jauth.o: ./jauth.c
+	$(C) -c jauth.c -o ../obj_PSPE/jauth.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/jrequest.o: ./jrequest.c
+	$(C) -c jrequest.c -o ../obj_PSPE/jrequest.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXconf.o: ./eXconf.c
+	$(C) -c eXconf.c -o ../obj_PSPE/eXconf.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXtl.o: ./eXtl.c
+	$(C) -c eXtl.c -o ../obj_PSPE/eXtl.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/jcallback.o: ./jcallback.c
+	$(C) -c jcallback.c -o ../obj_PSPE/jcallback.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/jresponse.o: ./jresponse.c
+	$(C) -c jresponse.c -o ../obj_PSPE/jresponse.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXinsubscription_api.o: ./eXinsubscription_api.c
+	$(C) -c eXinsubscription_api.c -o ../obj_PSPE/eXinsubscription_api.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXtl_dtls.o: ./eXtl_dtls.c
+	$(C) -c eXtl_dtls.c -o ../obj_PSPE/eXtl_dtls.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/jcall.o: ./jcall.c
+	$(C) -c jcall.c -o ../obj_PSPE/jcall.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/jsubscribe.o: ./jsubscribe.c
+	$(C) -c jsubscribe.c -o ../obj_PSPE/jsubscribe.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXmessage_api.o: ./eXmessage_api.c
+	$(C) -c eXmessage_api.c -o ../obj_PSPE/eXmessage_api.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXtl_tcp.o: ./eXtl_tcp.c
+	$(C) -c eXtl_tcp.c -o ../obj_PSPE/eXtl_tcp.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/jdialog.o: ./jdialog.c
+	$(C) -c jdialog.c -o ../obj_PSPE/jdialog.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/misc.o: ./misc.c
+	$(C) -c misc.c -o ../obj_PSPE/misc.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXoptions_api.o: ./eXoptions_api.c
+	$(C) -c eXoptions_api.c -o ../obj_PSPE/eXoptions_api.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXtl_tls.o: ./eXtl_tls.c
+	$(C) -c eXtl_tls.c -o ../obj_PSPE/eXtl_tls.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/jevents.o: ./jevents.c
+	$(C) -c jevents.c -o ../obj_PSPE/jevents.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/sdp_offans.o: ./sdp_offans.c
+	$(C) -c sdp_offans.c -o ../obj_PSPE/sdp_offans.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXosip.o: ./eXosip.c 
+	$(C) -c eXosip.c  -o ../obj_PSPE/eXosip.o  $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXtl_udp.o: ./eXtl_udp.c 
+	$(C) -c eXtl_udp.c  -o ../obj_PSPE/eXtl_udp.o  $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/jnotify.o: ./jnotify.c 
+	$(C) -c jnotify.c  -o ../obj_PSPE/jnotify.o  $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/udp.o: ./udp.c
+	$(C) -c udp.c  -o ../obj_PSPE/udp.o  $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXpublish_api.o: ./eXpublish_api.c
+	$(C) -c eXpublish_api.c  -o ../obj_PSPE/eXpublish_api.o  $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXtransport.o: ./eXtransport.c
+	$(C) -c eXtransport.c  -o ../obj_PSPE/eXtransport.o  $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/jpipe.o: ./jpipe.c
+	$(C) -c jpipe.c  -o ../obj_PSPE/jpipe.o  $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXrefer_api.o: ./eXrefer_api.c 
+	$(C) -c eXrefer_api.c  -o ../obj_PSPE/eXrefer_api.o  $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXutils.o: ./eXutils.c 
+	$(C) -c eXutils.c  -o ../obj_PSPE/eXutils.o  $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/jpublish.o: ./jpublish.c 
+	$(C) -c jpublish.c  -o ../obj_PSPE/jpublish.o  $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/eXregister_api.o: ./eXregister_api.c 
+	$(C) -c eXregister_api.c  -o ../obj_PSPE/eXregister_api.o  $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/inet_ntop.o: ./inet_ntop.c
+	$(C) -c inet_ntop.c  -o ../obj_PSPE/inet_ntop.o  $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/jreg.o: ./jreg.c 
+	$(C) -c jreg.c  -o ../obj_PSPE/jreg.o  $(CFLAGS_PSPE) $(INCLUDE)                       
+
+
+
+../obj_PSP/eXcall_api.o: ./eXcall_api.c
+	$(C) -c eXcall_api.c -o ../obj_PSP/eXcall_api.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXsubscription_api.o: ./eXsubscription_api.c
+	$(C) -c ./eXsubscription_api.c -o ../obj_PSP/eXsubscription_api.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/jauth.o: ./jauth.c
+	$(C) -c jauth.c -o ../obj_PSP/jauth.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/jrequest.o: ./jrequest.c
+	$(C) -c jrequest.c -o ../obj_PSP/jrequest.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXconf.o: ./eXconf.c
+	$(C) -c eXconf.c -o ../obj_PSP/eXconf.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXtl.o: ./eXtl.c
+	$(C) -c eXtl.c -o ../obj_PSP/eXtl.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/jcallback.o: ./jcallback.c
+	$(C) -c jcallback.c -o ../obj_PSP/jcallback.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/jresponse.o: ./jresponse.c
+	$(C) -c jresponse.c -o ../obj_PSP/jresponse.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXinsubscription_api.o: ./eXinsubscription_api.c
+	$(C) -c eXinsubscription_api.c -o ../obj_PSP/eXinsubscription_api.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXtl_dtls.o: ./eXtl_dtls.c
+	$(C) -c eXtl_dtls.c -o ../obj_PSP/eXtl_dtls.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/jcall.o: ./jcall.c
+	$(C) -c jcall.c -o ../obj_PSP/jcall.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/jsubscribe.o: ./jsubscribe.c
+	$(C) -c jsubscribe.c -o ../obj_PSP/jsubscribe.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXmessage_api.o: ./eXmessage_api.c
+	$(C) -c eXmessage_api.c -o ../obj_PSP/eXmessage_api.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXtl_tcp.o: ./eXtl_tcp.c
+	$(C) -c eXtl_tcp.c -o ../obj_PSP/eXtl_tcp.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/jdialog.o: ./jdialog.c
+	$(C) -c jdialog.c -o ../obj_PSP/jdialog.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/misc.o: ./misc.c
+	$(C) -c misc.c -o ../obj_PSP/misc.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXoptions_api.o: ./eXoptions_api.c
+	$(C) -c eXoptions_api.c -o ../obj_PSP/eXoptions_api.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXtl_tls.o: ./eXtl_tls.c
+	$(C) -c eXtl_tls.c -o ../obj_PSP/eXtl_tls.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/jevents.o: ./jevents.c
+	$(C) -c jevents.c -o ../obj_PSP/jevents.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/sdp_offans.o: ./sdp_offans.c
+	$(C) -c sdp_offans.c -o ../obj_PSP/sdp_offans.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXosip.o: ./eXosip.c 
+	$(C) -c eXosip.c  -o ../obj_PSP/eXosip.o  $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXtl_udp.o: ./eXtl_udp.c 
+	$(C) -c eXtl_udp.c  -o ../obj_PSP/eXtl_udp.o  $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/jnotify.o: ./jnotify.c 
+	$(C) -c jnotify.c  -o ../obj_PSP/jnotify.o  $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/udp.o: ./udp.c
+	$(C) -c udp.c  -o ../obj_PSP/udp.o  $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXpublish_api.o: ./eXpublish_api.c
+	$(C) -c eXpublish_api.c  -o ../obj_PSP/eXpublish_api.o  $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXtransport.o: ./eXtransport.c
+	$(C) -c eXtransport.c  -o ../obj_PSP/eXtransport.o  $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/jpipe.o: ./jpipe.c
+	$(C) -c jpipe.c  -o ../obj_PSP/jpipe.o  $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXrefer_api.o: ./eXrefer_api.c 
+	$(C) -c eXrefer_api.c  -o ../obj_PSP/eXrefer_api.o  $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXutils.o: ./eXutils.c 
+	$(C) -c eXutils.c  -o ../obj_PSP/eXutils.o  $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/jpublish.o: ./jpublish.c 
+	$(C) -c jpublish.c  -o ../obj_PSP/jpublish.o  $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/eXregister_api.o: ./eXregister_api.c 
+	$(C) -c eXregister_api.c  -o ../obj_PSP/eXregister_api.o  $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/inet_ntop.o: ./inet_ntop.c
+	$(C) -c inet_ntop.c  -o ../obj_PSP/inet_ntop.o  $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/jreg.o: ./jreg.c 
+	$(C) -c jreg.c  -o ../obj_PSP/jreg.o  $(CFLAGS_PSP) $(INCLUDE)                       
+

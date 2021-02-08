@@ -1,0 +1,205 @@
+{\rtf1\ansi\deff0{\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\fswiss\fprq2\fcharset0 Arial;}{\f2\fswiss\fprq2\fcharset128 Arial;}{\f3\fmodern\fprq1\fcharset0 Courier New;}{\f4\fswiss\fcharset0 Arial;}}
+{\*\generator Msftedit 5.41.15.1507;}\viewkind4\uc1\pard\lang1023\f0\fs24\par
+\par
+\pard\qr\b\f1\fs36 Visilab Research Lab\par
+\pard University of Messina\b0\par
+\pard\qr\b\f2\fs32\par
+\pard\fs24\par
+\f0\fs28 IMPORTANT: READ BEFORE USE, MODIFY, COPY, REDISTRIBUTE\b0\par
+\f2\fs24\par
+\pard\qj\f0\fs22 This is \b ndISpell \b0 package. ISpell is a program (Unix) for spelling and correction of words.\par
+\par
+\b\fs28 License and conditions of using\b0\par
+\fs22\par
+The software has been developed by different contributors in the world (see file \par
+ORIGINAL.AUTHORS.RTF for further details). \par
+\par
+\f1\fs16  * Copyright 1988, 1989, 1992, 1993, Geoff Kuenning, Granada Hills, CA\par
+ * All rights reserved.\par
+\par
+\b\f0\fs22 Visilab Research Lab recognizes the copyright to the original author of the program. \par
+It also declares that it accepts all conditions established by the original license.\par
+\par
+\b0 The original ISpell package has been released under the following license:\par
+\par
+\f1\fs16 /*\par
+ * Copyright 1988, 1989, 1992, 1993, Geoff Kuenning, Granada Hills, CA\par
+ * All rights reserved.\par
+ *\par
+ * Redistribution and use in source and binary forms, with or without\par
+ * modification, are permitted provided that the following conditions\par
+ * are met:\par
+ *\par
+ * 1. Redistributions of source code must retain the above copyright\par
+ *    notice, this list of conditions and the following disclaimer.\par
+ * 2. Redistributions in binary form must reproduce the above copyright\par
+ *    notice, this list of conditions and the following disclaimer in the\par
+ *    documentation and/or other materials provided with the distribution.\par
+ * 3. All modifications to the source code must be clearly marked as\par
+ *    such.  Binary redistributions based on modified source code\par
+ *    must be clearly marked as modified versions in the documentation\par
+ *    and/or other materials provided with the distribution.\par
+ * 4. All advertising materials mentioning features or use of this software\par
+ *    must display the following acknowledgment:\par
+ *      This product includes software developed by Geoff Kuenning and\par
+ *      other unpaid contributors.\par
+ * 5. The name of Geoff Kuenning may not be used to endorse or promote\par
+ *    products derived from this software without specific prior\par
+ *    written permission.\par
+ *\par
+ * THIS SOFTWARE IS PROVIDED BY GEOFF KUENNING AND CONTRIBUTORS ``AS IS'' AND\par
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\par
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE\par
+ * ARE DISCLAIMED.  IN NO EVENT SHALL GEOFF KUENNING OR CONTRIBUTORS BE LIABLE\par
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\par
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS\par
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)\par
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT\par
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY\par
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF\par
+ * SUCH DAMAGE.\par
+ */\par
+\par
+\lang1040\f0\fs22 Nanodesktop hasn't \i bash\i0  support, so we have created a library, called \par
+\b ndISpell \b0 library, that contains the code of the utilities that constitute the\par
+ISpell package. The user can usage the \i pseudoExec\i0  routine provided \par
+by Nanodesktop, in order to create homebrews that use the services\par
+of ISpell for the correction of a text. \par
+\par
+\b\fs28 The dictionaries\fs22\par
+\par
+\b0 ndISpell can be "not compatible" with the hash files that are normally \par
+used with ISpell for x86 and that you could download from Internet. \par
+\par
+However, you can download the dictionary and affix files \par
+(.med and .aff) from internet and after you can recompile them \par
+using \b buildhash \b0 homebrew for PSP. \par
+\par
+In this way, you'll obtain a file .hash that can be used later, during the\par
+spelling process. \par
+\par
+In order to do this:\par
+\par
+a) copy the .aff e .med file in the root folder of the memory stick. \par
+b) open the homebrew project \b ISpell_buildhash, \b0 and change the\par
+call to \i pseudoExec\i0 , in way to correct the right files. \par
+\par
+For example:\par
+\par
+\b\f3\fs16 pseudoExec (&buildhash_main, "buildhash","dutch96.med \par
+\tab\tab dutch96.aff dutch96.hash", &ErrorLevel); \par
+\f0\fs22\par
+\b0 will provide to open \i dutch96.med \i0 and \i dutch96.aff\i0 , will recompile\par
+them, and it will create the file \i dutch96.hash\i0 . \par
+\par
+c) recompile the project, so that you can obtain a new homebrew\par
+EBOOT.PBP (or EBOOT_PSPE.PBP if you use PSPE). \par
+Install the homebrew in the memory stick in the usual way (see\par
+Nanodesktop manual for further details). \par
+\par
+d) start the homebrew \b ISpell_buildhash\b0 : wait some minutes and in\par
+the root folder of the memory stick the required hash file will \par
+be created. \par
+\par
+Now, you can copy the new hash file from the root folder of the\par
+memory stick to its final destination (for example \i ms0:/ispell/lib\i0 ). \par
+\par
+\par
+We have already created the hash files for english, italian, french, \par
+spanish and deutch language. They are redistributed with this \par
+Nanodesktop distribution and you can find them in the folder \par
+\par
+\b\f3\fs16 <ndenv path>\\PSP\\ndIspell\\$hashfiles\par
+\f0\fs22\par
+\fs28\par
+Using ISpell in interactive mode\b0\fs22\par
+\par
+Well, now we want to use ndISpell in interactive mode (see Unix ISpell\par
+documentation for further details about this mode). \par
+\par
+For first thing, create in the root folder of the memory stick a folder\par
+called ISpell (\i ms0:/ISpell\i0 ). After, in this new folder, you must create\par
+a subfolder called lib (\i ms0:/ISpell/lib\i0 ). \par
+\par
+Remember that the program will look for the required hash files in \par
+\i ms0:/ISpell/lib \i0 . So, you \b must\b0  copy the hash files that will be\par
+needed in this folder, before launching the homebrew.\par
+\par
+Now, go to the folder\par
+\par
+\b\f3\fs16 <ndenv path>\\PSP\\ndIspell\\nd_apps\\ispell_app0\par
+\b0\f0\fs22\par
+Here is a project (\b ispell_app0.dev\b0 ) that contains an example about\par
+calling ISpell in interactive mode. \par
+\par
+Open the project. Eventually change the language and recompile\par
+the homebrew. Copy the new EBOOT.PBP and install it into the\par
+memory stick of the PSP. \par
+ \par
+The application will call FileManager in way that the user can \par
+select a text file. When the user will have choose it, the system \par
+will utilize pseudoExec routine to recall ISpell in interactive mode. \par
+\par
+Use the key \b Q \b0 in Virtual Keyboard to exit from the program. \par
+\par
+\par
+An example for a call to ndISpell in interactive mode is this (I \par
+repeat it here because, from the code in the example, it can\par
+appear not very clear):\par
+\par
+\b\f3\fs16 pseudoExec (&ispell_main, "ispell", "-d english testo.txt, &ErrorLevel); \par
+\b0\f0\fs22\par
+It is equivalent to type in Unix bash\par
+\par
+\b\f3\fs16 ispell -d english testo.txt\par
+\b0\f0\fs22\par
+\par
+\b\fs28 Using ISpell in not-interactive mode.\par
+The "-k" flag\b0\fs22\par
+\par
+You can use ISpell also in \i not-interactive mode. \i0 In the\par
+folder \par
+\par
+\b\f3\fs16 <ndenv path>\\PSP\\ndIspell\\nd_apps\\ispell_app1\par
+\b0\f0\fs22\par
+there is a project for a homebrew that shows how the\par
+programmer can use ISpell in this mode. \par
+\par
+ndISpell supports all flags that are supported from the \par
+original Unix ISpell. \par
+\par
+Furthermore, ndISpell introduces a new flag called \b -k\b0 .\par
+This flag has effects that are very similar to the \b -a\b0  option.\par
+\par
+When you use \b -k\b0 , Nanodesktop takes the indicated input\par
+file, generates the informations about the terms that it \par
+doesn't recognize, and after this, it stores these data in \par
+the file specified by the \b -f\b0  option.\par
+  \par
+For example:\par
+\par
+\b\f3\fs16 pseudoExec (&ispell_main, "ispell",\par
+\par
+\tab\tab "-d    [language] \par
+\tab\tab  -k -f [output_file] \par
+    \tab\tab        [input_file]  ", \par
+\tab\tab\par
+\tab\tab &ErrorLevel); \par
+\par
+\b0\f0\fs22\par
+opens the [input_file], and stores the spell report to the \par
+[output_file].\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\lang1023\f2\fs24\par
+\pard\lang1040\f4\fs20\par
+}
+ 

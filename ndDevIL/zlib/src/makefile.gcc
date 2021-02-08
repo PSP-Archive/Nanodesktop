@@ -1,0 +1,164 @@
+#   
+#   La libreria ZLIB si occupa di fornire le routines per la compressione
+#   e decompressione necessarie per la gestione delle immagini. 
+#
+#   Questo Makefile è stato realizzato da Filippo Battaglia
+#   ----------------------------------------------------------------------------
+
+
+C = psp-gcc
+PACK = psp-ar
+ 
+
+## Librerie finali del sistema
+
+OUTLIB1 = ../../DevILCore/lib/libNdLibZ_PSPE.a
+
+OUTLIB2 = ../../DevILCore/lib/libNdLibZ_PSP.a
+
+
+## Nomi brevi dei files oggetto
+
+OBJ_SHRT = adler32.o compress.o crc32.o gzio.o uncompr.o deflate.o trees.o \
+       zutil.o inflate.o infback.o inftrees.o inffast.o
+
+
+## Nomi dei files oggetto per PSPE e per PSP
+
+OBJS_PSPE =  ../obj_PSPE/adler32.o ../obj_PSPE/compress.o ../obj_PSPE/crc32.o ../obj_PSPE/gzio.o \
+	     ../obj_PSPE/uncompr.o ../obj_PSPE/deflate.o  ../obj_PSPE/trees.o  ../obj_PSPE/zutil.o \
+             ../obj_PSPE/inflate.o ../obj_PSPE/infback.o  ../obj_PSPE/inftrees.o ../obj_PSPE/inffast.o
+
+OBJS_PSP  =  ../obj_PSP/adler32.o ../obj_PSP/compress.o ../obj_PSP/crc32.o ../obj_PSP/gzio.o \
+	     ../obj_PSP/uncompr.o ../obj_PSP/deflate.o  ../obj_PSP/trees.o  ../obj_PSP/zutil.o \
+             ../obj_PSP/inflate.o ../obj_PSP/infback.o  ../obj_PSP/inftrees.o ../obj_PSP/inffast.o
+
+
+## Directory di servizio
+
+INC1 = -I"." 
+INC2 = -I"../../../SDK/Nanodesktop/src" 
+INC3 = -I"../../../SDK/NanoCore/NanoC/src" -I"../../../SDK/NanoCore/NanoM/src"
+INC4 = -I"../../../SDK/pspdev/psp/sdk/include"
+
+XINC = $(INC1) $(INC2) $(INC3) $(INC4) 
+
+
+
+## Flags di piattaforma
+
+XFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -O3 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -mfp32 -msym32 -fshort-double -Wall -v
+
+XFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -Wall -v
+
+
+
+
+
+## CFlags per PSPE e PSP
+
+CFLAGS_PSPE =  $(XINC) $(XFLAGS_PSPE)
+
+CFLAGS_PSP  =  $(XINC) $(XFLAGS_PSP)
+
+
+
+## Opzioni per il packer
+
+PACKFLAGS = r
+
+
+
+## Compilazione di tutto il package
+
+all: $(OUTLIB1) $(OUTLIB2)
+
+
+	
+## Esecuzione del packer
+
+$(OUTLIB1): $(OBJS_PSPE)
+	$(PACK) $(PACKFLAGS) $(OUTLIB1) $(OBJS_PSPE) 
+	
+$(OUTLIB2): $(OBJS_PSP)
+	$(PACK) $(PACKFLAGS) $(OUTLIB2) $(OBJS_PSP) 
+
+
+	
+## Compilazione dei file oggetto per PSPE
+
+../obj_PSPE/adler32.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/adler32.o -c ./adler32.c 
+	
+../obj_PSPE/compress.o:  
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/compress.o -c ./compress.c
+
+../obj_PSPE/crc32.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/crc32.o -c ./crc32.c
+
+../obj_PSPE/gzio.o:   
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/gzio.o -c ./gzio.c
+
+../obj_PSPE/uncompr.o:   
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/uncompr.o -c ./uncompr.c
+
+../obj_PSPE/deflate.o:  
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/deflate.o -c ./deflate.c
+
+../obj_PSPE/zutil.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/zutil.o -c ./zutil.c
+	
+../obj_PSPE/trees.o:  
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/trees.o -c ./trees.c
+	
+../obj_PSPE/inflate.o:  
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/inflate.o -c ./inflate.c
+	
+../obj_PSPE/infback.o:   
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/infback.o -c ./infback.c
+	
+../obj_PSPE/inftrees.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/inftrees.o -c ./inftrees.c
+		
+../obj_PSPE/inffast.o:   
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/inffast.o -c ./inffast.c
+	
+
+
+## Compilazione dei file oggetto per PSP
+
+../obj_PSP/adler32.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/adler32.o -c ./adler32.c 
+	
+../obj_PSP/compress.o:  
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/compress.o -c ./compress.c
+
+../obj_PSP/crc32.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/crc32.o -c ./crc32.c
+
+../obj_PSP/gzio.o:   
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/gzio.o -c ./gzio.c
+
+../obj_PSP/uncompr.o:   
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/uncompr.o -c ./uncompr.c
+
+../obj_PSP/deflate.o:  
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/deflate.o -c ./deflate.c
+
+../obj_PSP/zutil.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/zutil.o -c ./zutil.c
+	
+../obj_PSP/trees.o:  
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/trees.o -c ./trees.c
+	
+../obj_PSP/inflate.o:  
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/inflate.o -c ./inflate.c
+	
+../obj_PSP/infback.o:   
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/infback.o -c ./infback.c
+	
+../obj_PSP/inftrees.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/inftrees.o -c ./inftrees.c
+		
+../obj_PSP/inffast.o:   
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/inffast.o -c ./inffast.c

@@ -1,0 +1,3 @@
+M ./src/cxx.cpp
+D /cygdrive/e/NDENV/PSP/SDK/NanoCore/NanoCPP
+A '-c' '-o' './obj_PSPE/cxx.o' '-DPSPE_PLATFORM' '-DND_LIBRARY' '-O0' '-g' '-frepo' '-fomit-frame-pointer' '-fno-exceptions' '-march=mips2' '-fshort-double' '-Wall' '-mfp32' '-msym32' '-ffast-math' '-nostdinc++' '-v' '-I.' '-IE:\NDENV\PSP\SDK\Nanodesktop\src' '-IE:\NDENV\PSP\SDK\NanoCore\NanoC\src' '-IE:\NDENV\PSP\SDK\NanoCore\NanoM\src' '-IE:\NDENV\PSP\SDK\NanoCore\NanoCPP\include' '-IE:\NDENV\PSP\SDK\NanoCore\NanoCPP\include\ansi' '-IE:\NDENV\PSP\SDK\PspDev\psp\include' '-IE:\NDENV\PSP\SDK\PspDev\psp\sdk\include'

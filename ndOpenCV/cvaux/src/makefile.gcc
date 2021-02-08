@@ -1,0 +1,469 @@
+# ------------------------------------------------------------------------------
+#
+# ndOpenCv (CvAux) (PSP/PSPE Version)
+#
+# Makefile for GNU C/C++ 3.x or later
+# 
+# Questo Makefile è stato creato da Filippo Battaglia
+#
+# ------------------------------------------------------------------------------
+
+
+CXX = psp-g++
+PACK = psp-ar
+
+## Librerie finali da generare
+
+OUTLIB_PSPE = ../../lib/libNdCvAux_PSPE.a
+OUTLIB_PSP  = ../../lib/libNdCvAux_PSP.a
+
+## Short names dei files oggetto
+
+OBJ_SHRT = 
+
+## Nomi dei files oggetto per PSPE e per PSP 
+
+OBJS_PSPE = ../../_temp/cvaux_Rls_gcc_PSPE/camshift.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cv3dtracker.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvaux.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvauxutils.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvbgfg_acmmm2003.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvbgfg_common.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvbgfg_gaussmix.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvcalibfilter.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvclique.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvcorrespond.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvcorrimages.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvcreatehandmask.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvdpstereo.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cveigenobjects.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvepilines.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvface.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvfacedetection.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvfacetemplate.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvfindface.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvfindhandregion.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvhmm.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvhmm1d.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvhmmobs.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvlcm.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvlee.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvlevmar.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvlevmarprojbandle.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvlevmartrif.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvlines.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvlmeds.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvmat.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvmorphcontours.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvmorphing.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvprewarp.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvscanlines.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvsegment.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvsubdiv2.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvtexture.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvtrifocal.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvvecfacetracking.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/cvvideo.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/decomppoly.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/enmin.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/extendededges.o \
+	    ../../_temp/cvaux_Rls_gcc_PSPE/precomp.o \
+
+OBJS_PSP  = ../../_temp/cvaux_Rls_gcc_PSP/camshift.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cv3dtracker.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvaux.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvauxutils.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvbgfg_acmmm2003.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvbgfg_common.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvbgfg_gaussmix.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvcalibfilter.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvclique.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvcorrespond.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvcorrimages.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvcreatehandmask.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvdpstereo.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cveigenobjects.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvepilines.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvface.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvfacedetection.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvfacetemplate.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvfindface.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvfindhandregion.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvhmm.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvhmm1d.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvhmmobs.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvlcm.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvlee.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvlevmar.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvlevmarprojbandle.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvlevmartrif.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvlines.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvlmeds.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvmat.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvmorphcontours.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvmorphing.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvprewarp.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvscanlines.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvsegment.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvsubdiv2.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvtexture.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvtrifocal.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvvecfacetracking.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/cvvideo.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/decomppoly.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/enmin.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/extendededges.o \
+	    ../../_temp/cvaux_Rls_gcc_PSP/precomp.o \
+
+
+
+
+
+
+## Directories include
+
+INC1 = -I"." 
+INC2 = -I"../include" 
+INC3 = -I"../../cv/include" 
+INC4 = -I"../../cv/src"
+INC5 = -I"../../cxcore/include"
+INC6 = -I"../../cxcore/src"
+INC7 = -I"../../../SDK/PspDev/psp\sdk\include" 
+INC8 = -I"../../../SDK/Nanodesktop/src" 
+INC9 = -I"../../../SDK/NanoCore/NanoC/src" 
+INC10= -I"../../../SDK/NanoCore/NanoM/src" 
+
+XINC = $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6) $(INC7) $(INC8) $(INC9) $(INC10)
+
+
+## Flags di piattaforma per PSPE e PSP
+
+XFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -O3 -g -fomit-frame-pointer -fno-exceptions -fno-rtti -march=mips2 -Wall -msym32 -mfp32 -ffast-math -fshort-double -v
+
+XFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -fno-rtti -march=allegrex -mgp32 -mfp32 -msym32 -ffast-math -mhard-float -fshort-double -v -Wall
+
+
+
+## Flags per il compilatore C++
+
+CXXFLAGS_PSPE = -D"NDEBUG" -D"CVAPI_EXPORTS" $(XINC) $(XFLAGS_PSPE)  
+
+CXXFLAGS_PSP  = -D"NDEBUG" -D"CVAPI_EXPORTS" $(XINC) $(XFLAGS_PSP) 
+
+
+
+## Flags per il packer
+
+PACKFLAGS = r
+
+
+
+## Assemblaggio delle librerie
+
+all: $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+
+$(OUTLIB_PSPE): $(OBJS_PSPE)
+	$(PACK) $(PACKFLAGS) $(OUTLIB_PSPE) $(OBJS_PSPE) 
+	
+$(OUTLIB_PSP): $(OBJS_PSP)
+	$(PACK) $(PACKFLAGS) $(OUTLIB_PSP) $(OBJS_PSP) 
+
+
+## Creazione del campo xheaders
+
+HD1  = ../include/cvaux.h 
+HD2  = ../include/cvaux.hpp 
+HD3  = ../include/cvmat.hpp 
+HD4  = ./_cvaux.h 
+HD5  = ./_cvfacedetection.h 
+HD6  = ./_cvvectrack.h 
+HD7  = ./_cvvm.h 
+HD8  = ./resource.h 
+HD9  = .
+
+XHEADERS = $(HD1) $(HD2) $(HD3) $(HD4) $(HD5) $(HD6) $(HD7) $(HD8) $(HD9) 
+	
+
+## Compila i moduli per PSPE
+
+
+
+../../_temp/cvaux_Rls_gcc_PSPE/camshift.o: ./camshift.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./camshift.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/camshift.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cv3dtracker.o: ./cv3dtracker.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cv3dtracker.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cv3dtracker.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvaux.o: ./cvaux.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvaux.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvaux.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvauxutils.o: ./cvauxutils.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvauxutils.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvauxutils.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvbgfg_acmmm2003.o: ./cvbgfg_acmmm2003.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvbgfg_acmmm2003.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvbgfg_acmmm2003.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvbgfg_common.o: ./cvbgfg_common.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvbgfg_common.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvbgfg_common.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvbgfg_gaussmix.o: ./cvbgfg_gaussmix.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvbgfg_gaussmix.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvbgfg_gaussmix.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvcalibfilter.o: ./cvcalibfilter.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvcalibfilter.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvcalibfilter.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvclique.o: ./cvclique.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvclique.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvclique.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvcorrespond.o: ./cvcorrespond.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvcorrespond.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvcorrespond.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvcorrimages.o: ./cvcorrimages.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvcorrimages.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvcorrimages.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvcreatehandmask.o: ./cvcreatehandmask.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvcreatehandmask.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvcreatehandmask.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvdpstereo.o: ./cvdpstereo.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvdpstereo.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvdpstereo.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cveigenobjects.o: ./cveigenobjects.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cveigenobjects.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cveigenobjects.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvepilines.o: ./cvepilines.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvepilines.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvepilines.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvface.o: ./cvface.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvface.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvface.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvfacedetection.o: ./cvfacedetection.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvfacedetection.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvfacedetection.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvfacetemplate.o: ./cvfacetemplate.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvfacetemplate.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvfacetemplate.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvfindface.o: ./cvfindface.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvfindface.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvfindface.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvfindhandregion.o: ./cvfindhandregion.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvfindhandregion.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvfindhandregion.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvhmm.o: ./cvhmm.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvhmm.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvhmm.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvhmm1d.o: ./cvhmm1d.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvhmm1d.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvhmm1d.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvhmmobs.o: ./cvhmmobs.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvhmmobs.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvhmmobs.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvlcm.o: ./cvlcm.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvlcm.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvlcm.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvlee.o: ./cvlee.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvlee.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvlee.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvlevmar.o: ./cvlevmar.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvlevmar.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvlevmar.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvlevmarprojbandle.o: ./cvlevmarprojbandle.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvlevmarprojbandle.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvlevmarprojbandle.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvlevmartrif.o: ./cvlevmartrif.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvlevmartrif.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvlevmartrif.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvlines.o: ./cvlines.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvlines.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvlines.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvlmeds.o: ./cvlmeds.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvlmeds.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvlmeds.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvmat.o: ./cvmat.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvmat.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvmat.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvmorphcontours.o: ./cvmorphcontours.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvmorphcontours.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvmorphcontours.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvmorphing.o: ./cvmorphing.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvmorphing.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvmorphing.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvprewarp.o: ./cvprewarp.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvprewarp.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvprewarp.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvscanlines.o: ./cvscanlines.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvscanlines.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvscanlines.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvsegment.o: ./cvsegment.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvsegment.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvsegment.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvsubdiv2.o: ./cvsubdiv2.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvsubdiv2.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvsubdiv2.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvtexture.o: ./cvtexture.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvtexture.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvtexture.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvtrifocal.o: ./cvtrifocal.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvtrifocal.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvtrifocal.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvvecfacetracking.o: ./cvvecfacetracking.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvvecfacetracking.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvvecfacetracking.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/cvvideo.o: ./cvvideo.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./cvvideo.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/cvvideo.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/decomppoly.o: ./decomppoly.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./decomppoly.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/decomppoly.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/enmin.o: ./enmin.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./enmin.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/enmin.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/extendededges.o: ./extendededges.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./extendededges.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/extendededges.o 
+
+../../_temp/cvaux_Rls_gcc_PSPE/precomp.o: ./precomp.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSPE) -c ./precomp.cpp -o ../../_temp/cvaux_Rls_gcc_PSPE/precomp.o 
+
+
+	
+
+
+
+
+## Compila i moduli per PSP
+
+
+../../_temp/cvaux_Rls_gcc_PSP/camshift.o: ./camshift.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./camshift.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/camshift.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cv3dtracker.o: ./cv3dtracker.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cv3dtracker.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cv3dtracker.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvaux.o: ./cvaux.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvaux.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvaux.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvauxutils.o: ./cvauxutils.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvauxutils.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvauxutils.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvbgfg_acmmm2003.o: ./cvbgfg_acmmm2003.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvbgfg_acmmm2003.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvbgfg_acmmm2003.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvbgfg_common.o: ./cvbgfg_common.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvbgfg_common.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvbgfg_common.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvbgfg_gaussmix.o: ./cvbgfg_gaussmix.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvbgfg_gaussmix.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvbgfg_gaussmix.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvcalibfilter.o: ./cvcalibfilter.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvcalibfilter.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvcalibfilter.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvclique.o: ./cvclique.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvclique.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvclique.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvcorrespond.o: ./cvcorrespond.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvcorrespond.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvcorrespond.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvcorrimages.o: ./cvcorrimages.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvcorrimages.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvcorrimages.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvcreatehandmask.o: ./cvcreatehandmask.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvcreatehandmask.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvcreatehandmask.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvdpstereo.o: ./cvdpstereo.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvdpstereo.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvdpstereo.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cveigenobjects.o: ./cveigenobjects.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cveigenobjects.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cveigenobjects.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvepilines.o: ./cvepilines.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvepilines.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvepilines.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvface.o: ./cvface.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvface.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvface.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvfacedetection.o: ./cvfacedetection.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvfacedetection.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvfacedetection.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvfacetemplate.o: ./cvfacetemplate.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvfacetemplate.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvfacetemplate.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvfindface.o: ./cvfindface.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvfindface.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvfindface.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvfindhandregion.o: ./cvfindhandregion.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvfindhandregion.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvfindhandregion.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvhmm.o: ./cvhmm.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvhmm.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvhmm.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvhmm1d.o: ./cvhmm1d.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvhmm1d.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvhmm1d.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvhmmobs.o: ./cvhmmobs.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvhmmobs.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvhmmobs.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvlcm.o: ./cvlcm.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvlcm.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvlcm.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvlee.o: ./cvlee.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvlee.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvlee.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvlevmar.o: ./cvlevmar.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvlevmar.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvlevmar.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvlevmarprojbandle.o: ./cvlevmarprojbandle.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvlevmarprojbandle.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvlevmarprojbandle.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvlevmartrif.o: ./cvlevmartrif.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvlevmartrif.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvlevmartrif.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvlines.o: ./cvlines.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvlines.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvlines.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvlmeds.o: ./cvlmeds.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvlmeds.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvlmeds.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvmat.o: ./cvmat.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvmat.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvmat.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvmorphcontours.o: ./cvmorphcontours.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvmorphcontours.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvmorphcontours.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvmorphing.o: ./cvmorphing.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvmorphing.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvmorphing.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvprewarp.o: ./cvprewarp.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvprewarp.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvprewarp.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvscanlines.o: ./cvscanlines.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvscanlines.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvscanlines.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvsegment.o: ./cvsegment.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvsegment.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvsegment.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvsubdiv2.o: ./cvsubdiv2.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvsubdiv2.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvsubdiv2.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvtexture.o: ./cvtexture.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvtexture.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvtexture.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvtrifocal.o: ./cvtrifocal.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvtrifocal.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvtrifocal.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvvecfacetracking.o: ./cvvecfacetracking.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvvecfacetracking.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvvecfacetracking.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/cvvideo.o: ./cvvideo.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./cvvideo.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/cvvideo.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/decomppoly.o: ./decomppoly.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./decomppoly.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/decomppoly.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/enmin.o: ./enmin.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./enmin.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/enmin.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/extendededges.o: ./extendededges.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./extendededges.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/extendededges.o 
+
+../../_temp/cvaux_Rls_gcc_PSP/precomp.o: ./precomp.cpp $(XHEADERS) 
+	 $(CXX) $(CXXFLAGS_PSP) -c ./precomp.cpp -o ../../_temp/cvaux_Rls_gcc_PSP/precomp.o 

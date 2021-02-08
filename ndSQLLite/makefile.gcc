@@ -1,0 +1,406 @@
+# -------------------------------------------------------------
+#
+# Nanodesktop ndSQLLite (PSPE/PSP)
+#
+# -------------------------------------------------------------
+
+
+C = psp-gcc
+LINK = psp-ar
+
+
+## Librerie di sistema
+
+
+OUTLIB_PSPE = ./lib/libNdSQLLite_PSPE.a
+
+OUTLIB_PSP  = ./lib/libNdSQLLite_PSP.a
+
+
+
+
+# File oggetto
+
+OBJS_PSPE = 	./obj_PSPE/obj_src/alter.o \
+                ./obj_PSPE/obj_src/analyze.o \
+                ./obj_PSPE/obj_src/attach.o \
+                ./obj_PSPE/obj_src/auth.o \
+                ./obj_PSPE/obj_src/btree.o \
+                ./obj_PSPE/obj_src/build.o \
+                ./obj_PSPE/obj_src/callback.o \
+                ./obj_PSPE/obj_src/complete.o \
+                ./obj_PSPE/obj_src/date.o \
+                ./obj_PSPE/obj_src/delete.o \
+                ./obj_PSPE/obj_src/expr.o \
+                ./obj_PSPE/obj_src/func.o \
+                ./obj_PSPE/obj_src/hash.o \
+                ./obj_PSPE/obj_src/insert.o \
+                ./obj_PSPE/obj_src/legacy.o \
+                ./obj_PSPE/obj_src/loadext.o \
+                ./obj_PSPE/obj_src/sqllite_main.o \
+                ./obj_PSPE/obj_src/os.o \
+                ./obj_PSPE/obj_src/os_nd.o \
+                ./obj_PSPE/obj_src/pager.o \
+                ./obj_PSPE/obj_src/pragma.o \
+                ./obj_PSPE/obj_src/prepare.o \
+                ./obj_PSPE/obj_src/printf.o \
+                ./obj_PSPE/obj_src/random.o \
+                ./obj_PSPE/obj_src/select.o \
+                ./obj_PSPE/obj_src/table.o \
+                ./obj_PSPE/obj_src/tokenize.o \
+                ./obj_PSPE/obj_src/trigger.o \
+                ./obj_PSPE/obj_src/update.o \
+                ./obj_PSPE/obj_src/utf.o \
+                ./obj_PSPE/obj_src/util.o \
+                ./obj_PSPE/obj_src/vacuum.o \
+                ./obj_PSPE/obj_src/vdbe.o \
+                ./obj_PSPE/obj_src/vdbeapi.o \
+                ./obj_PSPE/obj_src/vdbeaux.o \
+                ./obj_PSPE/obj_src/vdbefifo.o \
+                ./obj_PSPE/obj_src/vdbemem.o \
+                ./obj_PSPE/obj_src/vtab.o \
+                ./obj_PSPE/obj_src/where.o \
+		./obj_PSPE/parse.o \
+		./obj_PSPE/opcodes.o 
+		
+
+
+OBJS_PSP  = 	./obj_PSP/obj_src/alter.o \
+                ./obj_PSP/obj_src/analyze.o \
+                ./obj_PSP/obj_src/attach.o \
+                ./obj_PSP/obj_src/auth.o \
+                ./obj_PSP/obj_src/btree.o \
+                ./obj_PSP/obj_src/build.o \
+                ./obj_PSP/obj_src/callback.o \
+                ./obj_PSP/obj_src/complete.o \
+                ./obj_PSP/obj_src/date.o \
+                ./obj_PSP/obj_src/delete.o \
+                ./obj_PSP/obj_src/expr.o \
+                ./obj_PSP/obj_src/func.o \
+                ./obj_PSP/obj_src/hash.o \
+                ./obj_PSP/obj_src/insert.o \
+                ./obj_PSP/obj_src/legacy.o \
+                ./obj_PSP/obj_src/loadext.o \
+                ./obj_PSP/obj_src/sqllite_main.o \
+                ./obj_PSP/obj_src/os.o \
+                ./obj_PSP/obj_src/os_nd.o \
+                ./obj_PSP/obj_src/pager.o \
+                ./obj_PSP/obj_src/pragma.o \
+                ./obj_PSP/obj_src/prepare.o \
+                ./obj_PSP/obj_src/printf.o \
+                ./obj_PSP/obj_src/random.o \
+                ./obj_PSP/obj_src/select.o \
+                ./obj_PSP/obj_src/table.o \
+                ./obj_PSP/obj_src/tokenize.o \
+                ./obj_PSP/obj_src/trigger.o \
+                ./obj_PSP/obj_src/update.o \
+                ./obj_PSP/obj_src/utf.o \
+                ./obj_PSP/obj_src/util.o \
+                ./obj_PSP/obj_src/vacuum.o \
+                ./obj_PSP/obj_src/vdbe.o \
+                ./obj_PSP/obj_src/vdbeapi.o \
+                ./obj_PSP/obj_src/vdbeaux.o \
+                ./obj_PSP/obj_src/vdbefifo.o \
+                ./obj_PSP/obj_src/vdbemem.o \
+                ./obj_PSP/obj_src/vtab.o \
+                ./obj_PSP/obj_src/where.o \
+		./obj_PSP/parse.o \
+		./obj_PSP/opcodes.o 
+
+
+
+
+
+
+## Path di ricerca per gli headers files
+
+ 
+INC0 = -I"." 
+INC1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include" 
+INC5 = -I"$(NDENV_PATH)\PSP\ndSQLLite\src" 
+INC6 = -I"$(NDENV_PATH)\PSP\ndSQLLite"
+
+INCLUDE = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6)
+
+
+
+## Flags di compilazione
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -D"OS_ND_PSP" -D"OS_OTHER" -D"NDEBUG" -D"SQLITE_OMIT_FLOATING_POINT" -O3 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -ffast-math -fshort-double -Wall -mfp32 -msym32 -v 
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -D"OS_ND_PSP" -D"OS_OTHER" -D"NDEBUG" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -Wall -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -v
+
+
+
+
+## Compilazione di librerie
+
+all : $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+$(OUTLIB_PSPE): $(OBJS_PSPE)
+	$(LINK) r $(OUTLIB_PSPE) $(OBJS_PSPE)
+	
+$(OUTLIB_PSP): $(OBJS_PSP)
+	$(LINK) r $(OUTLIB_PSP) $(OBJS_PSP)
+
+
+
+## Compilazione dei moduli per PSPE
+
+./obj_PSPE/obj_src/alter.o: ./src/alter.c $(XHEADERS) 
+	$(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/alter.c -o ./obj_PSPE/obj_src/alter.o 
+
+./obj_PSPE/obj_src/analyze.o: ./src/analyze.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/analyze.c -o ./obj_PSPE/obj_src/analyze.o 
+
+./obj_PSPE/obj_src/attach.o: ./src/attach.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/attach.c -o ./obj_PSPE/obj_src/attach.o 
+
+./obj_PSPE/obj_src/auth.o: ./src/auth.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/auth.c -o ./obj_PSPE/obj_src/auth.o 
+
+./obj_PSPE/obj_src/btree.o: ./src/btree.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/btree.c -o ./obj_PSPE/obj_src/btree.o 
+
+./obj_PSPE/obj_src/build.o: ./src/build.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/build.c -o ./obj_PSPE/obj_src/build.o 
+
+./obj_PSPE/obj_src/callback.o: ./src/callback.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/callback.c -o ./obj_PSPE/obj_src/callback.o 
+
+./obj_PSPE/obj_src/complete.o: ./src/complete.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/complete.c -o ./obj_PSPE/obj_src/complete.o 
+
+./obj_PSPE/obj_src/date.o: ./src/date.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/date.c -o ./obj_PSPE/obj_src/date.o 
+
+./obj_PSPE/obj_src/delete.o: ./src/delete.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/delete.c -o ./obj_PSPE/obj_src/delete.o 
+
+./obj_PSPE/obj_src/expr.o: ./src/expr.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/expr.c -o ./obj_PSPE/obj_src/expr.o 
+
+./obj_PSPE/obj_src/func.o: ./src/func.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/func.c -o ./obj_PSPE/obj_src/func.o 
+
+./obj_PSPE/obj_src/hash.o: ./src/hash.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/hash.c -o ./obj_PSPE/obj_src/hash.o 
+
+./obj_PSPE/obj_src/insert.o: ./src/insert.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/insert.c -o ./obj_PSPE/obj_src/insert.o 
+
+./obj_PSPE/obj_src/legacy.o: ./src/legacy.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/legacy.c -o ./obj_PSPE/obj_src/legacy.o 
+
+./obj_PSPE/obj_src/loadext.o: ./src/loadext.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/loadext.c -o ./obj_PSPE/obj_src/loadext.o 
+
+./obj_PSPE/obj_src/sqllite_main.o: ./src/sqllite_main.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/sqllite_main.c -o ./obj_PSPE/obj_src/sqllite_main.o 
+
+./obj_PSPE/obj_src/os.o: ./src/os.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/os.c -o ./obj_PSPE/obj_src/os.o 
+
+./obj_PSPE/obj_src/os_nd.o: ./src/os_nd.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/os_nd.c -o ./obj_PSPE/obj_src/os_nd.o 
+
+./obj_PSPE/obj_src/pager.o: ./src/pager.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pager.c -o ./obj_PSPE/obj_src/pager.o 
+
+./obj_PSPE/obj_src/pragma.o: ./src/pragma.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pragma.c -o ./obj_PSPE/obj_src/pragma.o 
+
+./obj_PSPE/obj_src/prepare.o: ./src/prepare.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/prepare.c -o ./obj_PSPE/obj_src/prepare.o 
+
+./obj_PSPE/obj_src/printf.o: ./src/printf.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/printf.c -o ./obj_PSPE/obj_src/printf.o 
+
+./obj_PSPE/obj_src/random.o: ./src/random.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/random.c -o ./obj_PSPE/obj_src/random.o 
+
+./obj_PSPE/obj_src/select.o: ./src/select.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/select.c -o ./obj_PSPE/obj_src/select.o 
+
+./obj_PSPE/obj_src/table.o: ./src/table.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/table.c -o ./obj_PSPE/obj_src/table.o 
+
+./obj_PSPE/obj_src/tokenize.o: ./src/tokenize.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/tokenize.c -o ./obj_PSPE/obj_src/tokenize.o 
+
+./obj_PSPE/obj_src/trigger.o: ./src/trigger.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/trigger.c -o ./obj_PSPE/obj_src/trigger.o 
+
+./obj_PSPE/obj_src/update.o: ./src/update.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/update.c -o ./obj_PSPE/obj_src/update.o 
+
+./obj_PSPE/obj_src/utf.o: ./src/utf.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/utf.c -o ./obj_PSPE/obj_src/utf.o 
+
+./obj_PSPE/obj_src/util.o: ./src/util.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/util.c -o ./obj_PSPE/obj_src/util.o 
+
+./obj_PSPE/obj_src/vacuum.o: ./src/vacuum.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/vacuum.c -o ./obj_PSPE/obj_src/vacuum.o 
+
+./obj_PSPE/obj_src/vdbe.o: ./src/vdbe.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/vdbe.c -o ./obj_PSPE/obj_src/vdbe.o 
+
+./obj_PSPE/obj_src/vdbeapi.o: ./src/vdbeapi.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/vdbeapi.c -o ./obj_PSPE/obj_src/vdbeapi.o 
+
+./obj_PSPE/obj_src/vdbeaux.o: ./src/vdbeaux.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/vdbeaux.c -o ./obj_PSPE/obj_src/vdbeaux.o 
+
+./obj_PSPE/obj_src/vdbefifo.o: ./src/vdbefifo.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/vdbefifo.c -o ./obj_PSPE/obj_src/vdbefifo.o 
+
+./obj_PSPE/obj_src/vdbemem.o: ./src/vdbemem.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/vdbemem.c -o ./obj_PSPE/obj_src/vdbemem.o 
+
+./obj_PSPE/obj_src/vtab.o: ./src/vtab.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/vtab.c -o ./obj_PSPE/obj_src/vtab.o 
+
+./obj_PSPE/obj_src/where.o: ./src/where.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/where.c -o ./obj_PSPE/obj_src/where.o 
+
+./obj_PSPE/parse.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./parse.c -o ./obj_PSPE/parse.o 
+
+./obj_PSPE/opcodes.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./opcodes.c -o ./obj_PSPE/opcodes.o 
+
+
+
+
+
+
+
+
+## Compilazione dei moduli per PSPE
+
+./obj_PSP/obj_src/alter.o: ./src/alter.c $(XHEADERS) 
+	$(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/alter.c -o ./obj_PSP/obj_src/alter.o 
+
+./obj_PSP/obj_src/analyze.o: ./src/analyze.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/analyze.c -o ./obj_PSP/obj_src/analyze.o 
+
+./obj_PSP/obj_src/attach.o: ./src/attach.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/attach.c -o ./obj_PSP/obj_src/attach.o 
+
+./obj_PSP/obj_src/auth.o: ./src/auth.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/auth.c -o ./obj_PSP/obj_src/auth.o 
+
+./obj_PSP/obj_src/btree.o: ./src/btree.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/btree.c -o ./obj_PSP/obj_src/btree.o 
+
+./obj_PSP/obj_src/build.o: ./src/build.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/build.c -o ./obj_PSP/obj_src/build.o 
+
+./obj_PSP/obj_src/callback.o: ./src/callback.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/callback.c -o ./obj_PSP/obj_src/callback.o 
+
+./obj_PSP/obj_src/complete.o: ./src/complete.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/complete.c -o ./obj_PSP/obj_src/complete.o 
+
+./obj_PSP/obj_src/date.o: ./src/date.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/date.c -o ./obj_PSP/obj_src/date.o 
+
+./obj_PSP/obj_src/delete.o: ./src/delete.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/delete.c -o ./obj_PSP/obj_src/delete.o 
+
+./obj_PSP/obj_src/expr.o: ./src/expr.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/expr.c -o ./obj_PSP/obj_src/expr.o 
+
+./obj_PSP/obj_src/func.o: ./src/func.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/func.c -o ./obj_PSP/obj_src/func.o 
+
+./obj_PSP/obj_src/hash.o: ./src/hash.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/hash.c -o ./obj_PSP/obj_src/hash.o 
+
+./obj_PSP/obj_src/insert.o: ./src/insert.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/insert.c -o ./obj_PSP/obj_src/insert.o 
+
+./obj_PSP/obj_src/legacy.o: ./src/legacy.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/legacy.c -o ./obj_PSP/obj_src/legacy.o 
+
+./obj_PSP/obj_src/loadext.o: ./src/loadext.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/loadext.c -o ./obj_PSP/obj_src/loadext.o 
+
+./obj_PSP/obj_src/sqllite_main.o: ./src/sqllite_main.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/sqllite_main.c -o ./obj_PSP/obj_src/sqllite_main.o 
+
+./obj_PSP/obj_src/os.o: ./src/os.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/os.c -o ./obj_PSP/obj_src/os.o 
+
+./obj_PSP/obj_src/os_nd.o: ./src/os_nd.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/os_nd.c -o ./obj_PSP/obj_src/os_nd.o 
+
+./obj_PSP/obj_src/pager.o: ./src/pager.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pager.c -o ./obj_PSP/obj_src/pager.o 
+
+./obj_PSP/obj_src/pragma.o: ./src/pragma.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pragma.c -o ./obj_PSP/obj_src/pragma.o 
+
+./obj_PSP/obj_src/prepare.o: ./src/prepare.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/prepare.c -o ./obj_PSP/obj_src/prepare.o 
+
+./obj_PSP/obj_src/printf.o: ./src/printf.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/printf.c -o ./obj_PSP/obj_src/printf.o 
+
+./obj_PSP/obj_src/random.o: ./src/random.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/random.c -o ./obj_PSP/obj_src/random.o 
+
+./obj_PSP/obj_src/select.o: ./src/select.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/select.c -o ./obj_PSP/obj_src/select.o 
+
+./obj_PSP/obj_src/table.o: ./src/table.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/table.c -o ./obj_PSP/obj_src/table.o 
+
+./obj_PSP/obj_src/tokenize.o: ./src/tokenize.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/tokenize.c -o ./obj_PSP/obj_src/tokenize.o 
+
+./obj_PSP/obj_src/trigger.o: ./src/trigger.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/trigger.c -o ./obj_PSP/obj_src/trigger.o 
+
+./obj_PSP/obj_src/update.o: ./src/update.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/update.c -o ./obj_PSP/obj_src/update.o 
+
+./obj_PSP/obj_src/utf.o: ./src/utf.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/utf.c -o ./obj_PSP/obj_src/utf.o 
+
+./obj_PSP/obj_src/util.o: ./src/util.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/util.c -o ./obj_PSP/obj_src/util.o 
+
+./obj_PSP/obj_src/vacuum.o: ./src/vacuum.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/vacuum.c -o ./obj_PSP/obj_src/vacuum.o 
+
+./obj_PSP/obj_src/vdbe.o: ./src/vdbe.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/vdbe.c -o ./obj_PSP/obj_src/vdbe.o 
+
+./obj_PSP/obj_src/vdbeapi.o: ./src/vdbeapi.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/vdbeapi.c -o ./obj_PSP/obj_src/vdbeapi.o 
+
+./obj_PSP/obj_src/vdbeaux.o: ./src/vdbeaux.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/vdbeaux.c -o ./obj_PSP/obj_src/vdbeaux.o 
+
+./obj_PSP/obj_src/vdbefifo.o: ./src/vdbefifo.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/vdbefifo.c -o ./obj_PSP/obj_src/vdbefifo.o 
+
+./obj_PSP/obj_src/vdbemem.o: ./src/vdbemem.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/vdbemem.c -o ./obj_PSP/obj_src/vdbemem.o 
+
+./obj_PSP/obj_src/vtab.o: ./src/vtab.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/vtab.c -o ./obj_PSP/obj_src/vtab.o 
+
+./obj_PSP/obj_src/where.o: ./src/where.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/where.c -o ./obj_PSP/obj_src/where.o 
+
+./obj_PSP/parse.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./parse.c -o ./obj_PSP/parse.o 
+
+./obj_PSP/opcodes.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./opcodes.c -o ./obj_PSP/opcodes.o 

@@ -1,0 +1,428 @@
+#   
+#   La libreria JPEGLIB si occupa di fornire il supporto a Nanodesktop per
+#   l'apertura dei file in formato JPEG
+#
+#   Questo Makefile è stato realizzato da Filippo Battaglia
+#   ----------------------------------------------------------------------------
+
+
+# Makefile for GNU C/C++ 3.x or later
+
+C = psp-gcc
+PACK = psp-ar
+
+
+## Librerie finali del sistema
+
+OUTLIB1 = ../../DevILCore/lib/libNdJpeg_PSPE.a
+
+OUTLIB2 = ../../DevILCore/lib/libNdJpeg_PSP.a
+
+
+
+## Nomi brevi dei file oggetto
+
+OBJ_SHRT = jcapimin.o jcapistd.o jccoefct.o jccolor.o jcdctmgr.o jchuff.o \
+        jcinit.o jcmainct.o jcmarker.o jcmaster.o jcomapi.o jcparam.o \
+        jcphuff.o jcprepct.o jcsample.o jctrans.o jdapimin.o jdapistd.o \
+        jdatadst.o jdatasrc.o jdcoefct.o jdcolor.o jddctmgr.o jdhuff.o \
+        jdinput.o jdmainct.o jdmarker.o jdmaster.o jdmerge.o jdphuff.o \
+        jdpostct.o jdsample.o jdtrans.o jerror.o jfdctflt.o jfdctfst.o \
+        jfdctint.o jidctflt.o jidctfst.o jidctint.o jidctred.o jquant1.o \
+        jquant2.o jutils.o jmemmgr.o jmempsp.o
+
+
+
+## Nomi dei file oggetto per PSPE e per PSP
+
+OBJS_PSPE =  ../obj_PSPE/jcapimin.o ../obj_PSPE/jcapistd.o ../obj_PSPE/jccoefct.o ../obj_PSPE/jccolor.o \
+	../obj_PSPE/jcdctmgr.o ../obj_PSPE/jchuff.o ../obj_PSPE/jcinit.o ../obj_PSPE/jcmainct.o \
+	../obj_PSPE/jcmarker.o ../obj_PSPE/jcmaster.o ../obj_PSPE/jcomapi.o ../obj_PSPE/jcparam.o \
+        ../obj_PSPE/jcphuff.o ../obj_PSPE/jcprepct.o ../obj_PSPE/jcsample.o ../obj_PSPE/jctrans.o \
+        ../obj_PSPE/jdapimin.o ../obj_PSPE/jdapistd.o ../obj_PSPE/jdatadst.o ../obj_PSPE/jdatasrc.o \
+        ../obj_PSPE/jdcoefct.o ../obj_PSPE/jdcolor.o ../obj_PSPE/jddctmgr.o ../obj_PSPE/jdhuff.o \
+        ../obj_PSPE/jdinput.o ../obj_PSPE/jdmainct.o ../obj_PSPE/jdmarker.o ../obj_PSPE/jdmaster.o \
+        ../obj_PSPE/jdmerge.o ../obj_PSPE/jdphuff.o ../obj_PSPE/jdpostct.o ../obj_PSPE/jdsample.o \
+        ../obj_PSPE/jdtrans.o ../obj_PSPE/jerror.o ../obj_PSPE/jfdctflt.o ../obj_PSPE/jfdctfst.o \
+        ../obj_PSPE/jfdctint.o ../obj_PSPE/jidctflt.o ../obj_PSPE/jidctfst.o ../obj_PSPE/jidctint.o \
+        ../obj_PSPE/jidctred.o ../obj_PSPE/jquant1.o ../obj_PSPE/jquant2.o ../obj_PSPE/jutils.o \
+    	../obj_PSPE/jmemmgr.o ../obj_PSPE/jmempsp.o
+
+OBJS_PSP =  ../obj_PSP/jcapimin.o ../obj_PSP/jcapistd.o ../obj_PSP/jccoefct.o ../obj_PSP/jccolor.o \
+	../obj_PSP/jcdctmgr.o ../obj_PSP/jchuff.o ../obj_PSP/jcinit.o ../obj_PSP/jcmainct.o \
+	../obj_PSP/jcmarker.o ../obj_PSP/jcmaster.o ../obj_PSP/jcomapi.o ../obj_PSP/jcparam.o \
+        ../obj_PSP/jcphuff.o ../obj_PSP/jcprepct.o ../obj_PSP/jcsample.o ../obj_PSP/jctrans.o \
+        ../obj_PSP/jdapimin.o ../obj_PSP/jdapistd.o ../obj_PSP/jdatadst.o ../obj_PSP/jdatasrc.o \
+        ../obj_PSP/jdcoefct.o ../obj_PSP/jdcolor.o ../obj_PSP/jddctmgr.o ../obj_PSP/jdhuff.o \
+        ../obj_PSP/jdinput.o ../obj_PSP/jdmainct.o ../obj_PSP/jdmarker.o ../obj_PSP/jdmaster.o \
+        ../obj_PSP/jdmerge.o ../obj_PSP/jdphuff.o ../obj_PSP/jdpostct.o ../obj_PSP/jdsample.o \
+        ../obj_PSP/jdtrans.o ../obj_PSP/jerror.o ../obj_PSP/jfdctflt.o ../obj_PSP/jfdctfst.o \
+        ../obj_PSP/jfdctint.o ../obj_PSP/jidctflt.o ../obj_PSP/jidctfst.o ../obj_PSP/jidctint.o \
+        ../obj_PSP/jidctred.o ../obj_PSP/jquant1.o ../obj_PSP/jquant2.o ../obj_PSP/jutils.o \
+    	../obj_PSP/jmemmgr.o ../obj_PSP/jmempsp.o
+
+	
+## Directory di servizio
+
+INC1 = -I"." 
+INC2 = -I"../../zlib/src" 
+INC3 = -I"../../../SDK/Nanodesktop/src" 
+INC4 = -I"../../../SDK/NanoCore/NanoC/src" -I"../../../SDK/NanoCore/NanoM/src" 
+INC5 = -I"../../../SDK/pspdev/psp/sdk/include"
+
+XINC = $(INC1) $(INC2) $(INC3) $(INC4) $(INC5)
+
+
+## Flags di piattaforma
+
+XFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -D"DCT_IFAST_SUPPORTED" -D"DCT_FLOAT_SUPPORTED" -O3 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -mfp32 -msym32 -fshort-double -Wall -v
+
+XFLAGS_PSP = -D"PSP_PLATFORM" -D"ND_LIBRARY" -D"DCT_IFAST_SUPPORTED" -D"DCT_FLOAT_SUPPORTED" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -Wall -v
+
+
+
+## CFlags per PSPE e PSP
+
+CFLAGS_PSPE =  $(XINC) $(XFLAGS_PSPE)
+
+CFLAGS_PSP  =  $(XINC) $(XFLAGS_PSP)
+
+
+
+## Opzioni per il packer
+
+PACKFLAGS = r
+
+
+## Compilazione di tutto il package
+
+all : $(OUTLIB1) $(OUTLIB2)
+
+
+## Esecuzione del packer
+
+$(OUTLIB1): $(OBJS_PSPE)
+	$(PACK) $(PACKFLAGS) $(OUTLIB1) $(OBJS_PSPE) 
+
+$(OUTLIB2): $(OBJS_PSP)
+	$(PACK) $(PACKFLAGS) $(OUTLIB2) $(OBJS_PSP) 
+
+	
+
+## Compilazione dei file oggetto per PSPE
+
+../obj_PSPE/jcapimin.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jcapimin.o -c jcapimin.c
+
+../obj_PSPE/jcapistd.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jcapistd.o -c jcapistd.c
+
+../obj_PSPE/jccoefct.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jccoefct.o -c jccoefct.c
+
+../obj_PSPE/jccolor.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jccolor.o -c jccolor.c
+
+../obj_PSPE/jcdctmgr.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jcdctmgr.o -c jcdctmgr.c
+
+../obj_PSPE/jchuff.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jchuff.o -c jchuff.c
+
+../obj_PSPE/jcinit.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jcinit.o -c jcinit.c
+
+../obj_PSPE/jcmainct.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jcmainct.o -c jcmainct.c
+
+../obj_PSPE/jcmarker.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jcmarker.o -c jcmarker.c
+
+../obj_PSPE/jcmaster.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jcmaster.o -c jcmaster.c
+
+../obj_PSPE/jcomapi.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jcomapi.o -c jcomapi.c
+
+../obj_PSPE/jcparam.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jcparam.o -c jcparam.c
+
+../obj_PSPE/jcphuff.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jcphuff.o -c jcphuff.c
+
+../obj_PSPE/jcprepct.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jcprepct.o -c jcprepct.c
+
+../obj_PSPE/jcsample.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jcsample.o -c jcsample.c
+
+../obj_PSPE/jctrans.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jctrans.o -c jctrans.c
+
+../obj_PSPE/jdapimin.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdapimin.o -c jdapimin.c
+
+../obj_PSPE/jdapistd.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdapistd.o -c jdapistd.c
+
+../obj_PSPE/jdatadst.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdatadst.o -c jdatadst.c
+
+../obj_PSPE/jdatasrc.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdatasrc.o -c jdatasrc.c
+
+../obj_PSPE/jdcoefct.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdcoefct.o -c jdcoefct.c
+
+../obj_PSPE/jdcolor.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdcolor.o -c jdcolor.c
+
+../obj_PSPE/jddctmgr.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jddctmgr.o -c jddctmgr.c
+
+../obj_PSPE/jdhuff.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdhuff.o -c jdhuff.c
+
+../obj_PSPE/jdinput.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdinput.o -c jdinput.c
+
+../obj_PSPE/jdmainct.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdmainct.o -c jdmainct.c
+
+../obj_PSPE/jdmarker.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdmarker.o -c jdmarker.c
+
+../obj_PSPE/jdmaster.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdmaster.o -c jdmaster.c
+
+../obj_PSPE/jdmerge.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdmerge.o -c jdmerge.c
+
+../obj_PSPE/jdphuff.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdphuff.o -c jdphuff.c
+
+../obj_PSPE/jdpostct.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdpostct.o -c jdpostct.c
+
+../obj_PSPE/jdsample.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdsample.o -c jdsample.c
+
+../obj_PSPE/jdtrans.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jdtrans.o -c jdtrans.c
+
+../obj_PSPE/jerror.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jerror.o -c jerror.c
+
+../obj_PSPE/jfdctflt.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jfdctflt.o -c jfdctflt.c
+
+../obj_PSPE/jfdctfst.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jfdctfst.o -c jfdctfst.c
+
+../obj_PSPE/jfdctint.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jfdctint.o -c jfdctint.c
+
+../obj_PSPE/jidctflt.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jidctflt.o -c jidctflt.c
+
+../obj_PSPE/jidctfst.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jidctfst.o -c jidctfst.c
+
+../obj_PSPE/jidctint.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jidctint.o -c jidctint.c
+
+../obj_PSPE/jidctred.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jidctred.o -c jidctred.c
+
+../obj_PSPE/jquant1.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jquant1.o -c jquant1.c
+
+../obj_PSPE/jquant2.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jquant2.o -c jquant2.c
+
+../obj_PSPE/jutils.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jutils.o -c jutils.c
+
+../obj_PSPE/jmemmgr.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jmemmgr.o -c jmemmgr.c
+
+../obj_PSPE/jmempsp.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/jmempsp.o -c jmempsp.c
+
+
+
+
+## Compilazione dei file oggetto per PSP
+
+../obj_PSP/jcapimin.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jcapimin.o -c jcapimin.c
+
+../obj_PSP/jcapistd.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jcapistd.o -c jcapistd.c
+
+../obj_PSP/jccoefct.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jccoefct.o -c jccoefct.c
+
+../obj_PSP/jccolor.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jccolor.o -c jccolor.c
+
+../obj_PSP/jcdctmgr.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jcdctmgr.o -c jcdctmgr.c
+
+../obj_PSP/jchuff.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jchuff.o -c jchuff.c
+
+../obj_PSP/jcinit.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jcinit.o -c jcinit.c
+
+../obj_PSP/jcmainct.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jcmainct.o -c jcmainct.c
+
+../obj_PSP/jcmarker.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jcmarker.o -c jcmarker.c
+
+../obj_PSP/jcmaster.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jcmaster.o -c jcmaster.c
+
+../obj_PSP/jcomapi.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jcomapi.o -c jcomapi.c
+
+../obj_PSP/jcparam.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jcparam.o -c jcparam.c
+
+../obj_PSP/jcphuff.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jcphuff.o -c jcphuff.c
+
+../obj_PSP/jcprepct.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jcprepct.o -c jcprepct.c
+
+../obj_PSP/jcsample.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jcsample.o -c jcsample.c
+
+../obj_PSP/jctrans.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jctrans.o -c jctrans.c
+
+../obj_PSP/jdapimin.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdapimin.o -c jdapimin.c
+
+../obj_PSP/jdapistd.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdapistd.o -c jdapistd.c
+
+../obj_PSP/jdatadst.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdatadst.o -c jdatadst.c
+
+../obj_PSP/jdatasrc.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdatasrc.o -c jdatasrc.c
+
+../obj_PSP/jdcoefct.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdcoefct.o -c jdcoefct.c
+
+../obj_PSP/jdcolor.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdcolor.o -c jdcolor.c
+
+../obj_PSP/jddctmgr.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jddctmgr.o -c jddctmgr.c
+
+../obj_PSP/jdhuff.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdhuff.o -c jdhuff.c
+
+../obj_PSP/jdinput.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdinput.o -c jdinput.c
+
+../obj_PSP/jdmainct.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdmainct.o -c jdmainct.c
+
+../obj_PSP/jdmarker.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdmarker.o -c jdmarker.c
+
+../obj_PSP/jdmaster.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdmaster.o -c jdmaster.c
+
+../obj_PSP/jdmerge.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdmerge.o -c jdmerge.c
+
+../obj_PSP/jdphuff.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdphuff.o -c jdphuff.c
+
+../obj_PSP/jdpostct.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdpostct.o -c jdpostct.c
+
+../obj_PSP/jdsample.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdsample.o -c jdsample.c
+
+../obj_PSP/jdtrans.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jdtrans.o -c jdtrans.c
+
+../obj_PSP/jerror.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jerror.o -c jerror.c
+
+../obj_PSP/jfdctflt.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jfdctflt.o -c jfdctflt.c
+
+../obj_PSP/jfdctfst.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jfdctfst.o -c jfdctfst.c
+
+../obj_PSP/jfdctint.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jfdctint.o -c jfdctint.c
+
+../obj_PSP/jidctflt.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jidctflt.o -c jidctflt.c
+
+../obj_PSP/jidctfst.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jidctfst.o -c jidctfst.c
+
+../obj_PSP/jidctint.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jidctint.o -c jidctint.c
+
+../obj_PSP/jidctred.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jidctred.o -c jidctred.c
+
+../obj_PSP/jquant1.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jquant1.o -c jquant1.c
+
+../obj_PSP/jquant2.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jquant2.o -c jquant2.c
+
+../obj_PSP/jutils.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jutils.o -c jutils.c
+
+../obj_PSP/jmemmgr.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jmemmgr.o -c jmemmgr.c
+
+../obj_PSP/jmempsp.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/jmempsp.o -c jmempsp.c
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

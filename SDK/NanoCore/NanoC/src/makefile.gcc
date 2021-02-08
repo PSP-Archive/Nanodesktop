@@ -1,0 +1,2174 @@
+#   ---------------------------------------------------------------------------
+#   NanoC (PSP/PSPE)
+#   ---------------------------------------------------------------------------
+#   
+#   La libreria NanoC si occupa di fornire una libc compatibile con l'emulatore
+#   PSPE e con la piattaforma PSP.
+#   
+#   La libreria è conforme agli standard ANSI (salvo che per l'assenza di alcune
+#   funzionalità) e consente di scrivere codice C utilizzabile sotto PSP in modo
+#   non diverso da quanto avviene sotto Windows o Linux.
+#   
+#   Una parte del codice è stata scritta, ove non differentemente specificato,
+#   da Battaglia Filippo. 
+#   
+#   Altre parti, sono rilasciate sotto licenza BSD ed il copyright è dei rispettivi
+#   autori. Viene specificata la provenienza del codice e gli autori ovunque
+#   richiesto.   
+#
+#   La libreria è rilasciata sotto licenza LGPL
+#   ----------------------------------------------------------------------------
+
+
+C   = psp-gcc
+CXX = psp-g++
+AR = psp-ar
+
+
+OUTLIB_PSPE = ../lib/libNanoC_PSPE.a
+OUTLIB_PSP  = ../lib/libNanoC_PSP.a
+
+
+
+
+
+## Files oggetto BASE (PSPE)
+
+OBJ_BASE_PSPE   = 	../obj_PSPE/malloc.o  \
+			../obj_PSPE/string.o \
+			../obj_PSPE/stdiocore.o \
+			../obj_PSPE/stdiostream.o \
+			../obj_PSPE/stdioprintf.o \
+			../obj_PSPE/stdioscanf.o \
+			../obj_PSPE/stdioexec.o \
+			../obj_PSPE/stdiowchar.o \
+			../obj_PSPE/stdiobridgecpp.o \
+			../obj_PSPE/stdlib.o \
+			../obj_PSPE/xerrno.o \
+			../obj_PSPE/time.o \
+			../obj_PSPE/misc0.o \
+			../obj_PSPE/misc1.o \
+			../obj_PSPE/fsstrfunc.o \
+			../obj_PSPE/setjmp.o \
+			../obj_PSPE/reent.o \
+			../obj_PSPE/startup.o
+
+
+
+
+## Files oggetto EMBPTHREAD (PSPE)
+
+OBJ_EMBPTHREAD_PSPE = ../obj_PSPE/3rdparty/embpthread/cleanup.o \
+		../obj_PSPE/3rdparty/embpthread/create.o \
+		../obj_PSPE/3rdparty/embpthread/global.o \
+		../obj_PSPE/3rdparty/embpthread/pte_callUserDestroyRoutines.o \
+		../obj_PSPE/3rdparty/embpthread/pte_cancellable_wait.o \
+		../obj_PSPE/3rdparty/embpthread/pte_cond_check_need_init.o \
+		../obj_PSPE/3rdparty/embpthread/pte_detach.o \
+		../obj_PSPE/3rdparty/embpthread/pte_getprocessors.o \
+		../obj_PSPE/3rdparty/embpthread/pte_is_attr.o \
+		../obj_PSPE/3rdparty/embpthread/pte_mutex_check_need_init.o \
+		../obj_PSPE/3rdparty/embpthread/pte_new.o \
+		../obj_PSPE/3rdparty/embpthread/pte_relmillisecs.o \
+		../obj_PSPE/3rdparty/embpthread/pte_reuse.o \
+		../obj_PSPE/3rdparty/embpthread/pte_rwlock_cancelwrwait.o \
+		../obj_PSPE/3rdparty/embpthread/pte_rwlock_check_need_init.o \
+		../obj_PSPE/3rdparty/embpthread/pte_spinlock_check_need_init.o \
+		../obj_PSPE/3rdparty/embpthread/pte_threadDestroy.o \
+		../obj_PSPE/3rdparty/embpthread/pte_threadStart.o \
+		../obj_PSPE/3rdparty/embpthread/pte_throw.o \
+		../obj_PSPE/3rdparty/embpthread/pte_tkAssocCreate.o \
+		../obj_PSPE/3rdparty/embpthread/pte_tkAssocDestroy.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_destroy.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_getdetachstate.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_getinheritsched.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_getschedparam.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_getschedpolicy.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_getscope.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_getstackaddr.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_getstacksize.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_init.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_setdetachstate.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_setinheritsched.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_setschedparam.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_setschedpolicy.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_setscope.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_setstackaddr.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_attr_setstacksize.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_barrierattr_destroy.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_barrierattr_getpshared.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_barrierattr_init.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_barrierattr_setpshared.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_barrier_destroy.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_barrier_init.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_barrier_wait.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_cancel.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_condattr_destroy.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_condattr_getpshared.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_condattr_init.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_condattr_setpshared.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_cond_destroy.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_cond_init.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_cond_signal.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_cond_wait.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_delay_np.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_detach.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_equal.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_exit.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_getconcurrency.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_getschedparam.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_getspecific.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_init.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_join.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_key_create.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_key_delete.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_kill.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_destroy.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_getkind_np.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_getpshared.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_gettype.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_init.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_setkind_np.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_setpshared.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_settype.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_mutex_destroy.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_mutex_init.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_mutex_lock.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_mutex_timedlock.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_mutex_trylock.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_mutex_unlock.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_num_processors_np.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_once.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_rwlockattr_destroy.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_rwlockattr_getpshared.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_rwlockattr_init.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_rwlockattr_setpshared.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_rwlock_destroy.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_rwlock_init.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_rwlock_rdlock.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_rwlock_timedrdlock.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_rwlock_timedwrlock.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_rwlock_tryrdlock.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_rwlock_trywrlock.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_rwlock_unlock.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_rwlock_wrlock.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_self.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_setcancelstate.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_setcanceltype.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_setconcurrency.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_setschedparam.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_setspecific.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_spin_destroy.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_spin_init.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_spin_lock.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_spin_trylock.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_spin_unlock.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_terminate.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_testcancel.o \
+		../obj_PSPE/3rdparty/embpthread/pthread_timechange_handler_np.o \
+		../obj_PSPE/3rdparty/embpthread/sched_get_priority_max.o \
+		../obj_PSPE/3rdparty/embpthread/sched_get_priority_min.o \
+		../obj_PSPE/3rdparty/embpthread/sched_setscheduler.o \
+		../obj_PSPE/3rdparty/embpthread/sched_yield.o \
+		../obj_PSPE/3rdparty/embpthread/sem_close.o \
+		../obj_PSPE/3rdparty/embpthread/sem_destroy.o \
+		../obj_PSPE/3rdparty/embpthread/sem_getvalue.o \
+		../obj_PSPE/3rdparty/embpthread/sem_init.o \
+		../obj_PSPE/3rdparty/embpthread/sem_open.o \
+		../obj_PSPE/3rdparty/embpthread/sem_post.o \
+		../obj_PSPE/3rdparty/embpthread/sem_post_multiple.o \
+		../obj_PSPE/3rdparty/embpthread/sem_timedwait.o \
+		../obj_PSPE/3rdparty/embpthread/sem_trywait.o \
+		../obj_PSPE/3rdparty/embpthread/sem_unlink.o \
+		../obj_PSPE/3rdparty/embpthread/sem_wait.o \
+		../obj_PSPE/3rdparty/embpthread/tls-helper.o \
+		../obj_PSPE/3rdparty/embpthread/nd_pspe_osal.o
+
+## Files oggetto UTF8 (PSPE)
+
+OBJ_UTF8_PSPE =  ../obj_PSPE/3rdparty/utf8/gentables.o \
+		 ../obj_PSPE/3rdparty/utf8/libc.o \
+		 ../obj_PSPE/3rdparty/utf8/locale_is.o \
+		 ../obj_PSPE/3rdparty/utf8/mbsinit.o \
+		 ../obj_PSPE/3rdparty/utf8/mb_cur_max.o \
+		 ../obj_PSPE/3rdparty/utf8/setlocale.o \
+		 ../obj_PSPE/3rdparty/utf8/attribute/attribute.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/iswalnum.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/iswalpha.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/iswblank.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/iswcntrl.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/iswctype.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/iswdigit.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/iswgraph.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/iswlower.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/iswprint.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/iswpunct.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/iswspace.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/iswupper.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/iswxdigit.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/wcswidth.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/wctype.o \
+	 	 ../obj_PSPE/3rdparty/utf8/attribute/wcwidth.o \
+	 	 ../obj_PSPE/3rdparty/utf8/caseconv/noppage.o \
+		 ../obj_PSPE/3rdparty/utf8/caseconv/towctrans.o \
+		 ../obj_PSPE/3rdparty/utf8/caseconv/towlower.o \
+		 ../obj_PSPE/3rdparty/utf8/caseconv/towupper.o \
+		 ../obj_PSPE/3rdparty/utf8/caseconv/wcscasecmp.o \
+		 ../obj_PSPE/3rdparty/utf8/caseconv/wcsncasecmp.o \
+		 ../obj_PSPE/3rdparty/utf8/caseconv/wctrans.o \
+		 ../obj_PSPE/3rdparty/utf8/mbstowcs/btowc.o \
+		 ../obj_PSPE/3rdparty/utf8/mbstowcs/mblen.o \
+		 ../obj_PSPE/3rdparty/utf8/mbstowcs/mbrlen.o \
+		 ../obj_PSPE/3rdparty/utf8/mbstowcs/mbrtowc.o \
+		 ../obj_PSPE/3rdparty/utf8/mbstowcs/mbsnrtowcs.o \
+		 ../obj_PSPE/3rdparty/utf8/mbstowcs/mbsrtowcs.o \
+		 ../obj_PSPE/3rdparty/utf8/mbstowcs/mbstowcs.o \
+		 ../obj_PSPE/3rdparty/utf8/mbstowcs/mbtowc.o \
+		 ../obj_PSPE/3rdparty/utf8/number/integer-parse.o \
+	 	 ../obj_PSPE/3rdparty/utf8/number/number-parse.o \
+	 	 ../obj_PSPE/3rdparty/utf8/number/wcstod.o \
+	 	 ../obj_PSPE/3rdparty/utf8/number/wcstof.o \
+	 	 ../obj_PSPE/3rdparty/utf8/number/wcstol.o \
+	 	 ../obj_PSPE/3rdparty/utf8/number/wcstold.o \
+	 	 ../obj_PSPE/3rdparty/utf8/number/wcstoll.o \
+	 	 ../obj_PSPE/3rdparty/utf8/number/wcstoul.o \
+	 	 ../obj_PSPE/3rdparty/utf8/number/wcstoull.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcpcpy.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcpncpy.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcscat.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcschr.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcscmp.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcscpy.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcscspn.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcsdup.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcslen.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcsncat.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcsncmp.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcsncpy.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcsnlen.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcspbrk.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcsrchr.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcsspn.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcsstr.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wcstok.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wmemchr.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wmemcmp.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wmemcpy.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wmemmove.o \
+		 ../obj_PSPE/3rdparty/utf8/wstring/wmemset.o \
+		 ../obj_PSPE/3rdparty/utf8/wcstombs/wcrtomb.o \
+	 	 ../obj_PSPE/3rdparty/utf8/wcstombs/wcsnrtombs.o \
+	 	 ../obj_PSPE/3rdparty/utf8/wcstombs/wcsrtombs.o \
+	 	 ../obj_PSPE/3rdparty/utf8/wcstombs/wcstombs.o \
+	 	 ../obj_PSPE/3rdparty/utf8/wcstombs/wctob.o \
+	 	 ../obj_PSPE/3rdparty/utf8/wcstombs/wctomb.o \
+		 ../obj_PSPE/3rdparty/utf8/stdio/fgetwc.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/fgetws.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/fprintf.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/fputwc.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/fputws.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/fwide.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/fwprintf.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/getwchar.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/printf-args.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/printf-parse.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/printf.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/putwchar.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/snprintf.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/sprintf.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/swprintf.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/ungetwc.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/vfprintf.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/vfwprintf.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/vprintf.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/vsnprintf.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/vsprintf.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/vswprintf.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/vwprintf.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/wprintf-parse.o \
+	 	 ../obj_PSPE/3rdparty/utf8/stdio/wprintf.o \
+
+
+## Files oggetto BASE (PSP)
+
+OBJ_BASE_PSP   = 	../obj_PSP/malloc.o  \
+			../obj_PSP/string.o \
+			../obj_PSP/stdiocore.o \
+			../obj_PSP/stdiostream.o \
+			../obj_PSP/stdioprintf.o \
+			../obj_PSP/stdioscanf.o \
+			../obj_PSP/stdioexec.o \
+			../obj_PSP/stdiowchar.o \
+			../obj_PSP/stdiobridgecpp.o \
+			../obj_PSP/stdlib.o \
+			../obj_PSP/xerrno.o \
+			../obj_PSP/time.o \
+			../obj_PSP/misc0.o \
+			../obj_PSP/misc1.o \
+			../obj_PSP/fsstrfunc.o \
+			../obj_PSP/setjmp.o \
+			../obj_PSP/reent.o 
+			
+
+
+
+
+## Files oggetto EMBPTHREAD (PSP)
+
+OBJ_EMBPTHREAD_PSP = ../obj_PSP/3rdparty/embpthread/cleanup.o \
+		../obj_PSP/3rdparty/embpthread/create.o \
+		../obj_PSP/3rdparty/embpthread/global.o \
+		../obj_PSP/3rdparty/embpthread/pte_callUserDestroyRoutines.o \
+		../obj_PSP/3rdparty/embpthread/pte_cancellable_wait.o \
+		../obj_PSP/3rdparty/embpthread/pte_cond_check_need_init.o \
+		../obj_PSP/3rdparty/embpthread/pte_detach.o \
+		../obj_PSP/3rdparty/embpthread/pte_getprocessors.o \
+		../obj_PSP/3rdparty/embpthread/pte_is_attr.o \
+		../obj_PSP/3rdparty/embpthread/pte_mutex_check_need_init.o \
+		../obj_PSP/3rdparty/embpthread/pte_new.o \
+		../obj_PSP/3rdparty/embpthread/pte_relmillisecs.o \
+		../obj_PSP/3rdparty/embpthread/pte_reuse.o \
+		../obj_PSP/3rdparty/embpthread/pte_rwlock_cancelwrwait.o \
+		../obj_PSP/3rdparty/embpthread/pte_rwlock_check_need_init.o \
+		../obj_PSP/3rdparty/embpthread/pte_spinlock_check_need_init.o \
+		../obj_PSP/3rdparty/embpthread/pte_threadDestroy.o \
+		../obj_PSP/3rdparty/embpthread/pte_threadStart.o \
+		../obj_PSP/3rdparty/embpthread/pte_throw.o \
+		../obj_PSP/3rdparty/embpthread/pte_tkAssocCreate.o \
+		../obj_PSP/3rdparty/embpthread/pte_tkAssocDestroy.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_destroy.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_getdetachstate.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_getinheritsched.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_getschedparam.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_getschedpolicy.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_getscope.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_getstackaddr.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_getstacksize.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_init.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_setdetachstate.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_setinheritsched.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_setschedparam.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_setschedpolicy.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_setscope.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_setstackaddr.o \
+		../obj_PSP/3rdparty/embpthread/pthread_attr_setstacksize.o \
+		../obj_PSP/3rdparty/embpthread/pthread_barrierattr_destroy.o \
+		../obj_PSP/3rdparty/embpthread/pthread_barrierattr_getpshared.o \
+		../obj_PSP/3rdparty/embpthread/pthread_barrierattr_init.o \
+		../obj_PSP/3rdparty/embpthread/pthread_barrierattr_setpshared.o \
+		../obj_PSP/3rdparty/embpthread/pthread_barrier_destroy.o \
+		../obj_PSP/3rdparty/embpthread/pthread_barrier_init.o \
+		../obj_PSP/3rdparty/embpthread/pthread_barrier_wait.o \
+		../obj_PSP/3rdparty/embpthread/pthread_cancel.o \
+		../obj_PSP/3rdparty/embpthread/pthread_condattr_destroy.o \
+		../obj_PSP/3rdparty/embpthread/pthread_condattr_getpshared.o \
+		../obj_PSP/3rdparty/embpthread/pthread_condattr_init.o \
+		../obj_PSP/3rdparty/embpthread/pthread_condattr_setpshared.o \
+		../obj_PSP/3rdparty/embpthread/pthread_cond_destroy.o \
+		../obj_PSP/3rdparty/embpthread/pthread_cond_init.o \
+		../obj_PSP/3rdparty/embpthread/pthread_cond_signal.o \
+		../obj_PSP/3rdparty/embpthread/pthread_cond_wait.o \
+		../obj_PSP/3rdparty/embpthread/pthread_delay_np.o \
+		../obj_PSP/3rdparty/embpthread/pthread_detach.o \
+		../obj_PSP/3rdparty/embpthread/pthread_equal.o \
+		../obj_PSP/3rdparty/embpthread/pthread_exit.o \
+		../obj_PSP/3rdparty/embpthread/pthread_getconcurrency.o \
+		../obj_PSP/3rdparty/embpthread/pthread_getschedparam.o \
+		../obj_PSP/3rdparty/embpthread/pthread_getspecific.o \
+		../obj_PSP/3rdparty/embpthread/pthread_init.o \
+		../obj_PSP/3rdparty/embpthread/pthread_join.o \
+		../obj_PSP/3rdparty/embpthread/pthread_key_create.o \
+		../obj_PSP/3rdparty/embpthread/pthread_key_delete.o \
+		../obj_PSP/3rdparty/embpthread/pthread_kill.o \
+		../obj_PSP/3rdparty/embpthread/pthread_mutexattr_destroy.o \
+		../obj_PSP/3rdparty/embpthread/pthread_mutexattr_getkind_np.o \
+		../obj_PSP/3rdparty/embpthread/pthread_mutexattr_getpshared.o \
+		../obj_PSP/3rdparty/embpthread/pthread_mutexattr_gettype.o \
+		../obj_PSP/3rdparty/embpthread/pthread_mutexattr_init.o \
+		../obj_PSP/3rdparty/embpthread/pthread_mutexattr_setkind_np.o \
+		../obj_PSP/3rdparty/embpthread/pthread_mutexattr_setpshared.o \
+		../obj_PSP/3rdparty/embpthread/pthread_mutexattr_settype.o \
+		../obj_PSP/3rdparty/embpthread/pthread_mutex_destroy.o \
+		../obj_PSP/3rdparty/embpthread/pthread_mutex_init.o \
+		../obj_PSP/3rdparty/embpthread/pthread_mutex_lock.o \
+		../obj_PSP/3rdparty/embpthread/pthread_mutex_timedlock.o \
+		../obj_PSP/3rdparty/embpthread/pthread_mutex_trylock.o \
+		../obj_PSP/3rdparty/embpthread/pthread_mutex_unlock.o \
+		../obj_PSP/3rdparty/embpthread/pthread_num_processors_np.o \
+		../obj_PSP/3rdparty/embpthread/pthread_once.o \
+		../obj_PSP/3rdparty/embpthread/pthread_rwlockattr_destroy.o \
+		../obj_PSP/3rdparty/embpthread/pthread_rwlockattr_getpshared.o \
+		../obj_PSP/3rdparty/embpthread/pthread_rwlockattr_init.o \
+		../obj_PSP/3rdparty/embpthread/pthread_rwlockattr_setpshared.o \
+		../obj_PSP/3rdparty/embpthread/pthread_rwlock_destroy.o \
+		../obj_PSP/3rdparty/embpthread/pthread_rwlock_init.o \
+		../obj_PSP/3rdparty/embpthread/pthread_rwlock_rdlock.o \
+		../obj_PSP/3rdparty/embpthread/pthread_rwlock_timedrdlock.o \
+		../obj_PSP/3rdparty/embpthread/pthread_rwlock_timedwrlock.o \
+		../obj_PSP/3rdparty/embpthread/pthread_rwlock_tryrdlock.o \
+		../obj_PSP/3rdparty/embpthread/pthread_rwlock_trywrlock.o \
+		../obj_PSP/3rdparty/embpthread/pthread_rwlock_unlock.o \
+		../obj_PSP/3rdparty/embpthread/pthread_rwlock_wrlock.o \
+		../obj_PSP/3rdparty/embpthread/pthread_self.o \
+		../obj_PSP/3rdparty/embpthread/pthread_setcancelstate.o \
+		../obj_PSP/3rdparty/embpthread/pthread_setcanceltype.o \
+		../obj_PSP/3rdparty/embpthread/pthread_setconcurrency.o \
+		../obj_PSP/3rdparty/embpthread/pthread_setschedparam.o \
+		../obj_PSP/3rdparty/embpthread/pthread_setspecific.o \
+		../obj_PSP/3rdparty/embpthread/pthread_spin_destroy.o \
+		../obj_PSP/3rdparty/embpthread/pthread_spin_init.o \
+		../obj_PSP/3rdparty/embpthread/pthread_spin_lock.o \
+		../obj_PSP/3rdparty/embpthread/pthread_spin_trylock.o \
+		../obj_PSP/3rdparty/embpthread/pthread_spin_unlock.o \
+		../obj_PSP/3rdparty/embpthread/pthread_terminate.o \
+		../obj_PSP/3rdparty/embpthread/pthread_testcancel.o \
+		../obj_PSP/3rdparty/embpthread/pthread_timechange_handler_np.o \
+		../obj_PSP/3rdparty/embpthread/sched_get_priority_max.o \
+		../obj_PSP/3rdparty/embpthread/sched_get_priority_min.o \
+		../obj_PSP/3rdparty/embpthread/sched_setscheduler.o \
+		../obj_PSP/3rdparty/embpthread/sched_yield.o \
+		../obj_PSP/3rdparty/embpthread/sem_close.o \
+		../obj_PSP/3rdparty/embpthread/sem_destroy.o \
+		../obj_PSP/3rdparty/embpthread/sem_getvalue.o \
+		../obj_PSP/3rdparty/embpthread/sem_init.o \
+		../obj_PSP/3rdparty/embpthread/sem_open.o \
+		../obj_PSP/3rdparty/embpthread/sem_post.o \
+		../obj_PSP/3rdparty/embpthread/sem_post_multiple.o \
+		../obj_PSP/3rdparty/embpthread/sem_timedwait.o \
+		../obj_PSP/3rdparty/embpthread/sem_trywait.o \
+		../obj_PSP/3rdparty/embpthread/sem_unlink.o \
+		../obj_PSP/3rdparty/embpthread/sem_wait.o \
+		../obj_PSP/3rdparty/embpthread/tls-helper.o \
+		../obj_PSP/3rdparty/embpthread/nd_psp_osal.o
+
+
+OBJ_UTF8_PSP =  ../obj_PSP/3rdparty/utf8/gentables.o \
+		 ../obj_PSP/3rdparty/utf8/libc.o \
+		 ../obj_PSP/3rdparty/utf8/locale_is.o \
+		 ../obj_PSP/3rdparty/utf8/mbsinit.o \
+		 ../obj_PSP/3rdparty/utf8/mb_cur_max.o \
+		 ../obj_PSP/3rdparty/utf8/setlocale.o \
+		 ../obj_PSP/3rdparty/utf8/attribute/attribute.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/iswalnum.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/iswalpha.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/iswblank.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/iswcntrl.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/iswctype.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/iswdigit.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/iswgraph.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/iswlower.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/iswprint.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/iswpunct.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/iswspace.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/iswupper.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/iswxdigit.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/wcswidth.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/wctype.o \
+	 	 ../obj_PSP/3rdparty/utf8/attribute/wcwidth.o \
+	 	 ../obj_PSP/3rdparty/utf8/caseconv/noppage.o \
+		 ../obj_PSP/3rdparty/utf8/caseconv/towctrans.o \
+		 ../obj_PSP/3rdparty/utf8/caseconv/towlower.o \
+		 ../obj_PSP/3rdparty/utf8/caseconv/towupper.o \
+		 ../obj_PSP/3rdparty/utf8/caseconv/wcscasecmp.o \
+		 ../obj_PSP/3rdparty/utf8/caseconv/wcsncasecmp.o \
+		 ../obj_PSP/3rdparty/utf8/caseconv/wctrans.o \
+		 ../obj_PSP/3rdparty/utf8/mbstowcs/btowc.o \
+		 ../obj_PSP/3rdparty/utf8/mbstowcs/mblen.o \
+		 ../obj_PSP/3rdparty/utf8/mbstowcs/mbrlen.o \
+		 ../obj_PSP/3rdparty/utf8/mbstowcs/mbrtowc.o \
+		 ../obj_PSP/3rdparty/utf8/mbstowcs/mbsnrtowcs.o \
+		 ../obj_PSP/3rdparty/utf8/mbstowcs/mbsrtowcs.o \
+		 ../obj_PSP/3rdparty/utf8/mbstowcs/mbstowcs.o \
+		 ../obj_PSP/3rdparty/utf8/mbstowcs/mbtowc.o \
+		 ../obj_PSP/3rdparty/utf8/number/integer-parse.o \
+	 	 ../obj_PSP/3rdparty/utf8/number/number-parse.o \
+	 	 ../obj_PSP/3rdparty/utf8/number/wcstod.o \
+	 	 ../obj_PSP/3rdparty/utf8/number/wcstof.o \
+	 	 ../obj_PSP/3rdparty/utf8/number/wcstol.o \
+	 	 ../obj_PSP/3rdparty/utf8/number/wcstold.o \
+	 	 ../obj_PSP/3rdparty/utf8/number/wcstoll.o \
+	 	 ../obj_PSP/3rdparty/utf8/number/wcstoul.o \
+	 	 ../obj_PSP/3rdparty/utf8/number/wcstoull.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcpcpy.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcpncpy.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcscat.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcschr.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcscmp.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcscpy.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcscspn.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcsdup.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcslen.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcsncat.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcsncmp.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcsncpy.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcsnlen.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcspbrk.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcsrchr.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcsspn.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcsstr.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wcstok.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wmemchr.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wmemcmp.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wmemcpy.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wmemmove.o \
+		 ../obj_PSP/3rdparty/utf8/wstring/wmemset.o \
+		 ../obj_PSP/3rdparty/utf8/wcstombs/wcrtomb.o \
+	 	 ../obj_PSP/3rdparty/utf8/wcstombs/wcsnrtombs.o \
+	 	 ../obj_PSP/3rdparty/utf8/wcstombs/wcsrtombs.o \
+	 	 ../obj_PSP/3rdparty/utf8/wcstombs/wcstombs.o \
+	 	 ../obj_PSP/3rdparty/utf8/wcstombs/wctob.o \
+	 	 ../obj_PSP/3rdparty/utf8/wcstombs/wctomb.o \
+		 ../obj_PSP/3rdparty/utf8/stdio/fgetwc.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/fgetws.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/fprintf.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/fputwc.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/fputws.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/fwide.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/fwprintf.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/getwchar.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/printf-args.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/printf-parse.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/printf.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/putwchar.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/snprintf.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/sprintf.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/swprintf.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/ungetwc.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/vfprintf.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/vfwprintf.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/vprintf.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/vsnprintf.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/vsprintf.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/vswprintf.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/vwprintf.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/wprintf-parse.o \
+	 	 ../obj_PSP/3rdparty/utf8/stdio/wprintf.o \
+
+
+
+
+
+
+## Direttive INCLUDE per BASE (PSPE)
+
+INC_BASE_PSPE_0 = -I"." 
+INC_BASE_PSPE_1 = -I"$(NDENV_PATH)/PSP/SDK/pspdev/psp/sdk/include" 
+INC_BASE_PSPE_2 = -I"$(NDENV_PATH)/PSP/SDK/Nanodesktop/src" 
+INC_BASE_PSPE_3 = -I"$(NDENV_PATH)/PSP/SDK/NanoCore/NanoM/src"
+INC_BASE_PSPE_4 = -I"$(NDENV_PATH)/PSP/SDK/NanoCore/NanoC/src/pspe"
+
+INC_BASE_PSPE	= $(INC_BASE_PSPE_0) $(INC_BASE_PSPE_1) $(INC_BASE_PSPE_2) $(INC_BASE_PSPE_3) $(INC_BASE_PSPE_4)
+
+
+## Direttive INCLUDE per BASE (PSP)
+
+INC_BASE_PSP_0 = -I"." 
+INC_BASE_PSP_1 = -I"$(NDENV_PATH)/PSP/SDK/pspdev/psp/sdk/include" 
+INC_BASE_PSP_2 = -I"$(NDENV_PATH)/PSP/SDK/Nanodesktop/src" 
+INC_BASE_PSP_3 = -I"$(NDENV_PATH)/PSP/SDK/NanoCore/NanoM/src"
+INC_BASE_PSP_4 = -I"$(NDENV_PATH)/PSP/SDK/NanoCore/NanoC/src/psp"
+
+INC_BASE_PSP	= $(INC_BASE_PSP_0) $(INC_BASE_PSP_1) $(INC_BASE_PSP_2) $(INC_BASE_PSP_3) $(INC_BASE_PSP_4)
+
+
+
+
+## Direttive INCLUDE per EMBPTHREAD (PSPE)
+
+INC_EMBPTHREAD_PSPE_0 = -I"." 
+INC_EMBPTHREAD_PSPE_1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC_EMBPTHREAD_PSPE_2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC_EMBPTHREAD_PSPE_3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC_EMBPTHREAD_PSPE_4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include" 
+INC_EMBPTHREAD_PSPE_5 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src\nanoc_3rdparty\pspe\embpthread"
+INC_EMBPTHREAD_PSPE_6 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src\nanoc_3rdparty\pspe\embpthread\platform\nd_PSPE_PSP"
+INC_EMBPTHREAD_PSPE_7 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src\nanoc_3rdparty\pspe\embpthread\platform\helper"
+
+INC_EMBPTHREAD_PSPE = $(INC_EMBPTHREAD_PSPE_0) $(INC_EMBPTHREAD_PSPE_1) $(INC_EMBPTHREAD_PSPE_2) $(INC_EMBPTHREAD_PSPE_3) $(INC_EMBPTHREAD_PSPE_4) $(INC_EMBPTHREAD_PSPE_5) $(INC_EMBPTHREAD_PSPE_6) $(INC_EMBPTHREAD_PSPE_7) 
+
+
+
+## Direttive INCLUDE per EMBPTHREAD (PSP)
+
+INC_EMBPTHREAD_PSP_0 = -I"." 
+INC_EMBPTHREAD_PSP_1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC_EMBPTHREAD_PSP_2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC_EMBPTHREAD_PSP_3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC_EMBPTHREAD_PSP_4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include" 
+INC_EMBPTHREAD_PSP_5 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src\nanoc_3rdparty\pspe\embpthread"
+INC_EMBPTHREAD_PSP_6 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src\nanoc_3rdparty\pspe\embpthread\platform\nd_PSPE_PSP"
+INC_EMBPTHREAD_PSP_7 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src\nanoc_3rdparty\pspe\embpthread\platform\helper"
+
+INC_EMBPTHREAD_PSP = $(INC_EMBPTHREAD_PSP_0) $(INC_EMBPTHREAD_PSP_1) $(INC_EMBPTHREAD_PSP_2) $(INC_EMBPTHREAD_PSP_3) $(INC_EMBPTHREAD_PSP_4) $(INC_EMBPTHREAD_PSP_5) $(INC_EMBPTHREAD_PSP_6) $(INC_EMBPTHREAD_PSP_7) 
+
+
+
+## Direttive INCLUDE per UTF8 (PSPE)
+
+INC_UTF8_PSPE_0 = -I"." 
+INC_UTF8_PSPE_1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC_UTF8_PSPE_2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC_UTF8_PSPE_3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC_UTF8_PSPE_4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include" 
+INC_UTF8_PSPE_5 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src\nanoc_3rdparty\pspe\utf8\src"
+INC_UTF8_PSPE_6 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src\nanoc_3rdparty\pspe\utf8\include"
+
+
+INC_UTF8_PSPE = $(INC_UTF8_PSPE_0) $(INC_UTF8_PSPE_1) $(INC_UTF8_PSPE_2) $(INC_UTF8_PSPE_3) $(INC_UTF8_PSPE_4) $(INC_UTF8_PSPE_5) $(INC_UTF8_PSPE_6) 
+
+
+
+## Direttive INCLUDE per UTF8 (PSP)
+
+INC_UTF8_PSP_0 = -I"." 
+INC_UTF8_PSP_1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC_UTF8_PSP_2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC_UTF8_PSP_3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC_UTF8_PSP_4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include" 
+INC_UTF8_PSP_5 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src\nanoc_3rdparty\psp\utf8\src"
+INC_UTF8_PSP_6 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src\nanoc_3rdparty\psp\utf8\include"
+
+
+INC_UTF8_PSP = $(INC_UTF8_PSP_0) $(INC_UTF8_PSP_1) $(INC_UTF8_PSP_2) $(INC_UTF8_PSP_3) $(INC_UTF8_PSP_4) $(INC_UTF8_PSP_5) $(INC_UTF8_PSP_6) 
+
+
+
+
+
+
+## CFlags
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY"  $(INC) $(INC_PSPE) -O3 -g -march=mips2 -fomit-frame-pointer -fno-exceptions -mgp32 -mfp32 -msym32 -ffast-math -fshort-double -v -Wall
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY"  $(INC) $(INC_PSP) -O3 -G0 -g -O3 -G0 -g -march=allegrex -fomit-frame-pointer -fno-exceptions -mgp32 -mfp32 -msym32 -ffast-math -mhard-float -fshort-double -v -Wall
+
+
+# Options
+
+OPT_BASE_PSPE = -D"ENABLE_NANOC_SYMBOLIC_EXTENSION" 
+
+OPT_BASE_PSP  = -D"ENABLE_NANOC_SYMBOLIC_EXTENSION" 
+
+OPT_EMBPTHREAD_PSPE = -D"_INCLUDE_SETJMP_IN_PTHREAD_H_"
+
+OPT_EMBPTHREAD_PSP  = -D"_INCLUDE_SETJMP_IN_PTHREAD_H_"
+
+OPT_UTF8_PSPE = 
+
+OPT_UTF8_PSP  = 
+
+
+
+
+
+
+all: base pte utf8
+	
+base:   $(OBJ_BASE_PSPE) $(OBJ_BASE_PSP)
+	 $(AR) r $(OUTLIB_PSPE) $(OBJ_BASE_PSPE) 
+	 $(AR) r $(OUTLIB_PSP) $(OBJ_BASE_PSP) 
+
+pte:	$(OBJ_EMBPTHREAD_PSPE) $(OBJ_EMBPTHREAD_PSP)		
+	 $(AR) r $(OUTLIB_PSPE) $(OBJ_EMBPTHREAD_PSPE) 
+	 $(AR) r $(OUTLIB_PSP)  $(OBJ_EMBPTHREAD_PSP)
+
+utf8:	$(OBJ_UTF8_PSPE) $(OBJ_UTF8_PSP) 
+	 $(AR) r $(OUTLIB_PSPE) $(OBJ_UTF8_PSPE) 
+	 $(AR) r $(OUTLIB_PSP)  $(OBJ_UTF8_PSP)
+
+
+
+
+
+## Compilazione dei sorgenti BASE per PSPE
+		
+../obj_PSPE/stdiocore.o: ./pspe/stdiocore.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/stdiocore.c -o ../obj_PSPE/stdiocore.o 
+	
+../obj_PSPE/stdiostream.o: ./pspe/stdiostream.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/stdiostream.c -o ../obj_PSPE/stdiostream.o  
+	
+../obj_PSPE/stdioprintf.o: ./pspe/stdioprintf.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/stdioprintf.c -o ../obj_PSPE/stdioprintf.o 
+	
+../obj_PSPE/stdioscanf.o: ./pspe/stdioscanf.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/stdioscanf.c -o ../obj_PSPE/stdioscanf.o  
+
+../obj_PSPE/stdioexec.o: ./pspe/stdioexec.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/stdioexec.c -o ../obj_PSPE/stdioexec.o  
+	
+../obj_PSPE/stdiowchar.o: ./pspe/stdiowchar.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/stdiowchar.c -o ../obj_PSPE/stdiowchar.o  
+
+../obj_PSPE/stdiobridgecpp.o: ./pspe/stdiobridgecpp.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/stdiobridgecpp.c -o ../obj_PSPE/stdiobridgecpp.o  
+
+../obj_PSPE/malloc.o: ./pspe/malloc.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/malloc.c -o ../obj_PSPE/malloc.o 
+
+../obj_PSPE/fsstrfunc.o: ./pspe/fsstrfunc.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/fsstrfunc.c  -o ../obj_PSPE/fsstrfunc.o  
+
+../obj_PSPE/string.o: ./pspe/string.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/string.c -o ../obj_PSPE/string.o  
+		
+../obj_PSPE/stdlib.o: ./pspe/stdlib.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/stdlib.c -o ../obj_PSPE/stdlib.o  
+		
+../obj_PSPE/xerrno.o: ./pspe/xerrno.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/xerrno.c -o ../obj_PSPE/xerrno.o 
+	
+../obj_PSPE/time.o: ./pspe/time.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/time.c -o ../obj_PSPE/time.o  
+	
+../obj_PSPE/misc0.o: ./pspe/misc0.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/misc0.c -o ../obj_PSPE/misc0.o  
+
+../obj_PSPE/misc1.o: ./pspe/misc1.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/misc1.c -o ../obj_PSPE/misc1.o  
+	
+../obj_PSPE/reent.o: ./pspe/reent.c
+	$(C) -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/reent.c -o ../obj_PSPE/reent.o  
+			
+../obj_PSPE/setjmp.o: 
+	$(C) -g -mips2 -O0 -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/setjmp.S -o ../obj_PSPE/setjmp.o
+
+../obj_PSPE/startup.o: ./pspe/startup.s
+	$(C) -g -c $(CFLAGS_PSPE) $(OPT_BASE_PSPE) $(INC_BASE_PSPE) ./pspe/startup.s -xassembler -mips2 -O0 -o $@ $<
+
+
+
+## Compilazione dei sorgenti EMBPTHREAD per PSPE
+			
+../obj_PSPE/3rdparty/embpthread/cleanup.o: ./nanoc_3rdparty/pspe/embpthread/cleanup.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/cleanup.c -o ../obj_PSPE/3rdparty/embpthread/cleanup.o 
+
+../obj_PSPE/3rdparty/embpthread/create.o: ./nanoc_3rdparty/pspe/embpthread/create.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/create.c -o ../obj_PSPE/3rdparty/embpthread/create.o 
+
+../obj_PSPE/3rdparty/embpthread/global.o: ./nanoc_3rdparty/pspe/embpthread/global.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/global.c -o ../obj_PSPE/3rdparty/embpthread/global.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_callUserDestroyRoutines.o: ./nanoc_3rdparty/pspe/embpthread/pte_callUserDestroyRoutines.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_callUserDestroyRoutines.c -o ../obj_PSPE/3rdparty/embpthread/pte_callUserDestroyRoutines.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_cancellable_wait.o: ./nanoc_3rdparty/pspe/embpthread/pte_cancellable_wait.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_cancellable_wait.c -o ../obj_PSPE/3rdparty/embpthread/pte_cancellable_wait.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_cond_check_need_init.o: ./nanoc_3rdparty/pspe/embpthread/pte_cond_check_need_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_cond_check_need_init.c -o ../obj_PSPE/3rdparty/embpthread/pte_cond_check_need_init.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_detach.o: ./nanoc_3rdparty/pspe/embpthread/pte_detach.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_detach.c -o ../obj_PSPE/3rdparty/embpthread/pte_detach.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_getprocessors.o: ./nanoc_3rdparty/pspe/embpthread/pte_getprocessors.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_getprocessors.c -o ../obj_PSPE/3rdparty/embpthread/pte_getprocessors.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_is_attr.o: ./nanoc_3rdparty/pspe/embpthread/pte_is_attr.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_is_attr.c -o ../obj_PSPE/3rdparty/embpthread/pte_is_attr.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_mutex_check_need_init.o: ./nanoc_3rdparty/pspe/embpthread/pte_mutex_check_need_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_mutex_check_need_init.c -o ../obj_PSPE/3rdparty/embpthread/pte_mutex_check_need_init.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_new.o: ./nanoc_3rdparty/pspe/embpthread/pte_new.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_new.c -o ../obj_PSPE/3rdparty/embpthread/pte_new.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_relmillisecs.o: ./nanoc_3rdparty/pspe/embpthread/pte_relmillisecs.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_relmillisecs.c -o ../obj_PSPE/3rdparty/embpthread/pte_relmillisecs.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_reuse.o: ./nanoc_3rdparty/pspe/embpthread/pte_reuse.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_reuse.c -o ../obj_PSPE/3rdparty/embpthread/pte_reuse.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_rwlock_cancelwrwait.o: ./nanoc_3rdparty/pspe/embpthread/pte_rwlock_cancelwrwait.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_rwlock_cancelwrwait.c -o ../obj_PSPE/3rdparty/embpthread/pte_rwlock_cancelwrwait.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_rwlock_check_need_init.o: ./nanoc_3rdparty/pspe/embpthread/pte_rwlock_check_need_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_rwlock_check_need_init.c -o ../obj_PSPE/3rdparty/embpthread/pte_rwlock_check_need_init.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_spinlock_check_need_init.o: ./nanoc_3rdparty/pspe/embpthread/pte_spinlock_check_need_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_spinlock_check_need_init.c -o ../obj_PSPE/3rdparty/embpthread/pte_spinlock_check_need_init.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_threadDestroy.o: ./nanoc_3rdparty/pspe/embpthread/pte_threadDestroy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_threadDestroy.c -o ../obj_PSPE/3rdparty/embpthread/pte_threadDestroy.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_threadStart.o: ./nanoc_3rdparty/pspe/embpthread/pte_threadStart.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_threadStart.c -o ../obj_PSPE/3rdparty/embpthread/pte_threadStart.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_throw.o: ./nanoc_3rdparty/pspe/embpthread/pte_throw.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_throw.c -o ../obj_PSPE/3rdparty/embpthread/pte_throw.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_tkAssocCreate.o: ./nanoc_3rdparty/pspe/embpthread/pte_tkAssocCreate.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_tkAssocCreate.c -o ../obj_PSPE/3rdparty/embpthread/pte_tkAssocCreate.o 
+
+../obj_PSPE/3rdparty/embpthread/pte_tkAssocDestroy.o: ./nanoc_3rdparty/pspe/embpthread/pte_tkAssocDestroy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pte_tkAssocDestroy.c -o ../obj_PSPE/3rdparty/embpthread/pte_tkAssocDestroy.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_destroy.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_destroy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_destroy.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_destroy.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_getdetachstate.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_getdetachstate.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_getdetachstate.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_getdetachstate.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_getinheritsched.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_getinheritsched.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_getinheritsched.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_getinheritsched.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_getschedparam.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_getschedparam.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_getschedparam.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_getschedparam.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_getschedpolicy.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_getschedpolicy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_getschedpolicy.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_getschedpolicy.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_getscope.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_getscope.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_getscope.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_getscope.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_getstackaddr.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_getstackaddr.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_getstackaddr.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_getstackaddr.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_getstacksize.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_getstacksize.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_getstacksize.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_getstacksize.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_init.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_init.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_init.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_setdetachstate.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_setdetachstate.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_setdetachstate.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_setdetachstate.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_setinheritsched.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_setinheritsched.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_setinheritsched.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_setinheritsched.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_setschedparam.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_setschedparam.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_setschedparam.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_setschedparam.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_setschedpolicy.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_setschedpolicy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_setschedpolicy.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_setschedpolicy.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_setscope.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_setscope.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_setscope.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_setscope.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_setstackaddr.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_setstackaddr.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_setstackaddr.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_setstackaddr.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_attr_setstacksize.o: ./nanoc_3rdparty/pspe/embpthread/pthread_attr_setstacksize.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_attr_setstacksize.c -o ../obj_PSPE/3rdparty/embpthread/pthread_attr_setstacksize.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_barrierattr_destroy.o: ./nanoc_3rdparty/pspe/embpthread/pthread_barrierattr_destroy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_barrierattr_destroy.c -o ../obj_PSPE/3rdparty/embpthread/pthread_barrierattr_destroy.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_barrierattr_getpshared.o: ./nanoc_3rdparty/pspe/embpthread/pthread_barrierattr_getpshared.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_barrierattr_getpshared.c -o ../obj_PSPE/3rdparty/embpthread/pthread_barrierattr_getpshared.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_barrierattr_init.o: ./nanoc_3rdparty/pspe/embpthread/pthread_barrierattr_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_barrierattr_init.c -o ../obj_PSPE/3rdparty/embpthread/pthread_barrierattr_init.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_barrierattr_setpshared.o: ./nanoc_3rdparty/pspe/embpthread/pthread_barrierattr_setpshared.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_barrierattr_setpshared.c -o ../obj_PSPE/3rdparty/embpthread/pthread_barrierattr_setpshared.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_barrier_destroy.o: ./nanoc_3rdparty/pspe/embpthread/pthread_barrier_destroy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_barrier_destroy.c -o ../obj_PSPE/3rdparty/embpthread/pthread_barrier_destroy.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_barrier_init.o: ./nanoc_3rdparty/pspe/embpthread/pthread_barrier_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_barrier_init.c -o ../obj_PSPE/3rdparty/embpthread/pthread_barrier_init.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_barrier_wait.o: ./nanoc_3rdparty/pspe/embpthread/pthread_barrier_wait.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_barrier_wait.c -o ../obj_PSPE/3rdparty/embpthread/pthread_barrier_wait.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_cancel.o: ./nanoc_3rdparty/pspe/embpthread/pthread_cancel.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_cancel.c -o ../obj_PSPE/3rdparty/embpthread/pthread_cancel.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_condattr_destroy.o: ./nanoc_3rdparty/pspe/embpthread/pthread_condattr_destroy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_condattr_destroy.c -o ../obj_PSPE/3rdparty/embpthread/pthread_condattr_destroy.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_condattr_getpshared.o: ./nanoc_3rdparty/pspe/embpthread/pthread_condattr_getpshared.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_condattr_getpshared.c -o ../obj_PSPE/3rdparty/embpthread/pthread_condattr_getpshared.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_condattr_init.o: ./nanoc_3rdparty/pspe/embpthread/pthread_condattr_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_condattr_init.c -o ../obj_PSPE/3rdparty/embpthread/pthread_condattr_init.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_condattr_setpshared.o: ./nanoc_3rdparty/pspe/embpthread/pthread_condattr_setpshared.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_condattr_setpshared.c -o ../obj_PSPE/3rdparty/embpthread/pthread_condattr_setpshared.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_cond_destroy.o: ./nanoc_3rdparty/pspe/embpthread/pthread_cond_destroy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_cond_destroy.c -o ../obj_PSPE/3rdparty/embpthread/pthread_cond_destroy.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_cond_init.o: ./nanoc_3rdparty/pspe/embpthread/pthread_cond_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_cond_init.c -o ../obj_PSPE/3rdparty/embpthread/pthread_cond_init.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_cond_signal.o: ./nanoc_3rdparty/pspe/embpthread/pthread_cond_signal.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_cond_signal.c -o ../obj_PSPE/3rdparty/embpthread/pthread_cond_signal.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_cond_wait.o: ./nanoc_3rdparty/pspe/embpthread/pthread_cond_wait.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_cond_wait.c -o ../obj_PSPE/3rdparty/embpthread/pthread_cond_wait.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_delay_np.o: ./nanoc_3rdparty/pspe/embpthread/pthread_delay_np.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_delay_np.c -o ../obj_PSPE/3rdparty/embpthread/pthread_delay_np.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_detach.o: ./nanoc_3rdparty/pspe/embpthread/pthread_detach.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_detach.c -o ../obj_PSPE/3rdparty/embpthread/pthread_detach.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_equal.o: ./nanoc_3rdparty/pspe/embpthread/pthread_equal.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_equal.c -o ../obj_PSPE/3rdparty/embpthread/pthread_equal.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_exit.o: ./nanoc_3rdparty/pspe/embpthread/pthread_exit.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_exit.c -o ../obj_PSPE/3rdparty/embpthread/pthread_exit.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_getconcurrency.o: ./nanoc_3rdparty/pspe/embpthread/pthread_getconcurrency.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_getconcurrency.c -o ../obj_PSPE/3rdparty/embpthread/pthread_getconcurrency.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_getschedparam.o: ./nanoc_3rdparty/pspe/embpthread/pthread_getschedparam.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_getschedparam.c -o ../obj_PSPE/3rdparty/embpthread/pthread_getschedparam.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_getspecific.o: ./nanoc_3rdparty/pspe/embpthread/pthread_getspecific.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_getspecific.c -o ../obj_PSPE/3rdparty/embpthread/pthread_getspecific.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_init.o: ./nanoc_3rdparty/pspe/embpthread/pthread_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_init.c -o ../obj_PSPE/3rdparty/embpthread/pthread_init.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_join.o: ./nanoc_3rdparty/pspe/embpthread/pthread_join.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_join.c -o ../obj_PSPE/3rdparty/embpthread/pthread_join.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_key_create.o: ./nanoc_3rdparty/pspe/embpthread/pthread_key_create.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_key_create.c -o ../obj_PSPE/3rdparty/embpthread/pthread_key_create.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_key_delete.o: ./nanoc_3rdparty/pspe/embpthread/pthread_key_delete.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_key_delete.c -o ../obj_PSPE/3rdparty/embpthread/pthread_key_delete.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_kill.o: ./nanoc_3rdparty/pspe/embpthread/pthread_kill.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_kill.c -o ../obj_PSPE/3rdparty/embpthread/pthread_kill.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_destroy.o: ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_destroy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_destroy.c -o ../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_destroy.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_getkind_np.o: ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_getkind_np.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_getkind_np.c -o ../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_getkind_np.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_getpshared.o: ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_getpshared.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_getpshared.c -o ../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_getpshared.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_gettype.o: ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_gettype.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_gettype.c -o ../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_gettype.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_init.o: ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_init.c -o ../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_init.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_setkind_np.o: ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_setkind_np.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_setkind_np.c -o ../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_setkind_np.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_setpshared.o: ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_setpshared.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_setpshared.c -o ../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_setpshared.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_settype.o: ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_settype.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_mutexattr_settype.c -o ../obj_PSPE/3rdparty/embpthread/pthread_mutexattr_settype.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_mutex_destroy.o: ./nanoc_3rdparty/pspe/embpthread/pthread_mutex_destroy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_mutex_destroy.c -o ../obj_PSPE/3rdparty/embpthread/pthread_mutex_destroy.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_mutex_init.o: ./nanoc_3rdparty/pspe/embpthread/pthread_mutex_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_mutex_init.c -o ../obj_PSPE/3rdparty/embpthread/pthread_mutex_init.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_mutex_lock.o: ./nanoc_3rdparty/pspe/embpthread/pthread_mutex_lock.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_mutex_lock.c -o ../obj_PSPE/3rdparty/embpthread/pthread_mutex_lock.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_mutex_timedlock.o: ./nanoc_3rdparty/pspe/embpthread/pthread_mutex_timedlock.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_mutex_timedlock.c -o ../obj_PSPE/3rdparty/embpthread/pthread_mutex_timedlock.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_mutex_trylock.o: ./nanoc_3rdparty/pspe/embpthread/pthread_mutex_trylock.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_mutex_trylock.c -o ../obj_PSPE/3rdparty/embpthread/pthread_mutex_trylock.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_mutex_unlock.o: ./nanoc_3rdparty/pspe/embpthread/pthread_mutex_unlock.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_mutex_unlock.c -o ../obj_PSPE/3rdparty/embpthread/pthread_mutex_unlock.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_num_processors_np.o: ./nanoc_3rdparty/pspe/embpthread/pthread_num_processors_np.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_num_processors_np.c -o ../obj_PSPE/3rdparty/embpthread/pthread_num_processors_np.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_once.o: ./nanoc_3rdparty/pspe/embpthread/pthread_once.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_once.c -o ../obj_PSPE/3rdparty/embpthread/pthread_once.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_rwlockattr_destroy.o: ./nanoc_3rdparty/pspe/embpthread/pthread_rwlockattr_destroy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_rwlockattr_destroy.c -o ../obj_PSPE/3rdparty/embpthread/pthread_rwlockattr_destroy.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_rwlockattr_getpshared.o: ./nanoc_3rdparty/pspe/embpthread/pthread_rwlockattr_getpshared.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_rwlockattr_getpshared.c -o ../obj_PSPE/3rdparty/embpthread/pthread_rwlockattr_getpshared.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_rwlockattr_init.o: ./nanoc_3rdparty/pspe/embpthread/pthread_rwlockattr_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_rwlockattr_init.c -o ../obj_PSPE/3rdparty/embpthread/pthread_rwlockattr_init.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_rwlockattr_setpshared.o: ./nanoc_3rdparty/pspe/embpthread/pthread_rwlockattr_setpshared.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_rwlockattr_setpshared.c -o ../obj_PSPE/3rdparty/embpthread/pthread_rwlockattr_setpshared.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_rwlock_destroy.o: ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_destroy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_destroy.c -o ../obj_PSPE/3rdparty/embpthread/pthread_rwlock_destroy.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_rwlock_init.o: ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_init.c -o ../obj_PSPE/3rdparty/embpthread/pthread_rwlock_init.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_rwlock_rdlock.o: ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_rdlock.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_rdlock.c -o ../obj_PSPE/3rdparty/embpthread/pthread_rwlock_rdlock.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_rwlock_timedrdlock.o: ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_timedrdlock.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_timedrdlock.c -o ../obj_PSPE/3rdparty/embpthread/pthread_rwlock_timedrdlock.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_rwlock_timedwrlock.o: ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_timedwrlock.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_timedwrlock.c -o ../obj_PSPE/3rdparty/embpthread/pthread_rwlock_timedwrlock.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_rwlock_tryrdlock.o: ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_tryrdlock.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_tryrdlock.c -o ../obj_PSPE/3rdparty/embpthread/pthread_rwlock_tryrdlock.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_rwlock_trywrlock.o: ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_trywrlock.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_trywrlock.c -o ../obj_PSPE/3rdparty/embpthread/pthread_rwlock_trywrlock.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_rwlock_unlock.o: ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_unlock.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_unlock.c -o ../obj_PSPE/3rdparty/embpthread/pthread_rwlock_unlock.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_rwlock_wrlock.o: ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_wrlock.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_rwlock_wrlock.c -o ../obj_PSPE/3rdparty/embpthread/pthread_rwlock_wrlock.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_self.o: ./nanoc_3rdparty/pspe/embpthread/pthread_self.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_self.c -o ../obj_PSPE/3rdparty/embpthread/pthread_self.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_setcancelstate.o: ./nanoc_3rdparty/pspe/embpthread/pthread_setcancelstate.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_setcancelstate.c -o ../obj_PSPE/3rdparty/embpthread/pthread_setcancelstate.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_setcanceltype.o: ./nanoc_3rdparty/pspe/embpthread/pthread_setcanceltype.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_setcanceltype.c -o ../obj_PSPE/3rdparty/embpthread/pthread_setcanceltype.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_setconcurrency.o: ./nanoc_3rdparty/pspe/embpthread/pthread_setconcurrency.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_setconcurrency.c -o ../obj_PSPE/3rdparty/embpthread/pthread_setconcurrency.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_setschedparam.o: ./nanoc_3rdparty/pspe/embpthread/pthread_setschedparam.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_setschedparam.c -o ../obj_PSPE/3rdparty/embpthread/pthread_setschedparam.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_setspecific.o: ./nanoc_3rdparty/pspe/embpthread/pthread_setspecific.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_setspecific.c -o ../obj_PSPE/3rdparty/embpthread/pthread_setspecific.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_spin_destroy.o: ./nanoc_3rdparty/pspe/embpthread/pthread_spin_destroy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_spin_destroy.c -o ../obj_PSPE/3rdparty/embpthread/pthread_spin_destroy.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_spin_init.o: ./nanoc_3rdparty/pspe/embpthread/pthread_spin_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_spin_init.c -o ../obj_PSPE/3rdparty/embpthread/pthread_spin_init.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_spin_lock.o: ./nanoc_3rdparty/pspe/embpthread/pthread_spin_lock.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_spin_lock.c -o ../obj_PSPE/3rdparty/embpthread/pthread_spin_lock.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_spin_trylock.o: ./nanoc_3rdparty/pspe/embpthread/pthread_spin_trylock.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_spin_trylock.c -o ../obj_PSPE/3rdparty/embpthread/pthread_spin_trylock.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_spin_unlock.o: ./nanoc_3rdparty/pspe/embpthread/pthread_spin_unlock.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_spin_unlock.c -o ../obj_PSPE/3rdparty/embpthread/pthread_spin_unlock.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_terminate.o: ./nanoc_3rdparty/pspe/embpthread/pthread_terminate.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_terminate.c -o ../obj_PSPE/3rdparty/embpthread/pthread_terminate.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_testcancel.o: ./nanoc_3rdparty/pspe/embpthread/pthread_testcancel.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_testcancel.c -o ../obj_PSPE/3rdparty/embpthread/pthread_testcancel.o 
+
+../obj_PSPE/3rdparty/embpthread/pthread_timechange_handler_np.o: ./nanoc_3rdparty/pspe/embpthread/pthread_timechange_handler_np.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/pthread_timechange_handler_np.c -o ../obj_PSPE/3rdparty/embpthread/pthread_timechange_handler_np.o 
+
+../obj_PSPE/3rdparty/embpthread/sched_get_priority_max.o: ./nanoc_3rdparty/pspe/embpthread/sched_get_priority_max.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/sched_get_priority_max.c -o ../obj_PSPE/3rdparty/embpthread/sched_get_priority_max.o 
+
+../obj_PSPE/3rdparty/embpthread/sched_get_priority_min.o: ./nanoc_3rdparty/pspe/embpthread/sched_get_priority_min.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/sched_get_priority_min.c -o ../obj_PSPE/3rdparty/embpthread/sched_get_priority_min.o 
+
+../obj_PSPE/3rdparty/embpthread/sched_setscheduler.o: ./nanoc_3rdparty/pspe/embpthread/sched_setscheduler.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/sched_setscheduler.c -o ../obj_PSPE/3rdparty/embpthread/sched_setscheduler.o 
+
+../obj_PSPE/3rdparty/embpthread/sched_yield.o: ./nanoc_3rdparty/pspe/embpthread/sched_yield.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/sched_yield.c -o ../obj_PSPE/3rdparty/embpthread/sched_yield.o 
+
+../obj_PSPE/3rdparty/embpthread/sem_close.o: ./nanoc_3rdparty/pspe/embpthread/sem_close.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/sem_close.c -o ../obj_PSPE/3rdparty/embpthread/sem_close.o 
+
+../obj_PSPE/3rdparty/embpthread/sem_destroy.o: ./nanoc_3rdparty/pspe/embpthread/sem_destroy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/sem_destroy.c -o ../obj_PSPE/3rdparty/embpthread/sem_destroy.o 
+
+../obj_PSPE/3rdparty/embpthread/sem_getvalue.o: ./nanoc_3rdparty/pspe/embpthread/sem_getvalue.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/sem_getvalue.c -o ../obj_PSPE/3rdparty/embpthread/sem_getvalue.o 
+
+../obj_PSPE/3rdparty/embpthread/sem_init.o: ./nanoc_3rdparty/pspe/embpthread/sem_init.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/sem_init.c -o ../obj_PSPE/3rdparty/embpthread/sem_init.o 
+
+../obj_PSPE/3rdparty/embpthread/sem_open.o: ./nanoc_3rdparty/pspe/embpthread/sem_open.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/sem_open.c -o ../obj_PSPE/3rdparty/embpthread/sem_open.o 
+
+../obj_PSPE/3rdparty/embpthread/sem_post.o: ./nanoc_3rdparty/pspe/embpthread/sem_post.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/sem_post.c -o ../obj_PSPE/3rdparty/embpthread/sem_post.o 
+
+../obj_PSPE/3rdparty/embpthread/sem_post_multiple.o: ./nanoc_3rdparty/pspe/embpthread/sem_post_multiple.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/sem_post_multiple.c -o ../obj_PSPE/3rdparty/embpthread/sem_post_multiple.o 
+
+../obj_PSPE/3rdparty/embpthread/sem_timedwait.o: ./nanoc_3rdparty/pspe/embpthread/sem_timedwait.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/sem_timedwait.c -o ../obj_PSPE/3rdparty/embpthread/sem_timedwait.o 
+
+../obj_PSPE/3rdparty/embpthread/sem_trywait.o: ./nanoc_3rdparty/pspe/embpthread/sem_trywait.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/sem_trywait.c -o ../obj_PSPE/3rdparty/embpthread/sem_trywait.o 
+
+../obj_PSPE/3rdparty/embpthread/sem_unlink.o: ./nanoc_3rdparty/pspe/embpthread/sem_unlink.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/sem_unlink.c -o ../obj_PSPE/3rdparty/embpthread/sem_unlink.o 
+	 
+../obj_PSPE/3rdparty/embpthread/sem_wait.o: ./nanoc_3rdparty/pspe/embpthread/sem_wait.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/sem_wait.c -o ../obj_PSPE/3rdparty/embpthread/sem_wait.o 
+
+../obj_PSPE/3rdparty/embpthread/tls-helper.o: ./nanoc_3rdparty/pspe/embpthread/platform/helper/tls-helper.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/platform/helper/tls-helper.c -o ../obj_PSPE/3rdparty/embpthread/tls-helper.o
+	
+../obj_PSPE/3rdparty/embpthread/nd_pspe_osal.o: ./nanoc_3rdparty/pspe/embpthread/platform/nd_PSPE_PSP/nd_pspe_osal.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_EMBPTHREAD_PSPE) $(INC_EMBPTHREAD_PSPE) -c ./nanoc_3rdparty/pspe/embpthread/platform/nd_PSPE_PSP/nd_pspe_osal.c -o ../obj_PSPE/3rdparty/embpthread/nd_pspe_osal.o
+	
+	
+
+	
+
+			
+## Compilazione dei sorgenti BASE per PSP
+		
+../obj_PSP/stdiocore.o: ./psp/stdiocore.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/stdiocore.c -o ../obj_PSP/stdiocore.o 
+	
+../obj_PSP/stdiostream.o: ./psp/stdiostream.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/stdiostream.c -o ../obj_PSP/stdiostream.o  
+	
+../obj_PSP/stdioprintf.o: ./psp/stdioprintf.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/stdioprintf.c -o ../obj_PSP/stdioprintf.o 
+	
+../obj_PSP/stdioscanf.o: ./psp/stdioscanf.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/stdioscanf.c -o ../obj_PSP/stdioscanf.o  
+
+../obj_PSP/stdioexec.o: ./psp/stdioexec.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/stdioexec.c -o ../obj_PSP/stdioexec.o  
+	
+../obj_PSP/stdiowchar.o: ./psp/stdiowchar.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/stdiowchar.c -o ../obj_PSP/stdiowchar.o  
+
+../obj_PSP/stdiobridgecpp.o: ./psp/stdiobridgecpp.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/stdiobridgecpp.c -o ../obj_PSP/stdiobridgecpp.o  
+
+../obj_PSP/malloc.o: ./psp/malloc.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/malloc.c -o ../obj_PSP/malloc.o 
+
+../obj_PSP/fsstrfunc.o: ./psp/fsstrfunc.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/fsstrfunc.c  -o ../obj_PSP/fsstrfunc.o  
+
+../obj_PSP/string.o: ./psp/string.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/string.c -o ../obj_PSP/string.o  
+		
+../obj_PSP/stdlib.o: ./psp/stdlib.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/stdlib.c -o ../obj_PSP/stdlib.o  
+		
+../obj_PSP/xerrno.o: ./psp/xerrno.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/xerrno.c -o ../obj_PSP/xerrno.o 
+	
+../obj_PSP/time.o: ./psp/time.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/time.c -o ../obj_PSP/time.o  
+	
+../obj_PSP/misc0.o: ./psp/misc0.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/misc0.c -o ../obj_PSP/misc0.o  
+	
+../obj_PSP/misc1.o: ./psp/misc1.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/misc1.c -o ../obj_PSP/misc1.o  
+	
+../obj_PSP/reent.o: ./psp/reent.c
+	$(C) -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/reent.c -o ../obj_PSP/reent.o  
+			
+../obj_PSP/setjmp.o: 
+	$(C) -g -mips2 -O0 -c $(CFLAGS_PSP) $(OPT_BASE_PSP) $(INC_BASE_PSP) ./psp/setjmp.S -o ../obj_PSP/setjmp.o
+
+
+
+
+## Compilazione dei sorgenti EMBPTHREAD per PSP
+			
+../obj_PSP/3rdparty/embpthread/cleanup.o: ./nanoc_3rdparty/psp/embpthread/cleanup.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/cleanup.c -o ../obj_PSP/3rdparty/embpthread/cleanup.o 
+
+../obj_PSP/3rdparty/embpthread/create.o: ./nanoc_3rdparty/psp/embpthread/create.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/create.c -o ../obj_PSP/3rdparty/embpthread/create.o 
+
+../obj_PSP/3rdparty/embpthread/global.o: ./nanoc_3rdparty/psp/embpthread/global.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/pspe/embpthread/global.c -o ../obj_PSP/3rdparty/embpthread/global.o 
+
+../obj_PSP/3rdparty/embpthread/pte_callUserDestroyRoutines.o: ./nanoc_3rdparty/psp/embpthread/pte_callUserDestroyRoutines.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_callUserDestroyRoutines.c -o ../obj_PSP/3rdparty/embpthread/pte_callUserDestroyRoutines.o 
+
+../obj_PSP/3rdparty/embpthread/pte_cancellable_wait.o: ./nanoc_3rdparty/psp/embpthread/pte_cancellable_wait.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_cancellable_wait.c -o ../obj_PSP/3rdparty/embpthread/pte_cancellable_wait.o 
+
+../obj_PSP/3rdparty/embpthread/pte_cond_check_need_init.o: ./nanoc_3rdparty/psp/embpthread/pte_cond_check_need_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_cond_check_need_init.c -o ../obj_PSP/3rdparty/embpthread/pte_cond_check_need_init.o 
+
+../obj_PSP/3rdparty/embpthread/pte_detach.o: ./nanoc_3rdparty/psp/embpthread/pte_detach.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_detach.c -o ../obj_PSP/3rdparty/embpthread/pte_detach.o 
+
+../obj_PSP/3rdparty/embpthread/pte_getprocessors.o: ./nanoc_3rdparty/psp/embpthread/pte_getprocessors.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_getprocessors.c -o ../obj_PSP/3rdparty/embpthread/pte_getprocessors.o 
+
+../obj_PSP/3rdparty/embpthread/pte_is_attr.o: ./nanoc_3rdparty/psp/embpthread/pte_is_attr.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_is_attr.c -o ../obj_PSP/3rdparty/embpthread/pte_is_attr.o 
+
+../obj_PSP/3rdparty/embpthread/pte_mutex_check_need_init.o: ./nanoc_3rdparty/psp/embpthread/pte_mutex_check_need_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_mutex_check_need_init.c -o ../obj_PSP/3rdparty/embpthread/pte_mutex_check_need_init.o 
+
+../obj_PSP/3rdparty/embpthread/pte_new.o: ./nanoc_3rdparty/psp/embpthread/pte_new.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_new.c -o ../obj_PSP/3rdparty/embpthread/pte_new.o 
+
+../obj_PSP/3rdparty/embpthread/pte_relmillisecs.o: ./nanoc_3rdparty/psp/embpthread/pte_relmillisecs.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_relmillisecs.c -o ../obj_PSP/3rdparty/embpthread/pte_relmillisecs.o 
+
+../obj_PSP/3rdparty/embpthread/pte_reuse.o: ./nanoc_3rdparty/psp/embpthread/pte_reuse.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_reuse.c -o ../obj_PSP/3rdparty/embpthread/pte_reuse.o 
+
+../obj_PSP/3rdparty/embpthread/pte_rwlock_cancelwrwait.o: ./nanoc_3rdparty/psp/embpthread/pte_rwlock_cancelwrwait.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_rwlock_cancelwrwait.c -o ../obj_PSP/3rdparty/embpthread/pte_rwlock_cancelwrwait.o 
+
+../obj_PSP/3rdparty/embpthread/pte_rwlock_check_need_init.o: ./nanoc_3rdparty/psp/embpthread/pte_rwlock_check_need_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_rwlock_check_need_init.c -o ../obj_PSP/3rdparty/embpthread/pte_rwlock_check_need_init.o 
+
+../obj_PSP/3rdparty/embpthread/pte_spinlock_check_need_init.o: ./nanoc_3rdparty/psp/embpthread/pte_spinlock_check_need_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_spinlock_check_need_init.c -o ../obj_PSP/3rdparty/embpthread/pte_spinlock_check_need_init.o 
+
+../obj_PSP/3rdparty/embpthread/pte_threadDestroy.o: ./nanoc_3rdparty/psp/embpthread/pte_threadDestroy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_threadDestroy.c -o ../obj_PSP/3rdparty/embpthread/pte_threadDestroy.o 
+
+../obj_PSP/3rdparty/embpthread/pte_threadStart.o: ./nanoc_3rdparty/psp/embpthread/pte_threadStart.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_threadStart.c -o ../obj_PSP/3rdparty/embpthread/pte_threadStart.o 
+
+../obj_PSP/3rdparty/embpthread/pte_throw.o: ./nanoc_3rdparty/psp/embpthread/pte_throw.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_throw.c -o ../obj_PSP/3rdparty/embpthread/pte_throw.o 
+
+../obj_PSP/3rdparty/embpthread/pte_tkAssocCreate.o: ./nanoc_3rdparty/psp/embpthread/pte_tkAssocCreate.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_tkAssocCreate.c -o ../obj_PSP/3rdparty/embpthread/pte_tkAssocCreate.o 
+
+../obj_PSP/3rdparty/embpthread/pte_tkAssocDestroy.o: ./nanoc_3rdparty/psp/embpthread/pte_tkAssocDestroy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pte_tkAssocDestroy.c -o ../obj_PSP/3rdparty/embpthread/pte_tkAssocDestroy.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_destroy.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_destroy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_destroy.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_destroy.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_getdetachstate.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_getdetachstate.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_getdetachstate.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_getdetachstate.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_getinheritsched.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_getinheritsched.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_getinheritsched.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_getinheritsched.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_getschedparam.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_getschedparam.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_getschedparam.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_getschedparam.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_getschedpolicy.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_getschedpolicy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_getschedpolicy.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_getschedpolicy.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_getscope.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_getscope.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_getscope.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_getscope.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_getstackaddr.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_getstackaddr.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_getstackaddr.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_getstackaddr.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_getstacksize.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_getstacksize.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_getstacksize.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_getstacksize.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_init.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_init.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_init.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_setdetachstate.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_setdetachstate.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_setdetachstate.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_setdetachstate.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_setinheritsched.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_setinheritsched.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_setinheritsched.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_setinheritsched.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_setschedparam.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_setschedparam.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_setschedparam.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_setschedparam.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_setschedpolicy.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_setschedpolicy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_setschedpolicy.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_setschedpolicy.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_setscope.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_setscope.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_setscope.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_setscope.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_setstackaddr.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_setstackaddr.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_setstackaddr.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_setstackaddr.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_attr_setstacksize.o: ./nanoc_3rdparty/psp/embpthread/pthread_attr_setstacksize.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_attr_setstacksize.c -o ../obj_PSP/3rdparty/embpthread/pthread_attr_setstacksize.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_barrierattr_destroy.o: ./nanoc_3rdparty/psp/embpthread/pthread_barrierattr_destroy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_barrierattr_destroy.c -o ../obj_PSP/3rdparty/embpthread/pthread_barrierattr_destroy.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_barrierattr_getpshared.o: ./nanoc_3rdparty/psp/embpthread/pthread_barrierattr_getpshared.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_barrierattr_getpshared.c -o ../obj_PSP/3rdparty/embpthread/pthread_barrierattr_getpshared.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_barrierattr_init.o: ./nanoc_3rdparty/psp/embpthread/pthread_barrierattr_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_barrierattr_init.c -o ../obj_PSP/3rdparty/embpthread/pthread_barrierattr_init.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_barrierattr_setpshared.o: ./nanoc_3rdparty/psp/embpthread/pthread_barrierattr_setpshared.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_barrierattr_setpshared.c -o ../obj_PSP/3rdparty/embpthread/pthread_barrierattr_setpshared.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_barrier_destroy.o: ./nanoc_3rdparty/psp/embpthread/pthread_barrier_destroy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_barrier_destroy.c -o ../obj_PSP/3rdparty/embpthread/pthread_barrier_destroy.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_barrier_init.o: ./nanoc_3rdparty/psp/embpthread/pthread_barrier_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_barrier_init.c -o ../obj_PSP/3rdparty/embpthread/pthread_barrier_init.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_barrier_wait.o: ./nanoc_3rdparty/psp/embpthread/pthread_barrier_wait.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_barrier_wait.c -o ../obj_PSP/3rdparty/embpthread/pthread_barrier_wait.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_cancel.o: ./nanoc_3rdparty/psp/embpthread/pthread_cancel.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_cancel.c -o ../obj_PSP/3rdparty/embpthread/pthread_cancel.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_condattr_destroy.o: ./nanoc_3rdparty/psp/embpthread/pthread_condattr_destroy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_condattr_destroy.c -o ../obj_PSP/3rdparty/embpthread/pthread_condattr_destroy.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_condattr_getpshared.o: ./nanoc_3rdparty/psp/embpthread/pthread_condattr_getpshared.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_condattr_getpshared.c -o ../obj_PSP/3rdparty/embpthread/pthread_condattr_getpshared.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_condattr_init.o: ./nanoc_3rdparty/psp/embpthread/pthread_condattr_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_condattr_init.c -o ../obj_PSP/3rdparty/embpthread/pthread_condattr_init.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_condattr_setpshared.o: ./nanoc_3rdparty/psp/embpthread/pthread_condattr_setpshared.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_condattr_setpshared.c -o ../obj_PSP/3rdparty/embpthread/pthread_condattr_setpshared.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_cond_destroy.o: ./nanoc_3rdparty/psp/embpthread/pthread_cond_destroy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_cond_destroy.c -o ../obj_PSP/3rdparty/embpthread/pthread_cond_destroy.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_cond_init.o: ./nanoc_3rdparty/psp/embpthread/pthread_cond_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_cond_init.c -o ../obj_PSP/3rdparty/embpthread/pthread_cond_init.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_cond_signal.o: ./nanoc_3rdparty/psp/embpthread/pthread_cond_signal.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_cond_signal.c -o ../obj_PSP/3rdparty/embpthread/pthread_cond_signal.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_cond_wait.o: ./nanoc_3rdparty/psp/embpthread/pthread_cond_wait.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_cond_wait.c -o ../obj_PSP/3rdparty/embpthread/pthread_cond_wait.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_delay_np.o: ./nanoc_3rdparty/psp/embpthread/pthread_delay_np.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_delay_np.c -o ../obj_PSP/3rdparty/embpthread/pthread_delay_np.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_detach.o: ./nanoc_3rdparty/psp/embpthread/pthread_detach.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_detach.c -o ../obj_PSP/3rdparty/embpthread/pthread_detach.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_equal.o: ./nanoc_3rdparty/psp/embpthread/pthread_equal.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_equal.c -o ../obj_PSP/3rdparty/embpthread/pthread_equal.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_exit.o: ./nanoc_3rdparty/psp/embpthread/pthread_exit.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_exit.c -o ../obj_PSP/3rdparty/embpthread/pthread_exit.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_getconcurrency.o: ./nanoc_3rdparty/psp/embpthread/pthread_getconcurrency.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_getconcurrency.c -o ../obj_PSP/3rdparty/embpthread/pthread_getconcurrency.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_getschedparam.o: ./nanoc_3rdparty/psp/embpthread/pthread_getschedparam.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_getschedparam.c -o ../obj_PSP/3rdparty/embpthread/pthread_getschedparam.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_getspecific.o: ./nanoc_3rdparty/psp/embpthread/pthread_getspecific.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_getspecific.c -o ../obj_PSP/3rdparty/embpthread/pthread_getspecific.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_init.o: ./nanoc_3rdparty/psp/embpthread/pthread_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_init.c -o ../obj_PSP/3rdparty/embpthread/pthread_init.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_join.o: ./nanoc_3rdparty/psp/embpthread/pthread_join.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_join.c -o ../obj_PSP/3rdparty/embpthread/pthread_join.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_key_create.o: ./nanoc_3rdparty/psp/embpthread/pthread_key_create.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_key_create.c -o ../obj_PSP/3rdparty/embpthread/pthread_key_create.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_key_delete.o: ./nanoc_3rdparty/psp/embpthread/pthread_key_delete.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_key_delete.c -o ../obj_PSP/3rdparty/embpthread/pthread_key_delete.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_kill.o: ./nanoc_3rdparty/psp/embpthread/pthread_kill.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_kill.c -o ../obj_PSP/3rdparty/embpthread/pthread_kill.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_mutexattr_destroy.o: ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_destroy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_destroy.c -o ../obj_PSP/3rdparty/embpthread/pthread_mutexattr_destroy.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_mutexattr_getkind_np.o: ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_getkind_np.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_getkind_np.c -o ../obj_PSP/3rdparty/embpthread/pthread_mutexattr_getkind_np.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_mutexattr_getpshared.o: ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_getpshared.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_getpshared.c -o ../obj_PSP/3rdparty/embpthread/pthread_mutexattr_getpshared.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_mutexattr_gettype.o: ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_gettype.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_gettype.c -o ../obj_PSP/3rdparty/embpthread/pthread_mutexattr_gettype.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_mutexattr_init.o: ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_init.c -o ../obj_PSP/3rdparty/embpthread/pthread_mutexattr_init.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_mutexattr_setkind_np.o: ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_setkind_np.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_setkind_np.c -o ../obj_PSP/3rdparty/embpthread/pthread_mutexattr_setkind_np.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_mutexattr_setpshared.o: ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_setpshared.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_setpshared.c -o ../obj_PSP/3rdparty/embpthread/pthread_mutexattr_setpshared.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_mutexattr_settype.o: ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_settype.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_mutexattr_settype.c -o ../obj_PSP/3rdparty/embpthread/pthread_mutexattr_settype.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_mutex_destroy.o: ./nanoc_3rdparty/psp/embpthread/pthread_mutex_destroy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_mutex_destroy.c -o ../obj_PSP/3rdparty/embpthread/pthread_mutex_destroy.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_mutex_init.o: ./nanoc_3rdparty/psp/embpthread/pthread_mutex_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_mutex_init.c -o ../obj_PSP/3rdparty/embpthread/pthread_mutex_init.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_mutex_lock.o: ./nanoc_3rdparty/psp/embpthread/pthread_mutex_lock.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_mutex_lock.c -o ../obj_PSP/3rdparty/embpthread/pthread_mutex_lock.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_mutex_timedlock.o: ./nanoc_3rdparty/psp/embpthread/pthread_mutex_timedlock.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_mutex_timedlock.c -o ../obj_PSP/3rdparty/embpthread/pthread_mutex_timedlock.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_mutex_trylock.o: ./nanoc_3rdparty/psp/embpthread/pthread_mutex_trylock.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_mutex_trylock.c -o ../obj_PSP/3rdparty/embpthread/pthread_mutex_trylock.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_mutex_unlock.o: ./nanoc_3rdparty/psp/embpthread/pthread_mutex_unlock.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_mutex_unlock.c -o ../obj_PSP/3rdparty/embpthread/pthread_mutex_unlock.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_num_processors_np.o: ./nanoc_3rdparty/psp/embpthread/pthread_num_processors_np.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_num_processors_np.c -o ../obj_PSP/3rdparty/embpthread/pthread_num_processors_np.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_once.o: ./nanoc_3rdparty/psp/embpthread/pthread_once.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_once.c -o ../obj_PSP/3rdparty/embpthread/pthread_once.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_rwlockattr_destroy.o: ./nanoc_3rdparty/psp/embpthread/pthread_rwlockattr_destroy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_rwlockattr_destroy.c -o ../obj_PSP/3rdparty/embpthread/pthread_rwlockattr_destroy.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_rwlockattr_getpshared.o: ./nanoc_3rdparty/psp/embpthread/pthread_rwlockattr_getpshared.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_rwlockattr_getpshared.c -o ../obj_PSP/3rdparty/embpthread/pthread_rwlockattr_getpshared.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_rwlockattr_init.o: ./nanoc_3rdparty/psp/embpthread/pthread_rwlockattr_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_rwlockattr_init.c -o ../obj_PSP/3rdparty/embpthread/pthread_rwlockattr_init.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_rwlockattr_setpshared.o: ./nanoc_3rdparty/psp/embpthread/pthread_rwlockattr_setpshared.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_rwlockattr_setpshared.c -o ../obj_PSP/3rdparty/embpthread/pthread_rwlockattr_setpshared.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_rwlock_destroy.o: ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_destroy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_destroy.c -o ../obj_PSP/3rdparty/embpthread/pthread_rwlock_destroy.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_rwlock_init.o: ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_init.c -o ../obj_PSP/3rdparty/embpthread/pthread_rwlock_init.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_rwlock_rdlock.o: ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_rdlock.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_rdlock.c -o ../obj_PSP/3rdparty/embpthread/pthread_rwlock_rdlock.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_rwlock_timedrdlock.o: ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_timedrdlock.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_timedrdlock.c -o ../obj_PSP/3rdparty/embpthread/pthread_rwlock_timedrdlock.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_rwlock_timedwrlock.o: ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_timedwrlock.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_timedwrlock.c -o ../obj_PSP/3rdparty/embpthread/pthread_rwlock_timedwrlock.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_rwlock_tryrdlock.o: ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_tryrdlock.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_tryrdlock.c -o ../obj_PSP/3rdparty/embpthread/pthread_rwlock_tryrdlock.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_rwlock_trywrlock.o: ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_trywrlock.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_trywrlock.c -o ../obj_PSP/3rdparty/embpthread/pthread_rwlock_trywrlock.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_rwlock_unlock.o: ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_unlock.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_unlock.c -o ../obj_PSP/3rdparty/embpthread/pthread_rwlock_unlock.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_rwlock_wrlock.o: ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_wrlock.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_rwlock_wrlock.c -o ../obj_PSP/3rdparty/embpthread/pthread_rwlock_wrlock.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_self.o: ./nanoc_3rdparty/psp/embpthread/pthread_self.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_self.c -o ../obj_PSP/3rdparty/embpthread/pthread_self.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_setcancelstate.o: ./nanoc_3rdparty/psp/embpthread/pthread_setcancelstate.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_setcancelstate.c -o ../obj_PSP/3rdparty/embpthread/pthread_setcancelstate.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_setcanceltype.o: ./nanoc_3rdparty/psp/embpthread/pthread_setcanceltype.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_setcanceltype.c -o ../obj_PSP/3rdparty/embpthread/pthread_setcanceltype.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_setconcurrency.o: ./nanoc_3rdparty/psp/embpthread/pthread_setconcurrency.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_setconcurrency.c -o ../obj_PSP/3rdparty/embpthread/pthread_setconcurrency.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_setschedparam.o: ./nanoc_3rdparty/psp/embpthread/pthread_setschedparam.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_setschedparam.c -o ../obj_PSP/3rdparty/embpthread/pthread_setschedparam.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_setspecific.o: ./nanoc_3rdparty/psp/embpthread/pthread_setspecific.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_setspecific.c -o ../obj_PSP/3rdparty/embpthread/pthread_setspecific.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_spin_destroy.o: ./nanoc_3rdparty/psp/embpthread/pthread_spin_destroy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_spin_destroy.c -o ../obj_PSP/3rdparty/embpthread/pthread_spin_destroy.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_spin_init.o: ./nanoc_3rdparty/psp/embpthread/pthread_spin_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_spin_init.c -o ../obj_PSP/3rdparty/embpthread/pthread_spin_init.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_spin_lock.o: ./nanoc_3rdparty/psp/embpthread/pthread_spin_lock.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_spin_lock.c -o ../obj_PSP/3rdparty/embpthread/pthread_spin_lock.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_spin_trylock.o: ./nanoc_3rdparty/psp/embpthread/pthread_spin_trylock.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_spin_trylock.c -o ../obj_PSP/3rdparty/embpthread/pthread_spin_trylock.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_spin_unlock.o: ./nanoc_3rdparty/psp/embpthread/pthread_spin_unlock.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_spin_unlock.c -o ../obj_PSP/3rdparty/embpthread/pthread_spin_unlock.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_terminate.o: ./nanoc_3rdparty/psp/embpthread/pthread_terminate.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_terminate.c -o ../obj_PSP/3rdparty/embpthread/pthread_terminate.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_testcancel.o: ./nanoc_3rdparty/psp/embpthread/pthread_testcancel.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_testcancel.c -o ../obj_PSP/3rdparty/embpthread/pthread_testcancel.o 
+
+../obj_PSP/3rdparty/embpthread/pthread_timechange_handler_np.o: ./nanoc_3rdparty/psp/embpthread/pthread_timechange_handler_np.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/pthread_timechange_handler_np.c -o ../obj_PSP/3rdparty/embpthread/pthread_timechange_handler_np.o 
+
+../obj_PSP/3rdparty/embpthread/sched_get_priority_max.o: ./nanoc_3rdparty/psp/embpthread/sched_get_priority_max.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/sched_get_priority_max.c -o ../obj_PSP/3rdparty/embpthread/sched_get_priority_max.o 
+
+../obj_PSP/3rdparty/embpthread/sched_get_priority_min.o: ./nanoc_3rdparty/psp/embpthread/sched_get_priority_min.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/sched_get_priority_min.c -o ../obj_PSP/3rdparty/embpthread/sched_get_priority_min.o 
+
+../obj_PSP/3rdparty/embpthread/sched_setscheduler.o: ./nanoc_3rdparty/psp/embpthread/sched_setscheduler.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/sched_setscheduler.c -o ../obj_PSP/3rdparty/embpthread/sched_setscheduler.o 
+
+../obj_PSP/3rdparty/embpthread/sched_yield.o: ./nanoc_3rdparty/psp/embpthread/sched_yield.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/sched_yield.c -o ../obj_PSP/3rdparty/embpthread/sched_yield.o 
+
+../obj_PSP/3rdparty/embpthread/sem_close.o: ./nanoc_3rdparty/psp/embpthread/sem_close.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/sem_close.c -o ../obj_PSP/3rdparty/embpthread/sem_close.o 
+
+../obj_PSP/3rdparty/embpthread/sem_destroy.o: ./nanoc_3rdparty/psp/embpthread/sem_destroy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/sem_destroy.c -o ../obj_PSP/3rdparty/embpthread/sem_destroy.o 
+
+../obj_PSP/3rdparty/embpthread/sem_getvalue.o: ./nanoc_3rdparty/psp/embpthread/sem_getvalue.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/sem_getvalue.c -o ../obj_PSP/3rdparty/embpthread/sem_getvalue.o 
+
+../obj_PSP/3rdparty/embpthread/sem_init.o: ./nanoc_3rdparty/psp/embpthread/sem_init.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/sem_init.c -o ../obj_PSP/3rdparty/embpthread/sem_init.o 
+
+../obj_PSP/3rdparty/embpthread/sem_open.o: ./nanoc_3rdparty/psp/embpthread/sem_open.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/sem_open.c -o ../obj_PSP/3rdparty/embpthread/sem_open.o 
+
+../obj_PSP/3rdparty/embpthread/sem_post.o: ./nanoc_3rdparty/psp/embpthread/sem_post.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/sem_post.c -o ../obj_PSP/3rdparty/embpthread/sem_post.o 
+
+../obj_PSP/3rdparty/embpthread/sem_post_multiple.o: ./nanoc_3rdparty/psp/embpthread/sem_post_multiple.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/sem_post_multiple.c -o ../obj_PSP/3rdparty/embpthread/sem_post_multiple.o 
+
+../obj_PSP/3rdparty/embpthread/sem_timedwait.o: ./nanoc_3rdparty/psp/embpthread/sem_timedwait.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/sem_timedwait.c -o ../obj_PSP/3rdparty/embpthread/sem_timedwait.o 
+
+../obj_PSP/3rdparty/embpthread/sem_trywait.o: ./nanoc_3rdparty/psp/embpthread/sem_trywait.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/sem_trywait.c -o ../obj_PSP/3rdparty/embpthread/sem_trywait.o 
+
+../obj_PSP/3rdparty/embpthread/sem_unlink.o: ./nanoc_3rdparty/psp/embpthread/sem_unlink.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/sem_unlink.c -o ../obj_PSP/3rdparty/embpthread/sem_unlink.o 
+	 
+../obj_PSP/3rdparty/embpthread/sem_wait.o: ./nanoc_3rdparty/psp/embpthread/sem_wait.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/sem_wait.c -o ../obj_PSP/3rdparty/embpthread/sem_wait.o 
+
+../obj_PSP/3rdparty/embpthread/tls-helper.o: ./nanoc_3rdparty/psp/embpthread/platform/helper/tls-helper.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/platform/helper/tls-helper.c -o ../obj_PSP/3rdparty/embpthread/tls-helper.o
+	
+../obj_PSP/3rdparty/embpthread/nd_psp_osal.o: ./nanoc_3rdparty/psp/embpthread/platform/nd_PSPE_PSP/nd_psp_osal.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_EMBPTHREAD_PSP) $(INC_EMBPTHREAD_PSP) -c ./nanoc_3rdparty/psp/embpthread/platform/nd_PSPE_PSP/nd_psp_osal.c -o ../obj_PSP/3rdparty/embpthread/nd_psp_osal.o
+	
+
+
+##Compilazione dei sorgenti UTF (PSPE)
+
+../obj_PSPE/3rdparty/utf8/gentables.o: ./nanoc_3rdparty/pspe/utf8/src/gentables.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/gentables.c -o ../obj_PSPE/3rdparty/utf8/gentables.o 
+
+../obj_PSPE/3rdparty/utf8/libc.o: ./nanoc_3rdparty/pspe/utf8/src/libc.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/libc.c -o ../obj_PSPE/3rdparty/utf8/libc.o 
+
+../obj_PSPE/3rdparty/utf8/locale_is.o: ./nanoc_3rdparty/pspe/utf8/src/locale_is.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/locale_is.c -o ../obj_PSPE/3rdparty/utf8/locale_is.o 
+
+../obj_PSPE/3rdparty/utf8/mbsinit.o: ./nanoc_3rdparty/pspe/utf8/src/mbsinit.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/mbsinit.c -o ../obj_PSPE/3rdparty/utf8/mbsinit.o 
+
+../obj_PSPE/3rdparty/utf8/mb_cur_max.o: ./nanoc_3rdparty/pspe/utf8/src/mb_cur_max.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/mb_cur_max.c -o ../obj_PSPE/3rdparty/utf8/mb_cur_max.o 
+
+../obj_PSPE/3rdparty/utf8/setlocale.o: ./nanoc_3rdparty/pspe/utf8/src/setlocale.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/setlocale.c -o ../obj_PSPE/3rdparty/utf8/setlocale.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/attribute.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/attribute.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/attribute.c -o ../obj_PSPE/3rdparty/utf8/attribute/attribute.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/iswalnum.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswalnum.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswalnum.c -o ../obj_PSPE/3rdparty/utf8/attribute/iswalnum.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/iswalpha.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswalpha.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswalpha.c -o ../obj_PSPE/3rdparty/utf8/attribute/iswalpha.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/iswblank.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswblank.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswblank.c -o ../obj_PSPE/3rdparty/utf8/attribute/iswblank.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/iswcntrl.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswcntrl.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswcntrl.c -o ../obj_PSPE/3rdparty/utf8/attribute/iswcntrl.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/iswctype.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswctype.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswctype.c -o ../obj_PSPE/3rdparty/utf8/attribute/iswctype.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/iswdigit.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswdigit.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswdigit.c -o ../obj_PSPE/3rdparty/utf8/attribute/iswdigit.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/iswgraph.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswgraph.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswgraph.c -o ../obj_PSPE/3rdparty/utf8/attribute/iswgraph.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/iswlower.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswlower.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswlower.c -o ../obj_PSPE/3rdparty/utf8/attribute/iswlower.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/iswprint.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswprint.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswprint.c -o ../obj_PSPE/3rdparty/utf8/attribute/iswprint.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/iswpunct.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswpunct.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswpunct.c -o ../obj_PSPE/3rdparty/utf8/attribute/iswpunct.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/iswspace.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswspace.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswspace.c -o ../obj_PSPE/3rdparty/utf8/attribute/iswspace.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/iswupper.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswupper.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswupper.c -o ../obj_PSPE/3rdparty/utf8/attribute/iswupper.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/iswxdigit.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswxdigit.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswxdigit.c -o ../obj_PSPE/3rdparty/utf8/attribute/iswxdigit.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/wcswidth.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/wcswidth.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/wcswidth.c -o ../obj_PSPE/3rdparty/utf8/attribute/wcswidth.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/wctype.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/wctype.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/wctype.c -o ../obj_PSPE/3rdparty/utf8/attribute/wctype.o 
+
+../obj_PSPE/3rdparty/utf8/attribute/wcwidth.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/wcwidth.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/wcwidth.c -o ../obj_PSPE/3rdparty/utf8/attribute/wcwidth.o 
+
+../obj_PSPE/3rdparty/utf8/caseconv/noppage.o: ./nanoc_3rdparty/pspe/utf8/src/caseconv/noppage.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/caseconv/noppage.c -o ../obj_PSPE/3rdparty/utf8/caseconv/noppage.o 
+
+../obj_PSPE/3rdparty/utf8/caseconv/towctrans.o: ./nanoc_3rdparty/pspe/utf8/src/caseconv/towctrans.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/caseconv/towctrans.c -o ../obj_PSPE/3rdparty/utf8/caseconv/towctrans.o 
+
+../obj_PSPE/3rdparty/utf8/caseconv/towlower.o: ./nanoc_3rdparty/pspe/utf8/src/caseconv/towlower.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/caseconv/towlower.c -o ../obj_PSPE/3rdparty/utf8/caseconv/towlower.o 
+
+../obj_PSPE/3rdparty/utf8/caseconv/towupper.o: ./nanoc_3rdparty/pspe/utf8/src/caseconv/towupper.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/caseconv/towupper.c -o ../obj_PSPE/3rdparty/utf8/caseconv/towupper.o 
+
+../obj_PSPE/3rdparty/utf8/caseconv/wcscasecmp.o: ./nanoc_3rdparty/pspe/utf8/src/caseconv/wcscasecmp.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/caseconv/wcscasecmp.c -o ../obj_PSPE/3rdparty/utf8/caseconv/wcscasecmp.o 
+
+../obj_PSPE/3rdparty/utf8/caseconv/wcsncasecmp.o: ./nanoc_3rdparty/pspe/utf8/src/caseconv/wcsncasecmp.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/caseconv/wcsncasecmp.c -o ../obj_PSPE/3rdparty/utf8/caseconv/wcsncasecmp.o 
+
+../obj_PSPE/3rdparty/utf8/caseconv/wctrans.o: ./nanoc_3rdparty/pspe/utf8/src/caseconv/wctrans.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/caseconv/wctrans.c -o ../obj_PSPE/3rdparty/utf8/caseconv/wctrans.o 
+
+../obj_PSPE/3rdparty/utf8/mbstowcs/btowc.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/btowc.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/btowc.c -o ../obj_PSPE/3rdparty/utf8/mbstowcs/btowc.o 
+
+../obj_PSPE/3rdparty/utf8/mbstowcs/mblen.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mblen.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mblen.c -o ../obj_PSPE/3rdparty/utf8/mbstowcs/mblen.o 
+
+../obj_PSPE/3rdparty/utf8/mbstowcs/mbrlen.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbrlen.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbrlen.c -o ../obj_PSPE/3rdparty/utf8/mbstowcs/mbrlen.o 
+
+../obj_PSPE/3rdparty/utf8/mbstowcs/mbrtowc.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbrtowc.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbrtowc.c -o ../obj_PSPE/3rdparty/utf8/mbstowcs/mbrtowc.o 
+
+../obj_PSPE/3rdparty/utf8/mbstowcs/mbsnrtowcs.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbsnrtowcs.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbsnrtowcs.c -o ../obj_PSPE/3rdparty/utf8/mbstowcs/mbsnrtowcs.o 
+
+../obj_PSPE/3rdparty/utf8/mbstowcs/mbsrtowcs.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbsrtowcs.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbsrtowcs.c -o ../obj_PSPE/3rdparty/utf8/mbstowcs/mbsrtowcs.o 
+
+../obj_PSPE/3rdparty/utf8/mbstowcs/mbstowcs.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbstowcs.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbstowcs.c -o ../obj_PSPE/3rdparty/utf8/mbstowcs/mbstowcs.o 
+
+../obj_PSPE/3rdparty/utf8/mbstowcs/mbtowc.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbtowc.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbtowc.c -o ../obj_PSPE/3rdparty/utf8/mbstowcs/mbtowc.o 
+
+../obj_PSPE/3rdparty/utf8/number/integer-parse.o: ./nanoc_3rdparty/pspe/utf8/src/number/integer-parse.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/number/integer-parse.c -o ../obj_PSPE/3rdparty/utf8/number/integer-parse.o 
+
+../obj_PSPE/3rdparty/utf8/number/number-parse.o: ./nanoc_3rdparty/pspe/utf8/src/number/number-parse.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/number/number-parse.c -o ../obj_PSPE/3rdparty/utf8/number/number-parse.o 
+
+../obj_PSPE/3rdparty/utf8/number/wcstod.o: ./nanoc_3rdparty/pspe/utf8/src/number/wcstod.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/number/wcstod.c -o ../obj_PSPE/3rdparty/utf8/number/wcstod.o 
+
+../obj_PSPE/3rdparty/utf8/number/wcstof.o: ./nanoc_3rdparty/pspe/utf8/src/number/wcstof.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/number/wcstof.c -o ../obj_PSPE/3rdparty/utf8/number/wcstof.o 
+
+../obj_PSPE/3rdparty/utf8/number/wcstol.o: ./nanoc_3rdparty/pspe/utf8/src/number/wcstol.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/number/wcstol.c -o ../obj_PSPE/3rdparty/utf8/number/wcstol.o 
+
+../obj_PSPE/3rdparty/utf8/number/wcstold.o: ./nanoc_3rdparty/pspe/utf8/src/number/wcstold.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/number/wcstold.c -o ../obj_PSPE/3rdparty/utf8/number/wcstold.o 
+
+../obj_PSPE/3rdparty/utf8/number/wcstoll.o: ./nanoc_3rdparty/pspe/utf8/src/number/wcstoll.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/number/wcstoll.c -o ../obj_PSPE/3rdparty/utf8/number/wcstoll.o 
+
+../obj_PSPE/3rdparty/utf8/number/wcstoul.o: ./nanoc_3rdparty/pspe/utf8/src/number/wcstoul.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/number/wcstoul.c -o ../obj_PSPE/3rdparty/utf8/number/wcstoul.o 
+
+../obj_PSPE/3rdparty/utf8/number/wcstoull.o: ./nanoc_3rdparty/pspe/utf8/src/number/wcstoull.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/number/wcstoull.c -o ../obj_PSPE/3rdparty/utf8/number/wcstoull.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcpcpy.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcpcpy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcpcpy.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcpcpy.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcpncpy.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcpncpy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcpncpy.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcpncpy.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcscat.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscat.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscat.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcscat.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcschr.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcschr.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcschr.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcschr.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcscmp.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscmp.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscmp.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcscmp.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcscpy.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscpy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscpy.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcscpy.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcscspn.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscspn.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscspn.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcscspn.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcsdup.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsdup.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsdup.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcsdup.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcslen.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcslen.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcslen.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcslen.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcsncat.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsncat.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsncat.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcsncat.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcsncmp.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsncmp.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsncmp.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcsncmp.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcsncpy.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsncpy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsncpy.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcsncpy.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcsnlen.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsnlen.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsnlen.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcsnlen.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcspbrk.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcspbrk.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcspbrk.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcspbrk.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcsrchr.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsrchr.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsrchr.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcsrchr.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcsspn.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsspn.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsspn.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcsspn.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcsstr.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsstr.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsstr.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcsstr.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wcstok.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcstok.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcstok.c -o ../obj_PSPE/3rdparty/utf8/wstring/wcstok.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wmemchr.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemchr.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemchr.c -o ../obj_PSPE/3rdparty/utf8/wstring/wmemchr.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wmemcmp.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemcmp.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemcmp.c -o ../obj_PSPE/3rdparty/utf8/wstring/wmemcmp.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wmemcpy.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemcpy.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemcpy.c -o ../obj_PSPE/3rdparty/utf8/wstring/wmemcpy.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wmemmove.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemmove.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemmove.c -o ../obj_PSPE/3rdparty/utf8/wstring/wmemmove.o 
+
+../obj_PSPE/3rdparty/utf8/wstring/wmemset.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemset.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemset.c -o ../obj_PSPE/3rdparty/utf8/wstring/wmemset.o 
+
+../obj_PSPE/3rdparty/utf8/wcstombs/wcrtomb.o: ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcrtomb.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcrtomb.c -o ../obj_PSPE/3rdparty/utf8/wcstombs/wcrtomb.o 
+
+../obj_PSPE/3rdparty/utf8/wcstombs/wcsnrtombs.o: ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcsnrtombs.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcsnrtombs.c -o ../obj_PSPE/3rdparty/utf8/wcstombs/wcsnrtombs.o 
+
+../obj_PSPE/3rdparty/utf8/wcstombs/wcsrtombs.o: ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcsrtombs.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcsrtombs.c -o ../obj_PSPE/3rdparty/utf8/wcstombs/wcsrtombs.o 
+
+../obj_PSPE/3rdparty/utf8/wcstombs/wcstombs.o: ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcstombs.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcstombs.c -o ../obj_PSPE/3rdparty/utf8/wcstombs/wcstombs.o 
+
+../obj_PSPE/3rdparty/utf8/wcstombs/wctob.o: ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wctob.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wctob.c -o ../obj_PSPE/3rdparty/utf8/wcstombs/wctob.o 
+
+../obj_PSPE/3rdparty/utf8/wcstombs/wctomb.o: ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wctomb.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wctomb.c -o ../obj_PSPE/3rdparty/utf8/wcstombs/wctomb.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/fgetwc.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/fgetwc.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/fgetwc.c -o ../obj_PSPE/3rdparty/utf8/stdio/fgetwc.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/fgetws.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/fgetws.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/fgetws.c -o ../obj_PSPE/3rdparty/utf8/stdio/fgetws.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/fprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/fprintf.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/fprintf.c -o ../obj_PSPE/3rdparty/utf8/stdio/fprintf.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/fputwc.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/fputwc.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/fputwc.c -o ../obj_PSPE/3rdparty/utf8/stdio/fputwc.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/fputws.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/fputws.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/fputws.c -o ../obj_PSPE/3rdparty/utf8/stdio/fputws.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/fwide.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/fwide.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/fwide.c -o ../obj_PSPE/3rdparty/utf8/stdio/fwide.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/fwprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/fwprintf.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/fwprintf.c -o ../obj_PSPE/3rdparty/utf8/stdio/fwprintf.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/getwchar.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/getwchar.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/getwchar.c -o ../obj_PSPE/3rdparty/utf8/stdio/getwchar.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/printf-args.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/printf-args.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/printf-args.c -o ../obj_PSPE/3rdparty/utf8/stdio/printf-args.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/printf-parse.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/printf-parse.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/printf-parse.c -o ../obj_PSPE/3rdparty/utf8/stdio/printf-parse.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/printf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/printf.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/printf.c -o ../obj_PSPE/3rdparty/utf8/stdio/printf.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/putwchar.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/putwchar.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/putwchar.c -o ../obj_PSPE/3rdparty/utf8/stdio/putwchar.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/snprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/snprintf.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/snprintf.c -o ../obj_PSPE/3rdparty/utf8/stdio/snprintf.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/sprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/sprintf.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/sprintf.c -o ../obj_PSPE/3rdparty/utf8/stdio/sprintf.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/swprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/swprintf.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/swprintf.c -o ../obj_PSPE/3rdparty/utf8/stdio/swprintf.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/ungetwc.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/ungetwc.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/ungetwc.c -o ../obj_PSPE/3rdparty/utf8/stdio/ungetwc.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/vfprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/vfprintf.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/vfprintf.c -o ../obj_PSPE/3rdparty/utf8/stdio/vfprintf.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/vfwprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/vfwprintf.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/vfwprintf.c -o ../obj_PSPE/3rdparty/utf8/stdio/vfwprintf.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/vprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/vprintf.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/vprintf.c -o ../obj_PSPE/3rdparty/utf8/stdio/vprintf.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/vsnprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/vsnprintf.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/vsnprintf.c -o ../obj_PSPE/3rdparty/utf8/stdio/vsnprintf.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/vsprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/vsprintf.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/vsprintf.c -o ../obj_PSPE/3rdparty/utf8/stdio/vsprintf.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/vswprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/vswprintf.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/vswprintf.c -o ../obj_PSPE/3rdparty/utf8/stdio/vswprintf.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/vwprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/vwprintf.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/vwprintf.c -o ../obj_PSPE/3rdparty/utf8/stdio/vwprintf.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/wprintf-parse.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/wprintf-parse.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/wprintf-parse.c -o ../obj_PSPE/3rdparty/utf8/stdio/wprintf-parse.o 
+
+../obj_PSPE/3rdparty/utf8/stdio/wprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/wprintf.c 
+	 $(C) $(CFLAGS_PSPE) $(OPT_UTF8_PSPE) $(INC_UTF8_PSPE) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/wprintf.c -o ../obj_PSPE/3rdparty/utf8/stdio/wprintf.o 
+
+
+
+
+
+
+
+
+##Compilazione dei sorgenti UTF (PSP)
+
+../obj_PSP/3rdparty/utf8/gentables.o: ./nanoc_3rdparty/pspe/utf8/src/gentables.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/gentables.c -o ../obj_PSP/3rdparty/utf8/gentables.o 
+
+../obj_PSP/3rdparty/utf8/libc.o: ./nanoc_3rdparty/pspe/utf8/src/libc.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/libc.c -o ../obj_PSP/3rdparty/utf8/libc.o 
+
+../obj_PSP/3rdparty/utf8/locale_is.o: ./nanoc_3rdparty/pspe/utf8/src/locale_is.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/locale_is.c -o ../obj_PSP/3rdparty/utf8/locale_is.o 
+
+../obj_PSP/3rdparty/utf8/mbsinit.o: ./nanoc_3rdparty/pspe/utf8/src/mbsinit.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/mbsinit.c -o ../obj_PSP/3rdparty/utf8/mbsinit.o 
+
+../obj_PSP/3rdparty/utf8/mb_cur_max.o: ./nanoc_3rdparty/pspe/utf8/src/mb_cur_max.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/mb_cur_max.c -o ../obj_PSP/3rdparty/utf8/mb_cur_max.o 
+
+../obj_PSP/3rdparty/utf8/setlocale.o: ./nanoc_3rdparty/pspe/utf8/src/setlocale.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/setlocale.c -o ../obj_PSP/3rdparty/utf8/setlocale.o 
+
+../obj_PSP/3rdparty/utf8/attribute/attribute.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/attribute.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/attribute.c -o ../obj_PSP/3rdparty/utf8/attribute/attribute.o 
+
+../obj_PSP/3rdparty/utf8/attribute/iswalnum.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswalnum.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswalnum.c -o ../obj_PSP/3rdparty/utf8/attribute/iswalnum.o 
+
+../obj_PSP/3rdparty/utf8/attribute/iswalpha.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswalpha.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswalpha.c -o ../obj_PSP/3rdparty/utf8/attribute/iswalpha.o 
+
+../obj_PSP/3rdparty/utf8/attribute/iswblank.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswblank.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswblank.c -o ../obj_PSP/3rdparty/utf8/attribute/iswblank.o 
+
+../obj_PSP/3rdparty/utf8/attribute/iswcntrl.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswcntrl.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswcntrl.c -o ../obj_PSP/3rdparty/utf8/attribute/iswcntrl.o 
+
+../obj_PSP/3rdparty/utf8/attribute/iswctype.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswctype.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswctype.c -o ../obj_PSP/3rdparty/utf8/attribute/iswctype.o 
+
+../obj_PSP/3rdparty/utf8/attribute/iswdigit.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswdigit.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswdigit.c -o ../obj_PSP/3rdparty/utf8/attribute/iswdigit.o 
+
+../obj_PSP/3rdparty/utf8/attribute/iswgraph.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswgraph.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswgraph.c -o ../obj_PSP/3rdparty/utf8/attribute/iswgraph.o 
+
+../obj_PSP/3rdparty/utf8/attribute/iswlower.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswlower.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswlower.c -o ../obj_PSP/3rdparty/utf8/attribute/iswlower.o 
+
+../obj_PSP/3rdparty/utf8/attribute/iswprint.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswprint.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswprint.c -o ../obj_PSP/3rdparty/utf8/attribute/iswprint.o 
+
+../obj_PSP/3rdparty/utf8/attribute/iswpunct.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswpunct.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswpunct.c -o ../obj_PSP/3rdparty/utf8/attribute/iswpunct.o 
+
+../obj_PSP/3rdparty/utf8/attribute/iswspace.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswspace.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswspace.c -o ../obj_PSP/3rdparty/utf8/attribute/iswspace.o 
+
+../obj_PSP/3rdparty/utf8/attribute/iswupper.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswupper.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswupper.c -o ../obj_PSP/3rdparty/utf8/attribute/iswupper.o 
+
+../obj_PSP/3rdparty/utf8/attribute/iswxdigit.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/iswxdigit.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/iswxdigit.c -o ../obj_PSP/3rdparty/utf8/attribute/iswxdigit.o 
+
+../obj_PSP/3rdparty/utf8/attribute/wcswidth.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/wcswidth.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/wcswidth.c -o ../obj_PSP/3rdparty/utf8/attribute/wcswidth.o 
+
+../obj_PSP/3rdparty/utf8/attribute/wctype.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/wctype.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/wctype.c -o ../obj_PSP/3rdparty/utf8/attribute/wctype.o 
+
+../obj_PSP/3rdparty/utf8/attribute/wcwidth.o: ./nanoc_3rdparty/pspe/utf8/src/attribute/wcwidth.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/attribute/wcwidth.c -o ../obj_PSP/3rdparty/utf8/attribute/wcwidth.o 
+
+../obj_PSP/3rdparty/utf8/caseconv/noppage.o: ./nanoc_3rdparty/pspe/utf8/src/caseconv/noppage.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/caseconv/noppage.c -o ../obj_PSP/3rdparty/utf8/caseconv/noppage.o 
+
+../obj_PSP/3rdparty/utf8/caseconv/towctrans.o: ./nanoc_3rdparty/pspe/utf8/src/caseconv/towctrans.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/caseconv/towctrans.c -o ../obj_PSP/3rdparty/utf8/caseconv/towctrans.o 
+
+../obj_PSP/3rdparty/utf8/caseconv/towlower.o: ./nanoc_3rdparty/pspe/utf8/src/caseconv/towlower.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/caseconv/towlower.c -o ../obj_PSP/3rdparty/utf8/caseconv/towlower.o 
+
+../obj_PSP/3rdparty/utf8/caseconv/towupper.o: ./nanoc_3rdparty/pspe/utf8/src/caseconv/towupper.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/caseconv/towupper.c -o ../obj_PSP/3rdparty/utf8/caseconv/towupper.o 
+
+../obj_PSP/3rdparty/utf8/caseconv/wcscasecmp.o: ./nanoc_3rdparty/pspe/utf8/src/caseconv/wcscasecmp.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/caseconv/wcscasecmp.c -o ../obj_PSP/3rdparty/utf8/caseconv/wcscasecmp.o 
+
+../obj_PSP/3rdparty/utf8/caseconv/wcsncasecmp.o: ./nanoc_3rdparty/pspe/utf8/src/caseconv/wcsncasecmp.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/caseconv/wcsncasecmp.c -o ../obj_PSP/3rdparty/utf8/caseconv/wcsncasecmp.o 
+
+../obj_PSP/3rdparty/utf8/caseconv/wctrans.o: ./nanoc_3rdparty/pspe/utf8/src/caseconv/wctrans.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/caseconv/wctrans.c -o ../obj_PSP/3rdparty/utf8/caseconv/wctrans.o 
+
+../obj_PSP/3rdparty/utf8/mbstowcs/btowc.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/btowc.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/btowc.c -o ../obj_PSP/3rdparty/utf8/mbstowcs/btowc.o 
+
+../obj_PSP/3rdparty/utf8/mbstowcs/mblen.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mblen.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mblen.c -o ../obj_PSP/3rdparty/utf8/mbstowcs/mblen.o 
+
+../obj_PSP/3rdparty/utf8/mbstowcs/mbrlen.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbrlen.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbrlen.c -o ../obj_PSP/3rdparty/utf8/mbstowcs/mbrlen.o 
+
+../obj_PSP/3rdparty/utf8/mbstowcs/mbrtowc.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbrtowc.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbrtowc.c -o ../obj_PSP/3rdparty/utf8/mbstowcs/mbrtowc.o 
+
+../obj_PSP/3rdparty/utf8/mbstowcs/mbsnrtowcs.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbsnrtowcs.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbsnrtowcs.c -o ../obj_PSP/3rdparty/utf8/mbstowcs/mbsnrtowcs.o 
+
+../obj_PSP/3rdparty/utf8/mbstowcs/mbsrtowcs.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbsrtowcs.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbsrtowcs.c -o ../obj_PSP/3rdparty/utf8/mbstowcs/mbsrtowcs.o 
+
+../obj_PSP/3rdparty/utf8/mbstowcs/mbstowcs.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbstowcs.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbstowcs.c -o ../obj_PSP/3rdparty/utf8/mbstowcs/mbstowcs.o 
+
+../obj_PSP/3rdparty/utf8/mbstowcs/mbtowc.o: ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbtowc.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/mbstowcs/mbtowc.c -o ../obj_PSP/3rdparty/utf8/mbstowcs/mbtowc.o 
+
+../obj_PSP/3rdparty/utf8/number/integer-parse.o: ./nanoc_3rdparty/pspe/utf8/src/number/integer-parse.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/number/integer-parse.c -o ../obj_PSP/3rdparty/utf8/number/integer-parse.o 
+
+../obj_PSP/3rdparty/utf8/number/number-parse.o: ./nanoc_3rdparty/pspe/utf8/src/number/number-parse.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/number/number-parse.c -o ../obj_PSP/3rdparty/utf8/number/number-parse.o 
+
+../obj_PSP/3rdparty/utf8/number/wcstod.o: ./nanoc_3rdparty/pspe/utf8/src/number/wcstod.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/number/wcstod.c -o ../obj_PSP/3rdparty/utf8/number/wcstod.o 
+
+../obj_PSP/3rdparty/utf8/number/wcstof.o: ./nanoc_3rdparty/pspe/utf8/src/number/wcstof.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/number/wcstof.c -o ../obj_PSP/3rdparty/utf8/number/wcstof.o 
+
+../obj_PSP/3rdparty/utf8/number/wcstol.o: ./nanoc_3rdparty/pspe/utf8/src/number/wcstol.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/number/wcstol.c -o ../obj_PSP/3rdparty/utf8/number/wcstol.o 
+
+../obj_PSP/3rdparty/utf8/number/wcstold.o: ./nanoc_3rdparty/pspe/utf8/src/number/wcstold.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/number/wcstold.c -o ../obj_PSP/3rdparty/utf8/number/wcstold.o 
+
+../obj_PSP/3rdparty/utf8/number/wcstoll.o: ./nanoc_3rdparty/pspe/utf8/src/number/wcstoll.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/number/wcstoll.c -o ../obj_PSP/3rdparty/utf8/number/wcstoll.o 
+
+../obj_PSP/3rdparty/utf8/number/wcstoul.o: ./nanoc_3rdparty/pspe/utf8/src/number/wcstoul.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/number/wcstoul.c -o ../obj_PSP/3rdparty/utf8/number/wcstoul.o 
+
+../obj_PSP/3rdparty/utf8/number/wcstoull.o: ./nanoc_3rdparty/pspe/utf8/src/number/wcstoull.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/number/wcstoull.c -o ../obj_PSP/3rdparty/utf8/number/wcstoull.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcpcpy.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcpcpy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcpcpy.c -o ../obj_PSP/3rdparty/utf8/wstring/wcpcpy.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcpncpy.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcpncpy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcpncpy.c -o ../obj_PSP/3rdparty/utf8/wstring/wcpncpy.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcscat.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscat.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscat.c -o ../obj_PSP/3rdparty/utf8/wstring/wcscat.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcschr.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcschr.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcschr.c -o ../obj_PSP/3rdparty/utf8/wstring/wcschr.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcscmp.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscmp.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscmp.c -o ../obj_PSP/3rdparty/utf8/wstring/wcscmp.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcscpy.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscpy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscpy.c -o ../obj_PSP/3rdparty/utf8/wstring/wcscpy.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcscspn.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscspn.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcscspn.c -o ../obj_PSP/3rdparty/utf8/wstring/wcscspn.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcsdup.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsdup.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsdup.c -o ../obj_PSP/3rdparty/utf8/wstring/wcsdup.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcslen.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcslen.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcslen.c -o ../obj_PSP/3rdparty/utf8/wstring/wcslen.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcsncat.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsncat.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsncat.c -o ../obj_PSP/3rdparty/utf8/wstring/wcsncat.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcsncmp.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsncmp.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsncmp.c -o ../obj_PSP/3rdparty/utf8/wstring/wcsncmp.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcsncpy.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsncpy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsncpy.c -o ../obj_PSP/3rdparty/utf8/wstring/wcsncpy.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcsnlen.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsnlen.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsnlen.c -o ../obj_PSP/3rdparty/utf8/wstring/wcsnlen.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcspbrk.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcspbrk.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcspbrk.c -o ../obj_PSP/3rdparty/utf8/wstring/wcspbrk.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcsrchr.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsrchr.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsrchr.c -o ../obj_PSP/3rdparty/utf8/wstring/wcsrchr.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcsspn.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsspn.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsspn.c -o ../obj_PSP/3rdparty/utf8/wstring/wcsspn.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcsstr.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsstr.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcsstr.c -o ../obj_PSP/3rdparty/utf8/wstring/wcsstr.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wcstok.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wcstok.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wcstok.c -o ../obj_PSP/3rdparty/utf8/wstring/wcstok.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wmemchr.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemchr.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemchr.c -o ../obj_PSP/3rdparty/utf8/wstring/wmemchr.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wmemcmp.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemcmp.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemcmp.c -o ../obj_PSP/3rdparty/utf8/wstring/wmemcmp.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wmemcpy.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemcpy.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemcpy.c -o ../obj_PSP/3rdparty/utf8/wstring/wmemcpy.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wmemmove.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemmove.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemmove.c -o ../obj_PSP/3rdparty/utf8/wstring/wmemmove.o 
+
+../obj_PSP/3rdparty/utf8/wstring/wmemset.o: ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemset.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wstring/wmemset.c -o ../obj_PSP/3rdparty/utf8/wstring/wmemset.o 
+
+../obj_PSP/3rdparty/utf8/wcstombs/wcrtomb.o: ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcrtomb.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcrtomb.c -o ../obj_PSP/3rdparty/utf8/wcstombs/wcrtomb.o 
+
+../obj_PSP/3rdparty/utf8/wcstombs/wcsnrtombs.o: ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcsnrtombs.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcsnrtombs.c -o ../obj_PSP/3rdparty/utf8/wcstombs/wcsnrtombs.o 
+
+../obj_PSP/3rdparty/utf8/wcstombs/wcsrtombs.o: ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcsrtombs.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcsrtombs.c -o ../obj_PSP/3rdparty/utf8/wcstombs/wcsrtombs.o 
+
+../obj_PSP/3rdparty/utf8/wcstombs/wcstombs.o: ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcstombs.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wcstombs.c -o ../obj_PSP/3rdparty/utf8/wcstombs/wcstombs.o 
+
+../obj_PSP/3rdparty/utf8/wcstombs/wctob.o: ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wctob.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wctob.c -o ../obj_PSP/3rdparty/utf8/wcstombs/wctob.o 
+
+../obj_PSP/3rdparty/utf8/wcstombs/wctomb.o: ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wctomb.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/wcstombs/wctomb.c -o ../obj_PSP/3rdparty/utf8/wcstombs/wctomb.o 
+
+../obj_PSP/3rdparty/utf8/stdio/fgetwc.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/fgetwc.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/fgetwc.c -o ../obj_PSP/3rdparty/utf8/stdio/fgetwc.o 
+
+../obj_PSP/3rdparty/utf8/stdio/fgetws.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/fgetws.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/fgetws.c -o ../obj_PSP/3rdparty/utf8/stdio/fgetws.o 
+
+../obj_PSP/3rdparty/utf8/stdio/fprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/fprintf.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/fprintf.c -o ../obj_PSP/3rdparty/utf8/stdio/fprintf.o 
+
+../obj_PSP/3rdparty/utf8/stdio/fputwc.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/fputwc.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/fputwc.c -o ../obj_PSP/3rdparty/utf8/stdio/fputwc.o 
+
+../obj_PSP/3rdparty/utf8/stdio/fputws.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/fputws.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/fputws.c -o ../obj_PSP/3rdparty/utf8/stdio/fputws.o 
+
+../obj_PSP/3rdparty/utf8/stdio/fwide.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/fwide.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/fwide.c -o ../obj_PSP/3rdparty/utf8/stdio/fwide.o 
+
+../obj_PSP/3rdparty/utf8/stdio/fwprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/fwprintf.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/fwprintf.c -o ../obj_PSP/3rdparty/utf8/stdio/fwprintf.o 
+
+../obj_PSP/3rdparty/utf8/stdio/getwchar.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/getwchar.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/getwchar.c -o ../obj_PSP/3rdparty/utf8/stdio/getwchar.o 
+
+../obj_PSP/3rdparty/utf8/stdio/printf-args.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/printf-args.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/printf-args.c -o ../obj_PSP/3rdparty/utf8/stdio/printf-args.o 
+
+../obj_PSP/3rdparty/utf8/stdio/printf-parse.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/printf-parse.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/printf-parse.c -o ../obj_PSP/3rdparty/utf8/stdio/printf-parse.o 
+
+../obj_PSP/3rdparty/utf8/stdio/printf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/printf.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/printf.c -o ../obj_PSP/3rdparty/utf8/stdio/printf.o 
+
+../obj_PSP/3rdparty/utf8/stdio/putwchar.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/putwchar.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/putwchar.c -o ../obj_PSP/3rdparty/utf8/stdio/putwchar.o 
+
+../obj_PSP/3rdparty/utf8/stdio/snprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/snprintf.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/snprintf.c -o ../obj_PSP/3rdparty/utf8/stdio/snprintf.o 
+
+../obj_PSP/3rdparty/utf8/stdio/sprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/sprintf.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/sprintf.c -o ../obj_PSP/3rdparty/utf8/stdio/sprintf.o 
+
+../obj_PSP/3rdparty/utf8/stdio/swprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/swprintf.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/swprintf.c -o ../obj_PSP/3rdparty/utf8/stdio/swprintf.o 
+
+../obj_PSP/3rdparty/utf8/stdio/ungetwc.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/ungetwc.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/ungetwc.c -o ../obj_PSP/3rdparty/utf8/stdio/ungetwc.o 
+
+../obj_PSP/3rdparty/utf8/stdio/vfprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/vfprintf.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/vfprintf.c -o ../obj_PSP/3rdparty/utf8/stdio/vfprintf.o 
+
+../obj_PSP/3rdparty/utf8/stdio/vfwprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/vfwprintf.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/vfwprintf.c -o ../obj_PSP/3rdparty/utf8/stdio/vfwprintf.o 
+
+../obj_PSP/3rdparty/utf8/stdio/vprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/vprintf.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/vprintf.c -o ../obj_PSP/3rdparty/utf8/stdio/vprintf.o 
+
+../obj_PSP/3rdparty/utf8/stdio/vsnprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/vsnprintf.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/vsnprintf.c -o ../obj_PSP/3rdparty/utf8/stdio/vsnprintf.o 
+
+../obj_PSP/3rdparty/utf8/stdio/vsprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/vsprintf.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/vsprintf.c -o ../obj_PSP/3rdparty/utf8/stdio/vsprintf.o 
+
+../obj_PSP/3rdparty/utf8/stdio/vswprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/vswprintf.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/vswprintf.c -o ../obj_PSP/3rdparty/utf8/stdio/vswprintf.o 
+
+../obj_PSP/3rdparty/utf8/stdio/vwprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/vwprintf.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/vwprintf.c -o ../obj_PSP/3rdparty/utf8/stdio/vwprintf.o 
+
+../obj_PSP/3rdparty/utf8/stdio/wprintf-parse.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/wprintf-parse.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/wprintf-parse.c -o ../obj_PSP/3rdparty/utf8/stdio/wprintf-parse.o 
+
+../obj_PSP/3rdparty/utf8/stdio/wprintf.o: ./nanoc_3rdparty/pspe/utf8/src/stdio/wprintf.c 
+	 $(C) $(CFLAGS_PSP) $(OPT_UTF8_PSP) $(INC_UTF8_PSP) -c ./nanoc_3rdparty/pspe/utf8/src/stdio/wprintf.c -o ../obj_PSP/3rdparty/utf8/stdio/wprintf.o 
+

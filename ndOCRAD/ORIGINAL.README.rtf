@@ -1,0 +1,87 @@
+
+GNU Ocrad is an OCR (Optical Character Recognition) program based on a
+feature extraction method. It reads images in pbm (bitmap), pgm
+(greyscale) or ppm (color) formats and produces text in byte (8-bit) or
+UTF-8 formats. The pbm, pgm and ppm formats are collectively known as
+pnm.
+
+Ocrad includes a layout analyser able to separate the columns or blocks
+of text normally found on printed pages.
+
+See the file INSTALL for compilation and installation instructions.
+
+Try "ocrad --help" for usage instructions.
+
+Caveats.
+For better results the characters should be at least 20 pixels high.
+Merged characters are always a problem. Try to avoid them.
+Very bold or very light (broken) characters are also a problem.
+Always see with your own eyes the pnm file before blaming ocrad for the
+results. Remember the saying, "garbage in, garbage out".
+
+Ideas, comments, patches, donations (hardware, money, etc), etc, are welcome.
+
+---------------------------
+
+Debug levels ( option -D )
+100 - Show raw block list.
+ 99 - Show recursive block list.
+ 98 - Show main block list.
+ 96..97 - reserved.
+ 95 - Show all blocks from every character before recognition.
+ 94 - Show main black blocks from every character before recognition.
+ 90..93 - reserved.
+ 89 - Show all blocks from every character.
+ 88 - Show main black blocks from every character.
+ 87 - Show guess list for every character.
+ 86 - Show best guess for every character.
+ 80..85 - reserved.
+ 78..79 - reserved.
+ 7X - X = 0 Show page as bitmap.
+      X = 1 Show page as bitmap with marked zones.
+      X = 2 Show page as bitmap with marked lines.
+      X = 4 Show page as bitmap with marked characters.
+
+---------------------------
+
+OCR Results File (ORF)
+
+Calling ocrad with option -x produces an orf file, that is, a parsable
+file containing the ocr results. The format is as follows:
+
+- All lines starting with '#' are ignored.
+- The first valid line has the form 'source file filename'. Where
+  'filename' is the name of the file being processed ('-' for stdin).
+  This is the only line guaranteed to exist for every input file read
+  without errors. If the file, or any block or line, has no text, the
+  corresponding part in the orf file will be missing.
+- The second valid line has the form 'total text blocks n'. Where 'n'
+  is the total number of text blocks in the source image.
+
+For each text block in the source image, the following data follows:
+- A line in the form 'text block i x y w h'. Where 'i' is the block
+  number and 'x y w h' are the block position and size as described
+  below for character boxes.
+- A line in the form 'lines n'. Where 'n' is the number of lines in
+  this block.
+
+For each line in every text block, the following data follows:
+- A line in the form 'line i chars n height h'. Where 'i' is the line
+  number, 'n' is the number of characters in this line, and 'h' is the
+  mean height of the characters in this line (in pixels).
+- N lines (one for every character) in the form "x y w h b; g[, 'c'v]...".
+  'x' = the left border (x-coordinate) of the char bounding box in the
+        source image (in pixels).
+  'y' = the top border (y-coordinate).
+  'w' = the width of the bounding box.
+  'h' = the height of the bounding box.
+  'b' = the percent of black pixels in the bounding box.
+  'g' = the number of different recognition guesses for this character.
+  The result characters follow after the number of guesses in the form
+  of a comma-separated list of pairs. Every pair is formed by the actual
+  recognised char enclosed in single quotes, followed by the confidence
+  value, without space between them.
+  The higher the value of confidence, the more confident is the result.
+
+Running './ocrad -x test.orf examples/test.pbm' in the source directory
+will give you an example orf file.

@@ -1,0 +1,1033 @@
+# -------------------------------------------------------------
+#
+# Nanodesktop FreeType (PSPE/PSP)
+#
+# -------------------------------------------------------------
+
+C = psp-gcc
+LINK = psp-ar
+
+
+## Librerie per PSPE
+
+OUTLIB_PSPE 	   = ./lib/libFreeType_PSPE.a
+
+## Librerie per PSP
+
+OUTLIB_PSP  	  = ./lib/libFreeType_PSP.a
+
+# File oggetto (core)
+
+OBJS0_PSPE =./obj_PSPE/base/ftapi.o \
+	    ./obj_PSPE/base/ftbase.o \
+	    ./obj_PSPE/base/ftbbox.o \
+	    ./obj_PSPE/base/ftbdf.o \
+	    ./obj_PSPE/base/ftbitmap.o \
+	    ./obj_PSPE/base/ftcalc.o \
+	    ./obj_PSPE/base/ftdbgmem.o \
+	    ./obj_PSPE/base/ftdebug.o \
+	    ./obj_PSPE/base/ftgasp.o \
+	    ./obj_PSPE/base/ftgloadr.o \
+	    ./obj_PSPE/base/ftglyph.o \
+	    ./obj_PSPE/base/ftgxval.o \
+	    ./obj_PSPE/base/ftinit.o \
+	    ./obj_PSPE/base/ftlcdfil.o \
+	    ./obj_PSPE/base/ftmm.o \
+	    ./obj_PSPE/base/ftnames.o \
+	    ./obj_PSPE/base/ftobjs.o \
+	    ./obj_PSPE/base/ftotval.o \
+	    ./obj_PSPE/base/ftoutln.o \
+	    ./obj_PSPE/base/ftpfr.o \
+	    ./obj_PSPE/base/ftrfork.o \
+	    ./obj_PSPE/base/ftstream.o \
+	    ./obj_PSPE/base/ftstroke.o \
+	    ./obj_PSPE/base/ftsynth.o \
+	    ./obj_PSPE/base/ftsystem.o \
+	    ./obj_PSPE/base/fttrigon.o \
+	    ./obj_PSPE/base/fttype1.o \
+	    ./obj_PSPE/base/ftutil.o \
+	    ./obj_PSPE/base/ftwinfnt.o \
+	    ./obj_PSPE/base/ftxf86.o \
+	    ./obj_PSPE/autofit/autofit.o \
+	    ./obj_PSPE/type1/t1afm.o \
+	    ./obj_PSPE/type1/t1driver.o \
+	    ./obj_PSPE/type1/t1gload.o \
+	    ./obj_PSPE/type1/t1load.o \
+	    ./obj_PSPE/type1/t1objs.o \
+	    ./obj_PSPE/type1/t1parse.o \
+	    ./obj_PSPE/type1/type1.o \
+	    ./obj_PSPE/truetype/truetype.o \
+	    ./obj_PSPE/truetype/ttdriver.o \
+	    ./obj_PSPE/truetype/ttgload.o \
+	    ./obj_PSPE/truetype/ttgxvar.o \
+	    ./obj_PSPE/truetype/ttinterp.o \
+	    ./obj_PSPE/truetype/ttobjs.o \
+	    ./obj_PSPE/truetype/ttpload.o \
+	    ./obj_PSPE/bdf/bdf.o \
+	    ./obj_PSPE/bdf/bdfdrivr.o \
+	    ./obj_PSPE/bdf/bdflib.o \
+	    ./obj_PSPE/smooth/smooth.o \
+	    ./obj_PSPE/smooth/ftsmooth.o \
+	    ./obj_PSPE/smooth/ftgrays.o \
+	    ./obj_PSPE/sfnt/sfdriver.o \
+	    ./obj_PSPE/sfnt/sfnt.o \
+	    ./obj_PSPE/sfnt/sfobjs.o \
+	    ./obj_PSPE/sfnt/ttbdf.o \
+	    ./obj_PSPE/sfnt/ttcmap.o \
+	    ./obj_PSPE/sfnt/ttkern.o \
+	    ./obj_PSPE/sfnt/ttload.o \
+	    ./obj_PSPE/sfnt/ttmtx.o \
+	    ./obj_PSPE/sfnt/ttpost.o \
+	    ./obj_PSPE/sfnt/ttsbit.o \
+	    ./obj_PSPE/sfnt/ttsbit0.o \
+	    ./obj_PSPE/raster/ftraster.o \
+	    ./obj_PSPE/raster/raster.o \
+	    ./obj_PSPE/raster/ftrend1.o \
+	    ./obj_PSPE/psnames/psmodule.o \
+	    ./obj_PSPE/psnames/psnames.o \
+	    ./obj_PSPE/pshinter/pshalgo.o \
+	    ./obj_PSPE/pshinter/pshglob.o \
+	    ./obj_PSPE/pshinter/pshinter.o \
+	    ./obj_PSPE/pshinter/pshmod.o \
+	    ./obj_PSPE/pshinter/pshrec.o \
+	    ./obj_PSPE/psaux/afmparse.o \
+	    ./obj_PSPE/psaux/psaux.o \
+   	    ./obj_PSPE/psaux/psauxmod.o \
+   	    ./obj_PSPE/psaux/psconv.o \
+   	    ./obj_PSPE/psaux/psobjs.o \
+   	    ./obj_PSPE/psaux/t1cmap.o \
+   	    ./obj_PSPE/psaux/t1decode.o \
+   	    ./obj_PSPE/pcf/pcf.o \
+   	    ./obj_PSPE/pcf/pcfdrivr.o \
+   	    ./obj_PSPE/pcf/pcfread.o \
+   	    ./obj_PSPE/pcf/pcfutil.o \
+	    ./obj_PSPE/lzw/ftlzw.o \
+   	    ./obj_PSPE/lzw/ftzopen.o \
+   	    ./obj_PSPE/gzip/adler32.o \
+   	    ./obj_PSPE/gzip/ftgzip.o \
+   	    ./obj_PSPE/gzip/infblock.o \
+   	    ./obj_PSPE/gzip/infcodes.o \
+   	    ./obj_PSPE/gzip/inflate.o \
+   	    ./obj_PSPE/gzip/inftrees.o \
+   	    ./obj_PSPE/gzip/infutil.o \
+   	    ./obj_PSPE/gzip/zutil.o \
+	    ./obj_PSPE/winfonts/winfnt.o \
+	    ./obj_PSPE/type42/t42drivr.o \
+	    ./obj_PSPE/type42/t42objs.o \
+	    ./obj_PSPE/type42/t42parse.o \
+	    ./obj_PSPE/type42/type42.o \
+	    ./obj_PSPE/pfr/pfr.o \
+	    ./obj_PSPE/pfr/pfrcmap.o \
+	    ./obj_PSPE/pfr/pfrdrivr.o \
+	    ./obj_PSPE/pfr/pfrgload.o \
+	    ./obj_PSPE/pfr/pfrload.o \
+	    ./obj_PSPE/pfr/pfrobjs.o \
+	    ./obj_PSPE/pfr/pfrsbit.o \
+	    ./obj_PSPE/cid/cidgload.o \
+	    ./obj_PSPE/cid/cidload.o \
+	    ./obj_PSPE/cid/cidobjs.o \
+	    ./obj_PSPE/cid/cidparse.o \
+	    ./obj_PSPE/cid/cidriver.o \
+	    ./obj_PSPE/cid/type1cid.o \
+	    ./obj_PSPE/cff/cff.o \
+	    ./obj_PSPE/cff/cffcmap.o \
+	    ./obj_PSPE/cff/cffdrivr.o \
+	    ./obj_PSPE/cff/cffgload.o \
+	    ./obj_PSPE/cff/cffload.o \
+	    ./obj_PSPE/cff/cffobjs.o \
+	    ./obj_PSPE/cff/cffparse.o \
+	    ./obj_PSPE/ndflib/ndflib.o
+
+	 
+	    
+	    
+	    
+	     
+OBJS0_PSP = ./obj_PSP/base/ftapi.o \
+	    ./obj_PSP/base/ftbase.o \
+	    ./obj_PSP/base/ftbbox.o \
+	    ./obj_PSP/base/ftbdf.o \
+	    ./obj_PSP/base/ftbitmap.o \
+	    ./obj_PSP/base/ftcalc.o \
+	    ./obj_PSP/base/ftdbgmem.o \
+	    ./obj_PSP/base/ftdebug.o \
+	    ./obj_PSP/base/ftgasp.o \
+	    ./obj_PSP/base/ftgloadr.o \
+	    ./obj_PSP/base/ftglyph.o \
+	    ./obj_PSP/base/ftgxval.o \
+	    ./obj_PSP/base/ftinit.o \
+	    ./obj_PSP/base/ftlcdfil.o \
+	    ./obj_PSP/base/ftmm.o \
+	    ./obj_PSP/base/ftnames.o \
+	    ./obj_PSP/base/ftobjs.o \
+	    ./obj_PSP/base/ftotval.o \
+	    ./obj_PSP/base/ftoutln.o \
+	    ./obj_PSP/base/ftpfr.o \
+	    ./obj_PSP/base/ftrfork.o \
+	    ./obj_PSP/base/ftstream.o \
+	    ./obj_PSP/base/ftstroke.o \
+	    ./obj_PSP/base/ftsynth.o \
+	    ./obj_PSP/base/ftsystem.o \
+	    ./obj_PSP/base/fttrigon.o \
+	    ./obj_PSP/base/fttype1.o \
+	    ./obj_PSP/base/ftutil.o \
+	    ./obj_PSP/base/ftwinfnt.o \
+	    ./obj_PSP/base/ftxf86.o \
+	    ./obj_PSP/autofit/autofit.o \
+	    ./obj_PSP/type1/t1afm.o \
+	    ./obj_PSP/type1/t1driver.o \
+	    ./obj_PSP/type1/t1gload.o \
+	    ./obj_PSP/type1/t1load.o \
+	    ./obj_PSP/type1/t1objs.o \
+	    ./obj_PSP/type1/t1parse.o \
+	    ./obj_PSP/type1/type1.o \
+	    ./obj_PSP/truetype/truetype.o \
+	    ./obj_PSP/truetype/ttdriver.o \
+	    ./obj_PSP/truetype/ttgload.o \
+	    ./obj_PSP/truetype/ttgxvar.o \
+	    ./obj_PSP/truetype/ttinterp.o \
+	    ./obj_PSP/truetype/ttobjs.o \
+	    ./obj_PSP/truetype/ttpload.o \
+	    ./obj_PSP/bdf/bdf.o \
+	    ./obj_PSP/bdf/bdfdrivr.o \
+	    ./obj_PSP/bdf/bdflib.o \
+	    ./obj_PSP/smooth/smooth.o \
+	    ./obj_PSP/smooth/ftsmooth.o \
+	    ./obj_PSP/smooth/ftgrays.o \
+	    ./obj_PSP/sfnt/sfdriver.o \
+	    ./obj_PSP/sfnt/sfnt.o \
+	    ./obj_PSP/sfnt/sfobjs.o \
+	    ./obj_PSP/sfnt/ttbdf.o \
+	    ./obj_PSP/sfnt/ttcmap.o \
+	    ./obj_PSP/sfnt/ttkern.o \
+	    ./obj_PSP/sfnt/ttload.o \
+	    ./obj_PSP/sfnt/ttmtx.o \
+	    ./obj_PSP/sfnt/ttpost.o \
+	    ./obj_PSP/sfnt/ttsbit.o \
+	    ./obj_PSP/sfnt/ttsbit0.o \
+	    ./obj_PSP/raster/ftraster.o \
+	    ./obj_PSP/raster/raster.o \
+	    ./obj_PSP/raster/ftrend1.o \
+	    ./obj_PSP/psnames/psmodule.o \
+	    ./obj_PSP/psnames/psnames.o \
+	    ./obj_PSP/pshinter/pshalgo.o \
+	    ./obj_PSP/pshinter/pshglob.o \
+	    ./obj_PSP/pshinter/pshinter.o \
+	    ./obj_PSP/pshinter/pshmod.o \
+	    ./obj_PSP/pshinter/pshrec.o \
+   	    ./obj_PSP/psaux/afmparse.o \
+   	    ./obj_PSP/psaux/psaux.o \
+   	    ./obj_PSP/psaux/psauxmod.o \
+   	    ./obj_PSP/psaux/psconv.o \
+   	    ./obj_PSP/psaux/psobjs.o \
+   	    ./obj_PSP/psaux/t1cmap.o \
+   	    ./obj_PSP/psaux/t1decode.o \
+   	    ./obj_PSP/pcf/pcf.o \
+	    ./obj_PSP/pcf/pcfdrivr.o \
+	    ./obj_PSP/pcf/pcfread.o \
+	    ./obj_PSP/pcf/pcfutil.o \
+	    ./obj_PSP/lzw/ftlzw.o \
+   	    ./obj_PSP/lzw/ftzopen.o \
+   	    ./obj_PSP/gzip/adler32.o \
+   	    ./obj_PSP/gzip/ftgzip.o \
+   	    ./obj_PSP/gzip/infblock.o \
+   	    ./obj_PSP/gzip/infcodes.o \
+   	    ./obj_PSP/gzip/inflate.o \
+   	    ./obj_PSP/gzip/inftrees.o \
+   	    ./obj_PSP/gzip/infutil.o \
+	    ./obj_PSP/gzip/zutil.o \
+	    ./obj_PSP/winfonts/winfnt.o \
+	    ./obj_PSP/type42/t42drivr.o \
+	    ./obj_PSP/type42/t42objs.o \
+	    ./obj_PSP/type42/t42parse.o \
+	    ./obj_PSP/type42/type42.o \
+	    ./obj_PSP/pfr/pfr.o \
+	    ./obj_PSP/pfr/pfrcmap.o \
+	    ./obj_PSP/pfr/pfrdrivr.o \
+	    ./obj_PSP/pfr/pfrgload.o \
+	    ./obj_PSP/pfr/pfrload.o \
+	    ./obj_PSP/pfr/pfrobjs.o \
+	    ./obj_PSP/pfr/pfrsbit.o \
+	    ./obj_PSP/cid/cidgload.o \
+	    ./obj_PSP/cid/cidload.o \
+	    ./obj_PSP/cid/cidobjs.o \
+	    ./obj_PSP/cid/cidparse.o \
+	    ./obj_PSP/cid/cidriver.o \
+	    ./obj_PSP/cid/type1cid.o \
+	    ./obj_PSP/cff/cff.o \
+	    ./obj_PSP/cff/cffcmap.o \
+	    ./obj_PSP/cff/cffdrivr.o \
+	    ./obj_PSP/cff/cffgload.o \
+	    ./obj_PSP/cff/cffload.o \
+	    ./obj_PSP/cff/cffobjs.o \
+	    ./obj_PSP/cff/cffparse.o \
+	    ./obj_PSP/ndflib/ndflib.o
+
+
+
+## Path di ricerca per gli headers files
+ 
+INC0 = -I"." 
+INC1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include" 
+INC7 = -I"./include"
+INC8 = -I"./include/freetype"
+INC9 = -I"./include/freetype/config"
+INC10 = -I"./include/freetype/cache"
+INC11 = -I"./include/freetype/internal"
+INC12 = -I"./include/freetype/internal/services"
+
+INCLUDE = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6) $(INC7) $(INC8) $(INC9) $(INC10) $(INC11) $(INC12)
+
+
+
+
+## Flags di compilazione
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -D"FT2_BUILD_LIBRARY" -O3 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -fshort-double -Wall -mfp32 -msym32 -ffast-math -v
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -D"FT2_BUILD_LIBRARY" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -Wall -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -v
+
+
+
+## Compilazione di librerie
+
+all : $(OUTLIB_PSPE) $(OUTLIB_PSP) 
+
+$(OUTLIB_PSPE): $(OBJS0_PSPE) 
+	$(LINK) r $(OUTLIB_PSPE) $(OBJS0_PSPE) 
+	
+$(OUTLIB_PSP): $(OBJS0_PSP) 
+	$(LINK) r $(OUTLIB_PSP) $(OBJS0_PSP) 
+
+
+		
+## Compilazione dei moduli per PSPE (core)
+
+./obj_PSPE/base/ftapi.o: ./src/base/ftapi.c
+	$(C) -c ./src/base/ftapi.c -o ./obj_PSPE/base/ftapi.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftbase.o: ./src/base/ftbase.c
+	$(C) -c ./src/base/ftbase.c -o ./obj_PSPE/base/ftbase.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftbbox.o: ./src/base/ftbbox.c
+	$(C) -c ./src/base/ftbbox.c -o ./obj_PSPE/base/ftbbox.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftbdf.o: ./src/base/ftbdf.c
+	$(C) -c ./src/base/ftbdf.c -o ./obj_PSPE/base/ftbdf.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftbitmap.o: ./src/base/ftbitmap.c
+	$(C) -c ./src/base/ftbitmap.c -o ./obj_PSPE/base/ftbitmap.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftcalc.o: ./src/base/ftcalc.c
+	$(C) -c ./src/base/ftcalc.c -o ./obj_PSPE/base/ftcalc.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftdbgmem.o: ./src/base/ftdbgmem.c
+	$(C) -c ./src/base/ftdbgmem.c -o ./obj_PSPE/base/ftdbgmem.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftdebug.o: ./src/base/ftdebug.c
+	$(C) -c ./src/base/ftdebug.c -o ./obj_PSPE/base/ftdebug.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftgasp.o: ./src/base/ftgasp.c
+	$(C) -c ./src/base/ftgasp.c -o ./obj_PSPE/base/ftgasp.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftgloadr.o: ./src/base/ftgloadr.c
+	$(C) -c ./src/base/ftgloadr.c -o ./obj_PSPE/base/ftgloadr.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftglyph.o: ./src/base/ftglyph.c
+	$(C) -c ./src/base/ftglyph.c -o ./obj_PSPE/base/ftglyph.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftgxval.o: ./src/base/ftgxval.c
+	$(C) -c ./src/base/ftgxval.c -o ./obj_PSPE/base/ftgxval.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftinit.o: ./src/base/ftinit.c
+	$(C) -c ./src/base/ftinit.c -o ./obj_PSPE/base/ftinit.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftlcdfil.o: ./src/base/ftlcdfil.c
+	$(C) -c ./src/base/ftlcdfil.c -o ./obj_PSPE/base/ftlcdfil.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftmm.o: ./src/base/ftmm.c
+	$(C) -c ./src/base/ftmm.c -o ./obj_PSPE/base/ftmm.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftnames.o: ./src/base/ftnames.c
+	$(C) -c ./src/base/ftnames.c -o ./obj_PSPE/base/ftnames.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftobjs.o: ./src/base/ftobjs.c
+	$(C) -c ./src/base/ftobjs.c -o ./obj_PSPE/base/ftobjs.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftotval.o: ./src/base/ftotval.c
+	$(C) -c ./src/base/ftotval.c -o ./obj_PSPE/base/ftotval.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftoutln.o: ./src/base/ftoutln.c
+	$(C) -c ./src/base/ftoutln.c -o ./obj_PSPE/base/ftoutln.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftpfr.o: ./src/base/ftpfr.c
+	$(C) -c ./src/base/ftpfr.c -o ./obj_PSPE/base/ftpfr.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftrfork.o: ./src/base/ftrfork.c
+	$(C) -c ./src/base/ftrfork.c -o ./obj_PSPE/base/ftrfork.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftstream.o: ./src/base/ftstream.c
+	$(C) -c ./src/base/ftstream.c -o ./obj_PSPE/base/ftstream.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftstroke.o: ./src/base/ftstroke.c
+	$(C) -c ./src/base/ftstroke.c -o ./obj_PSPE/base/ftstroke.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftsynth.o: ./src/base/ftsynth.c
+	$(C) -c ./src/base/ftsynth.c -o ./obj_PSPE/base/ftsynth.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftsystem.o: ./src/base/ftsystem.c
+	$(C) -c ./src/base/ftsystem.c -o ./obj_PSPE/base/ftsystem.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/fttrigon.o: ./src/base/fttrigon.c
+	$(C) -c ./src/base/fttrigon.c -o ./obj_PSPE/base/fttrigon.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/fttype1.o: ./src/base/fttype1.c
+	$(C) -c ./src/base/fttype1.c -o ./obj_PSPE/base/fttype1.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftutil.o: ./src/base/ftutil.c
+	$(C) -c ./src/base/ftutil.c -o ./obj_PSPE/base/ftutil.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftwinfnt.o: ./src/base/ftwinfnt.c
+	$(C) -c ./src/base/ftwinfnt.c -o ./obj_PSPE/base/ftwinfnt.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+./obj_PSPE/base/ftxf86.o: ./src/base/ftxf86.c
+	$(C) -c ./src/base/ftxf86.c -o ./obj_PSPE/base/ftxf86.o $(CFLAGS_PSPE) $(INCLUDE)
+
+./obj_PSPE/autofit/autofit.o:
+	$(C) -c ./src/autofit/autofit.c -o ./obj_PSPE/autofit/autofit.o $(CFLAGS_PSPE) $(INCLUDE)
+
+./obj_PSPE/type1/t1afm.o: ./src/type1/t1afm.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/type1/t1afm.c -o ./obj_PSPE/type1/t1afm.o 
+
+./obj_PSPE/type1/t1driver.o: ./src/type1/t1driver.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/type1/t1driver.c -o ./obj_PSPE/type1/t1driver.o 
+
+./obj_PSPE/type1/t1gload.o: ./src/type1/t1gload.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/type1/t1gload.c -o ./obj_PSPE/type1/t1gload.o 
+
+./obj_PSPE/type1/t1load.o: ./src/type1/t1load.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/type1/t1load.c -o ./obj_PSPE/type1/t1load.o 
+
+./obj_PSPE/type1/t1objs.o: ./src/type1/t1objs.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/type1/t1objs.c -o ./obj_PSPE/type1/t1objs.o 
+
+./obj_PSPE/type1/t1parse.o: ./src/type1/t1parse.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/type1/t1parse.c -o ./obj_PSPE/type1/t1parse.o 
+
+./obj_PSPE/type1/type1.o: ./src/type1/type1.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/type1/type1.c -o ./obj_PSPE/type1/type1.o 
+
+./obj_PSPE/truetype/truetype.o: ./src/truetype/truetype.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/truetype/truetype.c -o ./obj_PSPE/truetype/truetype.o 
+
+./obj_PSPE/truetype/ttdriver.o: ./src/truetype/ttdriver.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/truetype/ttdriver.c -o ./obj_PSPE/truetype/ttdriver.o 
+
+./obj_PSPE/truetype/ttgload.o: ./src/truetype/ttgload.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/truetype/ttgload.c -o ./obj_PSPE/truetype/ttgload.o 
+
+./obj_PSPE/truetype/ttgxvar.o: ./src/truetype/ttgxvar.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/truetype/ttgxvar.c -o ./obj_PSPE/truetype/ttgxvar.o 
+
+./obj_PSPE/truetype/ttinterp.o: ./src/truetype/ttinterp.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/truetype/ttinterp.c -o ./obj_PSPE/truetype/ttinterp.o 
+
+./obj_PSPE/truetype/ttobjs.o: ./src/truetype/ttobjs.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/truetype/ttobjs.c -o ./obj_PSPE/truetype/ttobjs.o 
+
+./obj_PSPE/truetype/ttpload.o: ./src/truetype/ttpload.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/truetype/ttpload.c -o ./obj_PSPE/truetype/ttpload.o 
+
+./obj_PSPE/bdf/bdf.o: ./src/bdf/bdf.c
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/bdf/bdf.c -o ./obj_PSPE/bdf/bdf.o 
+
+./obj_PSPE/bdf/bdfdrivr.o: ./src/bdf/bdfdrivr.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/bdf/bdfdrivr.c -o ./obj_PSPE/bdf/bdfdrivr.o 
+
+./obj_PSPE/bdf/bdflib.o: ./src/bdf/bdflib.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/bdf/bdflib.c -o ./obj_PSPE/bdf/bdflib.o 
+    
+./obj_PSPE/smooth/smooth.o: ./src/smooth/smooth.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/smooth/smooth.c -o ./obj_PSPE/smooth/smooth.o 
+	 
+./obj_PSPE/smooth/ftsmooth.o: ./src/smooth/ftsmooth.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/smooth/ftsmooth.c -o ./obj_PSPE/smooth/ftsmooth.o 
+
+./obj_PSPE/smooth/ftgrays.o: ./src/smooth/ftgrays.c  
+	$(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/smooth/ftgrays.c -o ./obj_PSPE/smooth/ftgrays.o 
+    
+./obj_PSPE/sfnt/sfdriver.o: ./src/sfnt/sfdriver.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/sfnt/sfdriver.c -o ./obj_PSPE/sfnt/sfdriver.o 
+
+./obj_PSPE/sfnt/sfnt.o: ./src/sfnt/sfnt.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/sfnt/sfnt.c -o ./obj_PSPE/sfnt/sfnt.o 
+
+./obj_PSPE/sfnt/sfobjs.o: ./src/sfnt/sfobjs.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/sfnt/sfobjs.c -o ./obj_PSPE/sfnt/sfobjs.o 
+
+./obj_PSPE/sfnt/ttbdf.o: ./src/sfnt/ttbdf.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/sfnt/ttbdf.c -o ./obj_PSPE/sfnt/ttbdf.o 
+
+./obj_PSPE/sfnt/ttcmap.o: ./src/sfnt/ttcmap.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/sfnt/ttcmap.c -o ./obj_PSPE/sfnt/ttcmap.o 
+
+./obj_PSPE/sfnt/ttkern.o: ./src/sfnt/ttkern.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/sfnt/ttkern.c -o ./obj_PSPE/sfnt/ttkern.o 
+
+./obj_PSPE/sfnt/ttload.o: ./src/sfnt/ttload.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/sfnt/ttload.c -o ./obj_PSPE/sfnt/ttload.o 
+
+./obj_PSPE/sfnt/ttmtx.o: ./src/sfnt/ttmtx.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/sfnt/ttmtx.c -o ./obj_PSPE/sfnt/ttmtx.o 
+
+./obj_PSPE/sfnt/ttpost.o: ./src/sfnt/ttpost.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/sfnt/ttpost.c -o ./obj_PSPE/sfnt/ttpost.o 
+
+./obj_PSPE/sfnt/ttsbit.o: ./src/sfnt/ttsbit.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/sfnt/ttsbit.c -o ./obj_PSPE/sfnt/ttsbit.o 
+
+./obj_PSPE/sfnt/ttsbit0.o: ./src/sfnt/ttsbit0.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/sfnt/ttsbit0.c -o ./obj_PSPE/sfnt/ttsbit0.o 
+
+./obj_PSPE/raster/ftraster.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/raster/ftraster.c -o ./obj_PSPE/raster/ftraster.o 
+
+./obj_PSPE/raster/raster.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/raster/raster.c -o ./obj_PSPE/raster/raster.o 
+	    
+./obj_PSPE/raster/ftrend1.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/raster/ftrend1.c -o ./obj_PSPE/raster/ftrend1.o 
+	    	    	    
+./obj_PSPE/psnames/psmodule.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/psnames/psmodule.c -o ./obj_PSPE/psnames/psmodule.o 
+
+./obj_PSPE/psnames/psnames.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/psnames/psnames.c -o ./obj_PSPE/psnames/psnames.o 
+	    
+./obj_PSPE/pshinter/pshalgo.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pshinter/pshalgo.c -o ./obj_PSPE/pshinter/pshalgo.o 
+	    
+./obj_PSPE/pshinter/pshglob.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pshinter/pshglob.c -o ./obj_PSPE/pshinter/pshglob.o 
+	 
+./obj_PSPE/pshinter/pshinter.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pshinter/pshinter.c -o ./obj_PSPE/pshinter/pshinter.o 
+	 
+./obj_PSPE/pshinter/pshmod.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pshinter/pshmod.c -o ./obj_PSPE/pshinter/pshmod.o 
+	 
+./obj_PSPE/pshinter/pshrec.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pshinter/pshrec.c -o ./obj_PSPE/pshinter/pshrec.o 
+	   	    
+./obj_PSPE/psaux/afmparse.o: ./src/psaux/afmparse.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/psaux/afmparse.c -o ./obj_PSPE/psaux/afmparse.o 
+
+./obj_PSPE/psaux/psaux.o: ./src/psaux/psaux.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/psaux/psaux.c -o ./obj_PSPE/psaux/psaux.o 
+
+./obj_PSPE/psaux/psauxmod.o: ./src/psaux/psauxmod.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/psaux/psauxmod.c -o ./obj_PSPE/psaux/psauxmod.o 
+
+./obj_PSPE/psaux/psconv.o: ./src/psaux/psconv.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/psaux/psconv.c -o ./obj_PSPE/psaux/psconv.o 
+
+./obj_PSPE/psaux/psobjs.o: ./src/psaux/psobjs.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/psaux/psobjs.c -o ./obj_PSPE/psaux/psobjs.o 
+
+./obj_PSPE/psaux/t1cmap.o: ./src/psaux/t1cmap.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/psaux/t1cmap.c -o ./obj_PSPE/psaux/t1cmap.o 
+
+./obj_PSPE/psaux/t1decode.o: ./src/psaux/t1decode.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/psaux/t1decode.c -o ./obj_PSPE/psaux/t1decode.o 
+
+./obj_PSPE/pcf/pcf.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pcf/pcf.c -o ./obj_PSPE/pcf/pcf.o 
+
+./obj_PSPE/pcf/pcfdrivr.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pcf/pcfdrivr.c -o ./obj_PSPE/pcf/pcfdrivr.o 
+
+./obj_PSPE/pcf/pcfread.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pcf/pcfread.c -o ./obj_PSPE/pcf/pcfread.o
+	 
+./obj_PSPE/pcf/pcfutil.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pcf/pcfutil.c -o ./obj_PSPE/pcf/pcfutil.o	    
+
+./obj_PSPE/lzw/ftlzw.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/lzw/ftlzw.c -o ./obj_PSPE/lzw/ftlzw.o
+
+./obj_PSPE/lzw/ftzopen.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/lzw/ftzopen.c -o ./obj_PSPE/lzw/ftzopen.o	    
+
+./obj_PSPE/gzip/adler32.o: ./src/gzip/adler32.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/gzip/adler32.c -o ./obj_PSPE/gzip/adler32.o 
+
+./obj_PSPE/gzip/ftgzip.o: ./src/gzip/ftgzip.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/gzip/ftgzip.c -o ./obj_PSPE/gzip/ftgzip.o 
+
+./obj_PSPE/gzip/infblock.o: ./src/gzip/infblock.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/gzip/infblock.c -o ./obj_PSPE/gzip/infblock.o 
+
+./obj_PSPE/gzip/infcodes.o: ./src/gzip/infcodes.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/gzip/infcodes.c -o ./obj_PSPE/gzip/infcodes.o 
+
+./obj_PSPE/gzip/inflate.o: ./src/gzip/inflate.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/gzip/inflate.c -o ./obj_PSPE/gzip/inflate.o 
+
+./obj_PSPE/gzip/inftrees.o: ./src/gzip/inftrees.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/gzip/inftrees.c -o ./obj_PSPE/gzip/inftrees.o 
+
+./obj_PSPE/gzip/infutil.o: ./src/gzip/infutil.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/gzip/infutil.c -o ./obj_PSPE/gzip/infutil.o 
+
+./obj_PSPE/gzip/zutil.o: ./src/gzip/zutil.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/gzip/zutil.c -o ./obj_PSPE/gzip/zutil.o 
+
+./obj_PSPE/winfonts/winfnt.o: ./src/winfonts/winfnt.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/winfonts/winfnt.c -o ./obj_PSPE/winfonts/winfnt.o 
+
+./obj_PSPE/type42/t42drivr.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/type42/t42drivr.c -o ./obj_PSPE/type42/t42drivr.o 
+
+./obj_PSPE/type42/t42objs.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/type42/t42objs.c -o ./obj_PSPE/type42/t42objs.o 
+
+./obj_PSPE/type42/t42parse.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/type42/t42parse.c -o ./obj_PSPE/type42/t42parse.o 
+
+./obj_PSPE/type42/type42.o:
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/type42/type42.c -o ./obj_PSPE/type42/type42.o 
+
+./obj_PSPE/pfr/pfr.o: ./src/pfr/pfr.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pfr/pfr.c -o ./obj_PSPE/pfr/pfr.o 
+
+./obj_PSPE/pfr/pfrcmap.o: ./src/pfr/pfrcmap.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pfr/pfrcmap.c -o ./obj_PSPE/pfr/pfrcmap.o 
+
+./obj_PSPE/pfr/pfrdrivr.o: ./src/pfr/pfrdrivr.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pfr/pfrdrivr.c -o ./obj_PSPE/pfr/pfrdrivr.o 
+
+./obj_PSPE/pfr/pfrgload.o: ./src/pfr/pfrgload.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pfr/pfrgload.c -o ./obj_PSPE/pfr/pfrgload.o 
+
+./obj_PSPE/pfr/pfrload.o: ./src/pfr/pfrload.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pfr/pfrload.c -o ./obj_PSPE/pfr/pfrload.o 
+
+./obj_PSPE/pfr/pfrobjs.o: ./src/pfr/pfrobjs.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pfr/pfrobjs.c -o ./obj_PSPE/pfr/pfrobjs.o 
+
+./obj_PSPE/pfr/pfrsbit.o: ./src/pfr/pfrsbit.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/pfr/pfrsbit.c -o ./obj_PSPE/pfr/pfrsbit.o 
+	    
+./obj_PSPE/cid/cidgload.o: ./src/cid/cidgload.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/cid/cidgload.c -o ./obj_PSPE/cid/cidgload.o 
+
+./obj_PSPE/cid/cidload.o: ./src/cid/cidload.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/cid/cidload.c -o ./obj_PSPE/cid/cidload.o 
+
+./obj_PSPE/cid/cidobjs.o: ./src/cid/cidobjs.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/cid/cidobjs.c -o ./obj_PSPE/cid/cidobjs.o 
+
+./obj_PSPE/cid/cidparse.o: ./src/cid/cidparse.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/cid/cidparse.c -o ./obj_PSPE/cid/cidparse.o 
+
+./obj_PSPE/cid/cidriver.o: ./src/cid/cidriver.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/cid/cidriver.c -o ./obj_PSPE/cid/cidriver.o 
+
+./obj_PSPE/cid/type1cid.o: ./src/cid/type1cid.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/cid/type1cid.c -o ./obj_PSPE/cid/type1cid.o 
+
+./obj_PSPE/cff/cff.o: ./src/cff/cff.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/cff/cff.c -o ./obj_PSPE/cff/cff.o 
+
+./obj_PSPE/cff/cffcmap.o: ./src/cff/cffcmap.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/cff/cffcmap.c -o ./obj_PSPE/cff/cffcmap.o 
+
+./obj_PSPE/cff/cffdrivr.o: ./src/cff/cffdrivr.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/cff/cffdrivr.c -o ./obj_PSPE/cff/cffdrivr.o 
+
+./obj_PSPE/cff/cffgload.o: ./src/cff/cffgload.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/cff/cffgload.c -o ./obj_PSPE/cff/cffgload.o 
+
+./obj_PSPE/cff/cffload.o: ./src/cff/cffload.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/cff/cffload.c -o ./obj_PSPE/cff/cffload.o 
+
+./obj_PSPE/cff/cffobjs.o: ./src/cff/cffobjs.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/cff/cffobjs.c -o ./obj_PSPE/cff/cffobjs.o 
+
+./obj_PSPE/cff/cffparse.o: ./src/cff/cffparse.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./src/cff/cffparse.c -o ./obj_PSPE/cff/cffparse.o 
+
+./obj_PSPE/ndflib/ndflib.o: ./src/ndflib/ndflib.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -D"ND_ENABLE_TTF_SUPPORT" -c ./src/ndflib/ndflib.c -o ./obj_PSPE/ndflib/ndflib.o 
+
+
+
+
+
+
+
+
+
+
+
+## Compilazione dei moduli per PSP (core)
+
+./obj_PSP/base/ftapi.o: ./src/base/ftapi.c
+	$(C) -c ./src/base/ftapi.c -o ./obj_PSP/base/ftapi.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftbase.o: ./src/base/ftbase.c
+	$(C) -c ./src/base/ftbase.c -o ./obj_PSP/base/ftbase.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftbbox.o: ./src/base/ftbbox.c
+	$(C) -c ./src/base/ftbbox.c -o ./obj_PSP/base/ftbbox.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftbdf.o: ./src/base/ftbdf.c
+	$(C) -c ./src/base/ftbdf.c -o ./obj_PSP/base/ftbdf.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftbitmap.o: ./src/base/ftbitmap.c
+	$(C) -c ./src/base/ftbitmap.c -o ./obj_PSP/base/ftbitmap.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftcalc.o: ./src/base/ftcalc.c
+	$(C) -c ./src/base/ftcalc.c -o ./obj_PSP/base/ftcalc.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftdbgmem.o: ./src/base/ftdbgmem.c
+	$(C) -c ./src/base/ftdbgmem.c -o ./obj_PSP/base/ftdbgmem.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftdebug.o: ./src/base/ftdebug.c
+	$(C) -c ./src/base/ftdebug.c -o ./obj_PSP/base/ftdebug.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftgasp.o: ./src/base/ftgasp.c
+	$(C) -c ./src/base/ftgasp.c -o ./obj_PSP/base/ftgasp.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftgloadr.o: ./src/base/ftgloadr.c
+	$(C) -c ./src/base/ftgloadr.c -o ./obj_PSP/base/ftgloadr.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftglyph.o: ./src/base/ftglyph.c
+	$(C) -c ./src/base/ftglyph.c -o ./obj_PSP/base/ftglyph.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftgxval.o: ./src/base/ftgxval.c
+	$(C) -c ./src/base/ftgxval.c -o ./obj_PSP/base/ftgxval.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftinit.o: ./src/base/ftinit.c
+	$(C) -c ./src/base/ftinit.c -o ./obj_PSP/base/ftinit.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftlcdfil.o: ./src/base/ftlcdfil.c
+	$(C) -c ./src/base/ftlcdfil.c -o ./obj_PSP/base/ftlcdfil.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftmm.o: ./src/base/ftmm.c
+	$(C) -c ./src/base/ftmm.c -o ./obj_PSP/base/ftmm.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftnames.o: ./src/base/ftnames.c
+	$(C) -c ./src/base/ftnames.c -o ./obj_PSP/base/ftnames.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftobjs.o: ./src/base/ftobjs.c
+	$(C) -c ./src/base/ftobjs.c -o ./obj_PSP/base/ftobjs.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftotval.o: ./src/base/ftotval.c
+	$(C) -c ./src/base/ftotval.c -o ./obj_PSP/base/ftotval.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftoutln.o: ./src/base/ftoutln.c
+	$(C) -c ./src/base/ftoutln.c -o ./obj_PSP/base/ftoutln.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftpfr.o: ./src/base/ftpfr.c
+	$(C) -c ./src/base/ftpfr.c -o ./obj_PSP/base/ftpfr.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftrfork.o: ./src/base/ftrfork.c
+	$(C) -c ./src/base/ftrfork.c -o ./obj_PSP/base/ftrfork.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftstream.o: ./src/base/ftstream.c
+	$(C) -c ./src/base/ftstream.c -o ./obj_PSP/base/ftstream.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftstroke.o: ./src/base/ftstroke.c
+	$(C) -c ./src/base/ftstroke.c -o ./obj_PSP/base/ftstroke.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftsynth.o: ./src/base/ftsynth.c
+	$(C) -c ./src/base/ftsynth.c -o ./obj_PSP/base/ftsynth.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftsystem.o: ./src/base/ftsystem.c
+	$(C) -c ./src/base/ftsystem.c -o ./obj_PSP/base/ftsystem.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/fttrigon.o: ./src/base/fttrigon.c
+	$(C) -c ./src/base/fttrigon.c -o ./obj_PSP/base/fttrigon.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/fttype1.o: ./src/base/fttype1.c
+	$(C) -c ./src/base/fttype1.c -o ./obj_PSP/base/fttype1.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftutil.o: ./src/base/ftutil.c
+	$(C) -c ./src/base/ftutil.c -o ./obj_PSP/base/ftutil.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftwinfnt.o: ./src/base/ftwinfnt.c
+	$(C) -c ./src/base/ftwinfnt.c -o ./obj_PSP/base/ftwinfnt.o $(CFLAGS_PSP) $(INCLUDE)
+	
+./obj_PSP/base/ftxf86.o: ./src/base/ftxf86.c
+	$(C) -c ./src/base/ftxf86.c -o ./obj_PSP/base/ftxf86.o $(CFLAGS_PSP) $(INCLUDE)
+
+./obj_PSP/autofit/autofit.o:
+	$(C) -c ./src/autofit/autofit.c -o ./obj_PSP/autofit/autofit.o $(CFLAGS_PSP) $(INCLUDE)
+
+./obj_PSP/truetype/ttdriver.o:
+	$(C) -c ./src/truetype/ttdriver.c -o ./obj_PSP/truetype/ttdriver.o $(CFLAGS_PSP) $(INCLUDE)
+
+./obj_PSP/type1/t1afm.o: ./src/type1/t1afm.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/type1/t1afm.c -o ./obj_PSP/type1/t1afm.o 
+
+./obj_PSP/type1/t1driver.o: ./src/type1/t1driver.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/type1/t1driver.c -o ./obj_PSP/type1/t1driver.o 
+
+./obj_PSP/type1/t1gload.o: ./src/type1/t1gload.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/type1/t1gload.c -o ./obj_PSP/type1/t1gload.o 
+
+./obj_PSP/type1/t1load.o: ./src/type1/t1load.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/type1/t1load.c -o ./obj_PSP/type1/t1load.o 
+
+./obj_PSP/type1/t1objs.o: ./src/type1/t1objs.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/type1/t1objs.c -o ./obj_PSP/type1/t1objs.o 
+
+./obj_PSP/type1/t1parse.o: ./src/type1/t1parse.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/type1/t1parse.c -o ./obj_PSP/type1/t1parse.o 
+
+./obj_PSP/type1/type1.o: ./src/type1/type1.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/type1/type1.c -o ./obj_PSP/type1/type1.o 
+
+./obj_PSP/truetype/truetype.o: ./src/truetype/truetype.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/truetype/truetype.c -o ./obj_PSP/truetype/truetype.o 
+
+./obj_PSP/truetype/ttgload.o: ./src/truetype/ttgload.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/truetype/ttgload.c -o ./obj_PSP/truetype/ttgload.o 
+
+./obj_PSP/truetype/ttgxvar.o: ./src/truetype/ttgxvar.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/truetype/ttgxvar.c -o ./obj_PSP/truetype/ttgxvar.o 
+
+./obj_PSP/truetype/ttinterp.o: ./src/truetype/ttinterp.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/truetype/ttinterp.c -o ./obj_PSP/truetype/ttinterp.o 
+
+./obj_PSP/truetype/ttobjs.o: ./src/truetype/ttobjs.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/truetype/ttobjs.c -o ./obj_PSP/truetype/ttobjs.o 
+
+./obj_PSP/truetype/ttpload.o: ./src/truetype/ttpload.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/truetype/ttpload.c -o ./obj_PSP/truetype/ttpload.o 
+
+./obj_PSP/bdf/bdf.o: ./src/bdf/bdf.c
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/bdf/bdf.c -o ./obj_PSP/bdf/bdf.o 
+
+./obj_PSP/bdf/bdfdrivr.o: ./src/bdf/bdfdrivr.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/bdf/bdfdrivr.c -o ./obj_PSP/bdf/bdfdrivr.o 
+
+./obj_PSP/bdf/bdflib.o: ./src/bdf/bdflib.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/bdf/bdflib.c -o ./obj_PSP/bdf/bdflib.o 
+    
+./obj_PSP/smooth/smooth.o: ./src/smooth/smooth.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/smooth/smooth.c -o ./obj_PSP/smooth/smooth.o 
+	 
+./obj_PSP/smooth/ftsmooth.o: ./src/smooth/ftsmooth.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/smooth/ftsmooth.c -o ./obj_PSP/smooth/ftsmooth.o 
+
+./obj_PSP/smooth/ftgrays.o: ./src/smooth/ftgrays.c  
+	$(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/smooth/ftgrays.c -o ./obj_PSP/smooth/ftgrays.o 
+    
+./obj_PSP/sfnt/sfdriver.o: ./src/sfnt/sfdriver.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/sfnt/sfdriver.c -o ./obj_PSP/sfnt/sfdriver.o 
+
+./obj_PSP/sfnt/sfnt.o: ./src/sfnt/sfnt.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/sfnt/sfnt.c -o ./obj_PSP/sfnt/sfnt.o 
+
+./obj_PSP/sfnt/sfobjs.o: ./src/sfnt/sfobjs.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/sfnt/sfobjs.c -o ./obj_PSP/sfnt/sfobjs.o 
+
+./obj_PSP/sfnt/ttbdf.o: ./src/sfnt/ttbdf.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/sfnt/ttbdf.c -o ./obj_PSP/sfnt/ttbdf.o 
+
+./obj_PSP/sfnt/ttcmap.o: ./src/sfnt/ttcmap.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/sfnt/ttcmap.c -o ./obj_PSP/sfnt/ttcmap.o 
+
+./obj_PSP/sfnt/ttkern.o: ./src/sfnt/ttkern.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/sfnt/ttkern.c -o ./obj_PSP/sfnt/ttkern.o 
+
+./obj_PSP/sfnt/ttload.o: ./src/sfnt/ttload.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/sfnt/ttload.c -o ./obj_PSP/sfnt/ttload.o 
+
+./obj_PSP/sfnt/ttmtx.o: ./src/sfnt/ttmtx.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/sfnt/ttmtx.c -o ./obj_PSP/sfnt/ttmtx.o 
+
+./obj_PSP/sfnt/ttpost.o: ./src/sfnt/ttpost.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/sfnt/ttpost.c -o ./obj_PSP/sfnt/ttpost.o 
+
+./obj_PSP/sfnt/ttsbit.o: ./src/sfnt/ttsbit.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/sfnt/ttsbit.c -o ./obj_PSP/sfnt/ttsbit.o 
+
+./obj_PSP/sfnt/ttsbit0.o: ./src/sfnt/ttsbit0.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/sfnt/ttsbit0.c -o ./obj_PSP/sfnt/ttsbit0.o 
+
+./obj_PSP/raster/ftraster.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/raster/ftraster.c -o ./obj_PSP/raster/ftraster.o 
+
+./obj_PSP/raster/raster.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/raster/raster.c -o ./obj_PSP/raster/raster.o 
+	    
+./obj_PSP/raster/ftrend1.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/raster/ftrend1.c -o ./obj_PSP/raster/ftrend1.o 
+
+./obj_PSP/psnames/psmodule.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/psnames/psmodule.c -o ./obj_PSP/psnames/psmodule.o 
+
+./obj_PSP/psnames/psnames.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/psnames/psnames.c -o ./obj_PSP/psnames/psnames.o 
+
+./obj_PSP/pshinter/pshalgo.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pshinter/pshalgo.c -o ./obj_PSP/pshinter/pshalgo.o 
+	    
+./obj_PSP/pshinter/pshglob.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pshinter/pshglob.c -o ./obj_PSP/pshinter/pshglob.o 
+	 
+./obj_PSP/pshinter/pshinter.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pshinter/pshinter.c -o ./obj_PSP/pshinter/pshinter.o 
+	 
+./obj_PSP/pshinter/pshmod.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pshinter/pshmod.c -o ./obj_PSP/pshinter/pshmod.o 
+	 
+./obj_PSP/pshinter/pshrec.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pshinter/pshrec.c -o ./obj_PSP/pshinter/pshrec.o 
+	   	    
+./obj_PSP/psaux/afmparse.o: ./src/psaux/afmparse.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/psaux/afmparse.c -o ./obj_PSP/psaux/afmparse.o 
+
+./obj_PSP/psaux/psaux.o: ./src/psaux/psaux.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/psaux/psaux.c -o ./obj_PSP/psaux/psaux.o 
+
+./obj_PSP/psaux/psauxmod.o: ./src/psaux/psauxmod.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/psaux/psauxmod.c -o ./obj_PSP/psaux/psauxmod.o 
+
+./obj_PSP/psaux/psconv.o: ./src/psaux/psconv.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/psaux/psconv.c -o ./obj_PSP/psaux/psconv.o 
+
+./obj_PSP/psaux/psobjs.o: ./src/psaux/psobjs.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/psaux/psobjs.c -o ./obj_PSP/psaux/psobjs.o 
+
+./obj_PSP/psaux/t1cmap.o: ./src/psaux/t1cmap.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/psaux/t1cmap.c -o ./obj_PSP/psaux/t1cmap.o 
+
+./obj_PSP/psaux/t1decode.o: ./src/psaux/t1decode.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/psaux/t1decode.c -o ./obj_PSP/psaux/t1decode.o 
+
+./obj_PSP/pcf/pcf.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pcf/pcf.c -o ./obj_PSP/pcf/pcf.o 
+
+./obj_PSP/pcf/pcfdrivr.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pcf/pcfdrivr.c -o ./obj_PSP/pcf/pcfdrivr.o 
+
+./obj_PSP/pcf/pcfread.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pcf/pcfread.c -o ./obj_PSP/pcf/pcfread.o
+	 
+./obj_PSP/pcf/pcfutil.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pcf/pcfutil.c -o ./obj_PSP/pcf/pcfutil.o	    
+
+./obj_PSP/lzw/ftlzw.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/lzw/ftlzw.c -o ./obj_PSP/lzw/ftlzw.o
+
+./obj_PSP/lzw/ftzopen.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/lzw/ftzopen.c -o ./obj_PSP/lzw/ftzopen.o	    
+
+./obj_PSP/gzip/adler32.o: ./src/gzip/adler32.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/gzip/adler32.c -o ./obj_PSP/gzip/adler32.o 
+
+./obj_PSP/gzip/ftgzip.o: ./src/gzip/ftgzip.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/gzip/ftgzip.c -o ./obj_PSP/gzip/ftgzip.o 
+
+./obj_PSP/gzip/infblock.o: ./src/gzip/infblock.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/gzip/infblock.c -o ./obj_PSP/gzip/infblock.o 
+
+./obj_PSP/gzip/infcodes.o: ./src/gzip/infcodes.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/gzip/infcodes.c -o ./obj_PSP/gzip/infcodes.o 
+
+./obj_PSP/gzip/inflate.o: ./src/gzip/inflate.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/gzip/inflate.c -o ./obj_PSP/gzip/inflate.o 
+
+./obj_PSP/gzip/inftrees.o: ./src/gzip/inftrees.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/gzip/inftrees.c -o ./obj_PSP/gzip/inftrees.o 
+
+./obj_PSP/gzip/infutil.o: ./src/gzip/infutil.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/gzip/infutil.c -o ./obj_PSP/gzip/infutil.o 
+
+./obj_PSP/gzip/zutil.o: ./src/gzip/zutil.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/gzip/zutil.c -o ./obj_PSP/gzip/zutil.o 
+
+./obj_PSP/winfonts/winfnt.o: ./src/winfonts/winfnt.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/winfonts/winfnt.c -o ./obj_PSP/winfonts/winfnt.o 
+
+./obj_PSP/type42/t42drivr.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/type42/t42drivr.c -o ./obj_PSP/type42/t42drivr.o 
+
+./obj_PSP/type42/t42objs.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/type42/t42objs.c -o ./obj_PSP/type42/t42objs.o 
+
+./obj_PSP/type42/t42parse.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/type42/t42parse.c -o ./obj_PSP/type42/t42parse.o 
+
+./obj_PSP/type42/type42.o:
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/type42/type42.c -o ./obj_PSP/type42/type42.o 
+
+./obj_PSP/pfr/pfr.o: ./src/pfr/pfr.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pfr/pfr.c -o ./obj_PSP/pfr/pfr.o 
+
+./obj_PSP/pfr/pfrcmap.o: ./src/pfr/pfrcmap.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pfr/pfrcmap.c -o ./obj_PSP/pfr/pfrcmap.o 
+
+./obj_PSP/pfr/pfrdrivr.o: ./src/pfr/pfrdrivr.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pfr/pfrdrivr.c -o ./obj_PSP/pfr/pfrdrivr.o 
+
+./obj_PSP/pfr/pfrgload.o: ./src/pfr/pfrgload.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pfr/pfrgload.c -o ./obj_PSP/pfr/pfrgload.o 
+
+./obj_PSP/pfr/pfrload.o: ./src/pfr/pfrload.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pfr/pfrload.c -o ./obj_PSP/pfr/pfrload.o 
+
+./obj_PSP/pfr/pfrobjs.o: ./src/pfr/pfrobjs.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pfr/pfrobjs.c -o ./obj_PSP/pfr/pfrobjs.o 
+
+./obj_PSP/pfr/pfrsbit.o: ./src/pfr/pfrsbit.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/pfr/pfrsbit.c -o ./obj_PSP/pfr/pfrsbit.o 
+
+./obj_PSP/cid/cidgload.o: ./src/cid/cidgload.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/cid/cidgload.c -o ./obj_PSP/cid/cidgload.o 
+
+./obj_PSP/cid/cidload.o: ./src/cid/cidload.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/cid/cidload.c -o ./obj_PSP/cid/cidload.o 
+
+./obj_PSP/cid/cidobjs.o: ./src/cid/cidobjs.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/cid/cidobjs.c -o ./obj_PSP/cid/cidobjs.o 
+
+./obj_PSP/cid/cidparse.o: ./src/cid/cidparse.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/cid/cidparse.c -o ./obj_PSP/cid/cidparse.o 
+
+./obj_PSP/cid/cidriver.o: ./src/cid/cidriver.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/cid/cidriver.c -o ./obj_PSP/cid/cidriver.o 
+
+./obj_PSP/cid/type1cid.o: ./src/cid/type1cid.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/cid/type1cid.c -o ./obj_PSP/cid/type1cid.o 
+
+./obj_PSP/cff/cff.o: ./src/cff/cff.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/cff/cff.c -o ./obj_PSP/cff/cff.o 
+
+./obj_PSP/cff/cffcmap.o: ./src/cff/cffcmap.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/cff/cffcmap.c -o ./obj_PSP/cff/cffcmap.o 
+
+./obj_PSP/cff/cffdrivr.o: ./src/cff/cffdrivr.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/cff/cffdrivr.c -o ./obj_PSP/cff/cffdrivr.o 
+
+./obj_PSP/cff/cffgload.o: ./src/cff/cffgload.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/cff/cffgload.c -o ./obj_PSP/cff/cffgload.o 
+
+./obj_PSP/cff/cffload.o: ./src/cff/cffload.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/cff/cffload.c -o ./obj_PSP/cff/cffload.o 
+
+./obj_PSP/cff/cffobjs.o: ./src/cff/cffobjs.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/cff/cffobjs.c -o ./obj_PSP/cff/cffobjs.o 
+
+./obj_PSP/cff/cffparse.o: ./src/cff/cffparse.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./src/cff/cffparse.c -o ./obj_PSP/cff/cffparse.o 
+
+./obj_PSP/ndflib/ndflib.o: ./src/ndflib/ndflib.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -D"ND_ENABLE_TTF_SUPPORT" -c ./src/ndflib/ndflib.c -o ./obj_PSP/ndflib/ndflib.o -aux-info prototypes.txt

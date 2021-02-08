@@ -1,0 +1,71 @@
+../obj_PSPE/ef_acos.c ../obj_PSPE/ef_acosh.c
+../obj_PSPE/ef_asin.c ../obj_PSPE/ef_atan2.c
+../obj_PSPE/ef_atanh.c ../obj_PSPE/ef_cosh.c
+../obj_PSPE/ef_exp.c ../obj_PSPE/ef_fmod.c
+../obj_PSPE/ef_hypot.c ../obj_PSPE/ef_j0.c
+../obj_PSPE/ef_j1.c ../obj_PSPE/ef_jn.c
+../obj_PSPE/ef_log.c ../obj_PSPE/ef_log10.c
+../obj_PSPE/ef_pow.c ../obj_PSPE/ef_remainder.c
+../obj_PSPE/ef_rem_pio2.c ../obj_PSPE/ef_scalb.c
+../obj_PSPE/ef_sinh.c ../obj_PSPE/ef_sqrt.c
+../obj_PSPE/erf_gamma.c ../obj_PSPE/erf_lgamma.c
+../obj_PSPE/er_gamma.c ../obj_PSPE/er_lgamma.c
+
+../obj_PSPE/e_acos.c ../obj_PSPE/e_acosh.c \
+../obj_PSPE/e_asin.c ../obj_PSPE/e_atan2.c \
+../obj_PSPE/e_atanh.c ../obj_PSPE/e_cosh.c \
+../obj_PSPE/e_exp.c ../obj_PSPE/e_fmod.c \
+../obj_PSPE/e_hypot.c ../obj_PSPE/e_j0.c \
+../obj_PSPE/e_j1.c ../obj_PSPE/e_jn.c \
+../obj_PSPE/e_log.c ../obj_PSPE/e_log10.c \
+../obj_PSPE/e_pow.c ../obj_PSPE/e_remainder.c \
+../obj_PSPE/e_rem_pio2.c ../obj_PSPE/e_scalb.c \
+../obj_PSPE/e_sinh.c ../obj_PSPE/e_sqrt.c \
+../obj_PSPE/kf_cos.c ../obj_PSPE/kf_rem_pio2.c \
+../obj_PSPE/kf_sin.c ../obj_PSPE/kf_tan.c \
+../obj_PSPE/k_cos.c ../obj_PSPE/k_rem_pio2.c \
+../obj_PSPE/k_sin.c ../obj_PSPE/k_standard.c \
+../obj_PSPE/k_tan.c ../obj_PSPE/sf_asinh.c \
+../obj_PSPE/sf_atan.c ../obj_PSPE/sf_ceil.c \
+../obj_PSPE/sf_cos.c ../obj_PSPE/sf_erf.c \
+../obj_PSPE/sf_fabs.c ../obj_PSPE/sf_floor.c \
+../obj_PSPE/sf_frexp.c ../obj_PSPE/sf_isinf.c \
+../obj_PSPE/sf_isnan.c ../obj_PSPE/sf_ldexp.c \
+../obj_PSPE/sf_signif.c ../obj_PSPE/sf_sin.c \
+../obj_PSPE/sf_tan.c ../obj_PSPE/sf_tanh.c \
+../obj_PSPE/s_asinh.c ../obj_PSPE/s_atan.c \
+../obj_PSPE/s_ceil.c ../obj_PSPE/s_cos.c \
+../obj_PSPE/s_erf.c ../obj_PSPE/s_fabs.c \
+../obj_PSPE/s_floor.c ../obj_PSPE/s_frexp.c \
+../obj_PSPE/s_infconst.c ../obj_PSPE/s_isinf.c \
+../obj_PSPE/s_isnan.c ../obj_PSPE/s_ldexp.c \
+../obj_PSPE/s_signif.c ../obj_PSPE/s_sin.c \
+../obj_PSPE/s_tan.c ../obj_PSPE/s_tanh.c \
+../obj_PSPE/wf_acos.c ../obj_PSPE/wf_acosh.c \
+../obj_PSPE/wf_asin.c ../obj_PSPE/wf_atan2.c \
+../obj_PSPE/wf_atanh.c ../obj_PSPE/wf_cabs.c \
+../obj_PSPE/wf_cosh.c ../obj_PSPE/wf_drem.c \
+../obj_PSPE/wf_exp.c ../obj_PSPE/wf_exp2.c \
+../obj_PSPE/wf_fmod.c ../obj_PSPE/wf_gamma.c \
+../obj_PSPE/wf_hypot.c ../obj_PSPE/wf_j0.c \
+../obj_PSPE/wf_j1.c ../obj_PSPE/wf_jn.c \
+../obj_PSPE/wf_lgamma.c ../obj_PSPE/wf_log.c \
+../obj_PSPE/wf_log10.c ../obj_PSPE/wf_pow.c \
+../obj_PSPE/wf_remainder.c ../obj_PSPE/wf_scalb.c \ 
+../obj_PSPE/wf_sincos.c ../obj_PSPE/wf_sinh.c \
+../obj_PSPE/wf_sqrt.c ../obj_PSPE/wf_tgamma.c \
+../obj_PSPE/wrf_gamma.c ../obj_PSPE/wrf_lgamma.c \
+../obj_PSPE/wr_gamma.c ../obj_PSPE/wr_lgamma.c \
+../obj_PSPE/w_acos.c ../obj_PSPE/w_acosh.c \
+../obj_PSPE/w_asin.c ../obj_PSPE/w_atan2.c \
+../obj_PSPE/w_atanh.c ../obj_PSPE/w_cabs.c \
+../obj_PSPE/w_cosh.c ../obj_PSPE/w_drem.c \
+../obj_PSPE/w_exp.c ../obj_PSPE/w_exp2.c \
+../obj_PSPE/w_fmod.c ../obj_PSPE/w_gamma.c \
+../obj_PSPE/w_hypot.c ../obj_PSPE/w_j0.c \
+../obj_PSPE/w_j1.c ../obj_PSPE/w_jn.c \
+../obj_PSPE/w_lgamma.c ../obj_PSPE/w_log.c \
+../obj_PSPE/w_log10.c ../obj_PSPE/w_pow.c \
+../obj_PSPE/w_remainder.c ../obj_PSPE/w_scalb.c \
+../obj_PSPE/w_sincos.c ../obj_PSPE/w_sinh.c \
+../obj_PSPE/w_sqrt.c ../obj_PSPE/w_tgamma.c 

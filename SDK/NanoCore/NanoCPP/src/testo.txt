@@ -1,0 +1,8 @@
+locale_bits.cpp
+locale_body.cpp
+locale_classic.cpp
+locale_combine.cpp
+locale_core.cpp
+locale_eq.cpp
+locale_global.cpp
+locale_name.cpp

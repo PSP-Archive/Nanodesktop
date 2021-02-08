@@ -1,0 +1,268 @@
+# -------------------------------------------------------------
+#
+# Nanodesktop ndOCRAD (PSPE/PSP)
+# di Filippo Battaglia
+#
+# -------------------------------------------------------------
+
+
+C    = psp-gcc
+CPP  = psp-g++
+LINK = psp-ar
+
+
+## Librerie di sistema
+
+
+OUTLIB_PSPE = ./lib/libNdOCRAD_PSPE.a
+
+OUTLIB_PSP  = ./lib/libNdOCRAD_PSP.a
+
+
+
+
+# File oggetto
+
+OBJS_PSPE = 	 ./obj_PSPE/arg_parser.o \
+	 	 ./obj_PSPE/bitmap.o \
+	 	 ./obj_PSPE/blob.o \
+	 	 ./obj_PSPE/character.o \
+	 	 ./obj_PSPE/character_r11.o \
+	 	 ./obj_PSPE/character_r12.o \
+	 	 ./obj_PSPE/character_r13.o \
+	 	 ./obj_PSPE/common.o \
+	 	 ./obj_PSPE/feats.o \
+	 	 ./obj_PSPE/feats_test0.o \
+	 	 ./obj_PSPE/feats_test1.o \
+	 	 ./obj_PSPE/main.o \
+	 	 ./obj_PSPE/page_image.o \
+	 	 ./obj_PSPE/page_image_io.o \
+	 	 ./obj_PSPE/page_image_layout.o \
+	 	 ./obj_PSPE/profile.o \
+	 	 ./obj_PSPE/rational.o \
+	 	 ./obj_PSPE/rectangle.o \
+	 	 ./obj_PSPE/textblock.o \
+	 	 ./obj_PSPE/textline.o \
+	 	 ./obj_PSPE/textline_r2.o \
+	 	 ./obj_PSPE/textpage.o \
+	 	 ./obj_PSPE/track.o \
+	 	 ./obj_PSPE/ucs.o 
+	
+
+OBJS_PSP = 	 ./obj_PSP/arg_parser.o \
+	 	 ./obj_PSP/bitmap.o \
+	 	 ./obj_PSP/blob.o \
+	 	 ./obj_PSP/character.o \
+	 	 ./obj_PSP/character_r11.o \
+	 	 ./obj_PSP/character_r12.o \
+	 	 ./obj_PSP/character_r13.o \
+	 	 ./obj_PSP/common.o \
+	 	 ./obj_PSP/feats.o \
+	 	 ./obj_PSP/feats_test0.o \
+	 	 ./obj_PSP/feats_test1.o \
+	 	 ./obj_PSP/main.o \
+	 	 ./obj_PSP/page_image.o \
+	 	 ./obj_PSP/page_image_io.o \
+	 	 ./obj_PSP/page_image_layout.o \
+	 	 ./obj_PSP/profile.o \
+	 	 ./obj_PSP/rational.o \
+	 	 ./obj_PSP/rectangle.o \
+	 	 ./obj_PSP/textblock.o \
+	 	 ./obj_PSP/textline.o \
+	 	 ./obj_PSP/textline_r2.o \
+	 	 ./obj_PSP/textpage.o \
+	 	 ./obj_PSP/track.o \
+	 	 ./obj_PSP/ucs.o 
+	
+
+
+
+## Path di ricerca per gli headers files
+
+ 
+INC0 = -I"." 
+INC1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoCPP\include"
+INC4 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoCPP\include\ansi"
+INC5 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC6 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include"
+INC7 = -I"$(NDENV_PATH)\PSP\ndOCRAD"
+
+
+
+INCLUDE = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6) $(INC7)
+
+
+
+## Flags di compilazione
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -O3 -g -fomit-frame-pointer -march=mips2 -fshort-double -Wall -mfp32 -msym32 -ffast-math -nostdinc++ -v
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -O3 -G0 -g -fomit-frame-pointer -march=allegrex -Wall -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -nostdinc++ -v
+
+
+
+
+## Compilazione di librerie
+
+all : $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+$(OUTLIB_PSPE): $(OBJS_PSPE)
+	$(LINK) r $(OUTLIB_PSPE) $(OBJS_PSPE)
+	
+$(OUTLIB_PSP): $(OBJS_PSP)
+	$(LINK) r $(OUTLIB_PSP) $(OBJS_PSP)
+
+
+
+## Compilazione dei moduli per PSPE
+
+./obj_PSPE/arg_parser.o: ./arg_parser.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./arg_parser.cpp -o ./obj_PSPE/arg_parser.o 
+
+./obj_PSPE/bitmap.o: ./bitmap.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./bitmap.cpp -o ./obj_PSPE/bitmap.o 
+
+./obj_PSPE/blob.o: ./blob.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./blob.cpp -o ./obj_PSPE/blob.o 
+
+./obj_PSPE/character.o: ./character.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./character.cpp -o ./obj_PSPE/character.o 
+
+./obj_PSPE/character_r11.o: ./character_r11.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./character_r11.cpp -o ./obj_PSPE/character_r11.o 
+
+./obj_PSPE/character_r12.o: ./character_r12.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./character_r12.cpp -o ./obj_PSPE/character_r12.o 
+
+./obj_PSPE/character_r13.o: ./character_r13.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./character_r13.cpp -o ./obj_PSPE/character_r13.o 
+
+./obj_PSPE/common.o: ./common.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./common.cpp -o ./obj_PSPE/common.o 
+
+./obj_PSPE/feats.o: ./feats.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./feats.cpp -o ./obj_PSPE/feats.o 
+
+./obj_PSPE/feats_test0.o: ./feats_test0.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./feats_test0.cpp -o ./obj_PSPE/feats_test0.o 
+
+./obj_PSPE/feats_test1.o: ./feats_test1.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./feats_test1.cpp -o ./obj_PSPE/feats_test1.o 
+
+./obj_PSPE/main.o: ./main.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./main.cpp -o ./obj_PSPE/main.o 
+
+./obj_PSPE/page_image.o: ./page_image.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./page_image.cpp -o ./obj_PSPE/page_image.o 
+
+./obj_PSPE/page_image_io.o: ./page_image_io.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./page_image_io.cpp -o ./obj_PSPE/page_image_io.o 
+
+./obj_PSPE/page_image_layout.o: ./page_image_layout.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./page_image_layout.cpp -o ./obj_PSPE/page_image_layout.o 
+
+./obj_PSPE/profile.o: ./profile.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./profile.cpp -o ./obj_PSPE/profile.o 
+
+./obj_PSPE/rational.o: ./rational.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./rational.cpp -o ./obj_PSPE/rational.o 
+
+./obj_PSPE/rectangle.o: ./rectangle.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./rectangle.cpp -o ./obj_PSPE/rectangle.o 
+
+./obj_PSPE/textblock.o: ./textblock.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./textblock.cpp -o ./obj_PSPE/textblock.o 
+
+./obj_PSPE/textline.o: ./textline.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./textline.cpp -o ./obj_PSPE/textline.o 
+
+./obj_PSPE/textline_r2.o: ./textline_r2.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./textline_r2.cpp -o ./obj_PSPE/textline_r2.o 
+
+./obj_PSPE/textpage.o: ./textpage.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./textpage.cpp -o ./obj_PSPE/textpage.o 
+
+./obj_PSPE/track.o: ./track.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./track.cpp -o ./obj_PSPE/track.o 
+
+./obj_PSPE/ucs.o: ./ucs.cpp  
+	 $(CPP) $(CFLAGS_PSPE) $(INCLUDE) -c ./ucs.cpp -o ./obj_PSPE/ucs.o 
+
+
+
+## Compilazione dei moduli per PSP
+
+./obj_PSP/arg_parser.o: ./arg_parser.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./arg_parser.cpp -o ./obj_PSP/arg_parser.o 
+
+./obj_PSP/bitmap.o: ./bitmap.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./bitmap.cpp -o ./obj_PSP/bitmap.o 
+
+./obj_PSP/blob.o: ./blob.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./blob.cpp -o ./obj_PSP/blob.o 
+
+./obj_PSP/character.o: ./character.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./character.cpp -o ./obj_PSP/character.o 
+
+./obj_PSP/character_r11.o: ./character_r11.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./character_r11.cpp -o ./obj_PSP/character_r11.o 
+
+./obj_PSP/character_r12.o: ./character_r12.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./character_r12.cpp -o ./obj_PSP/character_r12.o 
+
+./obj_PSP/character_r13.o: ./character_r13.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./character_r13.cpp -o ./obj_PSP/character_r13.o 
+
+./obj_PSP/common.o: ./common.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./common.cpp -o ./obj_PSP/common.o 
+
+./obj_PSP/feats.o: ./feats.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./feats.cpp -o ./obj_PSP/feats.o 
+
+./obj_PSP/feats_test0.o: ./feats_test0.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./feats_test0.cpp -o ./obj_PSP/feats_test0.o 
+
+./obj_PSP/feats_test1.o: ./feats_test1.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./feats_test1.cpp -o ./obj_PSP/feats_test1.o 
+
+./obj_PSP/main.o: ./main.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./main.cpp -o ./obj_PSP/main.o 
+
+./obj_PSP/page_image.o: ./page_image.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./page_image.cpp -o ./obj_PSP/page_image.o 
+
+./obj_PSP/page_image_io.o: ./page_image_io.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./page_image_io.cpp -o ./obj_PSP/page_image_io.o 
+
+./obj_PSP/page_image_layout.o: ./page_image_layout.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./page_image_layout.cpp -o ./obj_PSP/page_image_layout.o 
+
+./obj_PSP/profile.o: ./profile.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./profile.cpp -o ./obj_PSP/profile.o 
+
+./obj_PSP/rational.o: ./rational.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./rational.cpp -o ./obj_PSP/rational.o 
+
+./obj_PSP/rectangle.o: ./rectangle.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./rectangle.cpp -o ./obj_PSP/rectangle.o 
+
+./obj_PSP/textblock.o: ./textblock.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./textblock.cpp -o ./obj_PSP/textblock.o 
+
+./obj_PSP/textline.o: ./textline.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./textline.cpp -o ./obj_PSP/textline.o 
+
+./obj_PSP/textline_r2.o: ./textline_r2.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./textline_r2.cpp -o ./obj_PSP/textline_r2.o 
+
+./obj_PSP/textpage.o: ./textpage.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./textpage.cpp -o ./obj_PSP/textpage.o 
+
+./obj_PSP/track.o: ./track.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./track.cpp -o ./obj_PSP/track.o 
+
+./obj_PSP/ucs.o: ./ucs.cpp  
+	 $(CPP) $(CFLAGS_PSP) $(INCLUDE) -c ./ucs.cpp -o ./obj_PSP/ucs.o 
+

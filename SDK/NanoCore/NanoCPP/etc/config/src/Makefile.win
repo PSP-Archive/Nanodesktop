@@ -1,0 +1,73 @@
+# Project: Config
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = psp-g++.exe
+CC   = psp-gcc.exe
+WINDRES = Vuoto.exe
+RES  = 
+OBJ  = _main.o SIZE_T.o UNISTD_DECL.o ABS_OVERLOADS.o LIMITS.o LOCALE_NAME_FMAT.o WCTYPE_T.o FLOAT.o INFINITY.o NO_SIGNALING_NAN.o LCONV.o NEWLINE.o CTYPE_BITS.o MUNMAP.o STRUCT_TM.o $(RES)
+LINKOBJ  = _main.o SIZE_T.o UNISTD_DECL.o ABS_OVERLOADS.o LIMITS.o LOCALE_NAME_FMAT.o WCTYPE_T.o FLOAT.o INFINITY.o NO_SIGNALING_NAN.o LCONV.o NEWLINE.o CTYPE_BITS.o MUNMAP.o STRUCT_TM.o $(RES)
+LIBS =  -L"E:/NDENV/PSP/SDK/PspDev/psp/lib" -L"E:/NDENV/PSP/SDK/PspDev/lib" -L"E:/NDENV/PSP/SDK/PspDev/psp/sdk/lib" -L"E:/NDENV/PSP/SDK/PspDev/lib/gcc/psp/4.0.2" -L"E:/NDENV/PSP/SDK/Nanodesktop/lib" -L"E:/NDENV/PSP/SDK/NanoCore/NanoC/lib" -L"E:/NDENV/PSP/SDK/NanoCore/NanoM/lib" -L"E:/NDENV/PSP/SDK/NanoCore/NanoCPP/lib" -L"E:/NDENV/PSP/ndOpenCV/lib" -L"E:/NDENV/PSP/ndHighGUI/lib" -L"E:/NDENV/PSP/ndDevIL/DevILCore/lib" -L"E:/NDENV/PSP/ndLibCurl/lib" -L"E:/NDENV/PSP/ndSQLLite/lib" -L"E:/NDENV/PSP/ndSift/lib" -L"E:/NDENV/PSP/ndGOCR/lib" -c -mwindows -lNanodesktop_PSPE -lNanoC_PSPE -lNanoM_PSPE  -nostdlib 
+INCS =  -I"E:/NDENV/PSP/SDK/PspDev/psp/sdk/include"  -I"E:/NDENV/PSP/SDK/NanoCore/NanoC/src"  -I"E:/NDENV/PSP/SDK/NanoCore/NanoM/src"  -I"E:/NDENV/PSP/SDK/Nanodesktop/src"  -I"E:/NDENV/PSP/ndHighGUI/src"  -I"E:/NDENV/PSP/ndOpenCV/cxcore/include"  -I"E:/NDENV/PSP/ndOpenCV/cv/include"  -I"E:/NDENV/PSP/ndOpenCV/cvaux/include"  -I"E:/NDENV/PSP/ndDevIL/DevILCore/include/IL"  -I"E:/NDENV/PSP/ndLibCurl/include"  -I"E:/NDENV/PSP/ndSQLLite"  -I"E:/NDENV/PSP/ndSift/include"  -I"E:/NDENV/PSP/SDK/NanoCore/NanoCPP/include" 
+CXXINCS =  -I"E:/NDENV/PSP/SDK/PspDev/psp/include"  -I"E:/NDENV/PSP/SDK/PspDev/psp/sdk/include"  -I"E:/NDENV/PSP/ndOpenCV/cxcore/include"  -I"E:/NDENV/PSP/ndOpenCV/cv/include"  -I"E:/NDENV/PSP/ndHighGUI/src"  -I"E:/NDENV/PSP/SDK/NanoCore/NanoC/src"  -I"E:/NDENV/PSP/SDK/NanoCore/NanoM/src"  -I"E:/NDENV/PSP/SDK/NanoCore/NanoCPP/include"  -I"E:/NDENV/PSP/SDK/NanoCore/NanoCPP/include/ansi"  -I"E:/NDENV/PSP/SDK/Nanodesktop/src"  -I"E:/NDENV/PSP/SDK/NanoCore/NanoCPP/include" 
+BIN  = Config.exe
+CXXFLAGS = $(CXXINCS) -DI_AM_EXEC_CONFIG -D_RWSTD_NO_SETRLIMIT -nostdinc++     -D"PSPE_PLATFORM" -O0 -g  -march=mips2 -msym32 -fomit-frame-pointer  -mfp32 -ffast-math -v -c -fshort-double -fno-exceptions -fshort-double -nostdlib
+CFLAGS = $(INCS)   -D"PSPE_PLATFORM" -O0 -g  -march=mips2 -msym32 -fomit-frame-pointer  -mfp32 -ffast-math -v -c -fshort-double -fno-exceptions -fshort-double -nostdlib
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before Config.exe all-after
+
+include ../../../../../ServiceFiles/Makefile_PSPE.mak
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o "Config.exe" $(LIBS)
+
+_main.o: _main.cpp
+	$(CPP) -c _main.cpp -o _main.o $(CXXFLAGS)
+
+SIZE_T.o: SIZE_T.cpp
+	$(CPP) -c SIZE_T.cpp -o SIZE_T.o $(CXXFLAGS)
+
+UNISTD_DECL.o: UNISTD_DECL.cpp
+	$(CPP) -c UNISTD_DECL.cpp -o UNISTD_DECL.o $(CXXFLAGS)
+
+ABS_OVERLOADS.o: ABS_OVERLOADS.cpp
+	$(CPP) -c ABS_OVERLOADS.cpp -o ABS_OVERLOADS.o $(CXXFLAGS)
+
+LIMITS.o: LIMITS.cpp
+	$(CPP) -c LIMITS.cpp -o LIMITS.o $(CXXFLAGS)
+
+LOCALE_NAME_FMAT.o: LOCALE_NAME_FMAT.cpp
+	$(CPP) -c LOCALE_NAME_FMAT.cpp -o LOCALE_NAME_FMAT.o $(CXXFLAGS)
+
+WCTYPE_T.o: WCTYPE_T.cpp
+	$(CPP) -c WCTYPE_T.cpp -o WCTYPE_T.o $(CXXFLAGS)
+
+FLOAT.o: FLOAT.cpp
+	$(CPP) -c FLOAT.cpp -o FLOAT.o $(CXXFLAGS)
+
+INFINITY.o: INFINITY.cpp
+	$(CPP) -c INFINITY.cpp -o INFINITY.o $(CXXFLAGS)
+
+NO_SIGNALING_NAN.o: NO_SIGNALING_NAN.cpp
+	$(CPP) -c NO_SIGNALING_NAN.cpp -o NO_SIGNALING_NAN.o $(CXXFLAGS)
+
+LCONV.o: LCONV.cpp
+	$(CPP) -c LCONV.cpp -o LCONV.o $(CXXFLAGS)
+
+NEWLINE.o: NEWLINE.cpp
+	$(CPP) -c NEWLINE.cpp -o NEWLINE.o $(CXXFLAGS)
+
+CTYPE_BITS.o: CTYPE_BITS.cpp
+	$(CPP) -c CTYPE_BITS.cpp -o CTYPE_BITS.o $(CXXFLAGS)
+
+MUNMAP.o: MUNMAP.cpp
+	$(CPP) -c MUNMAP.cpp -o MUNMAP.o $(CXXFLAGS)
+
+STRUCT_TM.o: STRUCT_TM.cpp
+	$(CPP) -c STRUCT_TM.cpp -o STRUCT_TM.o $(CXXFLAGS)

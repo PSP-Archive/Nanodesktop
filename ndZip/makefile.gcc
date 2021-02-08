@@ -1,0 +1,122 @@
+# -------------------------------------------------------------
+#
+# Nanodesktop ndMiniZip (PSPE/PSP)
+# di Filippo Battaglia
+#
+# -------------------------------------------------------------
+
+
+C = psp-gcc
+LINK = psp-ar
+
+
+## Librerie di sistema
+
+OUTLIB_PSPE = ./lib/libndZip_PSPE.a  
+
+OUTLIB_PSP  = ./lib/libndZip_PSP.a
+
+
+
+
+# File oggetto
+
+OBJS_PSPE = 	./obj_PSPE/ioapi.o \
+		./obj_PSPE/miniunz.o \
+		./obj_PSPE/minizip.o \
+		./obj_PSPE/mztools.o \
+		./obj_PSPE/unzip.o \
+		./obj_PSPE/zip.o 
+
+
+OBJS_PSP  = 	./obj_PSP/ioapi.o \
+		./obj_PSP/miniunz.o \
+		./obj_PSP/minizip.o \
+		./obj_PSP/mztools.o \
+		./obj_PSP/unzip.o \
+		./obj_PSP/zip.o 
+
+
+
+## Path di ricerca per gli headers files
+
+ 
+INC0 = -I"." 
+INC1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include" 
+INC5 = -I"$(NDENV_PATH)\PSP\ndZip" 
+INC6 = -I"$(NDENV_PATH)\PSP\ndDevIL\zlib\src"
+
+INCLUDE = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6)
+
+
+
+## Flags di compilazione
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -Dunix -O2 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -fshort-double -Wall -mfp32 -msym32 -ffast-math -v
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -Dunix -O2 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -Wall -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -v
+
+
+
+
+## Compilazione di librerie
+
+all : $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+$(OUTLIB_PSPE): $(OBJS_PSPE)
+	$(LINK) r $(OUTLIB_PSPE) $(OBJS_PSPE)
+	
+$(OUTLIB_PSP): $(OBJS_PSP)
+	$(LINK) r $(OUTLIB_PSP) $(OBJS_PSP)
+
+
+
+## Compilazione dei moduli per PSPE
+
+./obj_PSPE/ioapi.o: 
+	$(C) -c ioapi.c -o ./obj_PSPE/ioapi.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+./obj_PSPE/miniunz.o: 
+	$(C) -c miniunz.c -o ./obj_PSPE/miniunz.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+./obj_PSPE/minizip.o: 
+	$(C) -c minizip.c -o ./obj_PSPE/minizip.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+./obj_PSPE/mztools.o: 
+	$(C) -c mztools.c -o ./obj_PSPE/mztools.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+./obj_PSPE/unzip.o: 
+	$(C) -c unzip.c -o ./obj_PSPE/unzip.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+./obj_PSPE/zip.o:
+	$(C) -c zip.c -o ./obj_PSPE/zip.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+
+
+## Compilazione dei moduli per PSP
+
+./obj_PSP/ioapi.o: 
+	$(C) -c ioapi.c -o ./obj_PSP/ioapi.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+./obj_PSP/miniunz.o: 
+	$(C) -c miniunz.c -o ./obj_PSP/miniunz.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+./obj_PSP/minizip.o: 
+	$(C) -c minizip.c -o ./obj_PSP/minizip.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+./obj_PSP/mztools.o: 
+	$(C) -c mztools.c -o ./obj_PSP/mztools.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+./obj_PSP/unzip.o: 
+	$(C) -c unzip.c -o ./obj_PSP/unzip.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+./obj_PSP/zip.o:
+	$(C) -c zip.c -o ./obj_PSP/zip.o $(CFLAGS_PSP) $(INCLUDE) 
+
+
+
+
+

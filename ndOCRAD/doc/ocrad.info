@@ -1,0 +1,305 @@
+This is ocrad.info, produced by makeinfo version 4.8 from ocrad.texinfo.
+
+INFO-DIR-SECTION GNU Packages
+START-INFO-DIR-ENTRY
+* Ocrad: (ocrad).               The GNU OCR program.
+END-INFO-DIR-ENTRY
+
+
+File: ocrad.info,  Node: Top,  Next: Character Sets,  Up: (dir)
+
+GNU Ocrad
+*********
+
+This manual is for GNU Ocrad (version 0.17, 29 June 2007).
+
+
+   GNU Ocrad is an OCR (Optical Character Recognition) program based on
+a feature extraction method. It reads images in pbm (bitmap), pgm
+(greyscale) or ppm (color) formats and produces text in byte (8-bit) or
+UTF-8 formats. The pbm, pgm and ppm formats are collectively known as
+pnm.
+
+   Ocrad includes a layout analyser able to separate the columns or
+blocks of text normally found on printed pages.
+
+* Menu:
+
+* Character Sets::		Input charsets and output formats
+* Invoking Ocrad::		Command line interface
+* Image Format Conversion::	How to convert other formats to pnm
+* Algorithm::			How ocrad does its job
+* Problems::			Reporting bugs
+* Concept Index::		Index of concepts
+
+
+   Copyright (C) 2003, 2004, 2005, 2006 Antonio Diaz Diaz.
+
+   Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+
+File: ocrad.info,  Node: Character Sets,  Next: Invoking Ocrad,  Prev: Top,  Up: Top
+
+1 Character Sets
+****************
+
+The character set internally used by ocrad is ISO 10646, also known as
+UCS (Universal Character Set), which can represent over two thousand
+million characters (2^31).
+
+   As it is unpractical to try to recognize one among so many different
+characters, you can tell ocrad what character sets to recognize. You do
+this with the `--charset' option.
+
+   If the input page contains characters from only one character set,
+say `ISO-8859-15', you can use the default `byte' output format. But in
+a page with `ISO-8859-9' and `ISO-8859-15' characters, you can't tell
+if a code of 0xFD represents a 'latin small letter i dotless' or a
+'latin small letter y with acute'. You should use `--format=utf8'
+instead.
+Of course, you may request UTF-8 output in any case.
+
+
+   NOTE: Don't believe everything Usamericans tell you. A billion is a
+million millions (million^2), a trillion is a million million millions
+(million^3), and so on. Please, respect the meaning of prefixes to make
+communication among all people possible. Thanks.
+
+
+File: ocrad.info,  Node: Invoking Ocrad,  Next: Image Format Conversion,  Prev: Character Sets,  Up: Top
+
+2 Invoking Ocrad
+****************
+
+The format for running ocrad is:
+
+     ocrad [OPTIONS] [FILES]
+
+   Ocrad supports the following options:
+
+`--help'
+`-h'
+     Print an informative help message describing the options and exit.
+     `ocrad --verbose --help' describes also hidden options.
+
+`--version'
+`-V'
+     Print the version number of ocrad on the standard output and exit.
+
+`--append'
+`-a'
+     Append generated text to the output file instead of overwriting it.
+
+`--block=NUMBER'
+`-b NUMBER'
+     Process only the specified text block, beginning from 1. Is only
+     useful when used in conjunction with layout analysis (see below).
+
+`--charset=NAME'
+`-c NAME'
+     Enable recognition of the characters belonging to the given
+     character set.  You can repeat this option multiple times with
+     different names for processing a page with characters from
+     different character sets.
+     If no charset is specified, `iso-8859-15' (latin9) is assumed.
+     Try `--charset=help' for a list of valid charset names.
+
+`--crop=LEFT,TOP,RIGHT,BOTTOM'
+`-p LEFT,TOP,RIGHT,BOTTOM'
+     Crop the input image by the rectangle defined by LEFT, TOP, RIGHT
+     and BOTTOM. The values of LEFT, TOP, RIGHT and BOTTOM may be
+     relative to the image size (0.0 <= value <= 1.0), or absolute
+     (value > 1). Absolute and relative values may be mixed. For
+     example `ocrad --crop 700,960,1,1' will work as expected.
+     The cropping is performed before any other transformation
+     (rotation or mirroring) on the input image, and before scaling,
+     layout analysis and recognition.
+
+`--filter=NAME'
+`-e NAME'
+     Pass the output text through the given postprocessing filter.
+     `--filter=letters' forces every character that resembles a letter
+     to be recognized as a letter. Other characters will be output
+     without change.
+     `--filter=letters_only', same as `--filter=letters', but other
+     characters will be discarded.
+     `--filter=numbers' forces every character that resembles a number
+     to be recognized as a number. Other characters will be output
+     without change.
+     `--filter=numbers_only', same as `--filter=numbers' but other
+     characters will be discarded.
+     Try `--filter=help' for a list of valid filter names.
+
+`--force'
+`-f'
+     Force overwrite of output file.
+
+`--format=NAME'
+`-F NAME'
+     Select the output format. The valid names are `byte' and `utf8'.
+     If no output format is specified, `byte' (8 bit) is assumed.
+
+`--invert'
+`-i'
+     Invert image levels (white on black).
+
+`--layout=MODE'
+`-l MODE'
+     Enable page layout analysis. The meaning of MODE is:
+     `0' no analysis at all, `1' column separation, `2' full analysis.
+
+`-o FILE'
+     Place the output into FILE instead of into the standard output.
+
+`--scale=VALUE'
+`-s VALUE'
+     Scale the input image by VALUE before layout analysis and
+     recognition.  If VALUE is negative, the input image is scaled down
+     by -VALUE.
+
+`--transform=NAME'
+`-t NAME'
+     Perform given transformation (rotation or mirroring) on the input
+     image before scaling, layout analysis and recognition.
+     Try `--transform=help' for a list of valid transformation names.
+
+`--threshold=VALUE'
+`-T VALUE'
+     Set binarization threshold for pgm or ppm files or for `--scale'
+     option (only for scaled down images). VALUE should be a rational
+     number between 0 an 1, and may be given as a percentage (50%), a
+     fraction (1/2), or a decimal value (0.5). Image values greater than
+     threshold are converted to white. The default value is 0.5.
+
+`--verbose'
+`-v'
+     Verbose mode.
+
+`-x FILE'
+     Write (export) OCR Results File to FILE. `-x -' writes to stdout,
+     overriding text output except if output has been also redirected
+     with the -o option.
+
+
+File: ocrad.info,  Node: Image Format Conversion,  Next: Algorithm,  Prev: Invoking Ocrad,  Up: Top
+
+3 Image Format Conversion
+*************************
+
+There are a lot of image formats, but ocrad is able to decode only three
+of them; pbm, pgm and ppm. In this chapter you will find command
+examples and advice about how to convert image files to a format that
+ocrad can manage.
+
+`.png'
+     Portable Network Graphics file. Use the command
+     `pngtopnm filename.png | ocrad'.
+     In some cases, like the ocrad.png icon, you have to invert the
+     image with the `-i' option: `pngtopnm filename.png | ocrad -i'.
+
+`.ps'
+`.pdf'
+     Postscript or Portable Document Format file. Use the command
+     `gs -sPAPERSIZE=a4 -sDEVICE=pnmraw -r300 -dNOPAUSE -dBATCH -sOutputFile=- -q filename.ps | ocrad'.
+     You may also use the command
+     `pstopnm -stdout -dpi=300 -pgm filename.ps | ocrad',
+     but it seems not to work with pdf files. Also old versions of
+     `pstopnm' don't recognize the `-dpi' option and produce an image
+     too small for OCR.
+
+`.tiff'
+     TIFF file. Use the command
+     `tifftopnm filename.tiff | ocrad'.
+
+`.jpg'
+     JPEG file. Use the command
+     `djpeg -greyscale -pnm filename.jpg | ocrad'.
+     JPEG is a lossy format and is in general not recommended for text
+     images.
+
+`.pnm.bz2'
+     Pnm file compressed with bzip2. Use the command
+     `bunzip2 -c filename.pnm.bz2 | ocrad'
+
+`.pnm.gz'
+     Pnm file compressed with gzip. Use the command
+     `gunzip -c filename.pnm.gz | ocrad'
+
+
+File: ocrad.info,  Node: Algorithm,  Next: Problems,  Prev: Image Format Conversion,  Up: Top
+
+4 Algorithm
+***********
+
+Ocrad is mainly a research project. Many of the algorithms ocrad uses
+are ad hoc, and will change in successive releases as I myself gain
+understanding about OCR issues.
+
+   The overall working of ocrad may be described as follows:
+1) read the image.
+2) optionally, perform some transformations (crop, rotate, scale, etc).
+3) optionally, perform layout detection.
+4) remove frames and images.
+5) detect characters and group them in lines.
+6) recognize characters (very ad hoc; one algorithm per character).
+7) correct some errors (transform l.OOO into 1.000, etc).
+8) output result.
+
+
+   Ocrad recognizes characters by its shape, and the reason it is so
+fast is that it does not compare the shape of every character against
+some sort of database of shapes and then chooses the best match.
+Instead of this, ocrad only compares the shape differences that are
+relevant to choose between two character categories, mostly like a
+binary search.
+
+   As there is no such thing as a free lunch, this approach has some
+drawbacks. It makes ocrad very sensitive to character defects, and makes
+difficult to modify ocrad to recognize new characters.
+
+
+File: ocrad.info,  Node: Problems,  Next: Concept Index,  Prev: Algorithm,  Up: Top
+
+5 Reporting Bugs
+****************
+
+If you find a bug in GNU Ocrad, please send electronic mail to
+<bug-ocrad@gnu.org>. Include the version number, which you can find by
+running `ocrad --version'.
+
+
+File: ocrad.info,  Node: Concept Index,  Prev: Problems,  Up: Top
+
+Concept Index
+*************
+
+ [index ]
+* Menu:
+
+* algorithm:                             Algorithm.             (line 6)
+* bugs:                                  Problems.              (line 6)
+* getting help:                          Problems.              (line 6)
+* image format conversion:               Image Format Conversion.
+                                                                (line 6)
+* input charsets:                        Character Sets.        (line 6)
+* invoking:                              Invoking Ocrad.        (line 6)
+* options:                               Invoking Ocrad.        (line 6)
+* output format:                         Character Sets.        (line 6)
+* usage:                                 Invoking Ocrad.        (line 6)
+* version:                               Invoking Ocrad.        (line 6)
+
+
+
+Tag Table:
+Node: Top198
+Node: Character Sets1368
+Node: Invoking Ocrad2511
+Node: Image Format Conversion6397
+Node: Algorithm7921
+Node: Problems9181
+Node: Concept Index9465
+
+End Tag Table

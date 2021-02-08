@@ -1,0 +1,305 @@
+# ------------------------------------------------------------------------------
+#
+# ndOpenCv (CxCore) (PSP/PSPE Version)
+#
+# Makefile for GNU C/C++ 3.x or later
+# 
+# Questo Makefile è stato creato da Filippo Battaglia
+#
+# ------------------------------------------------------------------------------
+
+
+
+CXX = psp-g++
+PACK = psp-ar
+
+
+## Creazione delle librerie
+
+OUTLIB_PSPE = ../../lib/libNdCxCore_PSPE.a
+OUTLIB_PSP  = ../../lib/libNdCxCore_PSP.a
+
+
+## Short names delle librerie
+
+OBJ_SHRT = cxalloc.o cxarithm.o cxarray.o cxcmp.o cxconvert.o cxcopy.o \
+cxdatastructs.o cxdrawing.o cxdxt.o cxerror.o cxjacobieigens.o cxlogic.o cxlut.o \
+cxmathfuncs.o cxmatmul.o cxmatrix.o cxmean.o cxmeansdv.o cxminmaxloc.o cxnorm.o \
+cxouttext.o cxpersistence.o cxprecomp.o cxrand.o cxsumpixels.o cxsvd.o  \
+cxtables.o cxutils.o 
+
+
+
+## Nomi dei files oggetto per PSPE
+
+OBJS_PSPE = ../../_temp/cxcore_Rls_gcc_PSPE/cxalloc.o ../../_temp/cxcore_Rls_gcc_PSPE/cxarithm.o \
+../../_temp/cxcore_Rls_gcc_PSPE/cxarray.o ../../_temp/cxcore_Rls_gcc_PSPE/cxcmp.o \
+../../_temp/cxcore_Rls_gcc_PSPE/cxconvert.o ../../_temp/cxcore_Rls_gcc_PSPE/cxcopy.o \
+../../_temp/cxcore_Rls_gcc_PSPE/cxdatastructs.o ../../_temp/cxcore_Rls_gcc_PSPE/cxdrawing.o \
+../../_temp/cxcore_Rls_gcc_PSPE/cxdxt.o ../../_temp/cxcore_Rls_gcc_PSPE/cxerror.o \
+../../_temp/cxcore_Rls_gcc_PSPE/cxjacobieigens.o ../../_temp/cxcore_Rls_gcc_PSPE/cxlogic.o \
+../../_temp/cxcore_Rls_gcc_PSPE/cxlut.o ../../_temp/cxcore_Rls_gcc_PSPE/cxmathfuncs.o \
+../../_temp/cxcore_Rls_gcc_PSPE/cxmatmul.o ../../_temp/cxcore_Rls_gcc_PSPE/cxmatrix.o \
+../../_temp/cxcore_Rls_gcc_PSPE/cxmean.o ../../_temp/cxcore_Rls_gcc_PSPE/cxmeansdv.o \
+../../_temp/cxcore_Rls_gcc_PSPE/cxminmaxloc.o ../../_temp/cxcore_Rls_gcc_PSPE/cxnorm.o \
+../../_temp/cxcore_Rls_gcc_PSPE/cxouttext.o ../../_temp/cxcore_Rls_gcc_PSPE/cxpersistence.o \
+../../_temp/cxcore_Rls_gcc_PSPE/cxprecomp.o ../../_temp/cxcore_Rls_gcc_PSPE/cxrand.o \
+../../_temp/cxcore_Rls_gcc_PSPE/cxsumpixels.o ../../_temp/cxcore_Rls_gcc_PSPE/cxsvd.o \
+../../_temp/cxcore_Rls_gcc_PSPE/cxtables.o ../../_temp/cxcore_Rls_gcc_PSPE/cxutils.o 
+
+
+## Nomi dei files oggetto per PSP
+
+OBJS_PSP = ../../_temp/cxcore_Rls_gcc_PSP/cxalloc.o ../../_temp/cxcore_Rls_gcc_PSP/cxarithm.o \
+../../_temp/cxcore_Rls_gcc_PSP/cxarray.o ../../_temp/cxcore_Rls_gcc_PSP/cxcmp.o \
+../../_temp/cxcore_Rls_gcc_PSP/cxconvert.o ../../_temp/cxcore_Rls_gcc_PSP/cxcopy.o \
+../../_temp/cxcore_Rls_gcc_PSP/cxdatastructs.o ../../_temp/cxcore_Rls_gcc_PSP/cxdrawing.o \
+../../_temp/cxcore_Rls_gcc_PSP/cxdxt.o ../../_temp/cxcore_Rls_gcc_PSP/cxerror.o \
+../../_temp/cxcore_Rls_gcc_PSP/cxjacobieigens.o ../../_temp/cxcore_Rls_gcc_PSP/cxlogic.o \
+../../_temp/cxcore_Rls_gcc_PSP/cxlut.o ../../_temp/cxcore_Rls_gcc_PSP/cxmathfuncs.o \
+../../_temp/cxcore_Rls_gcc_PSP/cxmatmul.o ../../_temp/cxcore_Rls_gcc_PSP/cxmatrix.o \
+../../_temp/cxcore_Rls_gcc_PSP/cxmean.o ../../_temp/cxcore_Rls_gcc_PSP/cxmeansdv.o \
+../../_temp/cxcore_Rls_gcc_PSP/cxminmaxloc.o ../../_temp/cxcore_Rls_gcc_PSP/cxnorm.o \
+../../_temp/cxcore_Rls_gcc_PSP/cxouttext.o ../../_temp/cxcore_Rls_gcc_PSP/cxpersistence.o \
+../../_temp/cxcore_Rls_gcc_PSP/cxprecomp.o ../../_temp/cxcore_Rls_gcc_PSP/cxrand.o \
+../../_temp/cxcore_Rls_gcc_PSP/cxsumpixels.o ../../_temp/cxcore_Rls_gcc_PSP/cxsvd.o \
+../../_temp/cxcore_Rls_gcc_PSP/cxtables.o ../../_temp/cxcore_Rls_gcc_PSP/cxutils.o 
+
+
+## Directories include
+
+INC1 = -I"."
+INC2 = -I"../include" 
+INC3 = -I"../../../SDK/PspDev/psp/sdk/include" 
+INC4 = -I"../../../SDK/Nanodesktop/src" 
+INC5 = -I"../../../SDK/NanoCore/NanoC/src" 
+INC6 = -I"../../../SDK/NanoCore/NanoM/src"
+
+XINC = $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6)
+
+
+
+## Flags di compilazione per PSPE e per PSP
+
+XFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -D"__rtems__" -O3 -g -fomit-frame-pointer -fno-exceptions -fno-rtti -march=mips2 -Wall -mfp32 -msym32 -ffast-math -fshort-double -v
+
+XFLAGS_PSP = -D"PSP_PLATFORM" -D"ND_LIBRARY" -D"__rtems__" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -fno-rtti -march=allegrex -mfp32 -msym32 -ffast-math -mhard-float -fshort-double -v -Wall
+
+
+
+
+## Flags per il compilatore C++
+
+CXXFLAGS_PSPE = -D"NDEBUG" -D"CVAPI_EXPORTS" $(XFLAGS_PSPE) $(XINC)     
+  
+CXXFLAGS_PSP  = -D"NDEBUG" -D"CVAPI_EXPORTS" $(XFLAGS_PSP) $(XINC) 
+ 
+
+## Flags per il packer
+
+PACKFLAGS = r
+
+
+
+## Assemblaggio delle librerie 
+
+all: $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+
+$(OUTLIB_PSPE): $(OBJS_PSPE)
+	$(PACK) $(PACKFLAGS) $(OUTLIB_PSPE) $(OBJS_PSPE)
+
+$(OUTLIB_PSP): $(OBJS_PSP)
+	$(PACK) $(PACKFLAGS) $(OUTLIB_PSP) $(OBJS_PSP)
+
+
+## Creazione del campo xheaders
+
+HD1 = ../include/cxcore.h 
+HD2 = ../include/cxerror.h 
+HD3 = ../include/cxmisc.h 
+HD4 = ../include/cxtypes.h 
+HD5 = ./_cxcore.h 
+HD6 = ./_cxipp.h
+
+XHEADERS = $(HD1) $(HD2) $(HD3) $(HD4) $(HD5) $(HD6)
+
+
+
+## Compilazione dei moduli per PSPE
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxalloc.o: ./cxalloc.cpp $(HEADERS)
+	@-mkdir ../../_temp/cxcore_Rls_gcc_PSPE 2>nul
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxalloc.o -c ./cxalloc.cpp 
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxarithm.o: ./cxarithm.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxarithm.o -c ./cxarithm.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxarray.o: ./cxarray.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxarray.o -c ./cxarray.cpp 
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxcmp.o: ./cxcmp.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxcmp.o -c ./cxcmp.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxconvert.o: ./cxconvert.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxconvert.o -c ./cxconvert.cpp 
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxcopy.o: ./cxcopy.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxcopy.o -c ./cxcopy.cpp 
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxdatastructs.o: ./cxdatastructs.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxdatastructs.o -c ./cxdatastructs.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxdrawing.o: ./cxdrawing.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxdrawing.o -c ./cxdrawing.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxdxt.o: ./cxdxt.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxdxt.o -c ./cxdxt.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxerror.o: ./cxerror.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxerror.o -c ./cxerror.cpp 
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxjacobieigens.o: ./cxjacobieigens.cpp  $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxjacobieigens.o -c ./cxjacobieigens.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxlogic.o: ./cxlogic.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxlogic.o -c ./cxlogic.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxlut.o: ./cxlut.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxlut.o -c ./cxlut.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxmathfuncs.o: ./cxmathfuncs.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxmathfuncs.o -c ./cxmathfuncs.cpp 
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxmatmul.o: ./cxmatmul.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxmatmul.o -c ./cxmatmul.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxmatrix.o: ./cxmatrix.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxmatrix.o -c ./cxmatrix.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxmean.o: ./cxmean.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxmean.o -c ./cxmean.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxmeansdv.o: ./cxmeansdv.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxmeansdv.o -c ./cxmeansdv.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxminmaxloc.o: ./cxminmaxloc.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxminmaxloc.o -c ./cxminmaxloc.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxnorm.o: ./cxnorm.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxnorm.o -c ./cxnorm.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxouttext.o: ./cxouttext.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxouttext.o -c ./cxouttext.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxpersistence.o: ./cxpersistence.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxpersistence.o -c ./cxpersistence.cpp  
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxprecomp.o: ./cxprecomp.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxprecomp.o -c ./cxprecomp.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxrand.o: ./cxrand.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxrand.o -c ./cxrand.cpp 
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxsumpixels.o: ./cxsumpixels.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxsumpixels.o -c ./cxsumpixels.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxsvd.o: ./cxsvd.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxsvd.o -c ./cxsvd.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxtables.o: ./cxtables.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxtables.o -c ./cxtables.cpp
+
+../../_temp/cxcore_Rls_gcc_PSPE/cxutils.o: ./cxutils.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cxcore_Rls_gcc_PSPE/cxutils.o -c ./cxutils.cpp
+	
+	
+
+
+## Compilazione dei moduli per PSP
+
+../../_temp/cxcore_Rls_gcc_PSP/cxalloc.o: ./cxalloc.cpp $(HEADERS)
+	@-mkdir ../../_temp/cxcore_Rls_gcc_PSP 2>nul
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxalloc.o -c ./cxalloc.cpp 
+
+../../_temp/cxcore_Rls_gcc_PSP/cxarithm.o: ./cxarithm.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxarithm.o -c ./cxarithm.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxarray.o: ./cxarray.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxarray.o -c ./cxarray.cpp 
+
+../../_temp/cxcore_Rls_gcc_PSP/cxcmp.o: ./cxcmp.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxcmp.o -c ./cxcmp.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxconvert.o: ./cxconvert.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxconvert.o -c ./cxconvert.cpp 
+
+../../_temp/cxcore_Rls_gcc_PSP/cxcopy.o: ./cxcopy.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxcopy.o -c ./cxcopy.cpp 
+
+../../_temp/cxcore_Rls_gcc_PSP/cxdatastructs.o: ./cxdatastructs.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxdatastructs.o -c ./cxdatastructs.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxdrawing.o: ./cxdrawing.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxdrawing.o -c ./cxdrawing.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxdxt.o: ./cxdxt.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxdxt.o -c ./cxdxt.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxerror.o: ./cxerror.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxerror.o -c ./cxerror.cpp 
+
+../../_temp/cxcore_Rls_gcc_PSP/cxjacobieigens.o: ./cxjacobieigens.cpp  $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxjacobieigens.o -c ./cxjacobieigens.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxlogic.o: ./cxlogic.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxlogic.o -c ./cxlogic.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxlut.o: ./cxlut.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxlut.o -c ./cxlut.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxmathfuncs.o: ./cxmathfuncs.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxmathfuncs.o -c ./cxmathfuncs.cpp 
+
+../../_temp/cxcore_Rls_gcc_PSP/cxmatmul.o: ./cxmatmul.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxmatmul.o -c ./cxmatmul.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxmatrix.o: ./cxmatrix.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxmatrix.o -c ./cxmatrix.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxmean.o: ./cxmean.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxmean.o -c ./cxmean.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxmeansdv.o: ./cxmeansdv.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxmeansdv.o -c ./cxmeansdv.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxminmaxloc.o: ./cxminmaxloc.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxminmaxloc.o -c ./cxminmaxloc.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxnorm.o: ./cxnorm.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxnorm.o -c ./cxnorm.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxouttext.o: ./cxouttext.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxouttext.o -c ./cxouttext.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxpersistence.o: ./cxpersistence.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxpersistence.o -c ./cxpersistence.cpp  
+
+../../_temp/cxcore_Rls_gcc_PSP/cxprecomp.o: ./cxprecomp.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxprecomp.o -c ./cxprecomp.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxrand.o: ./cxrand.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxrand.o -c ./cxrand.cpp 
+
+../../_temp/cxcore_Rls_gcc_PSP/cxsumpixels.o: ./cxsumpixels.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxsumpixels.o -c ./cxsumpixels.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxsvd.o: ./cxsvd.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxsvd.o -c ./cxsvd.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxtables.o: ./cxtables.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxtables.o -c ./cxtables.cpp
+
+../../_temp/cxcore_Rls_gcc_PSP/cxutils.o: ./cxutils.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cxcore_Rls_gcc_PSP/cxutils.o -c ./cxutils.cpp
+

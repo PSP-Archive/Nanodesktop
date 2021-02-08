@@ -1,0 +1,75 @@
+# -------------------------------------------------------------
+#
+# Nanodesktop HighGUI (PSPE/PSP)
+# di Filippo Battaglia
+#
+# -------------------------------------------------------------
+
+
+C = psp-gcc
+LINK = psp-ar
+
+
+## Librerie di sistema
+
+
+OUTLIB_PSPE = ../../../ndFlite/lib/src/lexicon/libflite_lexicon_PSPE.a
+
+OUTLIB_PSP  = ../../../ndFlite/lib/src/lexicon/libflite_lexicon_PSP.a
+
+# File oggetto
+
+OBJS_PSPE = ../../obj_PSPE/cst_lexicon.o 	../../obj_PSPE/cst_lts.o \
+		../../obj_PSPE/cst_lts_rewrites.o
+
+OBJS_PSP  = ../../obj_PSP/cst_lexicon.o 	../../obj_PSP/cst_lts.o \
+		../../obj_PSP/cst_lts_rewrites.o
+
+
+## Path di ricerca per gli headers files
+ 
+INC0 = -I"." 
+INC1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include" 
+INC5 = -I"$(NDENV_PATH)\PSP\ndOpenCV\cxcore\include" 
+INC6 = -I"$(NDENV_PATH)\PSP\ndOpenCV\cv\include"
+INC7 = -I"$(NDENV_PATH)\PSP\ndFlite\include"
+
+INCLUDE = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6) $(INC7) 
+
+## Flags di compilazione
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -DCST_NO_SOCKETS -O3 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -fshort-double -Wall -mfp32 -msym32 -ffast-math -v
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -DCST_NO_SOCKETS -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -Wall -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -v
+
+## Compilazione di librerie
+
+all : $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+$(OUTLIB_PSPE): $(OBJS_PSPE)
+	$(LINK) r $(OUTLIB_PSPE) $(OBJS_PSPE)
+	
+$(OUTLIB_PSP): $(OBJS_PSP)
+	$(LINK) r $(OUTLIB_PSP) $(OBJS_PSP)
+
+
+
+## Compilazione dei moduli per PSPE
+
+../../obj_PSPE/cst_lexicon.o: ./cst_lexicon.c
+	$(C) -c cst_lexicon.c -o ../../obj_PSPE/cst_lexicon.o $(CFLAGS_PSPE) $(INCLUDE) 
+../../obj_PSPE/cst_lts.o: ./cst_lts.c
+	$(C) -c cst_lts.c -o ../../obj_PSPE/cst_lts.o $(CFLAGS_PSPE) $(INCLUDE) 
+../../obj_PSPE/cst_lts_rewrites.o: ./cst_lts_rewrites.c
+	$(C) -c cst_lts_rewrites.c -o ../../obj_PSPE/cst_lts_rewrites.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+## Compilazione dei moduli per PSP
+../../obj_PSP/cst_lexicon.o: ./cst_lexicon.c
+	$(C) -c cst_lexicon.c -o ../../obj_PSP/cst_lexicon.o $(CFLAGS_PSP) $(INCLUDE) 
+../../obj_PSP/cst_lts.o: ./cst_lts.c
+	$(C) -c cst_lts.c -o ../../obj_PSP/cst_lts.o $(CFLAGS_PSP) $(INCLUDE) 
+../../obj_PSP/cst_lts_rewrites.o: ./cst_lts_rewrites.c
+	$(C) -c cst_lts_rewrites.c -o ../../obj_PSP/cst_lts_rewrites.o $(CFLAGS_PSP) $(INCLUDE) 

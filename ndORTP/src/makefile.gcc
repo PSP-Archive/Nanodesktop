@@ -1,0 +1,223 @@
+# -------------------------------------------------------------
+#
+# Nanodesktop ndORTP (PSPE/PSP)
+# di Filippo Battaglia
+#
+# -------------------------------------------------------------
+
+
+C = psp-gcc
+LINK = psp-ar
+
+
+## Librerie di sistema
+
+
+OUTLIB_PSPE = ../lib/libndORTP_PSPE.a
+
+OUTLIB_PSP  = ../lib/libndORTP_PSP.a
+
+
+
+
+# File oggetto
+
+OBJS_PSPE = ../obj_PSPE/avprofile.o        \
+	    ../obj_PSPE/event.o           ../obj_PSPE/jitterctl.o \
+	    ../obj_PSPE/ortp.o            ../obj_PSPE/payloadtype.o \
+	    ../obj_PSPE/port.o            ../obj_PSPE/posixtimer.o \
+	    ../obj_PSPE/rtcp.o            ../obj_PSPE/rtcpparse.o \
+	    ../obj_PSPE/rtpparse.o        ../obj_PSPE/rtpsession.o \
+	    ../obj_PSPE/rtpsession_inet.o ../obj_PSPE/rtpsignaltable.o \
+	    ../obj_PSPE/rtptimer.o        ../obj_PSPE/scheduler.o \
+	    ../obj_PSPE/sessionset.o      ../obj_PSPE/str_utils.o \
+	    ../obj_PSPE/stun.o            ../obj_PSPE/stun_udp.o \
+	    ../obj_PSPE/telephonyevents.o ../obj_PSPE/utils.o 
+ 
+OBJS_PSP =  ../obj_PSP/avprofile.o         \
+	    ../obj_PSP/event.o            ../obj_PSP/jitterctl.o \
+	    ../obj_PSP/ortp.o             ../obj_PSP/payloadtype.o \
+	    ../obj_PSP/port.o             ../obj_PSP/posixtimer.o \
+	    ../obj_PSP/rtcp.o             ../obj_PSP/rtcpparse.o \
+	    ../obj_PSP/rtpparse.o         ../obj_PSP/rtpsession.o \
+	    ../obj_PSP/rtpsession_inet.o  ../obj_PSP/rtpsignaltable.o \
+	    ../obj_PSP/rtptimer.o         ../obj_PSP/scheduler.o \
+	    ../obj_PSP/sessionset.o       ../obj_PSP/str_utils.o \
+	    ../obj_PSP/stun.o             ../obj_PSP/stun_udp.o \
+	    ../obj_PSP/telephonyevents.o  ../obj_PSP/utils.o 
+
+
+
+## Path di ricerca per gli headers files
+
+ 
+INC0 = -I"." 
+INC1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include" 
+INC5 = -I"$(NDENV_PATH)\PSP\ndORTP\src"
+INC5 = -I"$(NDENV_PATH)\PSP\ndORTP\include"
+INC7 = -I"$(NDENV_PATH)\PSP\ndORTP\include\ortp"
+
+
+INCLUDE = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6) $(INC7) $(INC8)
+
+
+## Flags di compilazione
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -O3 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -fshort-double -Wall -mfp32 -msym32 -ffast-math -v
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -Wall -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -v
+
+
+
+
+## Compilazione di librerie
+
+all : $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+$(OUTLIB_PSPE): $(OBJS_PSPE)
+	$(LINK) r $(OUTLIB_PSPE) $(OBJS_PSPE)
+	
+$(OUTLIB_PSP): $(OBJS_PSP)
+	$(LINK) r $(OUTLIB_PSP) $(OBJS_PSP)
+
+
+
+
+
+## Compilazione dei moduli per PSPE
+
+../obj_PSPE/avprofile.o: ./avprofile.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./avprofile.c -o ../obj_PSPE/avprofile.o 
+
+../obj_PSPE/event.o: ./event.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./event.c -o ../obj_PSPE/event.o 
+
+../obj_PSPE/jitterctl.o: ./jitterctl.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./jitterctl.c -o ../obj_PSPE/jitterctl.o 
+
+../obj_PSPE/ortp.o: ./ortp.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./ortp.c -o ../obj_PSPE/ortp.o 
+
+../obj_PSPE/payloadtype.o: ./payloadtype.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./payloadtype.c -o ../obj_PSPE/payloadtype.o 
+
+../obj_PSPE/port.o: ./port.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./port.c -o ../obj_PSPE/port.o 
+
+../obj_PSPE/posixtimer.o: ./posixtimer.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./posixtimer.c -o ../obj_PSPE/posixtimer.o 
+
+../obj_PSPE/rtcp.o: ./rtcp.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./rtcp.c -o ../obj_PSPE/rtcp.o 
+
+../obj_PSPE/rtcpparse.o: ./rtcpparse.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./rtcpparse.c -o ../obj_PSPE/rtcpparse.o 
+
+../obj_PSPE/rtpparse.o: ./rtpparse.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./rtpparse.c -o ../obj_PSPE/rtpparse.o 
+
+../obj_PSPE/rtpsession.o: ./rtpsession.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./rtpsession.c -o ../obj_PSPE/rtpsession.o 
+
+../obj_PSPE/rtpsession_inet.o: ./rtpsession_inet.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./rtpsession_inet.c -o ../obj_PSPE/rtpsession_inet.o 
+
+../obj_PSPE/rtpsignaltable.o: ./rtpsignaltable.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./rtpsignaltable.c -o ../obj_PSPE/rtpsignaltable.o 
+
+../obj_PSPE/rtptimer.o: ./rtptimer.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./rtptimer.c -o ../obj_PSPE/rtptimer.o 
+
+../obj_PSPE/scheduler.o: ./scheduler.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./scheduler.c -o ../obj_PSPE/scheduler.o 
+
+../obj_PSPE/sessionset.o: ./sessionset.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./sessionset.c -o ../obj_PSPE/sessionset.o 
+
+../obj_PSPE/str_utils.o: ./str_utils.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./str_utils.c -o ../obj_PSPE/str_utils.o 
+
+../obj_PSPE/stun.o: ./stun.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./stun.c -o ../obj_PSPE/stun.o 
+
+../obj_PSPE/stun_udp.o: ./stun_udp.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./stun_udp.c -o ../obj_PSPE/stun_udp.o 
+
+../obj_PSPE/telephonyevents.o: ./telephonyevents.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./telephonyevents.c -o ../obj_PSPE/telephonyevents.o 
+
+../obj_PSPE/utils.o: ./utils.c 
+	 $(C) $(CFLAGS_PSPE) $(INCLUDE) -c ./utils.c -o ../obj_PSPE/utils.o 
+
+
+
+
+
+## Compilazione dei moduli per PSP
+
+../obj_PSP/avprofile.o: ./avprofile.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./avprofile.c -o ../obj_PSP/avprofile.o 
+
+../obj_PSP/event.o: ./event.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./event.c -o ../obj_PSP/event.o 
+
+../obj_PSP/jitterctl.o: ./jitterctl.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./jitterctl.c -o ../obj_PSP/jitterctl.o 
+
+../obj_PSP/ortp.o: ./ortp.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./ortp.c -o ../obj_PSP/ortp.o 
+
+../obj_PSP/payloadtype.o: ./payloadtype.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./payloadtype.c -o ../obj_PSP/payloadtype.o 
+
+../obj_PSP/port.o: ./port.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./port.c -o ../obj_PSP/port.o 
+
+../obj_PSP/posixtimer.o: ./posixtimer.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./posixtimer.c -o ../obj_PSP/posixtimer.o 
+
+../obj_PSP/rtcp.o: ./rtcp.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./rtcp.c -o ../obj_PSP/rtcp.o 
+
+../obj_PSP/rtcpparse.o: ./rtcpparse.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./rtcpparse.c -o ../obj_PSP/rtcpparse.o 
+
+../obj_PSP/rtpparse.o: ./rtpparse.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./rtpparse.c -o ../obj_PSP/rtpparse.o 
+
+../obj_PSP/rtpsession.o: ./rtpsession.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./rtpsession.c -o ../obj_PSP/rtpsession.o 
+
+../obj_PSP/rtpsession_inet.o: ./rtpsession_inet.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./rtpsession_inet.c -o ../obj_PSP/rtpsession_inet.o 
+
+../obj_PSP/rtpsignaltable.o: ./rtpsignaltable.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./rtpsignaltable.c -o ../obj_PSP/rtpsignaltable.o 
+
+../obj_PSP/rtptimer.o: ./rtptimer.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./rtptimer.c -o ../obj_PSP/rtptimer.o 
+
+../obj_PSP/scheduler.o: ./scheduler.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./scheduler.c -o ../obj_PSP/scheduler.o 
+
+../obj_PSP/sessionset.o: ./sessionset.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./sessionset.c -o ../obj_PSP/sessionset.o 
+
+../obj_PSP/str_utils.o: ./str_utils.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./str_utils.c -o ../obj_PSP/str_utils.o 
+
+../obj_PSP/stun.o: ./stun.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./stun.c -o ../obj_PSP/stun.o 
+
+../obj_PSP/stun_udp.o: ./stun_udp.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./stun_udp.c -o ../obj_PSP/stun_udp.o 
+
+../obj_PSP/telephonyevents.o: ./telephonyevents.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./telephonyevents.c -o ../obj_PSP/telephonyevents.o 
+
+../obj_PSP/utils.o: ./utils.c 
+	 $(C) $(CFLAGS_PSP) $(INCLUDE) -c ./utils.c -o ../obj_PSP/utils.o 
+

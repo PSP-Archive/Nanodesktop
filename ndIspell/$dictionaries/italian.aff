@@ -1,0 +1,425 @@
+#
+#
+#	Affix table for Italian
+#
+# This table is a first cut at a description of the common affixes found
+# in the Italian language.  It is definitely not final.  This is the
+# equivalent of a pre-alpha version.  The dictionary is not complete
+# either.
+#
+# Use at your own risk.  In principle, not many wrong spellings will be
+# accepted, but since it is so preliminary, ispell will complain about
+# many, many words. We state here the rule: the resulting word follows
+# the accenting rules. 
+#
+# This is V1.0 of the release. It is released under the GNU General
+# Public License. Copies of that license are available from Free
+# Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+# To use both upper- and lower-case affix flags, you must
+
+# #define MASKBITS 64
+# in your local.h file. 
+
+# Here's a record of flags used, in case you want to add new ones.
+#
+#            ABCDEFGHIJKLMNOPQRSTUVWXYZ 
+# Used:      **  **  *        ** **     
+#            ABCDEFGHIJKLMNOPQRSTUVWXYZ 
+# Available:   --  -- --------  -  ----                           
+#
+
+texchars ()\[]{}<\>\\$*.%
+
+compoundmin 8
+
+compoundwords on
+ 
+allaffixes off
+
+# Character-set definitions.  The special-character strings are appropriate
+# for use with the "-mm" nroff/troff macro package.  Users of other formatters
+# or macro packages will undoubtedly have to modify these definitions.
+#
+defstringtype "list" "nroff" ".list"
+
+
+wordchars	a       A
+stringchar      à       À
+stringchar      á       Á
+wordchars	[b-e]	[B-E]
+stringchar      é       É
+stringchar      è       È
+wordchars	[f-i]	[F-I]
+stringchar      í       Í
+stringchar      ì       Ì
+wordchars	[j-n]	[J-N]
+wordchars	o       O
+stringchar      ó       Ó
+stringchar      ò       Ò
+wordchars	[p-u]	[P-U]
+stringchar      ù       Ù
+stringchar      ú       Ú
+wordchars	[v-z]	[V-Z]
+
+boundarychars   [.]             # electronic adresses ("." is a regexp!)
+boundarychars   [---]           # vedere il significato in quello francese
+
+#
+# TeX/LaTeX `a la italian.sty (It is the same as the default)
+#
+
+altstringtype "tex" "TeX" ".tex" ".ltx" ".bib"
+
+altstringchar   "\\'a"    á
+altstringchar   "\\'A"    Á
+altstringchar   "\\`a"    à
+altstringchar   "\\`A"    À
+altstringchar   "\\'e"    é
+altstringchar   "\\'E"    "É"
+altstringchar   "\\`e"    è
+altstringchar   "\\`E"    È
+altstringchar   "\\'\\i"        í
+altstringchar   "\\'I"    Í
+altstringchar   "\\`\\i"        ì
+altstringchar   "\\`I"    Ì
+altstringchar   "\\'o"    ó
+altstringchar   "\\'O"    Ó
+altstringchar   "\\`o"    ò
+altstringchar   "\\`O"    Ò
+altstringchar   "\\'u"    ú
+altstringchar   "\\'U"    Ú
+altstringchar   "\\`u"    ù
+altstringchar   "\\`U"    Ù
+
+
+prefixes
+
+flag *R:
+	.	>	ri      # vedere -> rivedere
+                                # vendere -> rivendere
+                                # usare -> riusare
+                                # dire -> ridire
+                                # partire -> ripartire
+
+flag *B:
+        .       >       pre     # vedere -> prevedere
+                                # venire -> prevenire
+                                # scrivere -> prescivere
+                                # dire -> predire
+
+suffixes
+
+flag *S:
+        r       >       ESSA
+        e       >       SSA
+
+flag *A:        # I Coniugazione
+        # present
+        a r e   >       -are,o
+        a r e   >       -are,i
+        a r e   >       -are,a
+        a r e   >       -are,iamo
+        a r e   >       -are,ate
+        a r e   >       -are,ano
+
+        # imperfetto
+        a r e   >       -are,avo
+        a r e   >       -are,avi
+        a r e   >       -are,ava
+        a r e   >       -are,avamo
+        a r e   >       -are,avate
+        a r e   >       -are,avano
+
+        # passato remoto
+        a r e   >       -are,ai
+        a r e   >       -are,asti
+        a r e   >       -are,ò
+        a r e   >       -are,ammo
+        a r e   >       -are,aste
+        a r e   >       -are,arono
+
+        # futuro semplice
+        a r e   >       -are,erò
+        a r e   >       -are,erai
+        a r e   >       -are,erà
+        a r e   >       -are,eremo
+        a r e   >       -are,erete
+        a r e   >       -are,eranno
+
+        # participio
+        a r e   >       -are,ante
+        a r e   >       -are,ato
+        
+        # gerundio
+        a r e   >       -are,ando
+
+        # Congiuntivo presente
+        a r e   >       -are,i
+        a r e   >       -are,iamo
+        a r e   >       -are,iate
+        a r e   >       -are,ino
+
+        # Congiuntivo imperfetto
+        a r e   >       -are,assi
+        a r e   >       -are,asse
+        a r e   >       -are,assimo
+        a r e   >       -are,aste
+        a r e   >       -are,assero
+
+        # Condizionale
+        a r e   >       -are,erei
+        a r e   >       -are,eresti
+        a r e   >       -are,erebbe
+        a r e   >       -are,eremmo
+        a r e   >       -are,ereste
+        a r e   >       -are,erebbero    
+
+flag *E:        # II Coniugazione
+        # present
+        e r e   >       -ere,o
+        e r e   >       -ere,i
+        e r e   >       -ere,e
+        e r e   >       -ere,iamo
+        e r e   >       -ere,ete
+        e r e   >       -ere,ono
+
+        # imperfetto
+        e r e   >       -ere,evo
+        e r e   >       -ere,evi
+        e r e   >       -ere,eva
+        e r e   >       -ere,evamo
+        e r e   >       -ere,evate
+        e r e   >       -ere,evano
+
+        # passato remoto
+        e r e   >       -ere,etti  # temette
+        e r e   >       -ere,ei   
+        e r e   >       -ere,esti
+        e r e   >       -ere,é     # teme'
+        e r e   >       -ere,ette
+        e r e   >       -ere,emmo
+        e r e   >       -ere,este
+        e r e   >       -ere,ettero
+        e r e   >       -ere,erono # temerono
+
+        # futuro semplice
+        e r e   >       -ere,erò
+        e r e   >       -ere,erai
+        e r e   >       -ere,erà
+        e r e   >       -ere,eremo
+        e r e   >       -ere,erete
+        e r e   >       -ere,eranno
+
+        # participio
+        e r e   >       -ere,ente
+        e r e   >       -ere,uto
+        
+        # gerundio
+        e r e   >       -ere,endo
+
+        # Congiuntivo presente
+        e r e   >       -ere,a
+        e r e   >       -ere,i
+        e r e   >       -ere,iamo
+        e r e   >       -ere,iate
+        e r e   >       -ere,ano
+
+        # Congiuntivo imperfetto
+        e r e   >       -ere,essi
+        e r e   >       -ere,esse
+        e r e   >       -ere,essimo
+        e r e   >       -ere,este
+        e r e   >       -ere,essero
+
+        # Condizionale
+        e r e   >       -ere,erei
+        e r e   >       -ere,eresti
+        e r e   >       -ere,erebbe
+        e r e   >       -ere,eremmo
+        e r e   >       -ere,ereste
+        e r e   >       -ere,erebbero    
+
+flag *I:        # III Coniugazione
+        # present
+        i r e   >       -ire,o
+        i r e   >       -ire,i
+        i r e   >       -ire,e
+        i r e   >       -ire,iamo
+        i r e   >       -ire,ite
+        i r e   >       -ire,ono
+
+        # imperfetto
+        i r e   >       -ire,ivo
+        i r e   >       -ire,ivi
+        i r e   >       -ire,iva
+        i r e   >       -ire,ivamo
+        i r e   >       -ire,ivate
+        i r e   >       -ire,ivano
+
+        # passato remoto
+        i r e   >       -ire,ii  
+        i r e   >       -ire,isti
+        i r e   >       -ire,ì
+        i r e   >       -ire,immo
+        i r e   >       -ire,iste
+        i r e   >       -ire,irono 
+
+        # futuro semplice
+        i r e   >       -ire,irò
+        i r e   >       -ire,irai
+        i r e   >       -ire,irà
+        i r e   >       -ire,iremo
+        i r e   >       -ire,irete
+        i r e   >       -ire,iranno
+
+        # participio
+        i r e   >       -ire,ente
+        i r e   >       -ire,ito
+        
+        # gerundio
+        i r e   >       -ire,endo
+
+        # Congiuntivo presente
+        i r e   >       -ire,a
+        i r e   >       -ire,iamo
+        i r e   >       -ire,iate
+        i r e   >       -ire,ano
+
+        # Congiuntivo imperfetto
+        i r e   >       -ire,issi
+        i r e   >       -ire,isse
+        i r e   >       -ire,issimo
+        i r e   >       -ire,iste
+        i r e   >       -ire,issero
+
+        # Condizionale
+        i r e   >       -ire,irei
+        i r e   >       -ire,iresti
+        i r e   >       -ire,irebbe
+        i r e   >       -ire,iremmo
+        i r e   >       -ire,ireste
+        i r e   >       -ire,irebbero    
+
+flag *U:        # III Coniugazione (Variazione) es. obbedire --> obedisco
+        # present
+        i r e   >       -ire,isco
+        i r e   >       -ire,isci
+        i r e   >       -ire,isce
+        i r e   >       -ire,iamo
+        i r e   >       -ire,ite
+        i r e   >       -ire,iscono
+
+        # imperfetto
+        i r e   >       -ire,ivo
+        i r e   >       -ire,ivi
+        i r e   >       -ire,iva
+        i r e   >       -ire,ivamo
+        i r e   >       -ire,ivate
+        i r e   >       -ire,ivano
+
+        # passato remoto
+        i r e   >       -ire,ii  
+        i r e   >       -ire,isti
+        i r e   >       -ire,ì
+        i r e   >       -ire,immo
+        i r e   >       -ire,iste
+        i r e   >       -ire,irono 
+
+        # futuro semplice
+        i r e   >       -ire,irò
+        i r e   >       -ire,irai
+        i r e   >       -ire,irà
+        i r e   >       -ire,iremo
+        i r e   >       -ire,irete
+        i r e   >       -ire,iranno
+
+        # participio
+        i r e   >       -ire,ente
+        i r e   >       -ire,ito
+        
+        # gerundio
+        i r e   >       -ire,endo
+
+        # Congiuntivo presente
+        i r e   >       -ire,isca
+        i r e   >       -ire,iamo
+        i r e   >       -ire,iate
+        i r e   >       -ire,iscano
+
+        # Congiuntivo imperfetto
+        i r e   >       -ire,issi
+        i r e   >       -ire,isse
+        i r e   >       -ire,issimo
+        i r e   >       -ire,iste
+        i r e   >       -ire,issero
+
+        # Condizionale
+        i r e   >       -ire,irei
+        i r e   >       -ire,iresti
+        i r e   >       -ire,irebbe
+        i r e   >       -ire,iremmo
+        i r e   >       -ire,ireste
+        i r e   >       -ire,irebbero    
+
+# Riflessivo
+flag *F:
+        # infinito presente
+        r e     >       -e,si   # lavare -> lavarsi
+        r e     >       -e,mi   # lavare -> lavarmi
+        r e     >       -e,ti   # lavare -> lavarti
+        r e     >       -e,ci   # lavare -> lavarci
+        # participio presente
+        r e     >       -re,ntesi   # lavare -> lavantesi
+        r e     >       -re,ntisi   # lavare -> lavantisi
+        # participio passato
+        r e     >       -re,tosi   # lavare -> lavatosi
+        r e     >       -re,tomi   # lavare -> lavatomi
+        r e     >       -re,toti   # lavare -> lavatoti
+        r e     >       -re,tici   # lavare -> lavatici
+        r e     >       -re,tivi   # lavare -> lavativi
+        r e     >       -re,tisi   # lavare -> lavatisi
+        # gerundio presente
+        r e     >       -re,ndosi       # lavare -> lavandosi
+        r e     >       -re,ndomi       # lavare -> lavandomi
+        r e     >       -re,ndoti       # lavare -> lavandoti
+        r e     >       -re,ndoci       # lavare -> lavandoci
+        r e     >       -re,ndovi       # lavare -> lavandovi
+
+# Avverbibi derivati +mente
+# La forma grammaticale da cui nasce e' l'aggettivo, cui si aggiunge
+# il suffisso +mente
+flag *V:
+        o       >       -o,amente       # pazzo -> pazzamente
+        a       >       mente        # pazza -> pazzamente
+# se le ultime due lettere sono delle "re" o "le" si ha l'apocope
+# della vocale finale: amorevole -> amorevolmente
+        r e     >       -e,mente
+        l e     >       -e,mente
+# else aggiunge mente o aggiunge +issimamente
+        e       >       mente
+        e       >       -e,issimamente
+
+
+# Superlativo assoluto in +issimo
+# indica il grado massimo di intensita' di una qualita' o di un
+# concetto, senza cistituire paragoni con altre grandezze.
+# si esprome con il suffisso +issimo, aggiunto all'aggettivo di grado
+# positivo: nuovo -> nuovissim[aeio]
+#           brillante -> brillantissim[aeio]
+flag *O:
+        o       >       -o,issimo       # romantico
+        o       >       -o,issimi       # romantico
+        o       >       -o,issime       # romantico
+        o       >       -o,issima       # romantico
+        e       >       -e,issimo       # giovane
+        e       >       -e,issima       # giovane
+        e       >       -e,issime       # giovane
+        e       >       -e,issimi       # giovane
+
+# Superlativo assoluto in +errimo
+flag *N:
+        r e     >       -e,errimo       # acre -> acerrimo, salubre -> saluberrimo
+# Superlativo assoluto in +entissimo
+flag *M:
+        c o     >       -o,entissimo
+        l o     >       -o,entissimo

@@ -1,0 +1,145 @@
+# -------------------------------------------------------------
+#
+# Nanodesktop HighGUI (PSPE/PSP)
+# di Filippo Battaglia
+#
+# -------------------------------------------------------------
+
+
+C = psp-gcc
+LINK = psp-ar
+
+
+## Librerie di sistema
+
+
+OUTLIB_PSPE = ../../ndhighgui/lib/libNdHighGUI_PSPE.a
+
+OUTLIB_PSP  = ../../ndhighgui/lib/libNdHighGUI_PSP.a
+
+
+
+
+# File oggetto
+
+OBJS_PSPE = ../obj_PSPE/ndHGUI_cvErrors.o 	../obj_PSPE/ndHGUI_cvInitSystem.o \
+	    ../obj_PSPE/ndHGUI_cvLoadSave.o 	../obj_PSPE/ndHGUI_cvSetParamNextWnd.o \
+	    ../obj_PSPE/ndHGUI_cvShowImage.o	../obj_PSPE/ndHGUI_cvKeys.o \
+	    ../obj_PSPE/ndHGUI_cvWindows.o 	../obj_PSPE/ndHGUI_cvCamera.o \
+	    ../obj_PSPE/ndHGUI_cvGetPutPixel.o  ../obj_PSPE/ndHGUI_Utils.o
+
+OBJS_PSP  = ../obj_PSP/ndHGUI_cvErrors.o 	../obj_PSP/ndHGUI_cvInitSystem.o \
+	    ../obj_PSP/ndHGUI_cvLoadSave.o 	../obj_PSP/ndHGUI_cvSetParamNextWnd.o \
+	    ../obj_PSP/ndHGUI_cvShowImage.o	../obj_PSP/ndHGUI_cvKeys.o \
+	    ../obj_PSP/ndHGUI_cvWindows.o 	../obj_PSP/ndHGUI_cvCamera.o \
+	    ../obj_PSP/ndHGUI_cvGetPutPixel.o 	../obj_PSP/ndHGUI_Utils.o
+
+
+## Path di ricerca per gli headers files
+
+ 
+INC0 = -I"." 
+INC1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include" 
+INC5 = -I"$(NDENV_PATH)\PSP\ndOpenCV\cxcore\include" 
+INC6 = -I"$(NDENV_PATH)\PSP\ndOpenCV\cv\include"
+
+INCLUDE = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6)
+
+
+
+## Flags di compilazione
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -O3 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -fshort-double -Wall -mfp32 -msym32 -ffast-math -v
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -Wall -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -v
+
+
+
+
+## Compilazione di librerie
+
+all : $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+$(OUTLIB_PSPE): $(OBJS_PSPE)
+	$(LINK) r $(OUTLIB_PSPE) $(OBJS_PSPE)
+	
+$(OUTLIB_PSP): $(OBJS_PSP)
+	$(LINK) r $(OUTLIB_PSP) $(OBJS_PSP)
+
+
+
+## Compilazione dei moduli per PSPE
+
+../obj_PSPE/ndHGUI_cvInitSystem.o: ./ndHGUI_cvInitSystem.c
+	$(C) -c ndHGUI_cvInitSystem.c -o ../obj_PSPE/ndHGUI_cvInitSystem.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj_PSPE/ndHGUI_cvErrors.o: ./ndHGUI_cvErrors.c
+	$(C) -c ndHGUI_cvErrors.c -o ../obj_PSPE/ndHGUI_cvErrors.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/ndHGUI_cvLoadSave.o: ./ndHGUI_cvLoadSave.c
+	$(C) -c ndHGUI_cvLoadSave.c -o ../obj_PSPE/ndHGUI_cvLoadSave.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/ndHGUI_cvSetParamNextWnd.o: ./ndHGUI_cvSetParamNextWnd.c
+	$(C) -c ndHGUI_cvSetParamNextWnd.c -o ../obj_PSPE/ndHGUI_cvSetParamNextWnd.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/ndHGUI_cvShowImage.o: ./ndHGUI_cvShowImage.c
+	$(C) -c ndHGUI_cvShowImage.c -o ../obj_PSPE/ndHGUI_cvShowImage.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/ndHGUI_cvKeys.o: ./ndHGUI_cvKeys.c
+	$(C) -c ndHGUI_cvKeys.c -o ../obj_PSPE/ndHGUI_cvKeys.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/ndHGUI_cvWindows.o: ./ndHGUI_cvWindows.c
+	$(C) -c ndHGUI_cvWindows.c -o ../obj_PSPE/ndHGUI_cvWindows.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/ndHGUI_cvGetPutPixel.o: ndHGUI_cvGetPutPixel.c
+	$(C) -c ndHGUI_cvGetPutPixel.c -o ../obj_PSPE/ndHGUI_cvGetPutPixel.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/ndHGUI_cvCamera.o: ndHGUI_cvCamera.c
+	$(C) -c ndHGUI_cvCamera.c -o ../obj_PSPE/ndHGUI_cvCamera.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/ndHGUI_Utils.o: ./ndHGUI_Utils.c
+	$(C) -c ndHGUI_Utils.c -o ../obj_PSPE/ndHGUI_Utils.o $(CFLAGS_PSPE) $(INCLUDE)
+
+
+
+
+## Compilazione dei moduli per PSP
+
+../obj_PSP/ndHGUI_cvInitSystem.o: ./ndHGUI_cvInitSystem.c
+	$(C) -c ndHGUI_cvInitSystem.c -o ../obj_PSP/ndHGUI_cvInitSystem.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj_PSP/ndHGUI_cvErrors.o: ./ndHGUI_cvErrors.c
+	$(C) -c ndHGUI_cvErrors.c -o ../obj_PSP/ndHGUI_cvErrors.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/ndHGUI_cvLoadSave.o: ./ndHGUI_cvLoadSave.c
+	$(C) -c ndHGUI_cvLoadSave.c -o ../obj_PSP/ndHGUI_cvLoadSave.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/ndHGUI_cvSetParamNextWnd.o: ./ndHGUI_cvSetParamNextWnd.c
+	$(C) -c ndHGUI_cvSetParamNextWnd.c -o ../obj_PSP/ndHGUI_cvSetParamNextWnd.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/ndHGUI_cvShowImage.o: ./ndHGUI_cvShowImage.c
+	$(C) -c ndHGUI_cvShowImage.c -o ../obj_PSP/ndHGUI_cvShowImage.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/ndHGUI_cvKeys.o: ./ndHGUI_cvKeys.c
+	$(C) -c ndHGUI_cvKeys.c -o ../obj_PSP/ndHGUI_cvKeys.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/ndHGUI_cvWindows.o: ./ndHGUI_cvWindows.c
+	$(C) -c ndHGUI_cvWindows.c -o ../obj_PSP/ndHGUI_cvWindows.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/ndHGUI_cvGetPutPixel.o: ndHGUI_cvGetPutPixel.c
+	$(C) -c ndHGUI_cvGetPutPixel.c -o ../obj_PSP/ndHGUI_cvGetPutPixel.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/ndHGUI_cvCamera.o: ndHGUI_cvCamera.c
+	$(C) -c ndHGUI_cvCamera.c -o ../obj_PSP/ndHGUI_cvCamera.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/ndHGUI_Utils.o: ./ndHGUI_Utils.c
+	$(C) -c ndHGUI_Utils.c -o ../obj_PSP/ndHGUI_Utils.o $(CFLAGS_PSP) $(INCLUDE)
+
+
+
+
+
+

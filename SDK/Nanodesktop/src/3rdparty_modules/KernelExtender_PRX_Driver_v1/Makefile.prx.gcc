@@ -1,0 +1,86 @@
+# -------------------------------------------------------------
+#
+# Driver PRX per il kernel extender
+# Makefile di Filippo Battaglia
+#
+# -------------------------------------------------------------
+
+
+C = psp-gcc
+LINK = psp-ld
+
+KRNEXTENDER_NAME = ./prx/ndKRNExtender_v1.prx
+
+ 
+INC0 = -I"." 
+INC1 = -I"$(NDENV_PATH)/PSP/SDK/Nanodesktop/src" 
+INC2 = -I"$(NDENV_PATH)/PSP/SDK/NanoCore/NanoC/src"
+INC3 = -I"$(NDENV_PATH)/PSP/SDK/NanoCore/NanoM/src"
+INC4 = -I"$(NDENV_PATH)/PSP/SDK/PspDev/psp/include" 
+INC5 = -I"$(NDENV_PATH)/PSP/SDK/PspDev/psp/sdk/include" 
+INC6 = -I"$(NDENV_PATH)/PSP/SDK/HenPspDev/371/include"
+
+LIBPATH0 = -L"."
+LIBPATH1 = -L"$(NDENV_PATH)/PSP/SDK/PspDev/psp/sdk/lib"
+LIBPATH2 = -L"$(NDENV_PATH)/PSP/SDK/PspDev/psp/lib"
+LIBPATH3 = -L"$(NDENV_PATH)/PSP/SDK/PspDev/lib/gcc/psp/4.0.2"
+
+
+INCPATH = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6)
+LIBPATH = $(LIBPATH0) $(LIBPATH1) $(LIBPATH2) $(LIBPATH3)
+
+CFLAGS_PSP =  -D"PSP_PLATFORM" -D"ND_LIBRARY" -D"ND_PSP_KERNEL_MODE_APPLICATION" -D"ND_KERNELSERVICES_TO_USER_MAIN" -O0 -G0 -Wall -fno-builtin-printf 
+
+LDFLAGS = -q -T"$(NDENV_PATH)/PSP/SDK/PspDev/psp/sdk/lib/linkfile.prx" -no-crt0 -no-start-files
+
+LIBS =   -lpspaudiolib -lpspaudiocodec -lpspaudio -lpspkernel -lpspsdk
+
+
+
+
+all: 
+	
+	
+	$(C) -c ./ndkrnext_coredriver.c    -o ./obj/ndkrnext_coredriver.o  $(CFLAGS_PSP) $(INCPATH)
+	$(C) -c ./fwstubs.S                -o ./obj/fwstubs.o              $(CFLAGS_PSP) $(INCPATH)
+	$(C) -c ./kmode.S                  -o ./obj/kmode.o                $(CFLAGS_PSP) $(INCPATH)
+	
+	
+##Avviamo il processo per ottenere i file oggetto per gli exports
+	
+	psp-build-exports -b ./exports.exp > ./tmp/exports.c
+	
+	$(C) -c  ./tmp/exports.c        -o ./obj/exports.o        $(CFLAGS_PSP) $(INCPATH)
+	
+##Avviamo il linker per ottenere il file ELF
+
+	$(LINK)   ./obj/ndkrnext_coredriver.o ./obj/kmode.o ./obj/fwstubs.o ./obj/exports.o $(LDFLAGS) $(LIBPATH) $(LIBS)  -o ./obj/ndKRNExtender.elf 
+
+##Avviamo il processo per ottenere i PRX
+
+	psp-fixup-imports ./obj/ndKRNExtender.elf 
+	psp-prxgen	  ./obj/ndKRNExtender.elf  $(KRNEXTENDER_NAME)
+	
+##Creiamo il file di stub che consentirà alla libreria Nanodesktop di accedere
+##alle funzioni del driver
+
+	psp-build-exports -k -s   ./exports.exp
+	mv ./ndKRNExtender.S 	  ./prx/ndKRNExtender.S
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

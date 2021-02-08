@@ -1,0 +1,124 @@
+# -------------------------------------------------------------
+#
+# Nanodesktop HighGUI (PSPE/PSP)
+# di Filippo Battaglia
+#
+# -------------------------------------------------------------
+
+
+C = psp-gcc
+LINK = psp-ar
+
+
+## Librerie di sistema
+
+
+OUTLIB_PSPE = ../lib/libNdSIFT_PSPE.a
+
+OUTLIB_PSP  = ../lib/libNdSIFT_PSP.a
+
+
+
+
+# File oggetto
+
+OBJS_PSPE = ../obj_PSPE/dspfeat.o        	../obj_PSPE/sift.o \
+	    ../obj_PSPE/imgfeatures.o           ../obj_PSPE/utils.o \
+	    ../obj_PSPE/kdtree.o	        ../obj_PSPE/minpq.o 
+	    
+
+OBJS_PSP  = ../obj_PSP/dspfeat.o        	../obj_PSP/sift.o \
+	    ../obj_PSP/imgfeatures.o 		../obj_PSP/utils.o \
+	    ../obj_PSP/kdtree.o			../obj_PSP/minpq.o 			                 
+
+
+## Path di ricerca per gli headers files
+
+ 
+INC0 = -I"." 
+INC1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include"
+INC5 = -I"$(NDENV_PATH)\PSP\ndHighGUI\src"
+INC6 = -I"$(NDENV_PATH)\PSP\ndOpenCV\cxcore\include" 
+INC7 = -I"$(NDENV_PATH)\PSP\ndOpenCV\cv\include"
+INC8 = -I"$(NDENV_PATH)\PSP\ndSIFT\include"
+
+
+
+INCLUDE = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6) $(INC7) $(INC8)
+
+
+
+## Flags di compilazione
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -O3 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -fshort-double -Wall -mfp32 -msym32 -ffast-math -v
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -Wall -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -v
+
+
+
+
+## Compilazione di librerie
+
+all : $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+
+
+$(OUTLIB_PSPE): $(OBJS_PSPE)
+	$(LINK) r $(OUTLIB_PSPE) $(OBJS_PSPE)
+	
+$(OUTLIB_PSP): $(OBJS_PSP)
+	$(LINK) r $(OUTLIB_PSP) $(OBJS_PSP)
+
+
+
+## Compilazione dei moduli per PSPE
+
+../obj_PSPE/dspfeat.o: ./dspfeat.c
+	$(C) -c dspfeat.c -o ../obj_PSPE/dspfeat.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj_PSPE/imgfeatures.o: ./imgfeatures.c
+	$(C) -c imgfeatures.c -o ../obj_PSPE/imgfeatures.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/kdtree.o: ./kdtree.c
+	$(C) -c kdtree.c -o ../obj_PSPE/kdtree.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/minpq.o: ./minpq.c
+	$(C) -c minpq.c -o ../obj_PSPE/minpq.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/sift.o: ./sift.c
+	$(C) -c sift.c -o ../obj_PSPE/sift.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/utils.o: utils.c
+	$(C) -c utils.c -o ../obj_PSPE/utils.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/xform.o: xform.c
+	##$(C) -c xform.c -o ../obj_PSPE/xform.o $(CFLAGS_PSPE) $(INCLUDE)
+
+
+## Compilazione dei moduli per PSP
+
+../obj_PSP/dspfeat.o: ./dspfeat.c
+	$(C) -c dspfeat.c -o ../obj_PSP/dspfeat.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj_PSP/imgfeatures.o: ./imgfeatures.c
+	$(C) -c imgfeatures.c -o ../obj_PSP/imgfeatures.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/kdtree.o: ./kdtree.c
+	$(C) -c kdtree.c -o ../obj_PSP/kdtree.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/minpq.o: ./minpq.c
+	$(C) -c minpq.c -o ../obj_PSP/minpq.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/sift.o: ./sift.c
+	$(C) -c sift.c -o ../obj_PSP/sift.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/utils.o: utils.c
+	$(C) -c utils.c -o ../obj_PSP/utils.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/xform.o: xform.c
+	##$(C) -c xform.c -o ../obj_PSP/xform.o $(CFLAGS_PSP) $(INCLUDE)
+
+

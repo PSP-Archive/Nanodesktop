@@ -1,0 +1,216 @@
+# -------------------------------------------------------------
+#
+# Nanodesktop ndISpell (PSPE/PSP)
+# di Filippo Battaglia
+#
+# -------------------------------------------------------------
+
+
+C = psp-gcc
+LINK = psp-ar
+
+
+## Librerie di sistema
+
+
+OUTLIB_PSPE = lib/libNdIspell_PSPE.a
+
+OUTLIB_PSP  = lib/libNdIspell_PSP.a
+
+
+
+
+# File oggetto
+
+OBJS_PSPE = 	obj_PSPE/buildhash.o \
+		obj_PSPE/correct.o \
+		obj_PSPE/defmt.o \
+		obj_PSPE/dump.o \
+		obj_PSPE/fields.o \
+		obj_PSPE/good.o\
+		obj_PSPE/hash.o \
+		obj_PSPE/ijoin.o \
+		obj_PSPE/ispell.o \
+		obj_PSPE/lookup.o \
+		obj_PSPE/makedent.o \
+		obj_PSPE/tgood.o \
+		obj_PSPE/tree.o \
+		obj_PSPE/unsq.o \
+		obj_PSPE/xgets.o \
+		obj_PSPE/icombine.o \
+		obj_PSPE/xterm.o \
+		obj_PSPE/parse.o
+		
+		
+		
+OBJS_PSP = 	obj_PSP/buildhash.o \
+		obj_PSP/correct.o \
+		obj_PSP/defmt.o \
+		obj_PSP/dump.o \
+		obj_PSP/fields.o \
+		obj_PSP/good.o\
+		obj_PSP/hash.o \
+		obj_PSP/ijoin.o \
+		obj_PSP/ispell.o \
+		obj_PSP/lookup.o \
+		obj_PSP/makedent.o \
+		obj_PSP/tgood.o \
+		obj_PSP/tree.o \
+		obj_PSP/unsq.o \
+		obj_PSP/xgets.o \
+		obj_PSP/icombine.o \
+		obj_PSP/xterm.o \
+		obj_PSP/parse.o
+
+
+
+## Path di ricerca per gli headers files
+
+ 
+INC0 = -I"." 
+INC1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include"
+INC8 = -I"$(NDENV_PATH)\PSP\ndIspell"
+
+
+
+INCLUDE = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC8)
+
+
+
+## Flags di compilazione
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -DUSG -DHAS_RENAME -O3 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -fshort-double -Wall -mfp32 -msym32 -ffast-math -v
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -DUSG -DHAS_RENAME -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -Wall -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -v
+
+
+
+
+## Compilazione di librerie
+
+all : $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+$(OUTLIB_PSPE): $(OBJS_PSPE)
+	$(LINK) r $(OUTLIB_PSPE) $(OBJS_PSPE)
+	
+$(OUTLIB_PSP): $(OBJS_PSP)
+	$(LINK) r $(OUTLIB_PSP) $(OBJS_PSP)
+
+
+
+## Compilazione dei moduli per PSPE
+
+obj_PSPE/buildhash.o: buildhash.c
+	$(C) -c buildhash.c -o obj_PSPE/buildhash.o $(CFLAGS_PSPE) $(INCLUDE) -DMAIN 
+
+obj_PSPE/correct.o: correct.c
+	$(C) -c correct.c -o obj_PSPE/correct.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+obj_PSPE/defmt.o: defmt.c
+	$(C) -c defmt.c -o obj_PSPE/defmt.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+obj_PSPE/dump.o: dump.c
+	$(C) -c dump.c -o obj_PSPE/dump.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+obj_PSPE/fields.o: fields.c
+	$(C) -c fields.c -o obj_PSPE/fields.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+obj_PSPE/good.o: good.c
+	$(C) -c good.c -o obj_PSPE/good.o $(CFLAGS_PSPE) $(INCLUDE)
+
+obj_PSPE/hash.o: hash.c
+	$(C) -c hash.c -o obj_PSPE/hash.o $(CFLAGS_PSPE) $(INCLUDE)
+
+obj_PSPE/icombine.o: icombine.c
+	$(C) -c icombine.c -o obj_PSPE/icombine.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+obj_PSPE/ijoin.o: ijoin.c
+	$(C) -c ijoin.c -o obj_PSPE/ijoin.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+obj_PSPE/ispell.o: ispell.c
+	$(C) -c ispell.c -o obj_PSPE/ispell.o $(CFLAGS_PSPE) $(INCLUDE) -DMAIN
+
+obj_PSPE/lookup.o: lookup.c
+	$(C) -c lookup.c -o obj_PSPE/lookup.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+obj_PSPE/makedent.o: makedent.c
+	$(C) -c makedent.c -o obj_PSPE/makedent.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+obj_PSPE/tgood.o: tgood.c
+	$(C) -c tgood.c -o obj_PSPE/tgood.o $(CFLAGS_PSPE) $(INCLUDE)
+
+obj_PSPE/tree.o: tree.c
+	$(C) -c tree.c -o obj_PSPE/tree.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+obj_PSPE/unsq.o: unsq.c
+	$(C) -c unsq.c -o obj_PSPE/unsq.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+obj_PSPE/xgets.o: xgets.c
+	$(C) -c xgets.c -o obj_PSPE/xgets.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+obj_PSPE/xterm.o: xterm.c
+	$(C) -c xterm.c -o obj_PSPE/xterm.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+obj_PSPE/parse.o: _parse.c
+	$(C) -c _parse.c -o obj_PSPE/parse.o $(CFLAGS_PSPE) $(INCLUDE) -DYYFREE -Dyyoverflow
+
+
+
+## Compilazione dei moduli per PSP
+
+obj_PSP/buildhash.o: buildhash.c
+	$(C) -c buildhash.c -o obj_PSP/buildhash.o $(CFLAGS_PSP) $(INCLUDE) -DMAIN 
+ 
+obj_PSP/correct.o: correct.c
+	$(C) -c correct.c -o obj_PSP/correct.o $(CFLAGS_PSP) $(INCLUDE) 
+
+obj_PSP/defmt.o: defmt.c
+	$(C) -c defmt.c -o obj_PSP/defmt.o $(CFLAGS_PSP) $(INCLUDE) 
+
+obj_PSP/dump.o: dump.c
+	$(C) -c dump.c -o obj_PSP/dump.o $(CFLAGS_PSP) $(INCLUDE) 
+
+obj_PSP/fields.o: fields.c
+	$(C) -c fields.c -o obj_PSP/fields.o $(CFLAGS_PSP) $(INCLUDE) 
+
+obj_PSP/good.o: good.c
+	$(C) -c good.c -o obj_PSP/good.o $(CFLAGS_PSP) $(INCLUDE)
+
+obj_PSP/hash.o: hash.c
+	$(C) -c hash.c -o obj_PSP/hash.o $(CFLAGS_PSP) $(INCLUDE)
+
+obj_PSP/icombine.o: icombine.c
+	$(C) -c icombine.c -o obj_PSP/icombine.o $(CFLAGS_PSP) $(INCLUDE)
+	
+obj_PSP/ijoin.o: ijoin.c
+	$(C) -c ijoin.c -o obj_PSP/ijoin.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+obj_PSP/ispell.o: ispell.c
+	$(C) -c ispell.c -o obj_PSP/ispell.o $(CFLAGS_PSP) $(INCLUDE) -DMAIN 
+
+obj_PSP/lookup.o: lookup.c
+	$(C) -c lookup.c -o obj_PSP/lookup.o $(CFLAGS_PSP) $(INCLUDE) 
+
+obj_PSP/makedent.o: makedent.c
+	$(C) -c makedent.c -o obj_PSP/makedent.o $(CFLAGS_PSP) $(INCLUDE) 
+
+obj_PSP/tgood.o: tgood.c
+	$(C) -c tgood.c -o obj_PSP/tgood.o $(CFLAGS_PSP) $(INCLUDE)
+
+obj_PSP/tree.o: tree.c
+	$(C) -c tree.c -o obj_PSP/tree.o $(CFLAGS_PSP) $(INCLUDE)
+	
+obj_PSP/unsq.o: unsq.c
+	$(C) -c unsq.c -o obj_PSP/unsq.o $(CFLAGS_PSP) $(INCLUDE) 
+
+obj_PSP/xgets.o: xgets.c
+	$(C) -c xgets.c -o obj_PSP/xgets.o $(CFLAGS_PSP) $(INCLUDE)
+	
+obj_PSP/xterm.o: xterm.c
+	$(C) -c xterm.c -o obj_PSP/xterm.o $(CFLAGS_PSP) $(INCLUDE)
+
+obj_PSP/parse.o: _parse.c
+	$(C) -c _parse.c -o obj_PSP/parse.o $(CFLAGS_PSP) $(INCLUDE) -DYYFREE -Dyyoverflow

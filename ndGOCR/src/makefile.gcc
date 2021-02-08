@@ -1,0 +1,236 @@
+# -------------------------------------------------------------
+#
+# Nanodesktop GOCR (PSPE/PSP)
+# di Filippo Battaglia
+#
+# -------------------------------------------------------------
+
+
+C = psp-gcc
+LINK = psp-ar
+
+
+## Librerie di sistema
+
+
+OUTLIB_PSPE = ../lib/libNdGOCR_PSPE.a
+
+OUTLIB_PSP  = ../lib/libNdGOCR_PSP.a
+
+
+
+
+# File oggetto
+
+OBJS_PSPE = 	../obj_PSPE/pgm2asc.o \
+		../obj_PSPE/box.o \
+		../obj_PSPE/database.o \
+		../obj_PSPE/detect.o \
+		../obj_PSPE/barcode.o \
+		../obj_PSPE/gocr.o\
+		../obj_PSPE/lines.o \
+		../obj_PSPE/list.o \
+		../obj_PSPE/ocr0.o \
+		../obj_PSPE/ocr0n.o \
+		../obj_PSPE/ocr1.o \
+		../obj_PSPE/otsu.o \
+		../obj_PSPE/output.o \
+		../obj_PSPE/pixel.o \
+		../obj_PSPE/unicode.o \
+		../obj_PSPE/remove.o \
+		../obj_PSPE/pnm.o \
+		../obj_PSPE/pcx.o \
+		../obj_PSPE/progress.o \
+		../obj_PSPE/job.o 
+		
+OBJS_PSP = 	../obj_PSP/pgm2asc.o \
+		../obj_PSP/box.o \
+		../obj_PSP/database.o \
+		../obj_PSP/detect.o \
+		../obj_PSP/barcode.o \
+		../obj_PSP/gocr.o\
+		../obj_PSP/lines.o \
+		../obj_PSP/list.o \
+		../obj_PSP/ocr0.o \
+		../obj_PSP/ocr0n.o \
+		../obj_PSP/ocr1.o \
+		../obj_PSP/otsu.o \
+		../obj_PSP/output.o \
+		../obj_PSP/pixel.o \
+		../obj_PSP/unicode.o \
+		../obj_PSP/remove.o \
+		../obj_PSP/pnm.o \
+		../obj_PSP/pcx.o \
+		../obj_PSP/progress.o \
+		../obj_PSP/job.o 
+
+
+
+
+## Path di ricerca per gli headers files
+
+ 
+INC0 = -I"." 
+INC1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include"
+INC5 = -I"$(NDENV_PATH)\PSP\ndHighGUI\src"
+INC6 = -I"$(NDENV_PATH)\PSP\ndOpenCV\cxcore\include" 
+INC7 = -I"$(NDENV_PATH)\PSP\ndOpenCV\cv\include"
+INC8 = -I"$(NDENV_PATH)\PSP\ndGOCR\include"
+
+
+
+INCLUDE = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6) $(INC7) $(INC8)
+
+
+
+## Flags di compilazione
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -O3 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -fshort-double -Wall -mfp32 -msym32 -ffast-math -v
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -Wall -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -v
+
+
+
+
+## Compilazione di librerie
+
+all : $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+$(OUTLIB_PSPE): $(OBJS_PSPE)
+	$(LINK) r $(OUTLIB_PSPE) $(OBJS_PSPE)
+	
+$(OUTLIB_PSP): $(OBJS_PSP)
+	$(LINK) r $(OUTLIB_PSP) $(OBJS_PSP)
+
+
+
+## Compilazione dei moduli per PSPE
+
+../obj_PSPE/pgm2asc.o: ./pgm2asc.c
+	$(C) -c pgm2asc.c -o ../obj_PSPE/pgm2asc.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/box.o: ./box.c
+	$(C) -c box.c -o ../obj_PSPE/box.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/database.o: ./database.c
+	$(C) -c database.c -o ../obj_PSPE/database.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/detect.o: ./detect.c
+	$(C) -c detect.c -o ../obj_PSPE/detect.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/barcode.o: ./barcode.c
+	$(C) -c barcode.c -o ../obj_PSPE/barcode.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/gocr.o: ./gocr.c
+	$(C) -c gocr.c -o ../obj_PSPE/gocr.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/lines.o: lines.c
+	$(C) -c lines.c -o ../obj_PSPE/lines.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/list.o: list.c
+	$(C) -c list.c -o ../obj_PSPE/list.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+../obj_PSPE/ocr0.o: ./ocr0.c
+	$(C) -c ocr0.c -o ../obj_PSPE/ocr0.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj_PSPE/ocr0n.o: ./ocr0n.c
+	$(C) -c ocr0n.c -o ../obj_PSPE/ocr0n.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/ocr1.o: ./ocr1.c
+	$(C) -c ocr1.c -o ../obj_PSPE/ocr1.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/otsu.o: ./otsu.c
+	$(C) -c otsu.c -o ../obj_PSPE/otsu.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/output.o: ./output.c
+	$(C) -c output.c -o ../obj_PSPE/output.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/pixel.o: ./pixel.c
+	$(C) -c pixel.c -o ../obj_PSPE/pixel.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/unicode.o: unicode.c
+	$(C) -c unicode.c -o ../obj_PSPE/unicode.o $(CFLAGS_PSPE) $(INCLUDE)
+
+../obj_PSPE/remove.o: remove.c
+	$(C) -c remove.c -o ../obj_PSPE/remove.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+../obj_PSPE/pnm.o: ./pnm.c
+	$(C) -c pnm.c -o ../obj_PSPE/pnm.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/pcx.o: ./pcx.c
+	$(C) -c pcx.c -o ../obj_PSPE/pcx.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/progress.o: ./progress.c
+	$(C) -c progress.c -o ../obj_PSPE/progress.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj_PSPE/job.o: ./job.c
+	$(C) -c job.c -o ../obj_PSPE/job.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+
+
+
+## Compilazione dei moduli per PSP
+
+../obj_PSP/pgm2asc.o: ./pgm2asc.c
+	$(C) -c pgm2asc.c -o ../obj_PSP/pgm2asc.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/box.o: ./box.c
+	$(C) -c box.c -o ../obj_PSP/box.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/database.o: ./database.c
+	$(C) -c database.c -o ../obj_PSP/database.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/detect.o: ./detect.c
+	$(C) -c detect.c -o ../obj_PSP/detect.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/barcode.o: ./barcode.c
+	$(C) -c barcode.c -o ../obj_PSP/barcode.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/gocr.o: ./gocr.c
+	$(C) -c gocr.c -o ../obj_PSP/gocr.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/lines.o: lines.c
+	$(C) -c lines.c -o ../obj_PSP/lines.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/list.o: list.c
+	$(C) -c list.c -o ../obj_PSP/list.o $(CFLAGS_PSP) $(INCLUDE)
+	
+../obj_PSP/ocr0.o: ./ocr0.c
+	$(C) -c ocr0.c -o ../obj_PSP/ocr0.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj_PSP/ocr0n.o: ./ocr0n.c
+	$(C) -c ocr0n.c -o ../obj_PSP/ocr0n.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/ocr1.o: ./ocr1.c
+	$(C) -c ocr1.c -o ../obj_PSP/ocr1.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/otsu.o: ./otsu.c
+	$(C) -c otsu.c -o ../obj_PSP/otsu.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/output.o: ./output.c
+	$(C) -c output.c -o ../obj_PSP/output.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/pixel.o: ./pixel.c
+	$(C) -c pixel.c -o ../obj_PSP/pixel.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/unicode.o: unicode.c
+	$(C) -c unicode.c -o ../obj_PSP/unicode.o $(CFLAGS_PSP) $(INCLUDE)
+
+../obj_PSP/remove.o: remove.c
+	$(C) -c remove.c -o ../obj_PSP/remove.o $(CFLAGS_PSP) $(INCLUDE)
+	
+../obj_PSP/pnm.o: ./pnm.c
+	$(C) -c pnm.c -o ../obj_PSP/pnm.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/pcx.o: ./pcx.c
+	$(C) -c pcx.c -o ../obj_PSP/pcx.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/progress.o: ./progress.c
+	$(C) -c progress.c -o ../obj_PSP/progress.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj_PSP/job.o: ./job.c
+	$(C) -c job.c -o ../obj_PSP/job.o $(CFLAGS_PSP) $(INCLUDE) 
+

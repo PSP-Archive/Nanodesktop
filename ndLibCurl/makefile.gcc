@@ -1,0 +1,569 @@
+# -------------------------------------------------------------
+#
+# Nanodesktop LibCurl MakeFile (PSPE/PSP)
+# di Filippo Battaglia
+#
+# -------------------------------------------------------------
+
+
+C = psp-gcc
+LINK = psp-ar
+
+
+## Librerie di sistema
+
+
+OUTLIB_PSPE  = ./lib/libNdLibCurl_PSPE.a
+
+OUTLIB_PSP   = ./lib/libNdLibCurl_PSP.a
+
+
+# Files oggetto della libreria curl core (PSPE)
+
+OBJS_PSPE  =    ./obj_PSPE/base64.o \
+		./obj_PSPE/connect.o \
+		./obj_PSPE/content_encoding.o \
+		./obj_PSPE/cookie.o \
+		./obj_PSPE/dict.o \
+		./obj_PSPE/easy.o \
+		./obj_PSPE/escape.o \
+		./obj_PSPE/file.o \
+		./obj_PSPE/formdata.o \
+		./obj_PSPE/ftp.o \
+		./obj_PSPE/getenv.o \
+		./obj_PSPE/getinfo.o \
+		./obj_PSPE/gtls.o \
+		./obj_PSPE/hash.o \
+		./obj_PSPE/hostares.o \
+		./obj_PSPE/hostasyn.o \
+		./obj_PSPE/hostip.o \
+		./obj_PSPE/hostip4.o \
+		./obj_PSPE/hostip6.o \
+		./obj_PSPE/hostsyn.o \
+		./obj_PSPE/hostthre.o \
+		./obj_PSPE/http.o \
+		./obj_PSPE/http_chunks.o \
+		./obj_PSPE/http_digest.o \
+		./obj_PSPE/http_negotiate.o \
+		./obj_PSPE/http_ntlm.o \
+		./obj_PSPE/if2ip.o \
+		./obj_PSPE/inet_ntop.o \
+		./obj_PSPE/inet_pton.o \
+		./obj_PSPE/krb4.o \
+		./obj_PSPE/ldap.o \
+		./obj_PSPE/llist.o \
+		./obj_PSPE/md5.o \
+		./obj_PSPE/memdebug.o \
+		./obj_PSPE/mprintf.o \
+		./obj_PSPE/multi.o \
+		./obj_PSPE/netrc.o \
+		./obj_PSPE/parsedate.o \
+		./obj_PSPE/progress.o \
+		./obj_PSPE/security.o \
+		./obj_PSPE/select.o \
+		./obj_PSPE/sendf.o \
+		./obj_PSPE/share.o \
+		./obj_PSPE/speedcheck.o \
+		./obj_PSPE/sslgen.o \
+		./obj_PSPE/ssluse.o \
+		./obj_PSPE/strequal.o \
+		./obj_PSPE/strerror.o \
+		./obj_PSPE/strtok.o \
+		./obj_PSPE/strtoofft.o \
+		./obj_PSPE/telnet.o \
+		./obj_PSPE/tftp.o \
+		./obj_PSPE/timeval.o \
+		./obj_PSPE/transfer.o \
+		./obj_PSPE/url.o \
+		./obj_PSPE/version.o 
+		
+
+
+# Files oggetto della libreria curl core (PSP)
+
+OBJS_PSP  =     ./obj_PSP/base64.o \
+		./obj_PSP/connect.o \
+		./obj_PSP/content_encoding.o \
+		./obj_PSP/cookie.o \
+		./obj_PSP/dict.o \
+		./obj_PSP/easy.o \
+		./obj_PSP/escape.o \
+		./obj_PSP/file.o \
+		./obj_PSP/formdata.o \
+		./obj_PSP/ftp.o \
+		./obj_PSP/getenv.o \
+		./obj_PSP/getinfo.o \
+		./obj_PSP/gtls.o \
+		./obj_PSP/hash.o \
+		./obj_PSP/hostares.o \
+		./obj_PSP/hostasyn.o \
+		./obj_PSP/hostip.o \
+		./obj_PSP/hostip4.o \
+		./obj_PSP/hostip6.o \
+		./obj_PSP/hostsyn.o \
+		./obj_PSP/hostthre.o \
+		./obj_PSP/http.o \
+		./obj_PSP/http_chunks.o \
+		./obj_PSP/http_digest.o \
+		./obj_PSP/http_negotiate.o \
+		./obj_PSP/http_ntlm.o \
+		./obj_PSP/if2ip.o \
+		./obj_PSP/inet_ntop.o \
+		./obj_PSP/inet_pton.o \
+		./obj_PSP/krb4.o \
+		./obj_PSP/ldap.o \
+		./obj_PSP/llist.o \
+		./obj_PSP/md5.o \
+		./obj_PSP/memdebug.o \
+		./obj_PSP/mprintf.o \
+		./obj_PSP/multi.o \
+		./obj_PSP/netrc.o \
+		./obj_PSP/parsedate.o \
+		./obj_PSP/progress.o \
+		./obj_PSP/security.o \
+		./obj_PSP/select.o \
+		./obj_PSP/sendf.o \
+		./obj_PSP/share.o \
+		./obj_PSP/speedcheck.o \
+		./obj_PSP/sslgen.o \
+		./obj_PSP/ssluse.o \
+		./obj_PSP/strequal.o \
+		./obj_PSP/strerror.o \
+		./obj_PSP/strtok.o \
+		./obj_PSP/strtoofft.o \
+		./obj_PSP/telnet.o \
+		./obj_PSP/tftp.o \
+		./obj_PSP/timeval.o \
+		./obj_PSP/transfer.o \
+		./obj_PSP/url.o \
+		./obj_PSP/version.o 
+		
+
+		
+# Files oggetto della libreria gcurl (PSPE)
+
+OBJS_GCURL_PSPE = ./obj_GCURL_PSPE/gcurl_init.o \
+		  ./obj_GCURL_PSPE/gcurl_transferfile.o 
+
+# Files oggetto della libreria gcurl (PSP)
+
+OBJS_GCURL_PSP = ./obj_GCURL_PSP/gcurl_init.o \
+		 ./obj_GCURL_PSP/gcurl_transferfile.o 
+
+
+
+## Path di ricerca per gli headers files
+
+ 
+INC0 = -I".\src" 
+INC1 = -I".\include"
+INC2 = -I".\gcurl_src"
+
+INC3 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC4 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC5 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC6 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include" 
+
+
+
+
+INCLUDE = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6)
+
+
+
+## Flags di compilazione
+
+
+CFLAGS_LIBCFG = -D"STDC_HEADERS" -D"HAVE_GETTIMEOFDAY"
+
+CFLAGS_LIBNDPSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY"
+
+CFLAGS_LIBNDPSP  = -D"PSP_PLATFORM" -D"ND_PSP_KERNEL_MODE_APPLICATION" -D"ND_KERNELSERVICES_TO_USER_MAIN"  -D"ND_LIBRARY"
+
+
+
+CFLAGS_PSPE =  $(CFLAGS_LIBNDPSPE) $(CFLAGS_LIBCFG) -O3 -g -march=mips2 -fomit-frame-pointer -fno-exceptions -mgp32 -mfp32 -msym32 -ffast-math -fshort-double -v -Wall
+
+CFLAGS_PSP  =  $(CFLAGS_LIBNDPSP)  $(CFLAGS_LIBCFG) -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -Wall -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -v
+
+
+
+
+## Compilazione di librerie
+
+all : $(OUTLIB_PSPE) $(OUTLIB_PSP) 
+
+	
+
+$(OUTLIB_PSPE): $(OBJS_PSPE) $(OBJS_GCURL_PSPE)
+	$(LINK) r $(OUTLIB_PSPE) $(OBJS_PSPE) $(OBJS_GCURL_PSPE)
+
+$(OUTLIB_PSP): $(OBJS_PSP) $(OBJS_GCURL_PSP)
+	$(LINK) r $(OUTLIB_PSP) $(OBJS_PSP) $(OBJS_GCURL_PSP)
+
+
+## Compilazione dei moduli CURL per PSPE
+
+./obj_PSPE/base64.o: ./src/base64.c 
+	 $(C) -c ./src/base64.c -o ./obj_PSPE/base64.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/connect.o: ./src/connect.c 
+	 $(C) -c ./src/connect.c -o ./obj_PSPE/connect.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/content_encoding.o: ./src/content_encoding.c 
+	 $(C) -c ./src/content_encoding.c -o ./obj_PSPE/content_encoding.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/cookie.o: ./src/cookie.c 
+	 $(C) -c ./src/cookie.c -o ./obj_PSPE/cookie.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/dict.o: ./src/dict.c 
+	 $(C) -c ./src/dict.c -o ./obj_PSPE/dict.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/easy.o: ./src/easy.c 
+	 $(C) -c ./src/easy.c -o ./obj_PSPE/easy.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/escape.o: ./src/escape.c 
+	 $(C) -c ./src/escape.c -o ./obj_PSPE/escape.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/file.o: ./src/file.c 
+	 $(C) -c ./src/file.c -o ./obj_PSPE/file.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/formdata.o: ./src/formdata.c 
+	 $(C) -c ./src/formdata.c -o ./obj_PSPE/formdata.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/ftp.o: ./src/ftp.c 
+	 $(C) -c ./src/ftp.c -o ./obj_PSPE/ftp.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/getenv.o: ./src/getenv.c 
+	 $(C) -c ./src/getenv.c -o ./obj_PSPE/getenv.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/getinfo.o: ./src/getinfo.c 
+	 $(C) -c ./src/getinfo.c -o ./obj_PSPE/getinfo.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/gtls.o: ./src/gtls.c 
+	 $(C) -c ./src/gtls.c -o ./obj_PSPE/gtls.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/hash.o: ./src/hash.c 
+	 $(C) -c ./src/hash.c -o ./obj_PSPE/hash.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/hostares.o: ./src/hostares.c 
+	 $(C) -c ./src/hostares.c -o ./obj_PSPE/hostares.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/hostasyn.o: ./src/hostasyn.c 
+	 $(C) -c ./src/hostasyn.c -o ./obj_PSPE/hostasyn.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/hostip.o: ./src/hostip.c 
+	 $(C) -c ./src/hostip.c -o ./obj_PSPE/hostip.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/hostip4.o: ./src/hostip4.c 
+	 $(C) -c ./src/hostip4.c -o ./obj_PSPE/hostip4.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/hostip6.o: ./src/hostip6.c 
+	 $(C) -c ./src/hostip6.c -o ./obj_PSPE/hostip6.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/hostsyn.o: ./src/hostsyn.c 
+	 $(C) -c ./src/hostsyn.c -o ./obj_PSPE/hostsyn.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/hostthre.o: ./src/hostthre.c 
+	 $(C) -c ./src/hostthre.c -o ./obj_PSPE/hostthre.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/http.o: ./src/http.c 
+	 $(C) -c ./src/http.c -o ./obj_PSPE/http.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/http_chunks.o: ./src/http_chunks.c 
+	 $(C) -c ./src/http_chunks.c -o ./obj_PSPE/http_chunks.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/http_digest.o: ./src/http_digest.c 
+	 $(C) -c ./src/http_digest.c -o ./obj_PSPE/http_digest.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/http_negotiate.o: ./src/http_negotiate.c 
+	 $(C) -c ./src/http_negotiate.c -o ./obj_PSPE/http_negotiate.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/http_ntlm.o: ./src/http_ntlm.c 
+	 $(C) -c ./src/http_ntlm.c -o ./obj_PSPE/http_ntlm.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/if2ip.o: ./src/if2ip.c 
+	 $(C) -c ./src/if2ip.c -o ./obj_PSPE/if2ip.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/inet_ntop.o: ./src/inet_ntop.c 
+	 $(C) -c ./src/inet_ntop.c -o ./obj_PSPE/inet_ntop.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/inet_pton.o: ./src/inet_pton.c 
+	 $(C) -c ./src/inet_pton.c -o ./obj_PSPE/inet_pton.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/krb4.o: ./src/krb4.c 
+	 $(C) -c ./src/krb4.c -o ./obj_PSPE/krb4.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/ldap.o: ./src/ldap.c 
+	 $(C) -c ./src/ldap.c -o ./obj_PSPE/ldap.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/llist.o: ./src/llist.c 
+	 $(C) -c ./src/llist.c -o ./obj_PSPE/llist.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/md5.o: ./src/md5.c 
+	 $(C) -c ./src/md5.c -o ./obj_PSPE/md5.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/memdebug.o: ./src/memdebug.c 
+	 $(C) -c ./src/memdebug.c -o ./obj_PSPE/memdebug.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/mprintf.o: ./src/mprintf.c 
+	 $(C) -c ./src/mprintf.c -o ./obj_PSPE/mprintf.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/multi.o: ./src/multi.c 
+	 $(C) -c ./src/multi.c -o ./obj_PSPE/multi.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/netrc.o: ./src/netrc.c 
+	 $(C) -c ./src/netrc.c -o ./obj_PSPE/netrc.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/parsedate.o: ./src/parsedate.c 
+	 $(C) -c ./src/parsedate.c -o ./obj_PSPE/parsedate.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/progress.o: ./src/progress.c 
+	 $(C) -c ./src/progress.c -o ./obj_PSPE/progress.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/security.o: ./src/security.c 
+	 $(C) -c ./src/security.c -o ./obj_PSPE/security.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/select.o: ./src/select.c 
+	 $(C) -c ./src/select.c -o ./obj_PSPE/select.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/sendf.o: ./src/sendf.c 
+	 $(C) -c ./src/sendf.c -o ./obj_PSPE/sendf.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/share.o: ./src/share.c 
+	 $(C) -c ./src/share.c -o ./obj_PSPE/share.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/speedcheck.o: ./src/speedcheck.c 
+	 $(C) -c ./src/speedcheck.c -o ./obj_PSPE/speedcheck.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/sslgen.o: ./src/sslgen.c 
+	 $(C) -c ./src/sslgen.c -o ./obj_PSPE/sslgen.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/ssluse.o: ./src/ssluse.c 
+	 $(C) -c ./src/ssluse.c -o ./obj_PSPE/ssluse.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/strequal.o: ./src/strequal.c 
+	 $(C) -c ./src/strequal.c -o ./obj_PSPE/strequal.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/strerror.o: ./src/strerror.c 
+	 $(C) -c ./src/strerror.c -o ./obj_PSPE/strerror.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/strtok.o: ./src/strtok.c 
+	 $(C) -c ./src/strtok.c -o ./obj_PSPE/strtok.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/strtoofft.o: ./src/strtoofft.c 
+	 $(C) -c ./src/strtoofft.c -o ./obj_PSPE/strtoofft.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/telnet.o: ./src/telnet.c 
+	 $(C) -c ./src/telnet.c -o ./obj_PSPE/telnet.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/tftp.o: ./src/tftp.c 
+	 $(C) -c ./src/tftp.c -o ./obj_PSPE/tftp.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/timeval.o: ./src/timeval.c 
+	 $(C) -c ./src/timeval.c -o ./obj_PSPE/timeval.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/transfer.o: ./src/transfer.c 
+	 $(C) -c ./src/transfer.c -o ./obj_PSPE/transfer.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/url.o: ./src/url.c 
+	 $(C) -c ./src/url.c -o ./obj_PSPE/url.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/version.o: ./src/version.c 
+	 $(C) -c ./src/version.c -o ./obj_PSPE/version.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+
+## Compilazione dei moduli GCURL per PSPE
+
+./obj_GCURL_PSPE/gcurl_init.o: ./gcurl_src/gcurl_init.c 
+	 $(C) -c ./gcurl_src/gcurl_init.c -o ./obj_GCURL_PSPE/gcurl_init.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_GCURL_PSPE/gcurl_transferfile.o: ./gcurl_src/gcurl_transferfile.c 
+	 $(C) -c ./gcurl_src/gcurl_transferfile.c -o ./obj_GCURL_PSPE/gcurl_transferfile.o $(CFLAGS_PSPE) $(INCLUDE)
+
+
+
+
+
+## Compilazione dei moduli CURL per PSP
+
+./obj_PSP/base64.o: ./src/base64.c 
+	 $(C) -c ./src/base64.c -o ./obj_PSP/base64.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/connect.o: ./src/connect.c 
+	 $(C) -c ./src/connect.c -o ./obj_PSP/connect.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/content_encoding.o: ./src/content_encoding.c 
+	 $(C) -c ./src/content_encoding.c -o ./obj_PSP/content_encoding.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/cookie.o: ./src/cookie.c 
+	 $(C) -c ./src/cookie.c -o ./obj_PSP/cookie.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/dict.o: ./src/dict.c 
+	 $(C) -c ./src/dict.c -o ./obj_PSP/dict.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/easy.o: ./src/easy.c 
+	 $(C) -c ./src/easy.c -o ./obj_PSP/easy.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/escape.o: ./src/escape.c 
+	 $(C) -c ./src/escape.c -o ./obj_PSP/escape.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/file.o: ./src/file.c 
+	 $(C) -c ./src/file.c -o ./obj_PSP/file.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/formdata.o: ./src/formdata.c 
+	 $(C) -c ./src/formdata.c -o ./obj_PSP/formdata.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/ftp.o: ./src/ftp.c 
+	 $(C) -c ./src/ftp.c -o ./obj_PSP/ftp.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/getenv.o: ./src/getenv.c 
+	 $(C) -c ./src/getenv.c -o ./obj_PSP/getenv.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/getinfo.o: ./src/getinfo.c 
+	 $(C) -c ./src/getinfo.c -o ./obj_PSP/getinfo.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/gtls.o: ./src/gtls.c 
+	 $(C) -c ./src/gtls.c -o ./obj_PSP/gtls.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/hash.o: ./src/hash.c 
+	 $(C) -c ./src/hash.c -o ./obj_PSP/hash.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/hostares.o: ./src/hostares.c 
+	 $(C) -c ./src/hostares.c -o ./obj_PSP/hostares.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/hostasyn.o: ./src/hostasyn.c 
+	 $(C) -c ./src/hostasyn.c -o ./obj_PSP/hostasyn.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/hostip.o: ./src/hostip.c 
+	 $(C) -c ./src/hostip.c -o ./obj_PSP/hostip.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/hostip4.o: ./src/hostip4.c 
+	 $(C) -c ./src/hostip4.c -o ./obj_PSP/hostip4.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/hostip6.o: ./src/hostip6.c 
+	 $(C) -c ./src/hostip6.c -o ./obj_PSP/hostip6.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/hostsyn.o: ./src/hostsyn.c 
+	 $(C) -c ./src/hostsyn.c -o ./obj_PSP/hostsyn.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/hostthre.o: ./src/hostthre.c 
+	 $(C) -c ./src/hostthre.c -o ./obj_PSP/hostthre.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/http.o: ./src/http.c 
+	 $(C) -c ./src/http.c -o ./obj_PSP/http.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/http_chunks.o: ./src/http_chunks.c 
+	 $(C) -c ./src/http_chunks.c -o ./obj_PSP/http_chunks.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/http_digest.o: ./src/http_digest.c 
+	 $(C) -c ./src/http_digest.c -o ./obj_PSP/http_digest.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/http_negotiate.o: ./src/http_negotiate.c 
+	 $(C) -c ./src/http_negotiate.c -o ./obj_PSP/http_negotiate.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/http_ntlm.o: ./src/http_ntlm.c 
+	 $(C) -c ./src/http_ntlm.c -o ./obj_PSP/http_ntlm.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/if2ip.o: ./src/if2ip.c 
+	 $(C) -c ./src/if2ip.c -o ./obj_PSP/if2ip.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/inet_ntop.o: ./src/inet_ntop.c 
+	 $(C) -c ./src/inet_ntop.c -o ./obj_PSP/inet_ntop.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/inet_pton.o: ./src/inet_pton.c 
+	 $(C) -c ./src/inet_pton.c -o ./obj_PSP/inet_pton.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/krb4.o: ./src/krb4.c 
+	 $(C) -c ./src/krb4.c -o ./obj_PSP/krb4.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/ldap.o: ./src/ldap.c 
+	 $(C) -c ./src/ldap.c -o ./obj_PSP/ldap.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/llist.o: ./src/llist.c 
+	 $(C) -c ./src/llist.c -o ./obj_PSP/llist.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/md5.o: ./src/md5.c 
+	 $(C) -c ./src/md5.c -o ./obj_PSP/md5.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/memdebug.o: ./src/memdebug.c 
+	 $(C) -c ./src/memdebug.c -o ./obj_PSP/memdebug.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/mprintf.o: ./src/mprintf.c 
+	 $(C) -c ./src/mprintf.c -o ./obj_PSP/mprintf.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/multi.o: ./src/multi.c 
+	 $(C) -c ./src/multi.c -o ./obj_PSP/multi.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/netrc.o: ./src/netrc.c 
+	 $(C) -c ./src/netrc.c -o ./obj_PSP/netrc.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/parsedate.o: ./src/parsedate.c 
+	 $(C) -c ./src/parsedate.c -o ./obj_PSP/parsedate.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/progress.o: ./src/progress.c 
+	 $(C) -c ./src/progress.c -o ./obj_PSP/progress.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/security.o: ./src/security.c 
+	 $(C) -c ./src/security.c -o ./obj_PSP/security.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/select.o: ./src/select.c 
+	 $(C) -c ./src/select.c -o ./obj_PSP/select.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/sendf.o: ./src/sendf.c 
+	 $(C) -c ./src/sendf.c -o ./obj_PSP/sendf.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/share.o: ./src/share.c 
+	 $(C) -c ./src/share.c -o ./obj_PSP/share.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/speedcheck.o: ./src/speedcheck.c 
+	 $(C) -c ./src/speedcheck.c -o ./obj_PSP/speedcheck.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/sslgen.o: ./src/sslgen.c 
+	 $(C) -c ./src/sslgen.c -o ./obj_PSP/sslgen.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/ssluse.o: ./src/ssluse.c 
+	 $(C) -c ./src/ssluse.c -o ./obj_PSP/ssluse.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/strequal.o: ./src/strequal.c 
+	 $(C) -c ./src/strequal.c -o ./obj_PSP/strequal.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/strerror.o: ./src/strerror.c 
+	 $(C) -c ./src/strerror.c -o ./obj_PSP/strerror.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/strtok.o: ./src/strtok.c 
+	 $(C) -c ./src/strtok.c -o ./obj_PSP/strtok.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/strtoofft.o: ./src/strtoofft.c 
+	 $(C) -c ./src/strtoofft.c -o ./obj_PSP/strtoofft.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/telnet.o: ./src/telnet.c 
+	 $(C) -c ./src/telnet.c -o ./obj_PSP/telnet.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/tftp.o: ./src/tftp.c 
+	 $(C) -c ./src/tftp.c -o ./obj_PSP/tftp.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/timeval.o: ./src/timeval.c 
+	 $(C) -c ./src/timeval.c -o ./obj_PSP/timeval.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/transfer.o: ./src/transfer.c 
+	 $(C) -c ./src/transfer.c -o ./obj_PSP/transfer.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/url.o: ./src/url.c 
+	 $(C) -c ./src/url.c -o ./obj_PSP/url.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/version.o: ./src/version.c 
+	 $(C) -c ./src/version.c -o ./obj_PSP/version.o $(CFLAGS_PSP) $(INCLUDE) 
+
+
+## Compilazione dei moduli GCURL per PSP
+
+./obj_GCURL_PSP/gcurl_init.o: ./gcurl_src/gcurl_init.c 
+	 $(C) -c ./gcurl_src/gcurl_init.c -o ./obj_GCURL_PSP/gcurl_init.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_GCURL_PSP/gcurl_transferfile.o: ./gcurl_src/gcurl_transferfile.c 
+	 $(C) -c ./gcurl_src/gcurl_transferfile.c -o ./obj_GCURL_PSP/gcurl_transferfile.o $(CFLAGS_PSP) $(INCLUDE)
+
+
+
+

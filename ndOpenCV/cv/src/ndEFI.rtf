@@ -1,0 +1,364 @@
+{\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fcharset0 Arial;}{\f1\fswiss\fprq2\fcharset0 Tahoma;}{\f2\fswiss\fprq2\fcharset0 Arial;}}
+{\*\generator Msftedit 5.41.15.1507;}\viewkind4\uc1\pard\lang1040\f0\fs20\par
+\b\fs28 Nanodesktop EFI (Enhanced Fast Integrator)\par
+\i\fs20 (By Filippo Battaglia)\par
+\i0\fs28\par
+\b0\fs20 Nanodesktop can accelerate OpenCV computations, using VFPU \par
+support (available only under PSP). \par
+\par
+The acceleration operate in cvsumpixels.cpp. \par
+\par
+At row 260 the original OpenCV shows this code. \par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+It is possible to demostrate that this code is identical to this:\par
+\par
+     \b\f1\fs16 register int      _my_t;\par
+       register int      _my_tq;  \par
+       register int      _my_s;\par
+       register int      _my_sq; \par
+       \par
+       register uchar*   _SRC0;\par
+       \par
+       register int      *_SUM0;\par
+       register float    *_SQSUM0;\par
+       \par
+       register int      *_PRSUM0;\par
+       register float    *_PRSQSUM0;  \par
+          \par
+       _SRC0     = src;\par
+       _SUM0     = sum;\par
+       _SQSUM0   = sqsum;\par
+       _PRSUM0   = sum - sumstep;\par
+       _PRSQSUM0 = sqsum - sqsumstep;\par
+       \par
+       for( y = 0; y < size.height; y++,      _SRC0 += srcstep,      \par
+                        _SUM0   += sumstep,   _SQSUM0 += sqsumstep, \par
+                        _PRSUM0 += sumstep,   _PRSQSUM0 += sqsumstep)   \par
+       \{                                                      \par
+            _SUM0[-1] = 0;                                       \par
+            _SQSUM0[-1] = 0;    \par
+                                                                                             \par
+            for( x = 0, _my_s = 0, _my_sq = 0; x < size.width; x++ )   \par
+            \{                                                                         \par
+                _my_t  = _SRC0 [x];                    \par
+                _my_tq = (_my_t)*(_my_t); \par
+                \par
+                // Se it \'e8 intero, non esiste motivo perch\'e8 il risultato sia\par
+                // memorizzato in un double, come fanno le OpenCV originali\par
+                            \par
+                _my_s  += _my_t;                                        \par
+                _my_sq += _my_tq; \par
+                \par
+                _SUM0[x]    = _PRSUM0   [x] + _my_s;                                    \par
+                _SQSUM0[x]  = _PRSQSUM0 [x] + (float)(_my_sq);                                     \par
+            \}                                                  \par
+        \} \par
+\par
+\par
+\b0\f2\fs20 The first step in this work is to modify the previous code in the\par
+following way:\par
+\par
+\b\f1        \fs16 register int      _my_t;\par
+       register int      _my_tq;  \par
+       register int      _my_s;\par
+       register int      _my_sq; \par
+       \par
+       register uchar*   _SRC0;\par
+       \par
+       register int      *_SUM0;\par
+       register float    *_SQSUM0;\par
+       \par
+       register int      *_PRSUM0;\par
+       register float    *_PRSQSUM0;  \par
+          \par
+       _SRC0     = src;\par
+       _SUM0     = sum;\par
+       _SQSUM0   = sqsum;\par
+       _PRSUM0   = sum - sumstep;\par
+       _PRSQSUM0 = sqsum - sqsumstep;\par
+       \par
+       for( y = 0; y < size.height; y++,      _SRC0 += srcstep,      \par
+                        _SUM0   += sumstep,   _SQSUM0 += sqsumstep, \par
+                        _PRSUM0 += sumstep,   _PRSQSUM0 += sqsumstep)   \par
+       \{                                                      \par
+            _SUM0[-1] = 0;                                       \par
+            _SQSUM0[-1] = 0;    \par
+                                                                                             \par
+            NrBlocks     = size.width / 16;\par
+            OffsetBlocks = size.width % 16;\par
+            \par
+            for (px0 = 0, _my_s = 0, _my_sq = 0; px0 < NrBlocks; px0++)\par
+            \{\par
+                  for (px1 = 0; px1 < 16; px1++)\par
+                  \{\par
+                       PixelX = px0*16 + px1;\par
+                       \par
+                       _my_t  = _SRC0 [PixelX];                    \par
+                       _my_tq = (_my_t)*(_my_t); \par
+                \par
+                       // Se it \'e8 intero, non esiste motivo perch\'e8 il risultato sia\par
+                       // memorizzato in un double, come fanno le OpenCV originali\par
+                            \par
+                       _my_s  += _my_t;                                        \par
+                       _my_sq += _my_tq; \par
+                \par
+                       _SUM0[PixelX]    = _PRSUM0   [PixelX] + _my_s;                                    \par
+                       _SQSUM0[PixelX]  = _PRSQSUM0 [PixelX] + (float)(_my_sq);  \par
+                  \}  \par
+            \}\par
+            \par
+            // Analisi dell'offset\par
+            \par
+            for (px1 = 0; px1 < OffsetBlocks; px1++)\par
+            \{\par
+                 PixelX = NrBlocks*16 + px1;\par
+                   \par
+                 _my_t  = _SRC0 [PixelX];                    \par
+                 _my_tq = (_my_t)*(_my_t); \par
+            \par
+                 // Se it \'e8 intero, non esiste motivo perch\'e8 il risultato sia\par
+                 // memorizzato in un double, come fanno le OpenCV originali\par
+                        \par
+                 _my_s  += _my_t;                                        \par
+                 _my_sq += _my_tq; \par
+            \par
+                 _SUM0[PixelX]    = _PRSUM0   [PixelX] + _my_s;                                    \par
+                 _SQSUM0[PixelX]  = _PRSQSUM0 [PixelX] + (float)(_my_sq);  \par
+            \}\par
+                                                              \par
+        \}  \par
+\par
+\par
+\b0\fs20 The result is the same, but now each row is divided in groups of\par
+16 pixels. \par
+\par
+The second step, modify the code in a way that allows the use\par
+of ndHAL_XFPU routines. The analysis is now trasformed in\par
+a matricial troubles. It is possible to demonstrate that this\par
+matricial approach is equivalent to classic approach.\par
+\par
+The new code appears as this:\par
+\par
+\b\fs16 for( y = 0; y < size.height; y++,      _SRC0 += srcstep,      \par
+                        _SUM0   += sumstep,   _SQSUM0 += sqsumstep, \par
+                        _PRSUM0 += sumstep,   _PRSQSUM0 += sqsumstep)   \par
+       \{                                                      \par
+            _SUM0[-1] = 0;                                       \par
+            _SQSUM0[-1] = 0;    \par
+                                                                                             \par
+            NrBlocks     = size.width / 16;\par
+            OffsetBlocks = size.width % 16;\par
+            \par
+            float CarryIn0 = 0;\par
+            float CarryIn1 = 0;\par
+            float CarryOut0 = 0;\par
+            float CarryOut1 = 0;\par
+                  \par
+            for (px0 = 0, _my_s = 0, _my_sq = 0; px0 < NrBlocks; px0++)\par
+            \{\par
+                       #define _MY_T_MATRIX        0\par
+                       #define _MY_TQ_MATRIX       1\par
+                       #define _MY_PRSUM_MATRIX    2\par
+                       #define _MY_PRSQSUM_MATRIX  3\par
+                       #define _MY_S_MATRIX        4\par
+                       #define _MY_SQ_MATRIX       5 \par
+                       \par
+                       \par
+                       PixelX = px0*16;\par
+                       \par
+                       ndHAL_XFPU_Load16UCharsToMatrix (_MY_T_MATRIX, _SRC0 + PixelX);\par
+                       // Equivalente all'istruzione: _my_t  = _SRC0 [PixelX];   \par
+                       \par
+                       ndHAL_XFPU_MatrixCpy (_MY_TQ_MATRIX, _MY_T_MATRIX);\par
+                       ndHAL_XFPU_MatrixPseudoSqr (_MY_TQ_MATRIX);\par
+                       // Equivalente all'istruzione: _my_tq = (_my_t)*(_my_t); \par
+                       \par
+                       ndHAL_XFPU_SequentialAdder (&CarryIn0, _MY_S_MATRIX, _MY_T_MATRIX, &CarryOut0);\par
+                       // Equivalente all'istruzione: _my_s  += _my_t;  \par
+                       \par
+                       ndHAL_XFPU_SequentialAdder (&CarryIn1, _MY_SQ_MATRIX, _MY_TQ_MATRIX, &CarryOut1);\par
+                       // Equivalente all'istruzione: _my_sq += _my_tq; \par
+                       \par
+                       ndHAL_XFPU_Load16IntsToMatrix (_MY_PRSUM_MATRIX, _PRSUM0 + PixelX);\par
+                       ndHAL_XFPU_Load16FloatsToMatrix (_MY_PRSQSUM_MATRIX, _PRSQSUM0 + PixelX);\par
+                       // Carica nelle matrici apposite il contenuto dei 16 bytes e 16 quadrati\par
+                       // di bytes "precedenti"\par
+                       \par
+                       ndHAL_XFPU_MatrixSum (_MY_S_MATRIX,  _MY_PRSUM_MATRIX);\par
+                       // Equivalente all'istruzione: x1 = _PRSUM0   [PixelX] + _my_s;\par
+                       \par
+                       ndHAL_XFPU_Store16IntsToMatrix (_MY_S_MATRIX, _SUM0 + PixelX);\par
+                       // Salva il risultato dei calcoli precedenti: equivalente all'istruzione\par
+                       // _SUM0[PixelX] = x1\par
+                       \par
+                       ndHAL_XFPU_MatrixSum (_MY_SQ_MATRIX, _MY_PRSQSUM_MATRIX);\par
+                       // Equivalente all'istruzione: x2 = _PRSQSUM0 [PixelX] + (float)(_my_sq);\par
+                       \par
+                       ndHAL_XFPU_Store16FloatsFromMatrix (_MY_SQ_MATRIX, _SQSUM0 + PixelX);\par
+                       // Salva il risultato dei calcoli precedenti: equivalente all'istruzione\par
+                       // _SQSUM0[PixelX] = x2\par
+                       \par
+                       CarryIn0 = CarryOut0;\par
+                       CarryIn1 = CarryOut1;\par
+                       \par
+                       #undef _MY_T_MATRIX        0\par
+                       #undef _MY_TQ_MATRIX       1\par
+                       #undef _MY_PRSUM_MATRIX    2\par
+                       #undef _MY_PRSQSUM_MATRIX  3\par
+                       #undef _MY_S_MATRIX        4\par
+                       #undef _MY_SQ_MATRIX       5 \par
+                     \par
+            \}\par
+            \par
+            // Analisi dell'offset\par
+            \par
+            _my_s  = (int) CarryOut0;\par
+            _my_sq = (int) CarryOut1;\par
+            \par
+            for (px1 = 0; px1 < OffsetBlocks; px1++)\par
+            \{\par
+                 PixelX = NrBlocks*16 + px1;\par
+                   \par
+                 _my_t  = _SRC0 [PixelX];                    \par
+                 _my_tq = (_my_t)*(_my_t); \par
+            \par
+                 // Se it \'e8 intero, non esiste motivo perch\'e8 il risultato sia\par
+                 // memorizzato in un double, come fanno le OpenCV originali\par
+                        \par
+                 _my_s  += _my_t;                                        \par
+                 _my_sq += _my_tq; \par
+            \par
+                 _SUM0[PixelX]    = _PRSUM0   [PixelX] + _my_s;                                    \par
+                 _SQSUM0[PixelX]  = _PRSQSUM0 [PixelX] + (float)(_my_sq);  \par
+            \}\par
+                                                              \par
+        \}   \par
+\par
+\par
+\b0\f2\fs20 The code can be changed to make it more readable:\par
+\par
+\b\f1\fs16 register int      _my_t;\par
+       register int      _my_tq;  \par
+       register int      _my_s;\par
+       register int      _my_sq; \par
+       \par
+       register uchar    *adr_SrcData;\par
+       \par
+       register int      *adr_Sum;\par
+       register float    *adr_SquareSum;\par
+       \par
+       register int      *adr_PrevSum;\par
+       register float    *adr_PrevSquareSum;  \par
+          \par
+       adr_SrcData       = src;\par
+       adr_Sum           = sum;\par
+       adr_SquareSum     = sqsum;\par
+       adr_PrevSum       = sum - sumstep;\par
+       adr_PrevSquareSum = sqsum - sqsumstep;\par
+       \par
+       for( y = 0; y < size.height; y++,          adr_SrcData += srcstep,      \par
+                        adr_Sum   += sumstep,     adr_SquareSum += sqsumstep, \par
+                        adr_PrevSum += sumstep,   adr_PrevSquareSum += sqsumstep)   \par
+       \{                                                      \par
+            adr_Sum[-1] = 0;                                       \par
+            adr_SquareSum[-1] = 0;    \par
+                                                                                             \par
+            NrBlocks     = size.width / 16;\par
+            OffsetBlocks = size.width % 16;\par
+            \par
+            float CarryIn0  = 0;\par
+            float CarryIn1  = 0;\par
+            float CarryOut0 = 0;\par
+            float CarryOut1 = 0;\par
+                  \par
+            for (px0 = 0, _my_s = 0, _my_sq = 0; px0 < NrBlocks; px0++)\par
+            \{\par
+                       #define _MY_T_MATRIX        0\par
+                       #define _MY_TQ_MATRIX       1\par
+                       #define _MY_PRSUM_MATRIX    2\par
+                       #define _MY_PRSQSUM_MATRIX  3\par
+                       #define _MY_S_MATRIX        4\par
+                       #define _MY_SQ_MATRIX       5 \par
+                       \par
+                       \par
+                       PixelX = px0*16;\par
+                       \par
+                       ndHAL_XFPU_Load16UCharsToMatrix (_MY_T_MATRIX, adr_SrcData + PixelX);\par
+                       // Equivalente all'istruzione: _my_t  = adr_SrcData [PixelX];   \par
+                       \par
+                       ndHAL_XFPU_MatrixCpy (_MY_TQ_MATRIX, _MY_T_MATRIX);\par
+                       ndHAL_XFPU_MatrixPseudoSqr (_MY_TQ_MATRIX);\par
+                       // Equivalente all'istruzione: _my_tq = (_my_t)*(_my_t); \par
+                       \par
+                       ndHAL_XFPU_SequentialAdder (&CarryIn0, _MY_S_MATRIX, _MY_T_MATRIX, &CarryOut0);\par
+                       // Equivalente all'istruzione: _my_s  += _my_t;  \par
+                       \par
+                       ndHAL_XFPU_SequentialAdder (&CarryIn1, _MY_SQ_MATRIX, _MY_TQ_MATRIX, &CarryOut1);\par
+                       // Equivalente all'istruzione: _my_sq += _my_tq; \par
+                       \par
+                       ndHAL_XFPU_Load16IntsToMatrix (_MY_PRSUM_MATRIX, adr_PrevSum + PixelX);\par
+                       ndHAL_XFPU_Load16FloatsToMatrix (_MY_PRSQSUM_MATRIX, adr_PrevSquareSum + PixelX);\par
+                       // Carica nelle matrici apposite il contenuto dei 16 bytes e 16 quadrati\par
+                       // di bytes "precedenti"\par
+                       \par
+                       ndHAL_XFPU_MatrixSum (_MY_S_MATRIX,  _MY_PRSUM_MATRIX);\par
+                       // Equivalente all'istruzione: x1 = adr_PrevSum   [PixelX] + _my_s;\par
+                       \par
+                       ndHAL_XFPU_Store16IntsToMatrix (_MY_S_MATRIX, adr_Sum + PixelX);\par
+                       // Salva il risultato dei calcoli precedenti: equivalente all'istruzione\par
+                       // adr_Sum[PixelX] = x1\par
+                       \par
+                       ndHAL_XFPU_MatrixSum (_MY_SQ_MATRIX, _MY_PRSQSUM_MATRIX);\par
+                       // Equivalente all'istruzione: x2 = adr_PrevSquareSum [PixelX] + (float)(_my_sq);\par
+                       \par
+                       ndHAL_XFPU_Store16FloatsFromMatrix (_MY_SQ_MATRIX, adr_SquareSum + PixelX);\par
+                       // Salva il risultato dei calcoli precedenti: equivalente all'istruzione\par
+                       // adr_SquareSum[PixelX] = x2\par
+                       \par
+                       CarryIn0 = CarryOut0;\par
+                       CarryIn1 = CarryOut1;\par
+                       \par
+                       #undef _MY_T_MATRIX        0\par
+                       #undef _MY_TQ_MATRIX       1\par
+                       #undef _MY_PRSUM_MATRIX    2\par
+                       #undef _MY_PRSQSUM_MATRIX  3\par
+                       #undef _MY_S_MATRIX        4\par
+                       #undef _MY_SQ_MATRIX       5 \par
+                     \par
+            \}\par
+            \par
+            // Analisi dell'offset\par
+            \par
+            _my_s  = (int) CarryOut0;\par
+            _my_sq = (int) CarryOut1;\par
+            \par
+            for (px1 = 0; px1 < OffsetBlocks; px1++)\par
+            \{\par
+                 PixelX = NrBlocks*16 + px1;\par
+                   \par
+                 _my_t  = adr_SrcData [PixelX];                    \par
+                 _my_tq = (_my_t)*(_my_t); \par
+            \par
+                 // Se it \'e8 intero, non esiste motivo perch\'e8 il risultato sia\par
+                 // memorizzato in un double, come fanno le OpenCV originali\par
+                        \par
+                 _my_s  += _my_t;                                        \par
+                 _my_sq += _my_tq; \par
+            \par
+                 adr_Sum[PixelX]        = adr_PrevSum       [PixelX] + _my_s;                                    \par
+                 adr_SquareSum[PixelX]  = adr_PrevSquareSum [PixelX] + (float)(_my_sq);  \par
+            \}\par
+                                                              \par
+        \}   \par
+\par
+\par
+\par
+\par
+}
+ 

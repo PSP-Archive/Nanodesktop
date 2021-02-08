@@ -1,0 +1,1844 @@
+#   ---------------------------------------------------------------------------
+#   Libreria NanoDesktop (PSP/PSPE)
+#   ---------------------------------------------------------------------------
+#   
+#   La libreria Nanodesktop fornisce un completo ambiente grafico a finestre 
+#   per PSP/PSPE.
+#
+#   Il Copyright della libreria appartiene a Filippo Battaglia.
+#
+#   Per dettagli sulla licenza d'uso, si veda il file license.doc nella
+#   directory Nanodesktop/src
+#   ----------------------------------------------------------------------------
+
+
+
+# Makefile for GNU C/C++ 3.x or later
+
+C  = psp-gcc
+AR = psp-ar
+
+OUTLIB_PSPE   	         = ../lib/libnanodesktop_PSPE.a
+OUTLIB_DEVIL_PSPE        = ../lib/libnanodesktop_DEVIL_PSPE.a
+OUTLIB_DEVILTTF_PSPE     = ../lib/libnanodesktop_DEVILTTF_PSPE.a
+
+OUTLIB_PSP               = ../lib/libnanodesktop_PSP.a
+OUTLIB_DEVIL_PSP         = ../lib/libnanodesktop_DEVIL_PSP.a
+OUTLIB_DEVILTTF_PSP      = ../lib/libnanodesktop_DEVILTTF_PSP.a
+
+OUTLIB_KSU_PSP        	 = ../lib/libnanodesktop_KSU_PSP.a
+OUTLIB_DEVIL_KSU_PSP  	 = ../lib/libnanodesktop_DEVIL_KSU_PSP.a
+OUTLIB_DEVILTTF_KSU_PSP  = ../lib/libnanodesktop_DEVILTTF_KSU_PSP.a
+
+OUTLIB_CFW_PSP           = ../lib/libnanodesktop_CFW_PSP.a
+OUTLIB_DEVIL_CFW_PSP     = ../lib/libnanodesktop_DEVIL_CFW_PSP.a
+OUTLIB_DEVILTTF_CFW_PSP  = ../lib/libnanodesktop_DEVILTTF_CFW_PSP.a
+
+
+## Componenti driver PRX
+
+PRX_USB_FILES_DIR   = ./3rdparty_modules/USB_PRX_Driver
+
+PRX_USBCF_FILES_DIR = ./3rdparty_modules/USB_PRX_Driver_for_CF
+
+PRX_USB_FILES   = $(PRX_USB_FILES_DIR)/prx_coredriver.c   $(PRX_USB_FILES_DIR)/prx_hostfs.c   $(PRX_USB_FILES_DIR)/prx_ndbridgefunc.c 
+
+PRX_USBCF_FILES = $(PRX_USBCF_FILES_DIR)/prx_coredriver.c $(PRX_USBCF_FILES_DIR)/prx_hostfs.c $(PRX_USBCF_FILES_DIR)/prx_ndbridgefunc.c 
+
+
+
+
+PRX_KRN_EXTENDER_FILES_DIR = ./3rdparty_modules/KernelExtender_PRX_Driver_v1
+
+PRX_KRN_EXTENDER_FILES = $(PRX_KRN_EXTENDER_FILES_DIR)/ndkrnext_coredriver.c 
+
+
+## File oggetto degli HAL
+
+OBJ_HAL_PSPE  =  	../obj_HAL/obj_HAL_PSPE/ndHAL_InitPlatform.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_Color.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_Controller.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_Delay.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_FileSystem.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_Graphics.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_Info.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_IrApi.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_Irda.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_InitComponents.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_Mouse.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_RawIR.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_SystemCalls.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_WindowsRender.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_PhoenixGraph.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_PhoenixMouse.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_ExitManager.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_MouseCtrl_NoPhoenix.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_MouseCtrl_Phoenix.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_VirtualKeyboard.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_VirtualKeyboard_1.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_UsbApi.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_WebCam.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_Sound.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_Media.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_Posix.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_Power.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_LLNetwork.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_Network.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_NetworkStd.o \
+			../obj_HAL/obj_HAL_PSPE/ndHAL_CppConstructors.o 
+			
+
+OBJ_HAL_PSP     =  	../obj_HAL/obj_HAL_PSP/ndHAL_InitPlatform.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_Color.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_Controller.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_Delay.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_FileSystem.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_Graphics.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_Info.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_IrApi.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_Irda.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_InitComponents.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_Mouse.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_RawIR.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_SystemCalls.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_WindowsRender.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_PhoenixGraph.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_PhoenixMouse.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_ExitManager.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_MouseCtrl_NoPhoenix.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_MouseCtrl_Phoenix.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_VirtualKeyboard.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_VirtualKeyboard_1.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_UsbApi.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_WebCam.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_LLNetwork.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_Network.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_NetworkStd.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_Sound.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_Media.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_Posix.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_Power.o \
+			../obj_HAL/obj_HAL_PSP/ndHAL_CppConstructors.o 
+			
+
+OBJ_HAL_KSU_PSP = 	../obj_HAL/obj_HAL_KSU_PSP/ndHAL_InitPlatform.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Color.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Controller.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Delay.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_FileSystem.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Graphics.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Info.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_IrApi.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Irda.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_InitComponents.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Mouse.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_RawIR.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_SystemCalls.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_WindowsRender.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_PhoenixGraph.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_PhoenixMouse.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_MouseCtrl_NoPhoenix.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_MouseCtrl_Phoenix.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_ExitManager.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_VirtualKeyboard.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_VirtualKeyboard_1.o  \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_KSU_Services.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_KSU_BootManager.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_UsbInternals.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_UsbApi.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_UsbDev0.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_UsbDev1.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_WebCam.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_WebCam0.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_WebCam1.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_LLNetwork.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Network.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_NetworkStd.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Firmware.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Sound.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Media.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Posix.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Power.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndHAL_CppConstructors.o \
+			../obj_HAL/obj_HAL_KSU_PSP/ndUSBDriver.o \
+			../obj_HAL/obj_HAL_KSU_PSP/netstubs.o \
+			../obj_HAL/obj_HAL_KSU_PSP/audiostubs.o
+			
+
+OBJ_HAL_CFW_PSP = 	../obj_HAL/obj_HAL_CFW_PSP/ndHAL_InitPlatform.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Color.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Controller.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Delay.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_FileSystem.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Graphics.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Info.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_IrApi.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Irda.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_InitComponents.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Mouse.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_RawIR.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_SystemCalls.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_WindowsRender.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_PhoenixGraph.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_PhoenixMouse.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_MouseCtrl_NoPhoenix.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_MouseCtrl_Phoenix.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_ExitManager.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_VirtualKeyboard.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_VirtualKeyboard_1.o  \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_UsbInternals.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_UsbApi.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_UsbDev0.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_UsbDev1.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_WebCam.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_WebCam0.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_WebCam1.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_LLNetwork.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Network.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_NetworkStd.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Firmware.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Sound.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Media.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Posix.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Power.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_HwJpegDecoder.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_KernelExtenderAPI.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndHAL_CppConstructors.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndUSBDriverCF.o \
+			../obj_HAL/obj_HAL_CFW_PSP/ndKRNExtender.o \
+			../obj_HAL/obj_HAL_CFW_PSP/netstubs.o \
+			../obj_HAL/obj_HAL_CFW_PSP/sceusbmicstubs.o \
+			../obj_HAL/obj_HAL_CFW_PSP/sceutilitystubs.o
+
+
+OBJ_CODE_PSPE = 	../obj_CODE/obj_CODE_PSPE/ndCODE_Init.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_AddressList.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_Aux.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_BaseScreen.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_ClassList.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_CommonDialogBoxFM.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_CustomButtons.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_FileList.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_FileSupport.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_Fonts.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_IconList.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_ImageSupport.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_InfoApi.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_L1L2WinMenuList.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_L1WinMenuList.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_L2WinMenuList.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_LogicalPage.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_LowLevel.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_MouseCtrl.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_NameTest.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_NdKeys.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_NNM.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_PosGen.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_RDestroyDir.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_ServiceSpace.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_StdIn.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_StdOut.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_String.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_SystemCalls.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_T1FileManager.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_T2FileManager.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_FileManager.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_Thumbs.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_TrackBar.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_WindowSpace.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_WinMenuAPI.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_WinMenuGraph.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_TextBox.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_ListBox.o \
+			../obj_CODE/obj_CODE_PSPE/ndCODE_CBox.o
+
+
+OBJ_CODE_DEVIL_PSPE =   ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_Init.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_AddressList.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_Aux.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_BaseScreen.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_ClassList.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_CommonDialogBoxFM.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_CustomButtons.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_FileList.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_FileSupport.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_Fonts.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_IconList.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_ImageSupport.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_InfoApi.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_L1L2WinMenuList.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_L1WinMenuList.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_L2WinMenuList.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_LogicalPage.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_LowLevel.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_MouseCtrl.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_NameTest.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_NdKeys.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_NNM.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_PosGen.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_RDestroyDir.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_ServiceSpace.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_StdIn.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_StdOut.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_String.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_SystemCalls.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_T1FileManager.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_T2FileManager.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_FileManager.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_Thumbs.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_TrackBar.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_WindowSpace.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_WinMenuAPI.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_WinMenuGraph.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_TextBox.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_ListBox.o \
+			../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_CBox.o
+			
+OBJ_CODE_DEVILTTF_PSPE =../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_Init.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_AddressList.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_Aux.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_BaseScreen.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_ClassList.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_CommonDialogBoxFM.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_CustomButtons.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_FileList.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_FileSupport.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_Fonts.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_IconList.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_ImageSupport.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_InfoApi.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_L1L2WinMenuList.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_L1WinMenuList.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_L2WinMenuList.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_LogicalPage.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_LowLevel.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_MouseCtrl.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_NameTest.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_NdKeys.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_NNM.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_PosGen.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_RDestroyDir.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_ServiceSpace.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_StdIn.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_StdOut.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_String.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_SystemCalls.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_T1FileManager.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_T2FileManager.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_FileManager.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_Thumbs.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_TrackBar.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_WindowSpace.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_WinMenuAPI.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_WinMenuGraph.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_TextBox.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_ListBox.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_CBox.o
+
+
+
+
+OBJ_CODE_PSP  = 	../obj_CODE/obj_CODE_PSP/ndCODE_Init.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_AddressList.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_Aux.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_BaseScreen.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_ClassList.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_CommonDialogBoxFM.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_CustomButtons.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_FileList.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_FileSupport.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_Fonts.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_IconList.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_ImageSupport.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_InfoApi.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_L1L2WinMenuList.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_L1WinMenuList.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_L2WinMenuList.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_LogicalPage.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_LowLevel.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_MouseCtrl.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_NameTest.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_NdKeys.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_NNM.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_PosGen.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_RDestroyDir.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_ServiceSpace.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_StdIn.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_StdOut.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_String.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_SystemCalls.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_T1FileManager.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_T2FileManager.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_FileManager.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_Thumbs.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_TrackBar.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_WindowSpace.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_WinMenuAPI.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_WinMenuGraph.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_TextBox.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_ListBox.o \
+			../obj_CODE/obj_CODE_PSP/ndCODE_CBox.o
+
+OBJ_CODE_DEVIL_PSP  = 	../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_Init.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_AddressList.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_Aux.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_BaseScreen.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_ClassList.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_CommonDialogBoxFM.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_CustomButtons.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_FileList.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_FileSupport.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_Fonts.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_IconList.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_ImageSupport.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_InfoApi.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_L1L2WinMenuList.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_L1WinMenuList.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_L2WinMenuList.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_LogicalPage.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_LowLevel.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_MouseCtrl.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_NameTest.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_NdKeys.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_NNM.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_PosGen.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_RDestroyDir.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_ServiceSpace.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_StdIn.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_StdOut.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_String.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_SystemCalls.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_T1FileManager.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_T2FileManager.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_FileManager.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_Thumbs.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_TrackBar.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_WindowSpace.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_WinMenuAPI.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_WinMenuGraph.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_TextBox.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_ListBox.o \
+			../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_CBox.o
+
+OBJ_CODE_DEVILTTF_PSP  =../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_Init.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_AddressList.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_Aux.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_BaseScreen.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_ClassList.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_CommonDialogBoxFM.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_CustomButtons.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_FileList.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_FileSupport.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_Fonts.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_IconList.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_ImageSupport.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_InfoApi.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_L1L2WinMenuList.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_L1WinMenuList.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_L2WinMenuList.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_LogicalPage.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_LowLevel.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_MouseCtrl.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_NameTest.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_NdKeys.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_NNM.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_PosGen.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_RDestroyDir.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_ServiceSpace.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_StdIn.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_StdOut.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_String.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_SystemCalls.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_T1FileManager.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_T2FileManager.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_FileManager.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_Thumbs.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_TrackBar.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_WindowSpace.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_WinMenuAPI.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_WinMenuGraph.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_TextBox.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_ListBox.o \
+			../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_CBox.o
+
+
+
+
+
+## Elenco dei seeds
+
+SEED_PSPE    = ../lib/libndseed_PSPE.a
+
+SEED_PSP     = ../lib/libndseed_PSP.a
+
+SEED_KSU_PSP = ../lib/libndseed_KSU_PSP.a
+
+SEED_CFW_PSP = ../lib/libndseed_CFW_PSP.a
+
+
+## Settings
+
+
+INC = -I"." -I"../../NanoCore/NanoC/src" -I"../../NanoCore/NanoM/src" -I"$(NDENV_PATH)/PSP/SDK/pspdev/psp/sdk/include" -I"$(NDENV_PATH)/PSP/SDK/HenPspDev/371/include"
+
+DEVILSUPPORT = -I"../../../ndDevIL/DevILCore/include/IL" -D"I_HAVE_DEV_IL"
+
+DEVILTTFSUPPORT = -I"../../../ndDevIL/DevILCore/include/IL" -I"../../../ndFreeType/include" -D"I_HAVE_DEV_IL" -D"ND_ENABLE_TTF_SUPPORT" -D"FT2_BUILD_LIBRARY"
+
+
+
+
+
+
+
+CFLAGS_PSPE 	= -D"PSPE_PLATFORM" $(INC) -O3 -g -march=mips2 -fomit-frame-pointer -fno-exceptions -mgp32 -mfp32 -msym32 -ffast-math -fshort-double -v -Wall
+
+CFLAGS_PSP  	= -D"PSP_PLATFORM" -D"PSP_MODULE_INFO_DISABLED" $(INC) -O3 -G0 -g -march=allegrex -fomit-frame-pointer -fno-exceptions -mgp32 -mfp32 -msym32 -ffast-math -mhard-float -fshort-double -v -Wall
+
+CFLAGS_PSPE_OX 	= -D"PSPE_PLATFORM" $(INC) -g -march=mips2 -fomit-frame-pointer -fno-exceptions -mgp32 -mfp32 -msym32 -ffast-math -fshort-double -v -Wall
+
+CFLAGS_PSP_OX  	= -D"PSP_PLATFORM" -D"PSP_MODULE_INFO_DISABLED" $(INC) -G0 -g -march=allegrex -fomit-frame-pointer -fno-exceptions -mgp32 -mfp32 -msym32 -ffast-math -mhard-float -fshort-double -v -Wall
+
+
+
+
+
+PACKFLAGS = r   
+
+ 
+
+all: $(SEED_PSPE) $(SEED_PSP) $(SEED_KSU_PSP) $(SEED_CFW_PSP) $(OUTLIB_PSPE) $(OUTLIB_DEVIL_PSPE) $(OUTLIB_DEVILTTF_PSPE) $(OUTLIB_PSP) $(OUTLIB_DEVIL_PSP) $(OUTLIB_DEVILTTF_PSP) $(OUTLIB_KSU_PSP) $(OUTLIB_DEVIL_KSU_PSP) $(OUTLIB_DEVILTTF_KSU_PSP) $(OUTLIB_CFW_PSP) $(OUTLIB_DEVIL_CFW_PSP) $(OUTLIB_DEVILTTF_CFW_PSP)
+
+
+
+## Creazione delle librerie statiche
+
+$(OUTLIB_PSPE): $(OBJ_HAL_PSPE) $(OBJ_CODE_PSPE) 
+	$(AR) $(PACKFLAGS) $(OUTLIB_PSPE)  $(OBJ_HAL_PSPE) $(OBJ_CODE_PSPE)
+
+$(OUTLIB_DEVIL_PSPE): $(OBJ_HAL_PSPE) $(OBJ_CODE_DEVIL_PSPE)
+	$(AR) $(PACKFLAGS) $(OUTLIB_DEVIL_PSPE)  $(OBJ_HAL_PSPE) $(OBJ_CODE_DEVIL_PSPE)
+	
+$(OUTLIB_DEVILTTF_PSPE): $(OBJ_HAL_PSPE) $(OBJ_CODE_DEVILTTF_PSPE)
+	$(AR) $(PACKFLAGS) $(OUTLIB_DEVILTTF_PSPE)  $(OBJ_HAL_PSPE) $(OBJ_CODE_DEVILTTF_PSPE)
+
+$(OUTLIB_PSP): $(OBJ_HAL_PSP) $(OBJ_CODE_PSP)
+	$(AR) $(PACKFLAGS) $(OUTLIB_PSP)  $(OBJ_HAL_PSP) $(OBJ_CODE_PSP)
+
+$(OUTLIB_DEVIL_PSP): $(OBJ_HAL_PSP) $(OBJ_CODE_DEVIL_PSP) 
+	$(AR) $(PACKFLAGS) $(OUTLIB_DEVIL_PSP)  $(OBJ_HAL_PSP) $(OBJ_CODE_DEVIL_PSP)
+
+$(OUTLIB_DEVILTTF_PSP): $(OBJ_HAL_PSP) $(OBJ_CODE_DEVILTTF_PSP) 
+	$(AR) $(PACKFLAGS) $(OUTLIB_DEVILTTF_PSP)  $(OBJ_HAL_PSP) $(OBJ_CODE_DEVILTTF_PSP)
+
+$(OUTLIB_KSU_PSP): $(OBJ_HAL_KSU_PSP) $(OBJ_CODE_PSP)
+	$(AR) $(PACKFLAGS) $(OUTLIB_KSU_PSP)  $(OBJ_HAL_KSU_PSP) $(OBJ_CODE_PSP)
+
+$(OUTLIB_DEVIL_KSU_PSP): $(OBJ_HAL_KSU_PSP) $(OBJ_CODE_DEVIL_PSP)
+	$(AR) $(PACKFLAGS) $(OUTLIB_DEVIL_KSU_PSP)  $(OBJ_HAL_KSU_PSP) $(OBJ_CODE_DEVIL_PSP)
+
+$(OUTLIB_DEVILTTF_KSU_PSP): $(OBJ_HAL_KSU_PSP) $(OBJ_CODE_DEVILTTF_PSP)
+	$(AR) $(PACKFLAGS) $(OUTLIB_DEVILTTF_KSU_PSP)  $(OBJ_HAL_KSU_PSP) $(OBJ_CODE_DEVILTTF_PSP)
+
+$(OUTLIB_CFW_PSP): $(OBJ_HAL_CFW_PSP) $(OBJ_CODE_PSP)
+	$(AR) $(PACKFLAGS) $(OUTLIB_CFW_PSP)  $(OBJ_HAL_CFW_PSP) $(OBJ_CODE_PSP)
+
+$(OUTLIB_DEVIL_CFW_PSP): $(OBJ_HAL_CFW_PSP) $(OBJ_CODE_DEVIL_PSP)
+	$(AR) $(PACKFLAGS) $(OUTLIB_DEVIL_CFW_PSP)  $(OBJ_HAL_CFW_PSP) $(OBJ_CODE_DEVIL_PSP)
+
+$(OUTLIB_DEVILTTF_CFW_PSP): $(OBJ_HAL_CFW_PSP) $(OBJ_CODE_DEVILTTF_PSP)
+	$(AR) $(PACKFLAGS) $(OUTLIB_DEVILTTF_CFW_PSP)  $(OBJ_HAL_CFW_PSP) $(OBJ_CODE_DEVILTTF_PSP)
+
+
+
+
+
+
+## Compilazione dei moduli per l'HAL di PSPE
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_InitPlatform.o: ./HAL_PSPE/ndHAL_InitPlatform.c			
+	$(C) -c ./HAL_PSPE/ndHAL_InitPlatform.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_InitPlatform.o $(INC) $(CFLAGS_PSPE) 
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_Color.o: ./HAL_PSPE/ndHAL_Color.c
+	$(C) -c ./HAL_PSPE/ndHAL_Color.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_Color.o $(INC) $(CFLAGS_PSPE) 
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_Controller.o: ./HAL_PSPE/ndHAL_Controller.c
+	$(C) -c ./HAL_PSPE/ndHAL_Controller.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_Controller.o $(INC) $(CFLAGS_PSPE) 
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_Delay.o: ./HAL_PSPE/ndHAL_Delay.c
+	$(C) -c ./HAL_PSPE/ndHAL_Delay.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_Delay.o $(INC) $(CFLAGS_PSPE) 
+		
+../obj_HAL/obj_HAL_PSPE/ndHAL_FileSystem.o: ./HAL_PSPE/ndHAL_FileSystem.c
+	$(C) -c ./HAL_PSPE/ndHAL_FileSystem.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_FileSystem.o $(INC) $(CFLAGS_PSPE) 
+		
+../obj_HAL/obj_HAL_PSPE/ndHAL_Graphics.o: ./HAL_PSPE/ndHAL_Graphics.c
+	$(C) -c ./HAL_PSPE/ndHAL_Graphics.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_Graphics.o $(INC) $(CFLAGS_PSPE) 
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_Info.o: ./HAL_PSPE/ndHAL_Info.c
+	$(C) -c ./HAL_PSPE/ndHAL_Info.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_Info.o $(INC) $(CFLAGS_PSPE) 
+		
+../obj_HAL/obj_HAL_PSPE/ndHAL_IrApi.o: ./HAL_PSPE/ndHAL_IrApi.c
+	$(C) -c ./HAL_PSPE/ndHAL_IrApi.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_IrApi.o $(INC) $(CFLAGS_PSPE) 
+		
+../obj_HAL/obj_HAL_PSPE/ndHAL_Irda.o: ./HAL_PSPE/ndHAL_Irda.c
+	$(C) -c ./HAL_PSPE/ndHAL_Irda.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_Irda.o $(INC) $(CFLAGS_PSPE) 
+		
+../obj_HAL/obj_HAL_PSPE/ndHAL_InitComponents.o: ./HAL_PSPE/ndHAL_InitComponents.c
+	$(C) -c ./HAL_PSPE/ndHAL_InitComponents.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_InitComponents.o $(INC) $(CFLAGS_PSPE) 
+		
+../obj_HAL/obj_HAL_PSPE/ndHAL_Mouse.o: ./HAL_PSPE/ndHAL_Mouse.c
+	$(C) -c ./HAL_PSPE/ndHAL_Mouse.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_Mouse.o $(INC) $(CFLAGS_PSPE) 
+		
+../obj_HAL/obj_HAL_PSPE/ndHAL_RawIR.o: ./HAL_PSPE/ndHAL_RawIR.c
+	$(C) -c ./HAL_PSPE/ndHAL_RawIR.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_RawIR.o $(INC) $(CFLAGS_PSPE) 
+		
+../obj_HAL/obj_HAL_PSPE/ndHAL_SystemCalls.o: ./HAL_PSPE/ndHAL_SystemCalls.c
+	$(C) -c ./HAL_PSPE/ndHAL_SystemCalls.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_SystemCalls.o $(INC) $(CFLAGS_PSPE) 
+		
+../obj_HAL/obj_HAL_PSPE/ndHAL_WindowsRender.o: ./HAL_PSPE/ndHAL_WindowsRender.c
+	$(C) -c ./HAL_PSPE/ndHAL_WindowsRender.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_WindowsRender.o $(INC) $(CFLAGS_PSPE) 
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_PhoenixGraph.o: ./HAL_PSPE/ndHAL_PhoenixGraph.c
+	$(C) -c ./HAL_PSPE/ndHAL_PhoenixGraph.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_PhoenixGraph.o $(INC) $(CFLAGS_PSPE) 
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_PhoenixMouse.o: ./HAL_PSPE/ndHAL_PhoenixMouse.c
+	$(C) -c ./HAL_PSPE/ndHAL_PhoenixMouse.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_PhoenixMouse.o $(INC) $(CFLAGS_PSPE) 
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_MouseCtrl_NoPhoenix.o: ./HAL_PSPE/ndHAL_MouseCtrl_NoPhoenix.c
+	$(C) -c ./HAL_PSPE/ndHAL_MouseCtrl_NoPhoenix.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_MouseCtrl_NoPhoenix.o $(INC) $(CFLAGS_PSPE_OX) -O2 
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_MouseCtrl_Phoenix.o: ./HAL_PSPE/ndHAL_MouseCtrl_Phoenix.c
+	$(C) -c ./HAL_PSPE/ndHAL_MouseCtrl_Phoenix.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_MouseCtrl_Phoenix.o $(INC) $(CFLAGS_PSPE) 
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_ExitManager.o: ./HAL_PSPE/ndHAL_ExitManager.c
+	$(C) -c ./HAL_PSPE/ndHAL_ExitManager.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_ExitManager.o $(INC) $(CFLAGS_PSPE) 
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_VirtualKeyboard.o: ./HAL_PSPE/ndHAL_VirtualKeyboard.c
+	$(C) -c ./HAL_PSPE/ndHAL_VirtualKeyboard.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_VirtualKeyboard.o $(INC) $(CFLAGS_PSPE)  
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_VirtualKeyboard_1.o: ./HAL_PSPE/ndHAL_VirtualKeyboard_1.c
+	$(C) -c ./HAL_PSPE/ndHAL_VirtualKeyboard_1.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_VirtualKeyboard_1.o $(INC) $(CFLAGS_PSPE) 
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_UsbApi.o: ./HAL_PSPE/ndHAL_UsbApi.c
+	$(C) -c ./HAL_PSPE/ndHAL_UsbApi.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_UsbApi.o $(INC) $(CFLAGS_PSPE)   
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_Sound.o: ./HAL_PSPE/ndHAL_Sound.c
+	$(C) -c ./HAL_PSPE/ndHAL_Sound.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_Sound.o $(INC) $(CFLAGS_PSPE)  
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_Media.o: ./HAL_PSPE/ndHAL_Media.c
+	$(C) -c ./HAL_PSPE/ndHAL_Media.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_Media.o $(INC) $(CFLAGS_PSPE)  
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_Posix.o: ./HAL_PSPE/ndHAL_Posix.c
+	$(C) -c ./HAL_PSPE/ndHAL_Posix.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_Posix.o $(INC) $(CFLAGS_PSPE)  
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_Power.o: ./HAL_PSPE/ndHAL_Power.c
+	$(C) -c ./HAL_PSPE/ndHAL_Power.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_Power.o $(INC) $(CFLAGS_PSPE)  
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_LLNetwork.o: ./HAL_PSPE/ndHAL_LLNetwork.c
+	$(C) -c ./HAL_PSPE/ndHAL_LLNetwork.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_LLNetwork.o $(INC) $(CFLAGS_PSPE) -O3   
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_Network.o: ./HAL_PSPE/ndHAL_Network.c
+	$(C) -c ./HAL_PSPE/ndHAL_Network.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_Network.o $(INC) $(CFLAGS_PSPE) -O3 
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_NetworkStd.o: ./HAL_PSPE/ndHAL_NetworkStd.c
+	$(C) -c ./HAL_PSPE/ndHAL_NetworkStd.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_NetworkStd.o $(INC) $(CFLAGS_PSPE) -O3 
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_WebCam.o: ./HAL_PSPE/ndHAL_WebCam.c
+	$(C) -c ./HAL_PSPE/ndHAL_WebCam.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_WebCam.o $(INC) $(CFLAGS_PSPE)    
+
+../obj_HAL/obj_HAL_PSPE/ndHAL_CppConstructors.o: ./HAL_PSPE/ndHAL_CppConstructors.c 
+	$(C) -c ./HAL_PSPE/ndHAL_CppConstructors.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_CppConstructors.o $(INC) $(CFLAGS_PSPE)    
+
+
+
+
+
+## Compilazione dei moduli per l'HAL di PSP
+
+../obj_HAL/obj_HAL_PSP/ndHAL_InitPlatform.o:  ./HAL_PSP/ndHAL_InitPlatform.c			
+	$(C) -c ./HAL_PSP/ndHAL_InitPlatform.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_InitPlatform.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_PSP/ndHAL_Color.o: ./HAL_PSP/ndHAL_Color.c
+	$(C) -c ./HAL_PSP/ndHAL_Color.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_Color.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_PSP/ndHAL_Controller.o: ./HAL_PSP/ndHAL_Controller.c
+	$(C) -c ./HAL_PSP/ndHAL_Controller.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_Controller.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_PSP/ndHAL_Delay.o: ./HAL_PSP/ndHAL_Delay.c
+	$(C) -c ./HAL_PSP/ndHAL_Delay.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_Delay.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_PSP/ndHAL_FileSystem.o: ./HAL_PSP/ndHAL_FileSystem.c
+	$(C) -c ./HAL_PSP/ndHAL_FileSystem.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_FileSystem.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_PSP/ndHAL_Graphics.o: ./HAL_PSP/ndHAL_Graphics.c
+	$(C) -c ./HAL_PSP/ndHAL_Graphics.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_Graphics.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_PSP/ndHAL_Info.o: ./HAL_PSP/ndHAL_Info.c
+	$(C) -c ./HAL_PSP/ndHAL_Info.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_Info.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_PSP/ndHAL_IrApi.o: ./HAL_PSP/ndHAL_IrApi.c
+	$(C) -c ./HAL_PSP/ndHAL_IrApi.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_IrApi.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_PSP/ndHAL_Irda.o: ./HAL_PSP/ndHAL_Irda.c
+	$(C) -c ./HAL_PSP/ndHAL_Irda.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_Irda.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_PSP/ndHAL_InitComponents.o: ./HAL_PSP/ndHAL_InitComponents.c
+	$(C) -c ./HAL_PSP/ndHAL_InitComponents.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_InitComponents.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_PSP/ndHAL_Mouse.o: ./HAL_PSP/ndHAL_Mouse.c
+	$(C) -c ./HAL_PSP/ndHAL_Mouse.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_Mouse.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_PSP/ndHAL_RawIR.o: ./HAL_PSP/ndHAL_RawIR.c
+	$(C) -c ./HAL_PSP/ndHAL_RawIR.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_RawIR.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_PSP/ndHAL_SystemCalls.o: ./HAL_PSP/ndHAL_SystemCalls.c
+	$(C) -c ./HAL_PSP/ndHAL_SystemCalls.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_SystemCalls.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_PSP/ndHAL_WindowsRender.o: ./HAL_PSP/ndHAL_WindowsRender.c
+	$(C) -c ./HAL_PSP/ndHAL_WindowsRender.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_WindowsRender.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_PSP/ndHAL_PhoenixGraph.o: ./HAL_PSP/ndHAL_PhoenixGraph.c
+	$(C) -c ./HAL_PSP/ndHAL_PhoenixGraph.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_PhoenixGraph.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_PSP/ndHAL_PhoenixMouse.o: ./HAL_PSP/ndHAL_PhoenixMouse.c
+	$(C) -c ./HAL_PSP/ndHAL_PhoenixMouse.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_PhoenixMouse.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_PSP/ndHAL_MouseCtrl_NoPhoenix.o: ./HAL_PSP/ndHAL_MouseCtrl_NoPhoenix.c
+	$(C) -c ./HAL_PSP/ndHAL_MouseCtrl_NoPhoenix.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_MouseCtrl_NoPhoenix.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_PSP/ndHAL_MouseCtrl_Phoenix.o: ./HAL_PSP/ndHAL_MouseCtrl_Phoenix.c
+	$(C) -c ./HAL_PSP/ndHAL_MouseCtrl_Phoenix.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_MouseCtrl_Phoenix.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_PSP/ndHAL_ExitManager.o: ./HAL_PSP/ndHAL_ExitManager.c
+	$(C) -c ./HAL_PSP/ndHAL_ExitManager.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_ExitManager.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_PSP/ndHAL_VirtualKeyboard.o: ./HAL_PSP/ndHAL_VirtualKeyboard.c
+	$(C) -c ./HAL_PSP/ndHAL_VirtualKeyboard.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_VirtualKeyboard.o $(INC) $(CFLAGS_PSP)  
+
+../obj_HAL/obj_HAL_PSP/ndHAL_VirtualKeyboard_1.o: ./HAL_PSP/ndHAL_VirtualKeyboard_1.c
+	$(C) -c ./HAL_PSP/ndHAL_VirtualKeyboard_1.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_VirtualKeyboard_1.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_PSP/ndHAL_LLNetwork.o: ./HAL_PSP/ndHAL_LLNetwork.c
+	$(C) -c ./HAL_PSP/ndHAL_LLNetwork.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_LLNetwork.o $(INC) $(CFLAGS_PSP_OX) -O0   
+
+../obj_HAL/obj_HAL_PSP/ndHAL_Network.o: ./HAL_PSP/ndHAL_Network.c
+	$(C) -c ./HAL_PSP/ndHAL_Network.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_Network.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_PSP/ndHAL_NetworkStd.o: ./HAL_PSP/ndHAL_NetworkStd.c
+	$(C) -c ./HAL_PSP/ndHAL_NetworkStd.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_NetworkStd.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_PSP/ndHAL_Sound.o: ./HAL_PSP/ndHAL_Sound.c
+	$(C) -c ./HAL_PSP/ndHAL_Sound.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_Sound.o $(INC) $(CFLAGS_PSP_OX) -O3 
+
+../obj_HAL/obj_HAL_PSP/ndHAL_Media.o: ./HAL_PSP/ndHAL_Media.c
+	$(C) -c ./HAL_PSP/ndHAL_Media.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_Media.o $(INC) $(CFLAGS_PSP_OX) -O3 
+
+../obj_HAL/obj_HAL_PSP/ndHAL_Posix.o: ./HAL_PSP/ndHAL_Posix.c
+	$(C) -c ./HAL_PSP/ndHAL_Posix.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_Posix.o $(INC) $(CFLAGS_PSP)  
+
+../obj_HAL/obj_HAL_PSP/ndHAL_Power.o: ./HAL_PSP/ndHAL_Power.c
+	$(C) -c ./HAL_PSP/ndHAL_Power.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_Power.o $(INC) $(CFLAGS_PSP)  
+
+../obj_HAL/obj_HAL_PSP/ndHAL_UsbApi.o: ./HAL_PSP/ndHAL_UsbApi.c
+	$(C) -c ./HAL_PSP/ndHAL_UsbApi.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_UsbApi.o $(INC) $(CFLAGS_PSP_OX) -O0  
+
+../obj_HAL/obj_HAL_PSP/ndHAL_WebCam.o: ./HAL_PSP/ndHAL_WebCam.c
+	$(C) -c ./HAL_PSP/ndHAL_WebCam.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_WebCam.o $(INC) $(CFLAGS_PSP_OX) -O2   
+
+../obj_HAL/obj_HAL_PSP/ndHAL_CppConstructors.o: ./HAL_PSP/ndHAL_CppConstructors.c 
+	$(C) -c ./HAL_PSP/ndHAL_CppConstructors.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_CppConstructors.o $(INC) $(CFLAGS_PSP)    
+
+
+
+
+
+
+## Compilazione dei moduli per l'HAL di PSP (modalità KSU)
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_InitPlatform.o: ./HAL_KSU_PSP/ndHAL_InitPlatform.c			
+	$(C) -c ./HAL_KSU_PSP/ndHAL_InitPlatform.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_InitPlatform.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Color.o: ./HAL_KSU_PSP/ndHAL_Color.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_Color.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Color.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Controller.o: ./HAL_KSU_PSP/ndHAL_Controller.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_Controller.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Controller.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Delay.o: ./HAL_KSU_PSP/ndHAL_Delay.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_Delay.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Delay.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_FileSystem.o: ./HAL_KSU_PSP/ndHAL_FileSystem.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_FileSystem.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_FileSystem.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Graphics.o: ./HAL_KSU_PSP/ndHAL_Graphics.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_Graphics.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Graphics.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Info.o: ./HAL_KSU_PSP/ndHAL_Info.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_Info.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Info.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_IrApi.o: ./HAL_KSU_PSP/ndHAL_IrApi.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_IrApi.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_IrApi.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Irda.o: ./HAL_KSU_PSP/ndHAL_Irda.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_Irda.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Irda.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_InitComponents.o: ./HAL_KSU_PSP/ndHAL_InitComponents.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_InitComponents.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_InitComponents.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Mouse.o: ./HAL_KSU_PSP/ndHAL_Mouse.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_Mouse.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Mouse.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_RawIR.o: ./HAL_KSU_PSP/ndHAL_RawIR.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_RawIR.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_RawIR.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_SystemCalls.o: ./HAL_KSU_PSP/ndHAL_SystemCalls.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_SystemCalls.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_SystemCalls.o $(INC) $(CFLAGS_PSP)  
+		
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_WindowsRender.o: ./HAL_KSU_PSP/ndHAL_WindowsRender.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_WindowsRender.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_WindowsRender.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_PhoenixGraph.o: ./HAL_KSU_PSP/ndHAL_PhoenixGraph.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_PhoenixGraph.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_PhoenixGraph.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_PhoenixMouse.o: ./HAL_KSU_PSP/ndHAL_PhoenixMouse.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_PhoenixMouse.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_PhoenixMouse.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_MouseCtrl_NoPhoenix.o: ./HAL_KSU_PSP/ndHAL_MouseCtrl_NoPhoenix.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_MouseCtrl_NoPhoenix.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_MouseCtrl_NoPhoenix.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_ExitManager.o: ./HAL_KSU_PSP/ndHAL_ExitManager.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_ExitManager.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_ExitManager.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_MouseCtrl_Phoenix.o: ./HAL_KSU_PSP/ndHAL_MouseCtrl_Phoenix.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_MouseCtrl_Phoenix.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_MouseCtrl_Phoenix.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_KSU_Services.o: ./HAL_KSU_PSP/ndHAL_KSU_Services.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_KSU_Services.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_KSU_Services.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_KSU_BootManager.o: ./HAL_KSU_PSP/ndHAL_KSU_BootManager.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_KSU_BootManager.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_KSU_BootManager.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_VirtualKeyboard.o: ./HAL_KSU_PSP/ndHAL_VirtualKeyboard.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_VirtualKeyboard.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_VirtualKeyboard.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_VirtualKeyboard_1.o: ./HAL_KSU_PSP/ndHAL_VirtualKeyboard_1.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_VirtualKeyboard_1.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_VirtualKeyboard_1.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_UsbInternals.o: ./HAL_KSU_PSP/ndHAL_UsbInternals.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_UsbInternals.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_UsbInternals.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_UsbApi.o: ./HAL_KSU_PSP/ndHAL_UsbApi.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_UsbApi.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_UsbApi.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_UsbDev0.o: ./HAL_KSU_PSP/ndHAL_UsbDev0.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_UsbDev0.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_UsbDev0.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_UsbDev1.o: ./HAL_KSU_PSP/ndHAL_UsbDev1.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_UsbDev1.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_UsbDev1.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_WebCam.o: ./HAL_KSU_PSP/ndHAL_WebCam.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_WebCam.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_WebCam.o $(INC) $(CFLAGS_PSP_OX) -O3  
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_WebCam0.o: ./HAL_KSU_PSP/ndHAL_WebCam0.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_WebCam0.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_WebCam0.o $(INC) $(CFLAGS_PSP_OX) -O3 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_WebCam1.o: ./HAL_KSU_PSP/ndHAL_WebCam1.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_WebCam1.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_WebCam1.o $(INC) $(CFLAGS_PSP_OX) -O3 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_LLNetwork.o: ./HAL_KSU_PSP/ndHAL_LLNetwork.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_LLNetwork.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_LLNetwork.o $(INC) $(CFLAGS_PSP_OX) -O0   
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Network.o: ./HAL_KSU_PSP/ndHAL_Network.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_Network.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Network.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_NetworkStd.o: ./HAL_KSU_PSP/ndHAL_NetworkStd.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_NetworkStd.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_NetworkStd.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Firmware.o: ./HAL_KSU_PSP/ndHAL_Firmware.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_Firmware.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Firmware.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Sound.o: ./HAL_KSU_PSP/ndHAL_Sound.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_Sound.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Sound.o $(INC) $(CFLAGS_PSP_OX) -O3 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Media.o: ./HAL_KSU_PSP/ndHAL_Media.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_Media.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Media.o $(INC) $(CFLAGS_PSP_OX) -O3 
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Posix.o: ./HAL_KSU_PSP/ndHAL_Posix.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_Posix.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Posix.o $(INC) $(CFLAGS_PSP)  
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Power.o: ./HAL_KSU_PSP/ndHAL_Power.c
+	$(C) -c ./HAL_KSU_PSP/ndHAL_Power.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Power.o $(INC) $(CFLAGS_PSP)  
+
+../obj_HAL/obj_HAL_KSU_PSP/ndHAL_CppConstructors.o: ./HAL_KSU_PSP/ndHAL_CppConstructors.c 
+	$(C) -c ./HAL_KSU_PSP/ndHAL_CppConstructors.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_CppConstructors.o $(INC) $(CFLAGS_PSP)    
+
+../obj_HAL/obj_HAL_KSU_PSP/netstubs.o: ./HAL_KSU_PSP/netstubs.S
+	$(C) -c ./HAL_KSU_PSP/netstubs.S -o ../obj_HAL/obj_HAL_KSU_PSP/netstubs.o $(INC) $(CFLAGS_PSP_OX) -O0  
+
+../obj_HAL/obj_HAL_KSU_PSP/audiostubs.o: ./HAL_KSU_PSP/audiostubs.S
+	$(C) -c ./HAL_KSU_PSP/audiostubs.S -o ../obj_HAL/obj_HAL_KSU_PSP/audiostubs.o $(INC) $(CFLAGS_PSP_OX) -O0  
+
+
+
+
+
+
+## Compilazione dei moduli per l'HAL di PSP (modalità CFW)
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_InitPlatform.o: ./HAL_CFW_PSP/ndHAL_InitPlatform.c			
+	$(C) -c ./HAL_CFW_PSP/ndHAL_InitPlatform.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_InitPlatform.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Color.o: ./HAL_CFW_PSP/ndHAL_Color.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_Color.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Color.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Controller.o: ./HAL_CFW_PSP/ndHAL_Controller.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_Controller.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Controller.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Delay.o: ./HAL_CFW_PSP/ndHAL_Delay.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_Delay.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Delay.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_FileSystem.o: ./HAL_CFW_PSP/ndHAL_FileSystem.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_FileSystem.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_FileSystem.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Graphics.o: ./HAL_CFW_PSP/ndHAL_Graphics.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_Graphics.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Graphics.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Info.o: ./HAL_CFW_PSP/ndHAL_Info.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_Info.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Info.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_IrApi.o: ./HAL_CFW_PSP/ndHAL_IrApi.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_IrApi.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_IrApi.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Irda.o: ./HAL_CFW_PSP/ndHAL_Irda.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_Irda.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Irda.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_InitComponents.o: ./HAL_CFW_PSP/ndHAL_InitComponents.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_InitComponents.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_InitComponents.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Mouse.o: ./HAL_CFW_PSP/ndHAL_Mouse.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_Mouse.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Mouse.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_RawIR.o: ./HAL_CFW_PSP/ndHAL_RawIR.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_RawIR.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_RawIR.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_SystemCalls.o: ./HAL_CFW_PSP/ndHAL_SystemCalls.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_SystemCalls.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_SystemCalls.o $(INC) $(CFLAGS_PSP) 
+		
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_WindowsRender.o: ./HAL_CFW_PSP/ndHAL_WindowsRender.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_WindowsRender.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_WindowsRender.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_PhoenixGraph.o: ./HAL_CFW_PSP/ndHAL_PhoenixGraph.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_PhoenixGraph.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_PhoenixGraph.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_PhoenixMouse.o: ./HAL_CFW_PSP/ndHAL_PhoenixMouse.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_PhoenixMouse.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_PhoenixMouse.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_MouseCtrl_NoPhoenix.o: ./HAL_CFW_PSP/ndHAL_MouseCtrl_NoPhoenix.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_MouseCtrl_NoPhoenix.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_MouseCtrl_NoPhoenix.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_ExitManager.o: ./HAL_CFW_PSP/ndHAL_ExitManager.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_ExitManager.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_ExitManager.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_MouseCtrl_Phoenix.o: ./HAL_CFW_PSP/ndHAL_MouseCtrl_Phoenix.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_MouseCtrl_Phoenix.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_MouseCtrl_Phoenix.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_VirtualKeyboard.o: ./HAL_CFW_PSP/ndHAL_VirtualKeyboard.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_VirtualKeyboard.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_VirtualKeyboard.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_VirtualKeyboard_1.o: ./HAL_CFW_PSP/ndHAL_VirtualKeyboard_1.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_VirtualKeyboard_1.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_VirtualKeyboard_1.o $(INC) $(CFLAGS_PSP) 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_UsbInternals.o: ./HAL_CFW_PSP/ndHAL_UsbInternals.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_UsbInternals.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_UsbInternals.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_UsbApi.o: ./HAL_CFW_PSP/ndHAL_UsbApi.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_UsbApi.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_UsbApi.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_UsbDev0.o: ./HAL_CFW_PSP/ndHAL_UsbDev0.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_UsbDev0.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_UsbDev0.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_UsbDev1.o: ./HAL_CFW_PSP/ndHAL_UsbDev1.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_UsbDev1.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_UsbDev1.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_WebCam.o: ./HAL_CFW_PSP/ndHAL_WebCam.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_WebCam.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_WebCam.o $(INC) $(CFLAGS_PSP_OX) -O0  
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_WebCam0.o: ./HAL_CFW_PSP/ndHAL_WebCam0.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_WebCam0.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_WebCam0.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_WebCam1.o: ./HAL_CFW_PSP/ndHAL_WebCam1.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_WebCam1.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_WebCam1.o $(INC) $(CFLAGS_PSP_OX) -O3 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_LLNetwork.o: ./HAL_CFW_PSP/ndHAL_LLNetwork.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_LLNetwork.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_LLNetwork.o $(INC) $(CFLAGS_PSP_OX) -O0   
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Network.o: ./HAL_CFW_PSP/ndHAL_Network.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_Network.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Network.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_NetworkStd.o: ./HAL_CFW_PSP/ndHAL_NetworkStd.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_NetworkStd.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_NetworkStd.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Firmware.o: ./HAL_CFW_PSP/ndHAL_Firmware.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_Firmware.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Firmware.o $(INC) $(CFLAGS_PSP_OX) -O0 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Sound.o: ./HAL_CFW_PSP/ndHAL_Sound.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_Sound.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Sound.o $(INC) $(CFLAGS_PSP_OX) -O3 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Media.o: ./HAL_CFW_PSP/ndHAL_Media.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_Media.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Media.o $(INC) $(CFLAGS_PSP_OX) -O3 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Posix.o: ./HAL_CFW_PSP/ndHAL_Posix.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_Posix.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Posix.o $(INC) $(CFLAGS_PSP)  
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Power.o: ./HAL_CFW_PSP/ndHAL_Power.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_Power.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Power.o $(INC) $(CFLAGS_PSP)  
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_HwJpegDecoder.o: ./HAL_CFW_PSP/ndHAL_HwJpegDecoder.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_HwJpegDecoder.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_HwJpegDecoder.o $(INC) $(DEVILSUPPORT) $(CFLAGS_PSP)  
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_KernelExtenderAPI.o: ./HAL_CFW_PSP/ndHAL_KernelExtenderAPI.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_KernelExtenderAPI.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_KernelExtenderAPI.o $(INC) $(CFLAGS_PSP_OX) -O3 
+
+../obj_HAL/obj_HAL_CFW_PSP/ndHAL_CppConstructors.o: ./HAL_CFW_PSP/ndHAL_CppConstructors.c
+	$(C) -c ./HAL_CFW_PSP/ndHAL_CppConstructors.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_CppConstructors.o $(INC) $(CFLAGS_PSP_OX) -O3 
+
+../obj_HAL/obj_HAL_CFW_PSP/netstubs.o: ./HAL_CFW_PSP/netstubs.S
+	$(C) -c ./HAL_CFW_PSP/netstubs.S -o ../obj_HAL/obj_HAL_CFW_PSP/netstubs.o $(INC) $(CFLAGS_PSP_OX) -O0  
+
+../obj_HAL/obj_HAL_CFW_PSP/sceutilitystubs.o: ./HAL_CFW_PSP/sceutilitystubs.S
+	$(C) -c ./HAL_CFW_PSP/sceutilitystubs.S -o ../obj_HAL/obj_HAL_CFW_PSP/sceutilitystubs.o $(INC) $(CFLAGS_PSP_OX) -O0  
+
+../obj_HAL/obj_HAL_CFW_PSP/sceusbmicstubs.o: ./HAL_CFW_PSP/sceusbmicstubs.S
+	$(C) -c ./HAL_CFW_PSP/sceusbmicstubs.S -o ../obj_HAL/obj_HAL_CFW_PSP/sceusbmicstubs.o $(INC) $(CFLAGS_PSP_OX) -O0  
+
+
+
+
+
+
+## Compilazione del driver USB
+
+
+../obj_HAL/obj_HAL_KSU_PSP/ndUSBDriver.o: $(PRX_USB_FILES)
+	
+	make -C ./3rdparty_modules/USB_PRX_Driver -B -f ./Makefile.prx.gcc	
+	
+	$(C) -c ./3rdparty_modules/USB_PRX_Driver/prx/ndUSBDriver.S -o ../obj_HAL/obj_HAL_KSU_PSP/ndUSBDriver.o $(INC) $(CFLAGS_PSP_OX) -O0 
+	## Il file di stub non deve essere ottimizzato, altrimenti si avrà il blocco dell'homebrew al boot
+
+
+../obj_HAL/obj_HAL_CFW_PSP/ndUSBDriverCF.o: $(PRX_USBCF_FILES)
+	
+	make -C ./3rdparty_modules/USB_PRX_Driver_for_CF -B -f ./Makefile.prx.gcc	
+	
+	$(C) -c ./3rdparty_modules/USB_PRX_Driver_for_CF/prx/ndUSBDriverCF.S -o ../obj_HAL/obj_HAL_CFW_PSP/ndUSBDriverCF.o $(INC) $(CFLAGS_PSP_OX) -O0 
+	## Il file di stub non deve essere ottimizzato, altrimenti si avrà il blocco dell'homebrew al boot
+
+
+
+
+
+
+
+## Compilazione dei kernel extender
+
+../obj_HAL/obj_HAL_CFW_PSP/ndKRNExtender.o: $(PRX_KRN_EXTENDER_FILES)
+
+	## Versione 1
+	
+	make -C ./3rdparty_modules/KernelExtender_PRX_Driver_v1 -B -f ./Makefile.prx.gcc	
+
+	## Creazione dello stub
+	
+	$(C) -c $(PRX_KRN_EXTENDER_FILES_DIR)/prx/ndKRNExtender.S -o ../obj_HAL/obj_HAL_CFW_PSP/ndKRNExtender.o $(INC) $(CFLAGS_PSP_OX) -O0 
+	## Il file di stub non deve essere ottimizzato, altrimenti si avrà il blocco dell'homebrew al boot
+
+
+
+
+
+## Compilazione dei seed
+
+$(SEED_PSPE):  ./HAL_PSPE/ndHAL_Seed.c			
+	$(C) -c ./HAL_PSPE/ndHAL_Seed.c -o ../obj_HAL/obj_HAL_PSPE/ndHAL_Seed.o $(INC) $(CFLAGS_PSPE)
+	$(AR) $(PACKFLAGS) $(SEED_PSPE) ../obj_HAL/obj_HAL_PSPE/ndHAL_Seed.o  
+
+$(SEED_PSP):  ./HAL_PSP/ndHAL_Seed.c			
+	$(C) -c ./HAL_PSP/ndHAL_Seed.c -o ../obj_HAL/obj_HAL_PSP/ndHAL_Seed.o $(INC) $(CFLAGS_PSP) 
+	$(AR) $(PACKFLAGS) $(SEED_PSP) ../obj_HAL/obj_HAL_PSP/ndHAL_Seed.o 
+
+$(SEED_KSU_PSP):  ./HAL_KSU_PSP/ndHAL_Seed.c			
+	$(C) -c ./HAL_KSU_PSP/ndHAL_Seed.c -o ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Seed.o $(INC) $(CFLAGS_PSP) 
+	$(AR) $(PACKFLAGS) $(SEED_KSU_PSP) ../obj_HAL/obj_HAL_KSU_PSP/ndHAL_Seed.o 
+
+$(SEED_CFW_PSP):  ./HAL_CFW_PSP/ndHAL_Seed.c			
+	$(C) -c ./HAL_CFW_PSP/ndHAL_Seed.c -o ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Seed.o $(INC) $(CFLAGS_PSP) 
+	$(AR) $(PACKFLAGS) $(SEED_CFW_PSP) ../obj_HAL/obj_HAL_CFW_PSP/ndHAL_Seed.o 
+
+
+
+
+## Compilazione dei moduli di livello CODE per PSPE (nessun supporto Dev-IL) 
+
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_Init.o: ./ndCODE_Init.c 
+	$(C) -c ./ndCODE_Init.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_Init.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_AddressList.o: ./ndCODE_AddressList.c
+	$(C) -c ./ndCODE_AddressList.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_AddressList.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_Aux.o: ./ndCODE_Aux.c
+	$(C) -c ./ndCODE_Aux.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_Aux.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_BaseScreen.o: ./ndCODE_BaseScreen.c
+	$(C) -c ./ndCODE_BaseScreen.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_BaseScreen.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_ClassList.o: ./ndCODE_ClassList.c
+	$(C) -c ./ndCODE_ClassList.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_ClassList.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_CommonDialogBoxFM.o: ./ndCODE_CommonDialogBoxFM.c
+	$(C) -c ./ndCODE_CommonDialogBoxFM.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_CommonDialogBoxFM.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_CustomButtons.o: ./ndCODE_CustomButtons.c
+	$(C) -c ./ndCODE_CustomButtons.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_CustomButtons.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_FileList.o: ./ndCODE_FileList.c
+	$(C) -c ./ndCODE_FileList.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_FileList.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_FileSupport.o: ./ndCODE_FileSupport.c
+	$(C) -c ./ndCODE_FileSupport.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_FileSupport.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_Fonts.o: ./ndCODE_Fonts.c
+	$(C) -c ./ndCODE_Fonts.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_Fonts.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_IconList.o: ./ndCODE_IconList.c 
+	$(C) -c ./ndCODE_IconList.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_IconList.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_ImageSupport.o: ./ndCODE_ImageSupport.c
+	$(C) -c ./ndCODE_ImageSupport.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_ImageSupport.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_InfoApi.o: ./ndCODE_InfoApi.c 
+	$(C) -c ./ndCODE_InfoApi.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_InfoApi.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_L1L2WinMenuList.o: ./ndCODE_L1L2WinMenuList.c
+	$(C) -c ./ndCODE_L1L2WinMenuList.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_L1L2WinMenuList.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_L1WinMenuList.o: ./ndCODE_L1WinMenuList.c
+	$(C) -c ./ndCODE_L1WinMenuList.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_L1WinMenuList.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_L2WinMenuList.o: ./ndCODE_L2WinMenuList.c
+	$(C) -c ./ndCODE_L2WinMenuList.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_L2WinMenuList.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_LogicalPage.o: ./ndCODE_LogicalPage.c
+	$(C) -c ./ndCODE_LogicalPage.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_LogicalPage.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_LowLevel.o: ./ndCODE_LowLevel.c
+	$(C) -c ./ndCODE_LowLevel.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_LowLevel.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_MouseCtrl.o: ./ndCODE_MouseCtrl.c
+	$(C) -c ./ndCODE_MouseCtrl.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_MouseCtrl.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_NameTest.o: ./ndCODE_NameTest.c
+	$(C) -c ./ndCODE_NameTest.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_NameTest.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_NdKeys.o: ./ndCODE_NdKeys.c
+	$(C) -c ./ndCODE_NdKeys.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_NdKeys.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_NNM.o: ./ndCODE_NNM.c
+	$(C) -c ./ndCODE_NNM.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_NNM.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_PosGen.o: ./ndCODE_PosGen.c
+	$(C) -c ./ndCODE_PosGen.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_PosGen.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_RDestroyDir.o: ./ndCODE_RDestroyDir.c
+	$(C) -c ./ndCODE_RDestroyDir.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_RDestroyDir.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_ServiceSpace.o: ./ndCODE_ServiceSpace.c
+	$(C) -c ./ndCODE_ServiceSpace.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_ServiceSpace.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_StdIn.o: ./ndCODE_StdIn.c
+	$(C) -c ./ndCODE_StdIn.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_StdIn.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_StdOut.o: ./ndCODE_StdOut.c
+	$(C) -c ./ndCODE_StdOut.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_StdOut.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_String.o: ./ndCODE_String.c
+	$(C) -c ./ndCODE_String.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_String.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_SystemCalls.o: ./ndCODE_SystemCalls.c
+	$(C) -c ./ndCODE_SystemCalls.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_SystemCalls.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_T1FileManager.o: ./ndCODE_T1FileManager.c
+	$(C) -c ./ndCODE_T1FileManager.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_T1FileManager.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_T2FileManager.o: ./ndCODE_T2FileManager.c
+	$(C) -c ./ndCODE_T2FileManager.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_T2FileManager.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_FileManager.o: ./ndCODE_FileManager.c
+	$(C) -c ./ndCODE_FileManager.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_FileManager.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_Thumbs.o: ./ndCODE_Thumbs.c
+	$(C) -c ./ndCODE_Thumbs.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_Thumbs.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_TrackBar.o: ./ndCODE_TrackBar.c
+	$(C) -c ./ndCODE_TrackBar.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_TrackBar.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_TextBox.o: ./ndCODE_TextBox.c
+	$(C) -c ./ndCODE_TextBox.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_TextBox.o  $(INC) $(CFLAGS_PSPE)  
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_ListBox.o: ./ndCODE_ListBox.c
+	$(C) -c ./ndCODE_ListBox.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_ListBox.o  $(INC) $(CFLAGS_PSPE)   
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_WindowSpace.o: ./ndCODE_WindowSpace.c
+	$(C) -c ./ndCODE_WindowSpace.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_WindowSpace.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_WinMenuAPI.o: ./ndCODE_WinMenuAPI.c
+	$(C) -c ./ndCODE_WinMenuAPI.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_WinMenuAPI.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_WinMenuGraph.o: ./ndCODE_WinMenuGraph.c
+	$(C) -c ./ndCODE_WinMenuGraph.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_WinMenuGraph.o  $(INC) $(CFLAGS_PSPE) 
+
+../obj_CODE/obj_CODE_PSPE/ndCODE_CBox.o: ./ndCODE_CBox.c
+	$(C) -c ./ndCODE_CBox.c -o ../obj_CODE/obj_CODE_PSPE/ndCODE_CBox.o  $(INC) $(CFLAGS_PSPE) 
+
+
+
+
+
+
+## Compilazione dei moduli di livello CODE per PSPE (supporto Dev-IL) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_Init.o: ./ndCODE_Init.c
+	$(C) -c ./ndCODE_Init.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_Init.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_AddressList.o: ./ndCODE_AddressList.c
+	$(C) -c ./ndCODE_AddressList.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_AddressList.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_Aux.o: ./ndCODE_Aux.c
+	$(C) -c ./ndCODE_Aux.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_Aux.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_BaseScreen.o: ./ndCODE_BaseScreen.c
+	$(C) -c ./ndCODE_BaseScreen.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_BaseScreen.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_ClassList.o: ./ndCODE_ClassList.c
+	$(C) -c ./ndCODE_ClassList.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_ClassList.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_CommonDialogBoxFM.o: ./ndCODE_CommonDialogBoxFM.c
+	$(C) -c ./ndCODE_CommonDialogBoxFM.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_CommonDialogBoxFM.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_CustomButtons.o: ./ndCODE_CustomButtons.c
+	$(C) -c ./ndCODE_CustomButtons.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_CustomButtons.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_FileList.o: ./ndCODE_FileList.c
+	$(C) -c ./ndCODE_FileList.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_FileList.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_FileSupport.o: ./ndCODE_FileSupport.c
+	$(C) -c ./ndCODE_FileSupport.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_FileSupport.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_Fonts.o: ./ndCODE_Fonts.c
+	$(C) -c ./ndCODE_Fonts.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_Fonts.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_IconList.o: ./ndCODE_IconList.c
+	$(C) -c ./ndCODE_IconList.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_IconList.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_ImageSupport.o: ./ndCODE_ImageSupport.c
+	$(C) -c ./ndCODE_ImageSupport.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_ImageSupport.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_InfoApi.o: ./ndCODE_InfoApi.c
+	$(C) -c ./ndCODE_InfoApi.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_InfoApi.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_L1L2WinMenuList.o: ./ndCODE_L1L2WinMenuList.c
+	$(C) -c ./ndCODE_L1L2WinMenuList.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_L1L2WinMenuList.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_L1WinMenuList.o: ./ndCODE_L1WinMenuList.c
+	$(C) -c ./ndCODE_L1WinMenuList.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_L1WinMenuList.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_L2WinMenuList.o: ./ndCODE_L2WinMenuList.c
+	$(C) -c ./ndCODE_L2WinMenuList.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_L2WinMenuList.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_LogicalPage.o: ./ndCODE_LogicalPage.c
+	$(C) -c ./ndCODE_LogicalPage.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_LogicalPage.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_LowLevel.o: ./ndCODE_LowLevel.c
+	$(C) -c ./ndCODE_LowLevel.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_LowLevel.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_MouseCtrl.o: ./ndCODE_MouseCtrl.c
+	$(C) -c ./ndCODE_MouseCtrl.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_MouseCtrl.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_NameTest.o: ./ndCODE_NameTest.c
+	$(C) -c ./ndCODE_NameTest.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_NameTest.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_NdKeys.o: ./ndCODE_NdKeys.c
+	$(C) -c ./ndCODE_NdKeys.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_NdKeys.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_NNM.o: ./ndCODE_NNM.c
+	$(C) -c ./ndCODE_NNM.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_NNM.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_PosGen.o: ./ndCODE_PosGen.c
+	$(C) -c ./ndCODE_PosGen.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_PosGen.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_RDestroyDir.o: ./ndCODE_RDestroyDir.c
+	$(C) -c ./ndCODE_RDestroyDir.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_RDestroyDir.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_ServiceSpace.o: ./ndCODE_ServiceSpace.c
+	$(C) -c ./ndCODE_ServiceSpace.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_ServiceSpace.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_StdIn.o: ./ndCODE_StdIn.c
+	$(C) -c ./ndCODE_StdIn.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_StdIn.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_StdOut.o: ./ndCODE_StdOut.c
+	$(C) -c ./ndCODE_StdOut.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_StdOut.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_String.o: ./ndCODE_String.c
+	$(C) -c ./ndCODE_String.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_String.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_SystemCalls.o: ./ndCODE_SystemCalls.c
+	$(C) -c ./ndCODE_SystemCalls.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_SystemCalls.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_T1FileManager.o: ./ndCODE_T1FileManager.c
+	$(C) -c ./ndCODE_T1FileManager.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_T1FileManager.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_T2FileManager.o: ./ndCODE_T2FileManager.c
+	$(C) -c ./ndCODE_T2FileManager.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_T2FileManager.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_FileManager.o: ./ndCODE_FileManager.c
+	$(C) -c ./ndCODE_FileManager.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_FileManager.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT)  
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_Thumbs.o: ./ndCODE_Thumbs.c
+	$(C) -c ./ndCODE_Thumbs.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_Thumbs.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_TrackBar.o: ./ndCODE_TrackBar.c
+	$(C) -c ./ndCODE_TrackBar.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_TrackBar.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_TextBox.o: ./ndCODE_TextBox.c
+	$(C) -c ./ndCODE_TextBox.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_TextBox.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_ListBox.o: ./ndCODE_ListBox.c
+	$(C) -c ./ndCODE_ListBox.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_ListBox.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_WindowSpace.o: ./ndCODE_WindowSpace.c
+	$(C) -c ./ndCODE_WindowSpace.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_WindowSpace.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_WinMenuAPI.o: ./ndCODE_WinMenuAPI.c
+	$(C) -c ./ndCODE_WinMenuAPI.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_WinMenuAPI.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_WinMenuGraph.o: ./ndCODE_WinMenuGraph.c
+	$(C) -c ./ndCODE_WinMenuGraph.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_WinMenuGraph.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_CBox.o: ./ndCODE_CBox.c
+	$(C) -c ./ndCODE_CBox.c -o ../obj_CODE/obj_CODE_DEVIL_PSPE/ndCODE_CBox.o  $(INC) $(CFLAGS_PSPE) $(DEVILSUPPORT) 
+
+
+
+
+
+## Compilazione dei moduli di livello CODE per PSPE (supporto Dev-IL e TrueType fonts) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_Init.o: ./ndCODE_Init.c
+	$(C) -c ./ndCODE_Init.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_Init.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_AddressList.o: ./ndCODE_AddressList.c
+	$(C) -c ./ndCODE_AddressList.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_AddressList.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_Aux.o: ./ndCODE_Aux.c
+	$(C) -c ./ndCODE_Aux.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_Aux.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_BaseScreen.o: ./ndCODE_BaseScreen.c
+	$(C) -c ./ndCODE_BaseScreen.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_BaseScreen.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_ClassList.o: ./ndCODE_ClassList.c
+	$(C) -c ./ndCODE_ClassList.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_ClassList.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_CommonDialogBoxFM.o: ./ndCODE_CommonDialogBoxFM.c
+	$(C) -c ./ndCODE_CommonDialogBoxFM.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_CommonDialogBoxFM.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_CustomButtons.o: ./ndCODE_CustomButtons.c
+	$(C) -c ./ndCODE_CustomButtons.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_CustomButtons.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_FileList.o: ./ndCODE_FileList.c
+	$(C) -c ./ndCODE_FileList.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_FileList.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_FileSupport.o: ./ndCODE_FileSupport.c
+	$(C) -c ./ndCODE_FileSupport.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_FileSupport.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_Fonts.o: ./ndCODE_Fonts.c
+	$(C) -c ./ndCODE_Fonts.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_Fonts.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_IconList.o: ./ndCODE_IconList.c
+	$(C) -c ./ndCODE_IconList.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_IconList.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_ImageSupport.o: ./ndCODE_ImageSupport.c
+	$(C) -c ./ndCODE_ImageSupport.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_ImageSupport.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_InfoApi.o: ./ndCODE_InfoApi.c
+	$(C) -c ./ndCODE_InfoApi.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_InfoApi.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_L1L2WinMenuList.o: ./ndCODE_L1L2WinMenuList.c
+	$(C) -c ./ndCODE_L1L2WinMenuList.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_L1L2WinMenuList.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_L1WinMenuList.o: ./ndCODE_L1WinMenuList.c
+	$(C) -c ./ndCODE_L1WinMenuList.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_L1WinMenuList.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_L2WinMenuList.o: ./ndCODE_L2WinMenuList.c
+	$(C) -c ./ndCODE_L2WinMenuList.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_L2WinMenuList.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_LogicalPage.o: ./ndCODE_LogicalPage.c
+	$(C) -c ./ndCODE_LogicalPage.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_LogicalPage.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_LowLevel.o: ./ndCODE_LowLevel.c
+	$(C) -c ./ndCODE_LowLevel.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_LowLevel.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_MouseCtrl.o: ./ndCODE_MouseCtrl.c
+	$(C) -c ./ndCODE_MouseCtrl.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_MouseCtrl.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_NameTest.o: ./ndCODE_NameTest.c
+	$(C) -c ./ndCODE_NameTest.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_NameTest.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_NdKeys.o: ./ndCODE_NdKeys.c
+	$(C) -c ./ndCODE_NdKeys.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_NdKeys.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_NNM.o: ./ndCODE_NNM.c
+	$(C) -c ./ndCODE_NNM.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_NNM.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_PosGen.o: ./ndCODE_PosGen.c
+	$(C) -c ./ndCODE_PosGen.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_PosGen.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_RDestroyDir.o: ./ndCODE_RDestroyDir.c
+	$(C) -c ./ndCODE_RDestroyDir.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_RDestroyDir.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_ServiceSpace.o: ./ndCODE_ServiceSpace.c
+	$(C) -c ./ndCODE_ServiceSpace.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_ServiceSpace.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_StdIn.o: ./ndCODE_StdIn.c
+	$(C) -c ./ndCODE_StdIn.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_StdIn.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_StdOut.o: ./ndCODE_StdOut.c
+	$(C) -c ./ndCODE_StdOut.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_StdOut.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_String.o: ./ndCODE_String.c
+	$(C) -c ./ndCODE_String.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_String.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_SystemCalls.o: ./ndCODE_SystemCalls.c
+	$(C) -c ./ndCODE_SystemCalls.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_SystemCalls.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_T1FileManager.o: ./ndCODE_T1FileManager.c
+	$(C) -c ./ndCODE_T1FileManager.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_T1FileManager.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_T2FileManager.o: ./ndCODE_T2FileManager.c
+	$(C) -c ./ndCODE_T2FileManager.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_T2FileManager.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_FileManager.o: ./ndCODE_FileManager.c
+	$(C) -c ./ndCODE_FileManager.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_FileManager.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT)  
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_Thumbs.o: ./ndCODE_Thumbs.c
+	$(C) -c ./ndCODE_Thumbs.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_Thumbs.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_TrackBar.o: ./ndCODE_TrackBar.c
+	$(C) -c ./ndCODE_TrackBar.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_TrackBar.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_TextBox.o: ./ndCODE_TextBox.c
+	$(C) -c ./ndCODE_TextBox.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_TextBox.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_ListBox.o: ./ndCODE_ListBox.c
+	$(C) -c ./ndCODE_ListBox.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_ListBox.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_WindowSpace.o: ./ndCODE_WindowSpace.c
+	$(C) -c ./ndCODE_WindowSpace.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_WindowSpace.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_WinMenuAPI.o: ./ndCODE_WinMenuAPI.c
+	$(C) -c ./ndCODE_WinMenuAPI.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_WinMenuAPI.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_WinMenuGraph.o: ./ndCODE_WinMenuGraph.c
+	$(C) -c ./ndCODE_WinMenuGraph.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_WinMenuGraph.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_CBox.o: ./ndCODE_CBox.c
+	$(C) -c ./ndCODE_CBox.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSPE/ndCODE_CBox.o  $(INC) $(CFLAGS_PSPE) $(DEVILTTFSUPPORT) 
+
+
+
+
+
+
+
+
+
+## Compilazione dei moduli di livello CODE per PSP (nessun supporto Dev-IL) 
+
+
+../obj_CODE/obj_CODE_PSP/ndCODE_Init.o: ./ndCODE_Init.c
+	$(C) -c ./ndCODE_Init.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_Init.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_AddressList.o: ./ndCODE_AddressList.c
+	$(C) -c ./ndCODE_AddressList.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_AddressList.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_Aux.o: ./ndCODE_Aux.c
+	$(C) -c ./ndCODE_Aux.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_Aux.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_BaseScreen.o: ./ndCODE_BaseScreen.c
+	$(C) -c ./ndCODE_BaseScreen.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_BaseScreen.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_ClassList.o: ./ndCODE_ClassList.c
+	$(C) -c ./ndCODE_ClassList.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_ClassList.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_CommonDialogBoxFM.o: ./ndCODE_CommonDialogBoxFM.c
+	$(C) -c ./ndCODE_CommonDialogBoxFM.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_CommonDialogBoxFM.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_CustomButtons.o: ./ndCODE_CustomButtons.c
+	$(C) -c ./ndCODE_CustomButtons.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_CustomButtons.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_FileList.o: ./ndCODE_FileList.c
+	$(C) -c ./ndCODE_FileList.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_FileList.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_FileSupport.o: ./ndCODE_FileSupport.c
+	$(C) -c ./ndCODE_FileSupport.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_FileSupport.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_Fonts.o: ./ndCODE_Fonts.c
+	$(C) -c ./ndCODE_Fonts.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_Fonts.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_IconList.o: ./ndCODE_IconList.c
+	$(C) -c ./ndCODE_IconList.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_IconList.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_ImageSupport.o: ./ndCODE_ImageSupport.c
+	$(C) -c ./ndCODE_ImageSupport.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_ImageSupport.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_InfoApi.o: ./ndCODE_InfoApi.c
+	$(C) -c ./ndCODE_InfoApi.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_InfoApi.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_L1L2WinMenuList.o: ./ndCODE_L1L2WinMenuList.c
+	$(C) -c ./ndCODE_L1L2WinMenuList.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_L1L2WinMenuList.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_L1WinMenuList.o: ./ndCODE_L1WinMenuList.c
+	$(C) -c ./ndCODE_L1WinMenuList.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_L1WinMenuList.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_L2WinMenuList.o: ./ndCODE_L2WinMenuList.c
+	$(C) -c ./ndCODE_L2WinMenuList.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_L2WinMenuList.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_LogicalPage.o: ./ndCODE_LogicalPage.c
+	$(C) -c ./ndCODE_LogicalPage.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_LogicalPage.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_LowLevel.o: ./ndCODE_LowLevel.c
+	$(C) -c ./ndCODE_LowLevel.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_LowLevel.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_MouseCtrl.o: ./ndCODE_MouseCtrl.c
+	$(C) -c ./ndCODE_MouseCtrl.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_MouseCtrl.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_NameTest.o: ./ndCODE_NameTest.c
+	$(C) -c ./ndCODE_NameTest.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_NameTest.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_NdKeys.o: ./ndCODE_NdKeys.c
+	$(C) -c ./ndCODE_NdKeys.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_NdKeys.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_NNM.o: ./ndCODE_NNM.c
+	$(C) -c ./ndCODE_NNM.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_NNM.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_PosGen.o: ./ndCODE_PosGen.c
+	$(C) -c ./ndCODE_PosGen.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_PosGen.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_RDestroyDir.o: ./ndCODE_RDestroyDir.c
+	$(C) -c ./ndCODE_RDestroyDir.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_RDestroyDir.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_ServiceSpace.o: ./ndCODE_ServiceSpace.c
+	$(C) -c ./ndCODE_ServiceSpace.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_ServiceSpace.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_StdIn.o: ./ndCODE_StdIn.c
+	$(C) -c ./ndCODE_StdIn.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_StdIn.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_StdOut.o: ./ndCODE_StdOut.c
+	$(C) -c ./ndCODE_StdOut.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_StdOut.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_String.o: ./ndCODE_String.c
+	$(C) -c ./ndCODE_String.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_String.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_SystemCalls.o: ./ndCODE_SystemCalls.c
+	$(C) -c ./ndCODE_SystemCalls.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_SystemCalls.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_T1FileManager.o: ./ndCODE_T1FileManager.c
+	$(C) -c ./ndCODE_T1FileManager.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_T1FileManager.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_T2FileManager.o: ./ndCODE_T2FileManager.c
+	$(C) -c ./ndCODE_T2FileManager.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_T2FileManager.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_FileManager.o: ./ndCODE_FileManager.c
+	$(C) -c ./ndCODE_FileManager.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_FileManager.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_Thumbs.o: ./ndCODE_Thumbs.c
+	$(C) -c ./ndCODE_Thumbs.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_Thumbs.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_TrackBar.o: ./ndCODE_TrackBar.c
+	$(C) -c ./ndCODE_TrackBar.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_TrackBar.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_ListBox.o: ./ndCODE_ListBox.c
+	$(C) -c ./ndCODE_ListBox.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_ListBox.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_TextBox.o: ./ndCODE_TextBox.c
+	$(C) -c ./ndCODE_TextBox.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_TextBox.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_WindowSpace.o: ./ndCODE_WindowSpace.c
+	$(C) -c ./ndCODE_WindowSpace.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_WindowSpace.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_WinMenuAPI.o: ./ndCODE_WinMenuAPI.c
+	$(C) -c ./ndCODE_WinMenuAPI.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_WinMenuAPI.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_WinMenuGraph.o: ./ndCODE_WinMenuGraph.c
+	$(C) -c ./ndCODE_WinMenuGraph.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_WinMenuGraph.o  $(INC) $(CFLAGS_PSP) 
+
+../obj_CODE/obj_CODE_PSP/ndCODE_CBox.o: ./ndCODE_CBox.c
+	$(C) -c ./ndCODE_CBox.c -o ../obj_CODE/obj_CODE_PSP/ndCODE_CBox.o  $(INC) $(CFLAGS_PSP) 
+
+
+
+
+
+
+
+## Compilazione dei moduli di livello CODE per PSP (con supporto Dev-IL) 
+
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_Init.o: ./ndCODE_Init.c
+	$(C) -c ./ndCODE_Init.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_Init.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_AddressList.o: ./ndCODE_AddressList.c
+	$(C) -c ./ndCODE_AddressList.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_AddressList.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_Aux.o: ./ndCODE_Aux.c
+	$(C) -c ./ndCODE_Aux.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_Aux.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_BaseScreen.o: ./ndCODE_BaseScreen.c
+	$(C) -c ./ndCODE_BaseScreen.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_BaseScreen.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_ClassList.o: ./ndCODE_ClassList.c
+	$(C) -c ./ndCODE_ClassList.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_ClassList.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_CommonDialogBoxFM.o: ./ndCODE_CommonDialogBoxFM.c
+	$(C) -c ./ndCODE_CommonDialogBoxFM.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_CommonDialogBoxFM.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_CustomButtons.o: ./ndCODE_CustomButtons.c
+	$(C) -c ./ndCODE_CustomButtons.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_CustomButtons.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_FileList.o: ./ndCODE_FileList.c
+	$(C) -c ./ndCODE_FileList.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_FileList.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_FileSupport.o: ./ndCODE_FileSupport.c
+	$(C) -c ./ndCODE_FileSupport.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_FileSupport.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_Fonts.o: ./ndCODE_Fonts.c
+	$(C) -c ./ndCODE_Fonts.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_Fonts.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_IconList.o: ./ndCODE_IconList.c
+	$(C) -c ./ndCODE_IconList.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_IconList.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_ImageSupport.o: ./ndCODE_ImageSupport.c
+	$(C) -c ./ndCODE_ImageSupport.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_ImageSupport.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_InfoApi.o: ./ndCODE_InfoApi.c
+	$(C) -c ./ndCODE_InfoApi.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_InfoApi.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_L1L2WinMenuList.o: ./ndCODE_L1L2WinMenuList.c
+	$(C) -c ./ndCODE_L1L2WinMenuList.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_L1L2WinMenuList.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_L1WinMenuList.o: ./ndCODE_L1WinMenuList.c
+	$(C) -c ./ndCODE_L1WinMenuList.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_L1WinMenuList.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_L2WinMenuList.o: ./ndCODE_L1WinMenuList.c
+	$(C) -c ./ndCODE_L2WinMenuList.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_L2WinMenuList.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_LogicalPage.o: ./ndCODE_LogicalPage.c
+	$(C) -c ./ndCODE_LogicalPage.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_LogicalPage.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_LowLevel.o: ./ndCODE_LowLevel.c
+	$(C) -c ./ndCODE_LowLevel.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_LowLevel.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_MouseCtrl.o: ./ndCODE_MouseCtrl.c
+	$(C) -c ./ndCODE_MouseCtrl.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_MouseCtrl.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_NameTest.o: ./ndCODE_NameTest.c
+	$(C) -c ./ndCODE_NameTest.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_NameTest.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_NdKeys.o: ./ndCODE_NdKeys.c 
+	$(C) -c ./ndCODE_NdKeys.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_NdKeys.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_NNM.o: ./ndCODE_NNM.c
+	$(C) -c ./ndCODE_NNM.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_NNM.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_PosGen.o: ./ndCODE_PosGen.c 
+	$(C) -c ./ndCODE_PosGen.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_PosGen.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_RDestroyDir.o: ./ndCODE_RDestroyDir.c
+	$(C) -c ./ndCODE_RDestroyDir.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_RDestroyDir.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_ServiceSpace.o: ./ndCODE_ServiceSpace.c
+	$(C) -c ./ndCODE_ServiceSpace.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_ServiceSpace.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_StdIn.o: ./ndCODE_StdIn.c
+	$(C) -c ./ndCODE_StdIn.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_StdIn.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_StdOut.o: ./ndCODE_StdOut.c
+	$(C) -c ./ndCODE_StdOut.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_StdOut.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_String.o: ./ndCODE_String.c
+	$(C) -c ./ndCODE_String.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_String.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_SystemCalls.o: ./ndCODE_SystemCalls.c
+	$(C) -c ./ndCODE_SystemCalls.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_SystemCalls.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_T1FileManager.o: ./ndCODE_T1FileManager.c
+	$(C) -c ./ndCODE_T1FileManager.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_T1FileManager.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_T2FileManager.o: ./ndCODE_T2FileManager.c
+	$(C) -c ./ndCODE_T2FileManager.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_T2FileManager.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_FileManager.o: ./ndCODE_FileManager.c
+	$(C) -c ./ndCODE_FileManager.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_FileManager.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_Thumbs.o: ./ndCODE_Thumbs.c
+	$(C) -c ./ndCODE_Thumbs.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_Thumbs.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_TextBox.o: ./ndCODE_TextBox.c
+	$(C) -c ./ndCODE_TextBox.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_TextBox.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_ListBox.o: ./ndCODE_ListBox.c
+	$(C) -c ./ndCODE_ListBox.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_ListBox.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_TrackBar.o: ./ndCODE_TrackBar.c
+	$(C) -c ./ndCODE_TrackBar.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_TrackBar.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_WindowSpace.o: ./ndCODE_WindowSpace.c
+	$(C) -c ./ndCODE_WindowSpace.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_WindowSpace.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_WinMenuAPI.o: ./ndCODE_WinMenuAPI.c
+	$(C) -c ./ndCODE_WinMenuAPI.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_WinMenuAPI.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_WinMenuGraph.o: ./ndCODE_WinMenuGraph.c
+	$(C) -c ./ndCODE_WinMenuGraph.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_WinMenuGraph.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_CBox.o: ./ndCODE_CBox.c
+	$(C) -c ./ndCODE_CBox.c -o ../obj_CODE/obj_CODE_DEVIL_PSP/ndCODE_CBox.o  $(INC) $(CFLAGS_PSP) $(DEVILSUPPORT) 
+
+
+
+
+## Compilazione dei moduli di livello CODE per PSP (supporto Dev-IL e TrueType fonts) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_Init.o: ./ndCODE_Init.c
+	$(C) -c ./ndCODE_Init.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_Init.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_AddressList.o: ./ndCODE_AddressList.c
+	$(C) -c ./ndCODE_AddressList.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_AddressList.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_Aux.o: ./ndCODE_Aux.c
+	$(C) -c ./ndCODE_Aux.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_Aux.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_BaseScreen.o: ./ndCODE_BaseScreen.c
+	$(C) -c ./ndCODE_BaseScreen.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_BaseScreen.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_ClassList.o: ./ndCODE_ClassList.c
+	$(C) -c ./ndCODE_ClassList.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_ClassList.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_CommonDialogBoxFM.o: ./ndCODE_CommonDialogBoxFM.c
+	$(C) -c ./ndCODE_CommonDialogBoxFM.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_CommonDialogBoxFM.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_CustomButtons.o: ./ndCODE_CustomButtons.c
+	$(C) -c ./ndCODE_CustomButtons.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_CustomButtons.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_FileList.o: ./ndCODE_FileList.c
+	$(C) -c ./ndCODE_FileList.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_FileList.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_FileSupport.o: ./ndCODE_FileSupport.c
+	$(C) -c ./ndCODE_FileSupport.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_FileSupport.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_Fonts.o: ./ndCODE_Fonts.c
+	$(C) -c ./ndCODE_Fonts.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_Fonts.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_IconList.o: ./ndCODE_IconList.c
+	$(C) -c ./ndCODE_IconList.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_IconList.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_ImageSupport.o: ./ndCODE_ImageSupport.c
+	$(C) -c ./ndCODE_ImageSupport.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_ImageSupport.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_InfoApi.o: ./ndCODE_InfoApi.c
+	$(C) -c ./ndCODE_InfoApi.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_InfoApi.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_L1L2WinMenuList.o: ./ndCODE_L1L2WinMenuList.c
+	$(C) -c ./ndCODE_L1L2WinMenuList.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_L1L2WinMenuList.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_L1WinMenuList.o: ./ndCODE_L1WinMenuList.c
+	$(C) -c ./ndCODE_L1WinMenuList.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_L1WinMenuList.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_L2WinMenuList.o: ./ndCODE_L2WinMenuList.c
+	$(C) -c ./ndCODE_L2WinMenuList.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_L2WinMenuList.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_LogicalPage.o: ./ndCODE_LogicalPage.c
+	$(C) -c ./ndCODE_LogicalPage.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_LogicalPage.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_LowLevel.o: ./ndCODE_LowLevel.c
+	$(C) -c ./ndCODE_LowLevel.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_LowLevel.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_MouseCtrl.o: ./ndCODE_MouseCtrl.c
+	$(C) -c ./ndCODE_MouseCtrl.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_MouseCtrl.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_NameTest.o: ./ndCODE_NameTest.c
+	$(C) -c ./ndCODE_NameTest.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_NameTest.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_NdKeys.o: ./ndCODE_NdKeys.c
+	$(C) -c ./ndCODE_NdKeys.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_NdKeys.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_NNM.o: ./ndCODE_NNM.c
+	$(C) -c ./ndCODE_NNM.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_NNM.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_PosGen.o: ./ndCODE_PosGen.c
+	$(C) -c ./ndCODE_PosGen.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_PosGen.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_RDestroyDir.o: ./ndCODE_RDestroyDir.c
+	$(C) -c ./ndCODE_RDestroyDir.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_RDestroyDir.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_ServiceSpace.o: ./ndCODE_ServiceSpace.c
+	$(C) -c ./ndCODE_ServiceSpace.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_ServiceSpace.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_StdIn.o: ./ndCODE_StdIn.c
+	$(C) -c ./ndCODE_StdIn.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_StdIn.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_StdOut.o: ./ndCODE_StdOut.c
+	$(C) -c ./ndCODE_StdOut.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_StdOut.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_String.o: ./ndCODE_String.c
+	$(C) -c ./ndCODE_String.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_String.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_SystemCalls.o: ./ndCODE_SystemCalls.c
+	$(C) -c ./ndCODE_SystemCalls.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_SystemCalls.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_T1FileManager.o: ./ndCODE_T1FileManager.c
+	$(C) -c ./ndCODE_T1FileManager.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_T1FileManager.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_T2FileManager.o: ./ndCODE_T2FileManager.c
+	$(C) -c ./ndCODE_T2FileManager.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_T2FileManager.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_FileManager.o: ./ndCODE_FileManager.c
+	$(C) -c ./ndCODE_FileManager.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_FileManager.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT)  
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_Thumbs.o: ./ndCODE_Thumbs.c
+	$(C) -c ./ndCODE_Thumbs.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_Thumbs.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_TrackBar.o: ./ndCODE_TrackBar.c
+	$(C) -c ./ndCODE_TrackBar.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_TrackBar.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_TextBox.o: ./ndCODE_TextBox.c
+	$(C) -c ./ndCODE_TextBox.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_TextBox.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_ListBox.o: ./ndCODE_ListBox.c
+	$(C) -c ./ndCODE_ListBox.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_ListBox.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_WindowSpace.o: ./ndCODE_WindowSpace.c
+	$(C) -c ./ndCODE_WindowSpace.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_WindowSpace.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_WinMenuAPI.o: ./ndCODE_WinMenuAPI.c
+	$(C) -c ./ndCODE_WinMenuAPI.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_WinMenuAPI.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_WinMenuGraph.o: ./ndCODE_WinMenuGraph.c
+	$(C) -c ./ndCODE_WinMenuGraph.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_WinMenuGraph.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_CBox.o: ./ndCODE_CBox.c
+	$(C) -c ./ndCODE_CBox.c -o ../obj_CODE/obj_CODE_DEVILTTF_PSP/ndCODE_CBox.o  $(INC) $(CFLAGS_PSP) $(DEVILTTFSUPPORT) 
+
+
+
+

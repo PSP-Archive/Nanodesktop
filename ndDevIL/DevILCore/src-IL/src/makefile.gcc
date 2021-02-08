@@ -1,0 +1,386 @@
+#   ---------------------------------------------------------------------------
+#   Makefile della libreria ndDevIL (PSP/PSPE)
+#   ---------------------------------------------------------------------------
+#   
+#   La libreria ndDevIL  si occupa di fornire il supporto a Nanodesktop per
+#   l'apertura dei vari formati grafici.
+#
+#   Questo Makefile è stato realizzato da Filippo Battaglia
+#   ----------------------------------------------------------------------------
+
+
+
+
+# Makefile for GNU C/C++ 3.x or later
+
+C = psp-gcc
+PACK = psp-ar
+
+
+## Librerie da creare
+
+OUTLIB1 = ../../lib/libNdDevil_PSPE.a
+
+OUTLIB2 = ../../lib/libNdDevil_PSP.a
+
+
+
+## File oggetto per PSPE e per PSP
+
+OBJS_PSPE = ../../obj_PSPE/il_alloc.o \
+../../obj_PSPE/il_stack.o ../../obj_PSPE/il_pcx.o \
+../../obj_PSPE/il_rle.o ../../obj_PSPE/il_bits.o \
+../../obj_PSPE/il_endian.o ../../obj_PSPE/il_jpeg.o \
+../../obj_PSPE/il_sgi.o ../../obj_PSPE/il_png.o \
+../../obj_PSPE/il_bmp.o ../../obj_PSPE/il_error.o \
+../../obj_PSPE/il_states.o ../../obj_PSPE/il_convbuff.o \
+../../obj_PSPE/il_files.o ../../obj_PSPE/il_main.o \
+../../obj_PSPE/il_pnm.o ../../obj_PSPE/il_targa.o \
+../../obj_PSPE/il_convert.o ../../obj_PSPE/il_gif.o \
+../../obj_PSPE/il_manip.o ../../obj_PSPE/il_profiles.o \
+../../obj_PSPE/il_tiff.o  ../../obj_PSPE/il_header.o \
+../../obj_PSPE/il_quantizer.o ../../obj_PSPE/il_utility.o \
+../../obj_PSPE/il_icon.o \
+../../obj_PSPE/il_mng.o ../../obj_PSPE/il_raw.o \
+../../obj_PSPE/il_internal.o ../../obj_PSPE/il_pal.o \
+../../obj_PSPE/il_rawdata.o ../../obj_PSPE/il_devil.o \
+../../obj_PSPE/il_io.o ../../obj_PSPE/il_pcd.o \
+../../obj_PSPE/il_register.o ../../obj_PSPE/il_psd.o \
+../../obj_PSPE/il_fastconv.o ../../obj_PSPE/il_neuquant.o \
+../../obj_PSPE/il_pix.o   ../../obj_PSPE/il_xpm.o 
+
+OBJS_PSP = ../../obj_PSP/il_alloc.o \
+../../obj_PSP/il_stack.o ../../obj_PSP/il_pcx.o \
+../../obj_PSP/il_rle.o ../../obj_PSP/il_bits.o \
+../../obj_PSP/il_endian.o ../../obj_PSP/il_jpeg.o \
+../../obj_PSP/il_sgi.o ../../obj_PSP/il_png.o \
+../../obj_PSP/il_bmp.o ../../obj_PSP/il_error.o \
+../../obj_PSP/il_states.o ../../obj_PSP/il_convbuff.o \
+../../obj_PSP/il_files.o ../../obj_PSP/il_main.o \
+../../obj_PSP/il_pnm.o ../../obj_PSP/il_targa.o \
+../../obj_PSP/il_convert.o ../../obj_PSP/il_gif.o \
+../../obj_PSP/il_manip.o ../../obj_PSP/il_profiles.o \
+../../obj_PSP/il_tiff.o  ../../obj_PSP/il_header.o \
+../../obj_PSP/il_quantizer.o ../../obj_PSP/il_utility.o \
+../../obj_PSP/il_icon.o \
+../../obj_PSP/il_mng.o ../../obj_PSP/il_raw.o \
+../../obj_PSP/il_internal.o ../../obj_PSP/il_pal.o \
+../../obj_PSP/il_rawdata.o ../../obj_PSP/il_devil.o \
+../../obj_PSP/il_io.o ../../obj_PSP/il_pcd.o \
+../../obj_PSP/il_register.o ../../obj_PSP/il_psd.o \
+../../obj_PSP/il_fastconv.o ../../obj_PSP/il_neuquant.o \
+../../obj_PSP/il_pix.o  ../../obj_PSP/il_xpm.o 
+
+
+
+## Directory di servizio
+
+INC1 = -I"." -I"../include" -I"../../include"
+
+INC2 = -I"../../../../SDK/Nanodesktop/src" 
+INC3 = -I"../../../../SDK/NanoCore/NanoC/src" -I"../../../../SDK/NanoCore/NanoM/src"
+INC4 = -I"../../../../SDK/pspdev/psp/sdk/include"
+
+INC5 = -I"../../../jpeglib/src"
+INC6 = -I"../../../lpng1210/src" 
+INC7 = -I"../../../tiff/src"
+INC8 = -I"../../../zlib/src"
+
+XINC = $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6) $(INC7) $(INC8)
+
+
+## Componenti esclusi
+
+NDDEVIL_CONFIG =  
+
+MODULEEXCL0 =  -D"IL_NO_DOOM" -D"IL_NO_MNG" -D"IL_NO_LCMS" -D"IL_NO_HDR" 
+MODULEEXCL1 =  -D"IL_NO_LIF"  -D"IL_NO_PIC" -D"IL_NO_WAL"  -D"IL_NO_PXR" 
+MODULEEXCL2 =  -D"IL_NO_CUT"  -D"IL_NO_MDL" -D"IL_NO_PSP"  -D"IL_NO_DCX" 
+MODULEEXCL3 =  -D"IL_NO_DDS" 
+
+MODULEEXCL = $(MODULEEXCL0) $(MODULEEXCL1) $(MODULEEXCL2) $(MODULEEXCL3)
+
+
+## Flags di piattaforma
+
+XFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -O3 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -mfp32 -msym32 -fshort-double -v -Wall
+
+XFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -v -Wall
+
+
+
+## Flags C PSPE e PSP
+
+CFLAGS_PSPE = $(XINC) $(XFLAGS_PSPE) 
+
+CFLAGS_PSP  = $(XINC) $(XFLAGS_PSP) 
+
+
+
+## Opzioni per il packer
+
+PACKFLAGS = r
+
+
+## Compilazione di tutto il package
+
+all: $(OUTLIB1) $(OUTLIB2)
+
+
+
+## Esecuzione del packer
+
+$(OUTLIB1): $(OBJS_PSPE)
+	$(PACK) $(PACKFLAGS) $(OUTLIB1) $(OBJS_PSPE) 
+	
+$(OUTLIB2): $(OBJS_PSP)
+	$(PACK) $(PACKFLAGS) $(OUTLIB2) $(OBJS_PSP) 
+
+	
+
+## Compilazione dei file oggetto per PSPE
+
+../../obj_PSPE/il_alloc.o: ./il_alloc.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_alloc.o -c ./il_alloc.c
+	
+../../obj_PSPE/il_stack.o: ./il_stack.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_stack.o -c ./il_stack.c
+
+../../obj_PSPE/il_pcx.o: ./il_pcx.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_pcx.o -c ./il_pcx.c
+
+../../obj_PSPE/il_rle.o: ./il_rle.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_rle.o -c ./il_rle.c
+
+../../obj_PSPE/il_bits.o: ./il_bits.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_bits.o -c ./il_bits.c
+
+../../obj_PSPE/il_endian.o: ./il_endian.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_endian.o -c ./il_endian.c
+	
+../../obj_PSPE/il_jpeg.o: ./il_jpeg.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_jpeg.o -c ./il_jpeg.c
+		
+../../obj_PSPE/il_sgi.o: ./il_sgi.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_sgi.o -c ./il_sgi.c
+	
+../../obj_PSPE/il_bmp.o: ./il_bmp.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_bmp.o -c ./il_bmp.c
+	
+../../obj_PSPE/il_error.o: ./il_error.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_error.o -c ./il_error.c
+		
+../../obj_PSPE/il_png.o: ./il_png.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_png.o -c ./il_png.c 
+	
+../../obj_PSPE/il_states.o: ./il_states.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_states.o -c ./il_states.c
+	
+../../obj_PSPE/il_convbuff.o: ./il_convbuff.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_convbuff.o -c ./il_convbuff.c
+	
+../../obj_PSPE/il_files.o: ./il_files.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_files.o -c ./il_files.c 
+	
+../../obj_PSPE/il_main.o: ./il_main.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_main.o -c ./il_main.c
+	
+../../obj_PSPE/il_pnm.o: ./il_pnm.c   
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_pnm.o -c ./il_pnm.c 
+	
+../../obj_PSPE/il_targa.o: ./il_targa.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_targa.o -c ./il_targa.c
+	
+../../obj_PSPE/il_convert.o: ./il_convert.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_convert.o -c ./il_convert.c
+	
+../../obj_PSPE/il_gif.o: ./il_gif.c   
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_gif.o -c ./il_gif.c
+	
+../../obj_PSPE/il_manip.o: ./il_manip.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_manip.o -c ./il_manip.c
+	
+../../obj_PSPE/il_profiles.o: ./il_profiles.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_profiles.o -c ./il_profiles.c 
+	
+../../obj_PSPE/il_tiff.o: ./il_tiff.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_tiff.o -c ./il_tiff.c 
+		
+../../obj_PSPE/il_header.o: ./il_header.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_header.o -c ./il_header.c
+		
+../../obj_PSPE/il_quantizer.o: ./il_quantizer.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_quantizer.o -c ./il_quantizer.c
+	
+../../obj_PSPE/il_utility.o:  ./il_utility.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_utility.o -c ./il_utility.c
+	
+../../obj_PSPE/il_icon.o:  ./il_icon.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_icon.o -c ./il_icon.c
+	
+../../obj_PSPE/il_mng.o:  ./il_mng.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_mng.o -c ./il_mng.c
+	
+../../obj_PSPE/il_raw.o: ./il_raw.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_raw.o -c ./il_raw.c
+			
+../../obj_PSPE/il_internal.o: ./il_internal.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_internal.o -c ./il_internal.c 
+	
+../../obj_PSPE/il_pal.o: ./il_pal.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_pal.o -c ./il_pal.c
+	
+../../obj_PSPE/il_rawdata.o: ./il_rawdata.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_rawdata.o -c ./il_rawdata.c
+		
+../../obj_PSPE/il_io.o: ./il_io.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_io.o -c ./il_io.c
+		
+../../obj_PSPE/il_register.o: ./il_register.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_register.o -c ./il_register.c
+	
+../../obj_PSPE/il_pcd.o: ./il_pcd.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_pcd.o -c ./il_pcd.c
+
+../../obj_PSPE/il_psd.o: ./il_psd.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_psd.o -c ./il_psd.c
+	
+../../obj_PSPE/il_fastconv.o: ./il_fastconv.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_fastconv.o -c ./il_fastconv.c
+	
+../../obj_PSPE/il_neuquant.o: ./il_neuquant.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_neuquant.o -c ./il_neuquant.c
+			
+../../obj_PSPE/il_pix.o: ./il_pix.c	
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_pix.o -c ./il_pix.c
+			
+../../obj_PSPE/il_xpm.o: ./il_xpm.c	
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_xpm.o -c ./il_xpm.c
+
+../../obj_PSPE/il_devil.o: ./il_devil.c	
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSPE) -o ../../obj_PSPE/il_devil.o -c ./il_devil.c
+
+
+
+## Compilazione dei file oggetto per PSP
+
+
+../../obj_PSP/il_alloc.o: ./il_alloc.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_alloc.o -c ./il_alloc.c
+	
+../../obj_PSP/il_stack.o: ./il_stack.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_stack.o -c ./il_stack.c
+
+../../obj_PSP/il_pcx.o: ./il_pcx.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_pcx.o -c ./il_pcx.c
+
+../../obj_PSP/il_rle.o: ./il_rle.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_rle.o -c ./il_rle.c
+
+../../obj_PSP/il_bits.o: ./il_bits.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_bits.o -c ./il_bits.c
+
+../../obj_PSP/il_endian.o: ./il_endian.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_endian.o -c ./il_endian.c
+	
+../../obj_PSP/il_jpeg.o: ./il_jpeg.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_jpeg.o -c ./il_jpeg.c
+		
+../../obj_PSP/il_sgi.o: ./il_sgi.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_sgi.o -c ./il_sgi.c
+	
+../../obj_PSP/il_bmp.o: ./il_bmp.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_bmp.o -c ./il_bmp.c
+	
+../../obj_PSP/il_error.o: ./il_error.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_error.o -c ./il_error.c
+		
+../../obj_PSP/il_png.o: ./il_png.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_png.o -c ./il_png.c 
+	
+../../obj_PSP/il_states.o: ./il_states.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_states.o -c ./il_states.c
+	
+../../obj_PSP/il_convbuff.o: ./il_convbuff.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_convbuff.o -c ./il_convbuff.c
+	
+../../obj_PSP/il_files.o: ./il_files.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_files.o -c ./il_files.c 
+	
+../../obj_PSP/il_main.o: ./il_main.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_main.o -c ./il_main.c
+	
+../../obj_PSP/il_pnm.o: ./il_pnm.c   
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_pnm.o -c ./il_pnm.c 
+	
+../../obj_PSP/il_targa.o: ./il_targa.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_targa.o -c ./il_targa.c
+	
+../../obj_PSP/il_convert.o: ./il_convert.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_convert.o -c ./il_convert.c
+	
+../../obj_PSP/il_gif.o: ./il_gif.c   
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_gif.o -c ./il_gif.c
+	
+../../obj_PSP/il_manip.o: ./il_manip.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_manip.o -c ./il_manip.c
+	
+../../obj_PSP/il_profiles.o: ./il_profiles.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_profiles.o -c ./il_profiles.c 
+	
+../../obj_PSP/il_tiff.o: ./il_tiff.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_tiff.o -c ./il_tiff.c 
+		
+../../obj_PSP/il_header.o: ./il_header.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_header.o -c ./il_header.c
+		
+../../obj_PSP/il_quantizer.o: ./il_quantizer.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_quantizer.o -c ./il_quantizer.c
+	
+../../obj_PSP/il_utility.o:  ./il_utility.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_utility.o -c ./il_utility.c
+	
+../../obj_PSP/il_icon.o:  ./il_icon.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_icon.o -c ./il_icon.c
+	
+../../obj_PSP/il_mng.o:  ./il_mng.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_mng.o -c ./il_mng.c
+	
+../../obj_PSP/il_raw.o: ./il_raw.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_raw.o -c ./il_raw.c
+			
+../../obj_PSP/il_internal.o: ./il_internal.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_internal.o -c ./il_internal.c 
+	
+../../obj_PSP/il_pal.o: ./il_pal.c
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_pal.o -c ./il_pal.c
+	
+../../obj_PSP/il_rawdata.o: ./il_rawdata.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_rawdata.o -c ./il_rawdata.c
+		
+../../obj_PSP/il_io.o: ./il_io.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_io.o -c ./il_io.c
+		
+../../obj_PSP/il_register.o: ./il_register.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_register.o -c ./il_register.c
+	
+../../obj_PSP/il_pcd.o: ./il_pcd.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_pcd.o -c ./il_pcd.c
+
+../../obj_PSP/il_psd.o: ./il_psd.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_psd.o -c ./il_psd.c
+	
+../../obj_PSP/il_fastconv.o: ./il_fastconv.c  
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_fastconv.o -c ./il_fastconv.c
+	
+../../obj_PSP/il_neuquant.o: ./il_neuquant.c 
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_neuquant.o -c ./il_neuquant.c
+			
+../../obj_PSP/il_pix.o: ./il_pix.c	
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_pix.o -c ./il_pix.c
+
+../../obj_PSP/il_xpm.o: ./il_xpm.c	
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_xpm.o -c ./il_xpm.c
+			
+../../obj_PSP/il_devil.o: ./il_devil.c	
+	-$(C) $(NDDEVIL_CONFIG) $(MODULEEXCL) $(CFLAGS_PSP) -o ../../obj_PSP/il_devil.o -c ./il_devil.c

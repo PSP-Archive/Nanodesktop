@@ -1,0 +1,31 @@
+# Project: ndMiniZip_FrontEnd
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = psp-g++.exe
+CC   = psp-gcc.exe
+WINDRES = Vuoto.exe
+RES  = 
+OBJ  = main.o $(RES)
+LINKOBJ  = main.o $(RES)
+LIBS =  -L"E:/NDENV/PSP/SDK/PspDev/psp/lib" -L"E:/NDENV/PSP/SDK/PspDev/lib" -L"E:/NDENV/PSP/SDK/PspDev/psp/sdk/lib" -L"E:/NDENV/PSP/SDK/PspDev/lib/gcc/psp/4.0.2" -L"E:/NDENV/PSP/SDK/Nanodesktop/lib" -L"E:/NDENV/PSP/SDK/NanoCore/NanoC/lib" -L"E:/NDENV/PSP/SDK/NanoCore/NanoM/lib" -L"E:/NDENV/PSP/SDK/NanoCore/NanoCPP/lib" -L"E:/NDENV/PSP/ndOpenCV/lib" -L"E:/NDENV/PSP/ndHighGUI/lib" -L"E:/NDENV/PSP/ndDevIL/DevILCore/lib" -L"E:/NDENV/PSP/ndLibCurl/lib" -L"E:/NDENV/PSP/ndSQLLite/lib" -L"E:/NDENV/PSP/ndSift/lib" -L"E:/NDENV/PSP/ndGOCR/lib" -L"E:/NDENV/PSP/ndZip/lib" -c -L"E:/NDENV/PSP/ndZip/lib" -mwindows -lNanoDesktop_PSPE -lNanoC_PSPE -lNanoM_PSPE -lndZip_PSPE -lndLibZ_PSPE  -nostdlib 
+INCS =  -I"E:/NDENV/PSP/SDK/PspDev/psp/sdk/include"  -I"E:/NDENV/PSP/SDK/NanoCore/NanoC/src"  -I"E:/NDENV/PSP/SDK/NanoCore/NanoM/src"  -I"E:/NDENV/PSP/SDK/Nanodesktop/src"  -I"E:/NDENV/PSP/ndHighGUI/src"  -I"E:/NDENV/PSP/ndOpenCV/cxcore/include"  -I"E:/NDENV/PSP/ndOpenCV/cv/include"  -I"E:/NDENV/PSP/ndOpenCV/cvaux/include"  -I"E:/NDENV/PSP/ndDevIL/DevILCore/include/IL"  -I"E:/NDENV/PSP/ndLibCurl/include"  -I"E:/NDENV/PSP/ndSQLLite"  -I"E:/NDENV/PSP/ndSift/include"  -I"E:/NDENV/PSP/ndZip/lib"  -I"E:/NDENV/PSP/ndZip"  -I"E:/NDENV/PSP/ndDevIL/zlib/src" 
+CXXINCS =  -I"E:/NDENV/PSP/SDK/PspDev/psp/include"  -I"E:/NDENV/PSP/SDK/PspDev/psp/sdk/include"  -I"E:/NDENV/PSP/ndOpenCV/cxcore/include"  -I"E:/NDENV/PSP/ndOpenCV/cv/include"  -I"E:/NDENV/PSP/ndHighGUI/src"  -I"E:/NDENV/PSP/SDK/NanoCore/NanoC/src"  -I"E:/NDENV/PSP/SDK/NanoCore/NanoM/src"  -I"E:/NDENV/PSP/SDK/NanoCore/NanoCPP/include"  -I"E:/NDENV/PSP/SDK/NanoCore/NanoCPP/include/ansi"  -I"E:/NDENV/PSP/SDK/Nanodesktop/src"  -I"E:/NDENV/PSP/ndZip"  -I"E:/NDENV/PSP/ndDevIL/zlib/src" 
+BIN  = ndMiniZip_FrontEnd.exe
+CXXFLAGS = $(CXXINCS)   -D"PSPE_PLATFORM" -O3 -g  -march=mips2 -msym32 -fomit-frame-pointer  -mfp32 -ffast-math -v -c -fshort-double -fno-exceptions -w -nostdlib
+CFLAGS = $(INCS)   -D"PSPE_PLATFORM" -O3 -g  -march=mips2 -msym32 -fomit-frame-pointer  -mfp32 -ffast-math -v -c -fshort-double -fno-exceptions -w -nostdlib
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before ndMiniZip_FrontEnd.exe all-after
+
+include ../../../SDK/ServiceFiles/Makefile_PSPE.mak
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o "ndMiniZip_FrontEnd.exe" $(LIBS)
+
+main.o: main.c
+	$(CC) -c main.c -o main.o $(CFLAGS)

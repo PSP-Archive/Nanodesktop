@@ -1,0 +1,201 @@
+# PNG Library for Nanodesktop
+#
+# La PNG Library si occupa di fornire il supporto per la lettura e scrittura
+# dei file PNG sotto Nanodesktop
+#
+#
+
+
+C = psp-gcc
+PACK = psp-ar
+
+
+## Librerie finali del sistema
+
+OUTLIB1 = ../../DevILCore/lib/libNdPng_PSPE.a
+
+OUTLIB2 = ../../DevILCore/lib/libNdPng_PSP.a
+
+
+
+## Nomi brevi dei file oggetto
+
+OBJ_SHRT = png.o pngerror.o pnggccrd.o pngget.o pngmem.o pngpread.o pngread.o \
+pngrio.o pngrtran.o pngrutil.o pngset.o pngtrans.o pngvcrd.o \
+pngwio.o pngwrite.o pngwtran.o pngwutil.o 
+ 
+
+
+## Nomi dei file oggetto per PSPE e per PSP
+
+OBJS_PSPE = ../obj_PSPE/png.o ../obj_PSPE/pngerror.o ../obj_PSPE/pnggccrd.o ../obj_PSPE/pngget.o \
+	    ../obj_PSPE/pngmem.o ../obj_PSPE/pngpread.o ../obj_PSPE/pngread.o \
+	    ../obj_PSPE/pngrio.o ../obj_PSPE/pngrtran.o ../obj_PSPE/pngrutil.o \
+	    ../obj_PSPE/pngset.o ../obj_PSPE/pngtrans.o ../obj_PSPE/pngvcrd.o \
+	    ../obj_PSPE/pngwio.o ../obj_PSPE/pngwrite.o ../obj_PSPE/pngwtran.o \
+	    ../obj_PSPE/pngwutil.o 
+	    
+OBJS_PSP = ../obj_PSP/png.o ../obj_PSP/pngerror.o ../obj_PSP/pnggccrd.o ../obj_PSP/pngget.o \
+	    ../obj_PSP/pngmem.o ../obj_PSP/pngpread.o ../obj_PSP/pngread.o \
+	    ../obj_PSP/pngrio.o ../obj_PSP/pngrtran.o ../obj_PSP/pngrutil.o \
+	    ../obj_PSP/pngset.o ../obj_PSP/pngtrans.o ../obj_PSP/pngvcrd.o \
+	    ../obj_PSP/pngwio.o ../obj_PSP/pngwrite.o ../obj_PSP/pngwtran.o \
+	    ../obj_PSP/pngwutil.o 
+
+
+## Directory di servizio
+
+INC1 = -I"." 
+INC2 = -I"../../zlib/src" 
+INC3 = -I"../../../SDK/Nanodesktop/src" 
+INC4 = -I"../../../SDK/NanoCore/NanoC/src" -I"../../../SDK/NanoCore/NanoM/src" 
+INC5 = -I"../../../SDK/pspdev/psp/sdk/include"
+
+XINC = $(INC1) $(INC2) $(INC3) $(INC4) $(INC5)	
+
+
+## Flags di piattaforma
+
+XFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -O3 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -mfp32 -msym32 -fshort-double -Wall -v
+
+XFLAGS_PSP = -D"PSP_PLATFORM" -D"ND_LIBRARY" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -march=allegrex -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -Wall -v
+
+
+## CFlags per PSPE e PSP
+
+CFLAGS_PSPE = $(XINC) $(XFLAGS_PSPE)
+
+CFLAGS_PSP =  $(XINC) $(XFLAGS_PSP)
+
+
+## Opzioni per il packer
+
+PACKFLAGS = r
+
+
+## Compilazione di tutto il package
+
+all : $(OUTLIB1) $(OUTLIB2)
+
+
+## Esecuzione del packer
+
+$(OUTLIB1): $(OBJS_PSPE)
+	$(PACK) $(PACKFLAGS) $(OUTLIB1) $(OBJS_PSPE) 
+	
+$(OUTLIB2): $(OBJS_PSP)
+	$(PACK) $(PACKFLAGS) $(OUTLIB2) $(OBJS_PSP) 
+	
+
+
+
+## Compilazione dei file oggetto per PSPE
+
+../obj_PSPE/png.o:
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/png.o -c ./png.c
+	
+../obj_PSPE/pngerror.o:  
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pngerror.o -c ./pngerror.c
+
+../obj_PSPE/pnggccrd.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pnggccrd.o -c ./pnggccrd.c
+
+../obj_PSPE/pngget.o:   
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pngget.o -c ./pngget.c
+
+../obj_PSPE/pngmem.o:   
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pngmem.o -c ./pngmem.c
+
+../obj_PSPE/pngpread.o:  
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pngpread.o -c ./pngpread.c
+
+../obj_PSPE/pngread.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pngread.o -c ./pngread.c
+	
+../obj_PSPE/pngrio.o:  
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pngrio.o -c ./pngrio.c
+	
+../obj_PSPE/pngrtran.o:  
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pngrtran.o -c ./pngrtran.c
+	
+../obj_PSPE/pngrutil.o:   
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pngrutil.o -c  ./pngrutil.c
+			
+../obj_PSPE/pngset.o:   
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pngset.o -c ./pngset.c
+		
+../obj_PSPE/pngtrans.o:  
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pngtrans.o -c ./pngtrans.c
+
+../obj_PSPE/pngvcrd.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pngvcrd.o -c ./pngvcrd.c
+
+../obj_PSPE/pngwutil.o:   
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pngwutil.o -c  ./pngwutil.c
+			
+../obj_PSPE/pngwrite.o:   
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pngwrite.o -c ./pngwrite.c 
+		
+../obj_PSPE/pngwtran.o:  
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pngwtran.o -c ./pngwtran.c
+
+../obj_PSPE/pngwio.o: 
+	-$(C) $(CFLAGS_PSPE) -o ../obj_PSPE/pngwio.o -c ./pngwio.c
+	
+	
+	
+## Compilazione dei file oggetto per PSP
+
+../obj_PSP/png.o:
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/png.o -c ./png.c
+	
+../obj_PSP/pngerror.o:  
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pngerror.o -c ./pngerror.c
+
+../obj_PSP/pnggccrd.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pnggccrd.o -c ./pnggccrd.c
+
+../obj_PSP/pngget.o:   
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pngget.o -c ./pngget.c
+
+../obj_PSP/pngmem.o:   
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pngmem.o -c ./pngmem.c
+
+../obj_PSP/pngpread.o:  
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pngpread.o -c ./pngpread.c
+
+../obj_PSP/pngread.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pngread.o -c ./pngread.c
+	
+../obj_PSP/pngrio.o:  
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pngrio.o -c ./pngrio.c
+	
+../obj_PSP/pngrtran.o:  
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pngrtran.o -c ./pngrtran.c
+	
+../obj_PSP/pngrutil.o:   
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pngrutil.o -c  ./pngrutil.c
+			
+../obj_PSP/pngset.o:   
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pngset.o -c ./pngset.c
+		
+../obj_PSP/pngtrans.o:  
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pngtrans.o -c ./pngtrans.c
+
+../obj_PSP/pngvcrd.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pngvcrd.o -c ./pngvcrd.c
+
+../obj_PSP/pngwutil.o:   
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pngwutil.o -c  ./pngwutil.c
+			
+../obj_PSP/pngwrite.o:   
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pngwrite.o -c ./pngwrite.c 
+		
+../obj_PSP/pngwtran.o:  
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pngwtran.o -c ./pngwtran.c
+
+../obj_PSP/pngwio.o: 
+	-$(C) $(CFLAGS_PSP) -o ../obj_PSP/pngwio.o -c ./pngwio.c
+
+
+	

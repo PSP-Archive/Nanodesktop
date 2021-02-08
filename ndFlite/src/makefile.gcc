@@ -1,0 +1,785 @@
+# -------------------------------------------------------------
+#
+# Nanodesktop FLite Porting (PSPE/PSP)
+# di Filippo Battaglia/Claudio Concilio
+#
+# -------------------------------------------------------------
+
+C = psp-gcc
+LINK = psp-ar
+
+
+## Librerie per PSPE
+
+OUTLIB_PSPE 	   = ../lib/libflite_PSPE.a
+OUTLIB_LANG0_PSPE  = ../lib/libflite_us_english_PSPE.a
+OUTLIB_VOICE0_PSPE = ../lib/libflite_us_cmu_time_awb_PSPE.a
+OUTLIB_VOICE1_PSPE = ../lib/libflite_us_kal_PSPE.a
+OUTLIB_VOICE2_PSPE = ../lib/libflite_us_kal16_PSPE.a
+
+## Librerie per PSP
+
+OUTLIB_PSP  	  = ../lib/libflite_PSP.a
+OUTLIB_LANG0_PSP  = ../lib/libflite_us_english_PSP.a
+OUTLIB_VOICE0_PSP = ../lib/libflite_us_cmu_time_awb_PSP.a
+OUTLIB_VOICE1_PSP = ../lib/libflite_us_kal_PSP.a
+OUTLIB_VOICE2_PSP = ../lib/libflite_us_kal16_PSP.a
+
+
+
+
+# File oggetto (core)
+
+OBJS0_PSPE = ../obj/obj_PSPE/au_command.o ../obj/obj_PSPE/audio.o  \
+	    ../obj/obj_PSPE/au_psp.o \
+	    ../obj/obj_PSPE/cst_ffeature.o 	../obj/obj_PSPE/cst_item.o \
+	    ../obj/obj_PSPE/cst_rel_io.o	../obj/obj_PSPE/cst_relation.o \
+	    ../obj/obj_PSPE/cst_utterance.o \
+	    ../obj/obj_PSPE/cst_lexicon.o 	../obj/obj_PSPE/cst_lts.o \
+	    ../obj/obj_PSPE/cst_lts_rewrites.o \
+	    ../obj/obj_PSPE/cst_regex.o 	../obj/obj_PSPE/regexp.o \
+	    ../obj/obj_PSPE/regsub.o \
+	    ../obj/obj_PSPE/cst_wave.o 		../obj/obj_PSPE/cst_wave_io.o \
+	    ../obj/obj_PSPE/cst_track.o 	../obj/obj_PSPE/cst_track_io.o \
+	    ../obj/obj_PSPE/cst_lpcres.o 	../obj/obj_PSPE/cst_wave_utils.o \
+	    ../obj/obj_PSPE/rateconv.o \
+ 	    ../obj/obj_PSPE/cst_cart.o 		../obj/obj_PSPE/cst_ss.o \
+	    ../obj/obj_PSPE/cst_viterbi.o \
+	    ../obj/obj_PSPE/cst_phoneset.o 	../obj/obj_PSPE/cst_synth.o \
+	    ../obj/obj_PSPE/cst_utt_utils.o 	../obj/obj_PSPE/cst_voice.o \
+	    ../obj/obj_PSPE/flite.o \
+	    ../obj/obj_PSPE/cst_alloc.o 	../obj/obj_PSPE/cst_args.o \
+	    ../obj/obj_PSPE/cst_endian.o 	../obj/obj_PSPE/cst_error.o \
+	    ../obj/obj_PSPE/cst_features.o 	../obj/obj_PSPE/cst_file_psp.o \
+	    ../obj/obj_PSPE/cst_socket.o \
+	    ../obj/obj_PSPE/cst_string.o 	../obj/obj_PSPE/cst_tokenstream.o \
+	    ../obj/obj_PSPE/cst_val.o 	        ../obj/obj_PSPE/cst_val_const.o \
+	    ../obj/obj_PSPE/cst_val_user.o      ../obj/obj_PSPE/cst_mmap_none.o \
+	    ../obj/obj_PSPE/cst_clunits.o 	../obj/obj_PSPE/cst_diphone.o \
+	    ../obj/obj_PSPE/cst_reflpc.o 	../obj/obj_PSPE/cst_sigpr.o \
+	    ../obj/obj_PSPE/cst_sigprFP.o 	../obj/obj_PSPE/cst_sts.o \
+	    ../obj/obj_PSPE/cst_units.o	\
+            ../obj/obj_PSPE/cmu_lex.o 		../obj/obj_PSPE/cmu_lex_data.o  \
+	    ../obj/obj_PSPE/cmu_lts_model.o 	../obj/obj_PSPE/cmu_lex_entries.o \
+	    ../obj/obj_PSPE/cmu_lts_rules.o 
+	     
+OBJS_PSPE_LANG0 = ../obj/obj_PSPE/us_aswd.o 		   ../obj/obj_PSPE/us_dur_stats.o \
+             ../obj/obj_PSPE/us_durz_cart.o 	   ../obj/obj_PSPE/us_expand.o \
+	     ../obj/obj_PSPE/us_f0_model.o 	   ../obj/obj_PSPE/us_f0lr.o \
+             ../obj/obj_PSPE/us_ffeatures.o 	   ../obj/obj_PSPE/us_gpos.o \
+	     ../obj/obj_PSPE/us_int_accent_cart.o  ../obj/obj_PSPE/us_int_tone_cart.o \
+	     ../obj/obj_PSPE/us_nums_cart.o 	   ../obj/obj_PSPE/us_phoneset.o \
+	     ../obj/obj_PSPE/us_phrasing_cart.o    ../obj/obj_PSPE/us_postlex.o \
+	     ../obj/obj_PSPE/us_text.o 		   ../obj/obj_PSPE/usenglish.o 
+
+OBJS_PSPE_VOICE0 =  ../obj/obj_PSPE/cmu_time_awb.o 	../obj/obj_PSPE/cmu_time_awb_cart.o \
+	     ../obj/obj_PSPE/cmu_time_awb_clunits.o 	../obj/obj_PSPE/cmu_time_awb_lex_entry.o \
+	     ../obj/obj_PSPE/cmu_time_awb_lpc.o 	../obj/obj_PSPE/cmu_time_awb_mcep.o 
+	
+OBJS_PSPE_VOICE1 =  ../obj/obj_PSPE/cmu_us_kal.o 		../obj/obj_PSPE/cmu_us_kal_diphone.o \
+	     ../obj/obj_PSPE/cmu_us_kal_lpc.o 		../obj/obj_PSPE/cmu_us_kal_res.o \
+	     ../obj/obj_PSPE/cmu_us_kal_residx.o 
+	     
+OBJS_PSPE_VOICE2 = ../obj/obj_PSPE/cmu_us_kal16.o 		../obj/obj_PSPE/cmu_us_kal16_diphone.o \
+	     ../obj/obj_PSPE/cmu_us_kal16_lpc.o 	../obj/obj_PSPE/cmu_us_kal16_res.o \
+	     ../obj/obj_PSPE/cmu_us_kal16_residx.o 
+	     	     	     
+
+
+	
+
+OBJS0_PSP  = ../obj/obj_PSP/au_command.o  ../obj/obj_PSP/audio.o \
+	    ../obj/obj_PSP/au_psp.o \
+            ../obj/obj_PSP/cst_ffeature.o 	../obj/obj_PSP/cst_item.o \
+	    ../obj/obj_PSP/cst_rel_io.o		../obj/obj_PSP/cst_relation.o \
+	    ../obj/obj_PSP/cst_utterance.o \
+	    ../obj/obj_PSP/cst_lexicon.o 	../obj/obj_PSP/cst_lts.o \
+	    ../obj/obj_PSP/cst_lts_rewrites.o \
+	    ../obj/obj_PSP/cst_regex.o 		../obj/obj_PSP/regexp.o \
+	    ../obj/obj_PSP/regsub.o \
+	    ../obj/obj_PSP/cst_wave.o 		../obj/obj_PSP/cst_wave_io.o \
+	    ../obj/obj_PSP/cst_track.o 		../obj/obj_PSP/cst_track_io.o \
+	    ../obj/obj_PSP/cst_lpcres.o 	../obj/obj_PSP/cst_wave_utils.o \
+	    ../obj/obj_PSP/rateconv.o \
+	    ../obj/obj_PSP/cst_cart.o 		../obj/obj_PSP/cst_ss.o \
+	    ../obj/obj_PSP/cst_viterbi.o \
+	    ../obj/obj_PSP/cst_phoneset.o 	../obj/obj_PSP/cst_synth.o \
+	    ../obj/obj_PSP/cst_utt_utils.o 	../obj/obj_PSP/cst_voice.o \
+	    ../obj/obj_PSP/flite.o \
+	    ../obj/obj_PSP/cst_alloc.o 		../obj/obj_PSP/cst_args.o \
+	    ../obj/obj_PSP/cst_endian.o 	../obj/obj_PSP/cst_error.o \
+	    ../obj/obj_PSP/cst_features.o 	../obj/obj_PSP/cst_file_psp.o \
+	    ../obj/obj_PSP/cst_socket.o \
+	    ../obj/obj_PSP/cst_string.o 	../obj/obj_PSP/cst_tokenstream.o \
+	    ../obj/obj_PSP/cst_val.o 	        ../obj/obj_PSP/cst_val_const.o \
+	    ../obj/obj_PSP/cst_val_user.o       ../obj/obj_PSP/cst_mmap_none.o \
+	    ../obj/obj_PSP/cst_clunits.o 	../obj/obj_PSP/cst_diphone.o \
+	    ../obj/obj_PSP/cst_reflpc.o 	../obj/obj_PSP/cst_sigpr.o \
+	    ../obj/obj_PSP/cst_sigprFP.o 	../obj/obj_PSP/cst_sts.o \
+	    ../obj/obj_PSP/cst_units.o	\
+	    ../obj/obj_PSP/cmu_lex.o 		../obj/obj_PSP/cmu_lex_data.o  \
+	    ../obj/obj_PSP/cmu_lts_model.o 	../obj/obj_PSP/cmu_lex_entries.o \
+	    ../obj/obj_PSP/cmu_lts_rules.o 
+	    
+OBJS_PSP_LANG0 = ../obj/obj_PSP/us_aswd.o          ../obj/obj_PSP/us_dur_stats.o \
+             ../obj/obj_PSP/us_durz_cart.o 	   ../obj/obj_PSP/us_expand.o \
+	     ../obj/obj_PSP/us_f0_model.o 	   ../obj/obj_PSP/us_f0lr.o \
+             ../obj/obj_PSP/us_ffeatures.o 	   ../obj/obj_PSP/us_gpos.o \
+	     ../obj/obj_PSP/us_int_accent_cart.o   ../obj/obj_PSP/us_int_tone_cart.o \
+	     ../obj/obj_PSP/us_nums_cart.o 	   ../obj/obj_PSP/us_phoneset.o \
+	     ../obj/obj_PSP/us_phrasing_cart.o     ../obj/obj_PSP/us_postlex.o \
+	     ../obj/obj_PSP/us_text.o 		   ../obj/obj_PSP/usenglish.o 
+
+OBJS_PSP_VOICE0 =  ../obj/obj_PSP/cmu_time_awb.o 	../obj/obj_PSP/cmu_time_awb_cart.o \
+	     ../obj/obj_PSP/cmu_time_awb_clunits.o 	../obj/obj_PSP/cmu_time_awb_lex_entry.o \
+	     ../obj/obj_PSP/cmu_time_awb_lpc.o 		../obj/obj_PSP/cmu_time_awb_mcep.o 
+	
+OBJS_PSP_VOICE1 =  ../obj/obj_PSP/cmu_us_kal.o 		../obj/obj_PSP/cmu_us_kal_diphone.o \
+	     ../obj/obj_PSP/cmu_us_kal_lpc.o 		../obj/obj_PSP/cmu_us_kal_res.o \
+	     ../obj/obj_PSP/cmu_us_kal_residx.o 
+	     
+OBJS_PSP_VOICE2 = ../obj/obj_PSP/cmu_us_kal16.o 	../obj/obj_PSP/cmu_us_kal16_diphone.o \
+	     ../obj/obj_PSP/cmu_us_kal16_lpc.o 		../obj/obj_PSP/cmu_us_kal16_res.o \
+	     ../obj/obj_PSP/cmu_us_kal16_residx.o 
+
+
+
+
+
+
+
+
+## Path di ricerca per gli headers files
+
+ 
+INC0 = -I"." 
+INC1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC4 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include" 
+INC5 = -I"$(NDENV_PATH)\PSP\ndFlite\include"
+
+
+INCLUDE = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) 
+
+
+# Path di ricerca per headers files di linguaggio
+
+INCLUDE_LANG_UK = -I"./lang/cmulex" -I"./lang/usenglish" 
+
+
+
+## Flags di compilazione
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -DCST_NO_SOCKETS -DCST_AUDIO_PSP -O0 -g -march=mips2 -fomit-frame-pointer -fno-exceptions  -mgp32 -mfp32 -msym32 -ffast-math -fshort-double -v -Wall
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -DCST_NO_SOCKETS -DCST_AUDIO_PSP -O3 -G0 -g -march=allegrex -fomit-frame-pointer -fno-exceptions -mgp32 -mfp32 -msym32 -ffast-math -mhard-float -fshort-double -v -Wall
+
+
+
+## Compilazione di librerie
+
+##all : $(OUTLIB_PSPE) $(OUTLIB_PSP) $(OUTLIB_LANG0_PSPE) $(OUTLIB_VOICE0_PSPE) $(OUTLIB_VOICE1_PSPE) $(OUTLIB_VOICE2_PSPE) $(OUTLIB_LANG0_PSP) $(OUTLIB_VOICE0_PSP) $(OUTLIB_VOICE1_PSP) $(OUTLIB_VOICE2_PSP)
+
+all : $(OUTLIB_PSP) $(OUTLIB_LANG0_PSP) $(OUTLIB_VOICE0_PSP) $(OUTLIB_VOICE1_PSP) $(OUTLIB_VOICE2_PSP)
+
+$(OUTLIB_PSPE): $(OBJS0_PSPE) 
+	$(LINK) r $(OUTLIB_PSPE) $(OBJS0_PSPE) 
+	
+$(OUTLIB_LANG0_PSPE): $(OBJS_PSPE_LANG0)	
+	$(LINK) r $(OUTLIB_LANG0_PSPE)  $(OBJS_PSPE_LANG0)
+	
+$(OUTLIB_VOICE0_PSPE): $(OBJS_PSPE_VOICE0)
+	$(LINK) r $(OUTLIB_VOICE0_PSPE) $(OBJS_PSPE_VOICE0)
+	
+$(OUTLIB_VOICE1_PSPE): $(OBJS_PSPE_VOICE1)	
+	$(LINK) r $(OUTLIB_VOICE1_PSPE) $(OBJS_PSPE_VOICE1)
+	
+$(OUTLIB_VOICE2_PSPE): $(OBJS_PSPE_VOICE2)	
+	$(LINK) r $(OUTLIB_VOICE2_PSPE) $(OBJS_PSPE_VOICE2)
+
+
+	
+$(OUTLIB_PSP): $(OBJS0_PSP) 
+	$(LINK) r $(OUTLIB_PSP) $(OBJS0_PSP) 
+		
+$(OUTLIB_LANG0_PSP):  $(OBJS_PSP_LANG0)	
+	$(LINK) r $(OUTLIB_LANG0_PSP)  $(OBJS_PSP_LANG0)
+	
+$(OUTLIB_VOICE0_PSP): $(OBJS_PSP_VOICE0)
+	$(LINK) r $(OUTLIB_VOICE0_PSP) $(OBJS_PSP_VOICE0)
+	
+$(OUTLIB_VOICE1_PSP): $(OBJS_PSP_VOICE1)	
+	$(LINK) r $(OUTLIB_VOICE1_PSP) $(OBJS_PSP_VOICE1)
+	
+$(OUTLIB_VOICE2_PSP): $(OBJS_PSP_VOICE2)	
+	$(LINK) r $(OUTLIB_VOICE2_PSP) $(OBJS_PSP_VOICE2)
+
+
+	
+	
+
+## Compilazione dei moduli per PSPE (core)
+
+../obj/obj_PSPE/au_command.o: ./core/audio/au_command.c
+	$(C) -c ./core/audio/au_command.c -o ../obj/obj_PSPE/au_command.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+../obj/obj_PSPE/audio.o: ./core/audio/audio.c
+	$(C) -c ./core/audio/audio.c -o ../obj/obj_PSPE/audio.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj/obj_PSPE/au_psp.o: ./core/audio/au_psp.c
+	$(C) -c ./core/audio/au_psp.c -o ../obj/obj_PSPE/au_psp.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj/obj_PSPE/cst_ffeature.o: ./core/hrg/cst_ffeature.c
+	$(C) -c ./core/hrg/cst_ffeature.c -o ../obj/obj_PSPE/cst_ffeature.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+../obj/obj_PSPE/cst_item.o: ./core/hrg/cst_item.c
+	$(C) -c ./core/hrg/cst_item.c -o ../obj/obj_PSPE/cst_item.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj/obj_PSPE/cst_rel_io.o: ./core/hrg/cst_rel_io.c
+	$(C) -c ./core/hrg/cst_rel_io.c -o ../obj/obj_PSPE/cst_rel_io.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj/obj_PSPE/cst_relation.o: ./core/hrg/cst_relation.c
+	$(C) -c ./core/hrg/cst_relation.c -o ../obj/obj_PSPE/cst_relation.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj/obj_PSPE/cst_utterance.o: ./core/hrg/cst_utterance.c
+	$(C) -c ./core/hrg/cst_utterance.c -o ../obj/obj_PSPE/cst_utterance.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_lexicon.o: ./core/lexicon/cst_lexicon.c
+	$(C) -c ./core/lexicon/cst_lexicon.c -o ../obj/obj_PSPE/cst_lexicon.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj/obj_PSPE/cst_lts.o: ./core/lexicon/cst_lts.c
+	$(C) -c ./core/lexicon/cst_lts.c -o ../obj/obj_PSPE/cst_lts.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+../obj/obj_PSPE/cst_lts_rewrites.o: ./core/lexicon/cst_lts_rewrites.c
+	$(C) -c ./core/lexicon/cst_lts_rewrites.c -o ../obj/obj_PSPE/cst_lts_rewrites.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_regex.o: ./core/regex/cst_regex.c
+	$(C) -c ./core/regex/cst_regex.c -o ../obj/obj_PSPE/cst_regex.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/regexp.o: ./core/regex/regexp.c
+	$(C) -c ./core/regex/regexp.c -o ../obj/obj_PSPE/regexp.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/regsub.o: ./core/regex/regsub.c
+	$(C) -c ./core/regex/regsub.c -o ../obj/obj_PSPE/regsub.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_wave.o: ./core/speech/cst_wave.c
+	$(C) -c ./core/speech/cst_wave.c -o ../obj/obj_PSPE/cst_wave.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+../obj/obj_PSPE/cst_wave_io.o: ./core/speech/cst_wave_io.c
+	$(C) -c ./core/speech/cst_wave_io.c -o ../obj/obj_PSPE/cst_wave_io.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+../obj/obj_PSPE/cst_track.o: ./core/speech/cst_track.c
+	$(C) -c ./core/speech/cst_track.c -o ../obj/obj_PSPE/cst_track.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+../obj/obj_PSPE/cst_track_io.o: ./core/speech/cst_track_io.c
+	$(C) -c ./core/speech/cst_track_io.c -o ../obj/obj_PSPE/cst_track_io.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+../obj/obj_PSPE/cst_wave_utils.o: ./core/speech/cst_wave_utils.c
+	$(C) -c ./core/speech/cst_wave_utils.c -o ../obj/obj_PSPE/cst_wave_utils.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+../obj/obj_PSPE/cst_lpcres.o: ./core/speech/cst_lpcres.c
+	$(C) -c ./core/speech/cst_lpcres.c -o ../obj/obj_PSPE/cst_lpcres.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj/obj_PSPE/rateconv.o: ./core/speech/rateconv.c
+	$(C) -c ./core/speech/rateconv.c -o ../obj/obj_PSPE/rateconv.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_cart.o: ./core/stats/cst_cart.c
+	$(C) -c ./core/stats/cst_cart.c -o ../obj/obj_PSPE/cst_cart.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_ss.o: ./core/stats/cst_ss.c
+	$(C) -c ./core/stats/cst_ss.c -o ../obj/obj_PSPE/cst_ss.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_viterbi.o: ./core/stats/cst_viterbi.c
+	$(C) -c ./core/stats/cst_viterbi.c -o ../obj/obj_PSPE/cst_viterbi.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_phoneset.o: ./core/synth/cst_phoneset.c
+	$(C) -c ./core/synth/cst_phoneset.c -o ../obj/obj_PSPE/cst_phoneset.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_synth.o: ./core/synth/cst_synth.c
+	$(C) -c ./core/synth/cst_synth.c -o ../obj/obj_PSPE/cst_synth.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_utt_utils.o: ./core/synth/cst_utt_utils.c
+	$(C) -c ./core/synth/cst_utt_utils.c -o ../obj/obj_PSPE/cst_utt_utils.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_voice.o: ./core/synth/cst_voice.c
+	$(C) -c ./core/synth/cst_voice.c -o ../obj/obj_PSPE/cst_voice.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/flite.o: ./core/synth/flite.c
+	$(C) -c ./core/synth/flite.c -o ../obj/obj_PSPE/flite.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_alloc.o: ./core/utils/cst_alloc.c
+	$(C) -c ./core/utils/cst_alloc.c -o ../obj/obj_PSPE/cst_alloc.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+../obj/obj_PSPE/cst_args.o: ./core/utils/cst_args.c
+	$(C) -c ./core/utils/cst_args.c -o ../obj/obj_PSPE/cst_args.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj/obj_PSPE/cst_endian.o: ./core/utils/cst_endian.c
+	$(C) -c ./core/utils/cst_endian.c -o ../obj/obj_PSPE/cst_endian.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+../obj/obj_PSPE/cst_error.o: ./core/utils/cst_error.c
+	$(C) -c ./core/utils/cst_error.c -o ../obj/obj_PSPE/cst_error.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+../obj/obj_PSPE/cst_features.o: ./core/utils/cst_features.c
+	$(C) -c ./core/utils/cst_features.c -o ../obj/obj_PSPE/cst_features.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj/obj_PSPE/cst_socket.o: ./core/utils/cst_socket.c
+	$(C) -c ./core/utils/cst_socket.c -o ../obj/obj_PSPE/cst_socket.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj/obj_PSPE/cst_string.o: ./core/utils/cst_string.c
+	$(C) -c ./core/utils/cst_string.c -o ../obj/obj_PSPE/cst_string.o $(CFLAGS_PSPE) $(INCLUDE)
+	
+../obj/obj_PSPE/cst_tokenstream.o: ./core/utils/cst_tokenstream.c
+	$(C) -c ./core/utils/cst_tokenstream.c -o ../obj/obj_PSPE/cst_tokenstream.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj/obj_PSPE/cst_val.o: ./core/utils/cst_val.c
+	$(C) -c ./core/utils/cst_val.c -o ../obj/obj_PSPE/cst_val.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj/obj_PSPE/cst_val_const.o: ./core/utils/cst_val_const.c
+	$(C) -c ./core/utils/cst_val_const.c -o ../obj/obj_PSPE/cst_val_const.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj/obj_PSPE/cst_val_user.o: ./core/utils/cst_val_user.c
+	$(C) -c ./core/utils/cst_val_user.c -o ../obj/obj_PSPE/cst_val_user.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj/obj_PSPE/cst_mmap_none.o: ./core/utils/cst_mmap_none.c
+	$(C) -c ./core/utils/cst_mmap_none.c -o ../obj/obj_PSPE/cst_mmap_none.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+../obj/obj_PSPE/cst_file_psp.o: ./core/utils/cst_file_psp.c
+	$(C) -c ./core/utils/cst_file_psp.c -o ../obj/obj_PSPE/cst_file_psp.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_clunits.o: ./core/wavesynth/cst_clunits.c
+	$(C) -c ./core/wavesynth/cst_clunits.c -o ../obj/obj_PSPE/cst_clunits.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_diphone.o: ./core/wavesynth/cst_diphone.c
+	$(C) -c ./core/wavesynth/cst_diphone.c -o ../obj/obj_PSPE/cst_diphone.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_reflpc.o: ./core/wavesynth/cst_reflpc.c
+	$(C) -c ./core/wavesynth/cst_reflpc.c -o ../obj/obj_PSPE/cst_reflpc.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_sigpr.o: ./core/wavesynth/cst_sigpr.c
+	$(C) -c ./core/wavesynth/cst_sigpr.c -o ../obj/obj_PSPE/cst_sigpr.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_sigprFP.o: ./core/wavesynth/cst_sigprFP.c
+	$(C) -c ./core/wavesynth/cst_sigprFP.c -o ../obj/obj_PSPE/cst_sigprFP.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_sts.o: ./core/wavesynth/cst_sts.c
+	$(C) -c ./core/wavesynth/cst_sts.c -o ../obj/obj_PSPE/cst_sts.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cst_units.o: ./core/wavesynth/cst_units.c
+	$(C) -c ./core/wavesynth/cst_units.c -o ../obj/obj_PSPE/cst_units.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+../obj/obj_PSPE/cmu_lex_data.o: ./lang/cmulex/cmu_lex_data.c
+	$(C) -c ./lang/cmulex/cmu_lex_data.c -o ../obj/obj_PSPE/cmu_lex_data.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+	
+../obj/obj_PSPE/cmu_lex_entries.o: ./lang/cmulex/cmu_lex_entries.c
+	$(C) -c ./lang/cmulex/cmu_lex_entries.c -o ../obj/obj_PSPE/cmu_lex_entries.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+	
+../obj/obj_PSPE/cmu_lts_model.o: ./lang/cmulex/cmu_lts_model.c
+	$(C) -c ./lang/cmulex/cmu_lts_model.c -o ../obj/obj_PSPE/cmu_lts_model.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+	
+../obj/obj_PSPE/cmu_lts_rules.o: ./lang/cmulex/cmu_lts_rules.c
+	$(C) -c ./lang/cmulex/cmu_lts_rules.c -o ../obj/obj_PSPE/cmu_lts_rules.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+
+
+## Compilazione dei moduli per PSPE (lang) - US Eng
+
+../obj/obj_PSPE/us_dur_stats.o: ./lang/usenglish/us_dur_stats.c
+	$(C) -c ./lang/usenglish/us_dur_stats.c -o ../obj/obj_PSPE/us_dur_stats.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/us_durz_cart.o: ./lang/usenglish/us_durz_cart.c
+	$(C) -c ./lang/usenglish/us_durz_cart.c -o ../obj/obj_PSPE/us_durz_cart.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/us_expand.o: ./lang/usenglish/us_expand.c
+	$(C) -c ./lang/usenglish/us_expand.c -o ../obj/obj_PSPE/us_expand.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/us_f0_model.o: ./lang/usenglish/us_f0_model.c
+	$(C) -c ./lang/usenglish/us_f0_model.c -o ../obj/obj_PSPE/us_f0_model.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/us_f0lr.o: ./lang/usenglish/us_f0lr.c
+	$(C) -c ./lang/usenglish/us_f0lr.c -o ../obj/obj_PSPE/us_f0lr.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/us_ffeatures.o: ./lang/usenglish/us_ffeatures.c
+	$(C) -c ./lang/usenglish/us_ffeatures.c -o ../obj/obj_PSPE/us_ffeatures.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/us_gpos.o: ./lang/usenglish/us_gpos.c
+	$(C) -c ./lang/usenglish/us_gpos.c -o ../obj/obj_PSPE/us_gpos.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/us_int_accent_cart.o: ./lang/usenglish/us_int_accent_cart.c
+	$(C) -c ./lang/usenglish/us_int_accent_cart.c -o ../obj/obj_PSPE/us_int_accent_cart.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/us_int_tone_cart.o: ./lang/usenglish/us_int_tone_cart.c
+	$(C) -c ./lang/usenglish/us_int_tone_cart.c -o ../obj/obj_PSPE/us_int_tone_cart.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/us_nums_cart.o: ./lang/usenglish/us_nums_cart.c
+	$(C) -c ./lang/usenglish/us_nums_cart.c -o ../obj/obj_PSPE/us_nums_cart.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/us_phoneset.o: ./lang/usenglish/us_phoneset.c
+	$(C) -c ./lang/usenglish/us_phoneset.c -o ../obj/obj_PSPE/us_phoneset.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/us_phrasing_cart.o: ./lang/usenglish/us_phrasing_cart.c
+	$(C) -c ./lang/usenglish/us_phrasing_cart.c -o ../obj/obj_PSPE/us_phrasing_cart.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/us_postlex.o: ./lang/usenglish/us_postlex.c
+	$(C) -c ./lang/usenglish/us_postlex.c -o ../obj/obj_PSPE/us_postlex.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/us_text.o: ./lang/usenglish/us_text.c
+	$(C) -c ./lang/usenglish/us_text.c -o ../obj/obj_PSPE/us_text.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/usenglish.o: ./lang/usenglish/usenglish.c
+	$(C) -c ./lang/usenglish/usenglish.c -o ../obj/obj_PSPE/usenglish.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+## Compilazione dei moduli per PSPE (lang) - Voice - cmu time
+
+../obj/obj_PSPE/cmu_time_awb.o: ./lang/cmu_time_awb/cmu_time_awb.c
+	$(C) -c ./lang/cmu_time_awb/cmu_time_awb.c -o ../obj/obj_PSPE/cmu_time_awb.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+	
+../obj/obj_PSPE/cmu_time_awb_cart.o: ./lang/cmu_time_awb/cmu_time_awb_cart.c
+	$(C) -c ./lang/cmu_time_awb/cmu_time_awb_cart.c -o ../obj/obj_PSPE/cmu_time_awb_cart.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK) 
+
+../obj/obj_PSPE/cmu_time_awb_clunits.o: ./lang/cmu_time_awb/cmu_time_awb_clunits.c
+	$(C) -c ./lang/cmu_time_awb/cmu_time_awb_clunits.c -o ../obj/obj_PSPE/cmu_time_awb_clunits.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK) 
+
+../obj/obj_PSPE/cmu_time_awb_lex_entry.o: ./lang/cmu_time_awb/cmu_time_awb_lex_entry.c
+	$(C) -c ./lang/cmu_time_awb/cmu_time_awb_lex_entry.c -o ../obj/obj_PSPE/cmu_time_awb_lex_entry.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/cmu_time_awb_lpc.o: ./lang/cmu_time_awb/cmu_time_awb_lpc.c
+	$(C) -c ./lang/cmu_time_awb/cmu_time_awb_lpc.c -o ../obj/obj_PSPE/cmu_time_awb_lpc.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK) 
+
+../obj/obj_PSPE/cmu_time_awb_mcep.o: ./lang/cmu_time_awb/cmu_time_awb_mcep.c
+	$(C) -c ./lang/cmu_time_awb/cmu_time_awb_mcep.c -o ../obj/obj_PSPE/cmu_time_awb_mcep.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK) 
+
+## Compilazione dei moduli per PSPE (lang) - Voice - KAL
+
+../obj/obj_PSPE/cmu_us_kal.o: ./lang/cmu_us_kal/cmu_us_kal.c
+	$(C) -c ./lang/cmu_us_kal/cmu_us_kal.c -o ../obj/obj_PSPE/cmu_us_kal.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+	
+../obj/obj_PSPE/cmu_us_kal_diphone.o: ./lang/cmu_us_kal/cmu_us_kal_diphone.c
+	$(C) -c ./lang/cmu_us_kal/cmu_us_kal_diphone.c -o ../obj/obj_PSPE/cmu_us_kal_diphone.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/cmu_us_kal_lpc.o: ./lang/cmu_us_kal/cmu_us_kal_lpc.c
+	$(C) -c ./lang/cmu_us_kal/cmu_us_kal_lpc.c -o ../obj/obj_PSPE/cmu_us_kal_lpc.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/cmu_us_kal_res.o: ./lang/cmu_us_kal/cmu_us_kal_res.c
+	$(C) -c ./lang/cmu_us_kal/cmu_us_kal_res.c -o ../obj/obj_PSPE/cmu_us_kal_res.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/cmu_us_kal_residx.o: ./lang/cmu_us_kal/cmu_us_kal_residx.c
+	$(C) -c ./lang/cmu_us_kal/cmu_us_kal_residx.c -o ../obj/obj_PSPE/cmu_us_kal_residx.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+## Compilazione dei moduli per PSPE (lang) - Voice - KAL16
+
+../obj/obj_PSPE/cmu_us_kal16.o: ./lang/cmu_us_kal16/cmu_us_kal16.c
+	$(C) -c ./lang/cmu_us_kal16/cmu_us_kal16.c -o ../obj/obj_PSPE/cmu_us_kal16.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+	
+../obj/obj_PSPE/cmu_us_kal16_diphone.o: ./lang/cmu_us_kal16/cmu_us_kal16_diphone.c
+	$(C) -c ./lang/cmu_us_kal16/cmu_us_kal16_diphone.c -o ../obj/obj_PSPE/cmu_us_kal16_diphone.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/cmu_us_kal16_lpc.o: ./lang/cmu_us_kal16/cmu_us_kal16_lpc.c
+	$(C) -c ./lang/cmu_us_kal16/cmu_us_kal16_lpc.c -o ../obj/obj_PSPE/cmu_us_kal16_lpc.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/cmu_us_kal16_res.o: ./lang/cmu_us_kal16/cmu_us_kal16_res.c
+	$(C) -c ./lang/cmu_us_kal16/cmu_us_kal16_res.c -o ../obj/obj_PSPE/cmu_us_kal16_res.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/cmu_us_kal16_residx.o: ./lang/cmu_us_kal16/cmu_us_kal16_residx.c
+	$(C) -c ./lang/cmu_us_kal16/cmu_us_kal16_residx.c -o ../obj/obj_PSPE/cmu_us_kal16_residx.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSPE/cmu_lex.o: ./lang/cmulex/cmu_lex.c
+	$(C) -c ./lang/cmulex/cmu_lex.c -o ../obj/obj_PSPE/cmu_lex.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+	
+../obj/obj_PSPE/us_aswd.o: ./lang/usenglish/us_aswd.c
+	$(C) -c ./lang/usenglish/us_aswd.c -o ../obj/obj_PSPE/us_aswd.o $(CFLAGS_PSPE) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Compilazione dei moduli per PSP (core)
+
+../obj/obj_PSP/au_command.o: ./core/audio/au_command.c
+	$(C) -c ./core/audio/au_command.c -o ../obj/obj_PSP/au_command.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj/obj_PSP/audio.o: ./core/audio/audio.c
+	$(C) -c ./core/audio/audio.c -o ../obj/obj_PSP/audio.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj/obj_PSP/au_psp.o: ./core/audio/au_psp.c
+	$(C) -c ./core/audio/au_psp.c -o ../obj/obj_PSP/au_psp.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_ffeature.o: ./core/hrg/cst_ffeature.c
+	$(C) -c ./core/hrg/cst_ffeature.c -o ../obj/obj_PSP/cst_ffeature.o $(CFLAGS_PSP) $(INCLUDE)
+	
+../obj/obj_PSP/cst_item.o: ./core/hrg/cst_item.c
+	$(C) -c ./core/hrg/cst_item.c -o ../obj/obj_PSP/cst_item.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj/obj_PSP/cst_rel_io.o: ./core/hrg/cst_rel_io.c
+	$(C) -c ./core/hrg/cst_rel_io.c -o ../obj/obj_PSP/cst_rel_io.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj/obj_PSP/cst_relation.o: ./core/hrg/cst_relation.c
+	$(C) -c ./core/hrg/cst_relation.c -o ../obj/obj_PSP/cst_relation.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj/obj_PSP/cst_utterance.o: ./core/hrg/cst_utterance.c
+	$(C) -c ./core/hrg/cst_utterance.c -o ../obj/obj_PSP/cst_utterance.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_lexicon.o: ./core/lexicon/cst_lexicon.c
+	$(C) -c ./core/lexicon/cst_lexicon.c -o ../obj/obj_PSP/cst_lexicon.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj/obj_PSP/cst_lts.o: ./core/lexicon/cst_lts.c
+	$(C) -c ./core/lexicon/cst_lts.c -o ../obj/obj_PSP/cst_lts.o $(CFLAGS_PSP) $(INCLUDE)
+	
+../obj/obj_PSP/cst_lts_rewrites.o: ./core/lexicon/cst_lts_rewrites.c
+	$(C) -c ./core/lexicon/cst_lts_rewrites.c -o ../obj/obj_PSP/cst_lts_rewrites.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_regex.o: ./core/regex/cst_regex.c
+	$(C) -c ./core/regex/cst_regex.c -o ../obj/obj_PSP/cst_regex.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/regexp.o: ./core/regex/regexp.c
+	$(C) -c ./core/regex/regexp.c -o ../obj/obj_PSP/regexp.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/regsub.o: ./core/regex/regsub.c
+	$(C) -c ./core/regex/regsub.c -o ../obj/obj_PSP/regsub.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_wave.o: ./core/speech/cst_wave.c
+	$(C) -c ./core/speech/cst_wave.c -o ../obj/obj_PSP/cst_wave.o $(CFLAGS_PSP) $(INCLUDE)
+	
+../obj/obj_PSP/cst_wave_io.o: ./core/speech/cst_wave_io.c
+	$(C) -c ./core/speech/cst_wave_io.c -o ../obj/obj_PSP/cst_wave_io.o $(CFLAGS_PSP) $(INCLUDE)
+	
+../obj/obj_PSP/cst_track.o: ./core/speech/cst_track.c
+	$(C) -c ./core/speech/cst_track.c -o ../obj/obj_PSP/cst_track.o $(CFLAGS_PSP) $(INCLUDE)
+	
+../obj/obj_PSP/cst_track_io.o: ./core/speech/cst_track_io.c
+	$(C) -c ./core/speech/cst_track_io.c -o ../obj/obj_PSP/cst_track_io.o $(CFLAGS_PSP) $(INCLUDE)
+	
+../obj/obj_PSP/cst_wave_utils.o: ./core/speech/cst_wave_utils.c
+	$(C) -c ./core/speech/cst_wave_utils.c -o ../obj/obj_PSP/cst_wave_utils.o $(CFLAGS_PSP) $(INCLUDE)
+	
+../obj/obj_PSP/cst_lpcres.o: ./core/speech/cst_lpcres.c
+	$(C) -c ./core/speech/cst_lpcres.c -o ../obj/obj_PSP/cst_lpcres.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj/obj_PSP/rateconv.o: ./core/speech/rateconv.c
+	$(C) -c ./core/speech/rateconv.c -o ../obj/obj_PSP/rateconv.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_cart.o: ./core/stats/cst_cart.c
+	$(C) -c ./core/stats/cst_cart.c -o ../obj/obj_PSP/cst_cart.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_ss.o: ./core/stats/cst_ss.c
+	$(C) -c ./core/stats/cst_ss.c -o ../obj/obj_PSP/cst_ss.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_viterbi.o: ./core/stats/cst_viterbi.c
+	$(C) -c ./core/stats/cst_viterbi.c -o ../obj/obj_PSP/cst_viterbi.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_phoneset.o: ./core/synth/cst_phoneset.c
+	$(C) -c ./core/synth/cst_phoneset.c -o ../obj/obj_PSP/cst_phoneset.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_synth.o: ./core/synth/cst_synth.c
+	$(C) -c ./core/synth/cst_synth.c -o ../obj/obj_PSP/cst_synth.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_utt_utils.o: ./core/synth/cst_utt_utils.c
+	$(C) -c ./core/synth/cst_utt_utils.c -o ../obj/obj_PSP/cst_utt_utils.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_voice.o: ./core/synth/cst_voice.c
+	$(C) -c ./core/synth/cst_voice.c -o ../obj/obj_PSP/cst_voice.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/flite.o: ./core/synth/flite.c
+	$(C) -c ./core/synth/flite.c -o ../obj/obj_PSP/flite.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_alloc.o: ./core/utils/cst_alloc.c
+	$(C) -c ./core/utils/cst_alloc.c -o ../obj/obj_PSP/cst_alloc.o $(CFLAGS_PSP) $(INCLUDE)
+	
+../obj/obj_PSP/cst_args.o: ./core/utils/cst_args.c
+	$(C) -c ./core/utils/cst_args.c -o ../obj/obj_PSP/cst_args.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj/obj_PSP/cst_endian.o: ./core/utils/cst_endian.c
+	$(C) -c ./core/utils/cst_endian.c -o ../obj/obj_PSP/cst_endian.o $(CFLAGS_PSP) $(INCLUDE)
+	
+../obj/obj_PSP/cst_error.o: ./core/utils/cst_error.c
+	$(C) -c ./core/utils/cst_error.c -o ../obj/obj_PSP/cst_error.o $(CFLAGS_PSP) $(INCLUDE)
+	
+../obj/obj_PSP/cst_features.o: ./core/utils/cst_features.c
+	$(C) -c ./core/utils/cst_features.c -o ../obj/obj_PSP/cst_features.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj/obj_PSP/cst_socket.o: ./core/utils/cst_socket.c
+	$(C) -c ./core/utils/cst_socket.c -o ../obj/obj_PSP/cst_socket.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj/obj_PSP/cst_string.o: ./core/utils/cst_string.c
+	$(C) -c ./core/utils/cst_string.c -o ../obj/obj_PSP/cst_string.o $(CFLAGS_PSP) $(INCLUDE)
+	
+../obj/obj_PSP/cst_tokenstream.o: ./core/utils/cst_tokenstream.c
+	$(C) -c ./core/utils/cst_tokenstream.c -o ../obj/obj_PSP/cst_tokenstream.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj/obj_PSP/cst_val.o: ./core/utils/cst_val.c
+	$(C) -c ./core/utils/cst_val.c -o ../obj/obj_PSP/cst_val.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj/obj_PSP/cst_val_const.o: ./core/utils/cst_val_const.c
+	$(C) -c ./core/utils/cst_val_const.c -o ../obj/obj_PSP/cst_val_const.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj/obj_PSP/cst_val_user.o: ./core/utils/cst_val_user.c
+	$(C) -c ./core/utils/cst_val_user.c -o ../obj/obj_PSP/cst_val_user.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj/obj_PSP/cst_mmap_none.o: ./core/utils/cst_mmap_none.c
+	$(C) -c ./core/utils/cst_mmap_none.c -o ../obj/obj_PSP/cst_mmap_none.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+../obj/obj_PSP/cst_file_psp.o: ./core/utils/cst_file_psp.c
+	$(C) -c ./core/utils/cst_file_psp.c -o ../obj/obj_PSP/cst_file_psp.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_clunits.o: ./core/wavesynth/cst_clunits.c
+	$(C) -c ./core/wavesynth/cst_clunits.c -o ../obj/obj_PSP/cst_clunits.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_diphone.o: ./core/wavesynth/cst_diphone.c
+	$(C) -c ./core/wavesynth/cst_diphone.c -o ../obj/obj_PSP/cst_diphone.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_reflpc.o: ./core/wavesynth/cst_reflpc.c
+	$(C) -c ./core/wavesynth/cst_reflpc.c -o ../obj/obj_PSP/cst_reflpc.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_sigpr.o: ./core/wavesynth/cst_sigpr.c
+	$(C) -c ./core/wavesynth/cst_sigpr.c -o ../obj/obj_PSP/cst_sigpr.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_sigprFP.o: ./core/wavesynth/cst_sigprFP.c
+	$(C) -c ./core/wavesynth/cst_sigprFP.c -o ../obj/obj_PSP/cst_sigprFP.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_sts.o: ./core/wavesynth/cst_sts.c
+	$(C) -c ./core/wavesynth/cst_sts.c -o ../obj/obj_PSP/cst_sts.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cst_units.o: ./core/wavesynth/cst_units.c
+	$(C) -c ./core/wavesynth/cst_units.c -o ../obj/obj_PSP/cst_units.o $(CFLAGS_PSP) $(INCLUDE) 
+
+../obj/obj_PSP/cmu_lex_data.o: ./lang/cmulex/cmu_lex_data.c
+	$(C) -c ./lang/cmulex/cmu_lex_data.c -o ../obj/obj_PSP/cmu_lex_data.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+	
+../obj/obj_PSP/cmu_lex_entries.o: ./lang/cmulex/cmu_lex_entries.c
+	$(C) -c ./lang/cmulex/cmu_lex_entries.c -o ../obj/obj_PSP/cmu_lex_entries.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+	
+../obj/obj_PSP/cmu_lts_model.o: ./lang/cmulex/cmu_lts_model.c
+	$(C) -c ./lang/cmulex/cmu_lts_model.c -o ../obj/obj_PSP/cmu_lts_model.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+	
+../obj/obj_PSP/cmu_lts_rules.o: ./lang/cmulex/cmu_lts_rules.c
+	$(C) -c ./lang/cmulex/cmu_lts_rules.c -o ../obj/obj_PSP/cmu_lts_rules.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+
+
+## Compilazione dei moduli per PSP (lang) - US Eng
+
+../obj/obj_PSP/us_dur_stats.o: ./lang/usenglish/us_dur_stats.c
+	$(C) -c ./lang/usenglish/us_dur_stats.c -o ../obj/obj_PSP/us_dur_stats.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/us_durz_cart.o: ./lang/usenglish/us_durz_cart.c
+	$(C) -c ./lang/usenglish/us_durz_cart.c -o ../obj/obj_PSP/us_durz_cart.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/us_expand.o: ./lang/usenglish/us_expand.c
+	$(C) -c ./lang/usenglish/us_expand.c -o ../obj/obj_PSP/us_expand.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/us_f0_model.o: ./lang/usenglish/us_f0_model.c
+	$(C) -c ./lang/usenglish/us_f0_model.c -o ../obj/obj_PSP/us_f0_model.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/us_f0lr.o: ./lang/usenglish/us_f0lr.c
+	$(C) -c ./lang/usenglish/us_f0lr.c -o ../obj/obj_PSP/us_f0lr.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/us_ffeatures.o: ./lang/usenglish/us_ffeatures.c
+	$(C) -c ./lang/usenglish/us_ffeatures.c -o ../obj/obj_PSP/us_ffeatures.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/us_gpos.o: ./lang/usenglish/us_gpos.c
+	$(C) -c ./lang/usenglish/us_gpos.c -o ../obj/obj_PSP/us_gpos.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/us_int_accent_cart.o: ./lang/usenglish/us_int_accent_cart.c
+	$(C) -c ./lang/usenglish/us_int_accent_cart.c -o ../obj/obj_PSP/us_int_accent_cart.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/us_int_tone_cart.o: ./lang/usenglish/us_int_tone_cart.c
+	$(C) -c ./lang/usenglish/us_int_tone_cart.c -o ../obj/obj_PSP/us_int_tone_cart.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/us_nums_cart.o: ./lang/usenglish/us_nums_cart.c
+	$(C) -c ./lang/usenglish/us_nums_cart.c -o ../obj/obj_PSP/us_nums_cart.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/us_phoneset.o: ./lang/usenglish/us_phoneset.c
+	$(C) -c ./lang/usenglish/us_phoneset.c -o ../obj/obj_PSP/us_phoneset.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/us_phrasing_cart.o: ./lang/usenglish/us_phrasing_cart.c
+	$(C) -c ./lang/usenglish/us_phrasing_cart.c -o ../obj/obj_PSP/us_phrasing_cart.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/us_postlex.o: ./lang/usenglish/us_postlex.c
+	$(C) -c ./lang/usenglish/us_postlex.c -o ../obj/obj_PSP/us_postlex.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/us_text.o: ./lang/usenglish/us_text.c
+	$(C) -c ./lang/usenglish/us_text.c -o ../obj/obj_PSP/us_text.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/usenglish.o: ./lang/usenglish/usenglish.c
+	$(C) -c ./lang/usenglish/usenglish.c -o ../obj/obj_PSP/usenglish.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+## Compilazione dei moduli per PSP (lang) - Voice - cmu time
+
+../obj/obj_PSP/cmu_time_awb.o: ./lang/cmu_time_awb/cmu_time_awb.c
+	$(C) -c ./lang/cmu_time_awb/cmu_time_awb.c -o ../obj/obj_PSP/cmu_time_awb.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+	
+../obj/obj_PSP/cmu_time_awb_cart.o: ./lang/cmu_time_awb/cmu_time_awb_cart.c
+	$(C) -c ./lang/cmu_time_awb/cmu_time_awb_cart.c -o ../obj/obj_PSP/cmu_time_awb_cart.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK) 
+
+../obj/obj_PSP/cmu_time_awb_clunits.o: ./lang/cmu_time_awb/cmu_time_awb_clunits.c
+	$(C) -c ./lang/cmu_time_awb/cmu_time_awb_clunits.c -o ../obj/obj_PSP/cmu_time_awb_clunits.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK) 
+
+../obj/obj_PSP/cmu_time_awb_lex_entry.o: ./lang/cmu_time_awb/cmu_time_awb_lex_entry.c
+	$(C) -c ./lang/cmu_time_awb/cmu_time_awb_lex_entry.c -o ../obj/obj_PSP/cmu_time_awb_lex_entry.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/cmu_time_awb_lpc.o: ./lang/cmu_time_awb/cmu_time_awb_lpc.c
+	$(C) -c ./lang/cmu_time_awb/cmu_time_awb_lpc.c -o ../obj/obj_PSP/cmu_time_awb_lpc.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK) 
+
+../obj/obj_PSP/cmu_time_awb_mcep.o: ./lang/cmu_time_awb/cmu_time_awb_mcep.c
+	$(C) -c ./lang/cmu_time_awb/cmu_time_awb_mcep.c -o ../obj/obj_PSP/cmu_time_awb_mcep.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK) 
+
+## Compilazione dei moduli per PSP (lang) - Voice - KAL
+
+../obj/obj_PSP/cmu_us_kal.o: ./lang/cmu_us_kal/cmu_us_kal.c
+	$(C) -c ./lang/cmu_us_kal/cmu_us_kal.c -o ../obj/obj_PSP/cmu_us_kal.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+	
+../obj/obj_PSP/cmu_us_kal_diphone.o: ./lang/cmu_us_kal/cmu_us_kal_diphone.c
+	$(C) -c ./lang/cmu_us_kal/cmu_us_kal_diphone.c -o ../obj/obj_PSP/cmu_us_kal_diphone.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/cmu_us_kal_lpc.o: ./lang/cmu_us_kal/cmu_us_kal_lpc.c
+	$(C) -c ./lang/cmu_us_kal/cmu_us_kal_lpc.c -o ../obj/obj_PSP/cmu_us_kal_lpc.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/cmu_us_kal_res.o: ./lang/cmu_us_kal/cmu_us_kal_res.c
+	$(C) -c ./lang/cmu_us_kal/cmu_us_kal_res.c -o ../obj/obj_PSP/cmu_us_kal_res.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/cmu_us_kal_residx.o: ./lang/cmu_us_kal/cmu_us_kal_residx.c
+	$(C) -c ./lang/cmu_us_kal/cmu_us_kal_residx.c -o ../obj/obj_PSP/cmu_us_kal_residx.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+## Compilazione dei moduli per PSP (lang) - Voice - KAL16
+
+../obj/obj_PSP/cmu_us_kal16.o: ./lang/cmu_us_kal16/cmu_us_kal16.c
+	$(C) -c ./lang/cmu_us_kal16/cmu_us_kal16.c -o ../obj/obj_PSP/cmu_us_kal16.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+	
+../obj/obj_PSP/cmu_us_kal16_diphone.o: ./lang/cmu_us_kal16/cmu_us_kal16_diphone.c
+	$(C) -c ./lang/cmu_us_kal16/cmu_us_kal16_diphone.c -o ../obj/obj_PSP/cmu_us_kal16_diphone.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/cmu_us_kal16_lpc.o: ./lang/cmu_us_kal16/cmu_us_kal16_lpc.c
+	$(C) -c ./lang/cmu_us_kal16/cmu_us_kal16_lpc.c -o ../obj/obj_PSP/cmu_us_kal16_lpc.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/cmu_us_kal16_res.o: ./lang/cmu_us_kal16/cmu_us_kal16_res.c
+	$(C) -c ./lang/cmu_us_kal16/cmu_us_kal16_res.c -o ../obj/obj_PSP/cmu_us_kal16_res.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/cmu_us_kal16_residx.o: ./lang/cmu_us_kal16/cmu_us_kal16_residx.c
+	$(C) -c ./lang/cmu_us_kal16/cmu_us_kal16_residx.c -o ../obj/obj_PSP/cmu_us_kal16_residx.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+../obj/obj_PSP/cmu_lex.o: ./lang/cmulex/cmu_lex.c
+	$(C) -c ./lang/cmulex/cmu_lex.c -o ../obj/obj_PSP/cmu_lex.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+	
+../obj/obj_PSP/us_aswd.o: ./lang/usenglish/us_aswd.c
+	$(C) -c ./lang/usenglish/us_aswd.c -o ../obj/obj_PSP/us_aswd.o $(CFLAGS_PSP) $(INCLUDE) $(INCLUDE_LANG_UK)
+
+	
+
+
+
+	

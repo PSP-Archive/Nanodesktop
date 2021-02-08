@@ -1,0 +1,891 @@
+# -------------------------------------------------------------
+#
+# Nanodesktop NanoCPP (Apache STDC++ for PSPE/PSP)
+# di Filippo Battaglia
+#
+# -------------------------------------------------------------
+
+
+C   = psp-gcc
+CPP = psp-g++
+
+
+LINK = psp-ar
+
+
+## Librerie di sistema
+
+
+OUTLIB_PSPE = ./lib/libNanoCPP_PSPE.a
+
+OUTLIB_PSP  = ./lib/libNanoCPP_PSP.a
+
+
+
+
+# File oggetto
+
+OBJS_PSPE = ./obj_PSPE/core/assert.o \
+	    ./obj_PSPE/core/catalog.o \
+	    ./obj_PSPE/core/bitset.o \
+	    ./obj_PSPE/core/codecvt.o \
+	    ./obj_PSPE/core/collate.o \
+	    ./obj_PSPE/core/ctype.o \
+	    ./obj_PSPE/core/ctype_bits.o \
+	    ./obj_PSPE/core/domain_error.o \
+	    ./obj_PSPE/core/exception.o \
+	    ./obj_PSPE/core/export.o \
+	    ./obj_PSPE/core/facet.o \
+	    ./obj_PSPE/core/file.o \
+	    ./obj_PSPE/core/instance.o \
+	    ./obj_PSPE/core/invalid_argument.o \
+	    ./obj_PSPE/core/ios.o \
+	    ./obj_PSPE/core/ios_bits.o \
+	    ./obj_PSPE/core/iostore.o \
+	    ./obj_PSPE/core/iostream.o \
+	    ./obj_PSPE/core/iso2022.o \
+	    ./obj_PSPE/core/length_error.o \
+	    ./obj_PSPE/core/limits.o \
+	    ./obj_PSPE/core/limits_bits.o \
+	    ./obj_PSPE/core/logic_error.o \
+	    ./obj_PSPE/core/memory.o \
+	    ./obj_PSPE/core/mman.o \
+	    ./obj_PSPE/core/messages.o \
+	    ./obj_PSPE/core/num_get.o \
+	    ./obj_PSPE/core/num_put.o \
+	    ./obj_PSPE/core/once.o \
+	    ./obj_PSPE/core/out_of_range.o \
+	    ./obj_PSPE/core/overflow_error.o \
+	    ./obj_PSPE/core/punct.o \
+	    ./obj_PSPE/core/random.o \
+	    ./obj_PSPE/core/range_error.o \
+	    ./obj_PSPE/core/runtime_error.o \
+	    ./obj_PSPE/core/rwstderr.o \
+	    ./obj_PSPE/core/setlocale.o \
+	    ./obj_PSPE/core/string.o \
+	    ./obj_PSPE/core/strstream.o \
+	    ./obj_PSPE/core/strtol.o \
+	    ./obj_PSPE/core/ti_collate.o \
+	    ./obj_PSPE/core/ti_filebuf.o \
+	    ./obj_PSPE/core/ti_insert_dbl.o \
+	    ./obj_PSPE/core/ti_insert_int.o \
+	    ./obj_PSPE/core/ti_insert_ptr.o \
+	    ./obj_PSPE/core/ti_insert_ptr.o \
+	    ./obj_PSPE/core/ti_ios.o \
+	    ./obj_PSPE/core/ti_istream.o \
+	    ./obj_PSPE/core/ti_messages.o \
+	    ./obj_PSPE/core/ti_money_get.o \
+	    ./obj_PSPE/core/ti_money_put.o \
+	    ./obj_PSPE/core/ti_moneypunct.o \
+	    ./obj_PSPE/core/ti_num_get.o \
+	    ./obj_PSPE/core/ti_num_put.o \
+	    ./obj_PSPE/core/ti_numpunct.o \
+	    ./obj_PSPE/core/ti_ostream.o \
+	    ./obj_PSPE/core/ti_podarray.o \
+	    ./obj_PSPE/core/ti_streambuf.o \
+	    ./obj_PSPE/core/ti_string.o \
+	    ./obj_PSPE/core/ti_stringbuf.o \
+	    ./obj_PSPE/core/ti_time_get.o \
+	    ./obj_PSPE/core/ti_time_put.o \
+	    ./obj_PSPE/core/ti_wcollate.o \
+	    ./obj_PSPE/core/ti_wfilebuf.o \
+	    ./obj_PSPE/core/ti_winsert_dbl.o \
+	    ./obj_PSPE/core/ti_winsert_int.o \
+	    ./obj_PSPE/core/ti_winsert_ptr.o \
+	    ./obj_PSPE/core/ti_wios.o \
+	    ./obj_PSPE/core/ti_wistream.o \
+	    ./obj_PSPE/core/ti_wmessages.o \
+	    ./obj_PSPE/core/ti_wmoneypunct.o \
+	    ./obj_PSPE/core/ti_wmoney_get.o \
+	    ./obj_PSPE/core/ti_wmoney_put.o \
+	    ./obj_PSPE/core/ti_wnumpunct.o \
+	    ./obj_PSPE/core/ti_wnum_get.o \
+	    ./obj_PSPE/core/ti_wnum_put.o \
+	    ./obj_PSPE/core/ti_wostream.o \
+	    ./obj_PSPE/core/ti_wstreambuf.o \
+	    ./obj_PSPE/core/ti_wstring.o \
+	    ./obj_PSPE/core/ti_wstringbuf.o \
+	    ./obj_PSPE/core/ti_wtime_get.o \
+	    ./obj_PSPE/core/ti_wtime_put.o \
+	    ./obj_PSPE/core/tmpbuf.o \
+	    ./obj_PSPE/core/typeinfo.o \
+	    ./obj_PSPE/core/underflow_error.o \
+	    ./obj_PSPE/core/valarray.o \
+	    ./obj_PSPE/core/vecbool.o \
+	    ./obj_PSPE/core/version.o \
+	    ./obj_PSPE/core/wcodecvt.o \
+	    ./obj_PSPE/core/wctype.o \
+	    ./obj_PSPE/core/locale_bits.o \
+	    ./obj_PSPE/core/locale_body.o \
+	    ./obj_PSPE/core/locale_classic.o \
+	    ./obj_PSPE/core/locale_combine.o \
+	    ./obj_PSPE/core/locale_core.o \
+	    ./obj_PSPE/core/locale_eq.o \
+	    ./obj_PSPE/core/locale_global.o \
+            ./obj_PSPE/core/locale_name.o \
+            ./obj_PSPE/cxx.o
+
+OBJS_PSP = ./obj_PSP/core/assert.o \
+	    ./obj_PSP/core/catalog.o \
+	    ./obj_PSP/core/bitset.o \
+	    ./obj_PSP/core/codecvt.o \
+	    ./obj_PSP/core/collate.o \
+	    ./obj_PSP/core/ctype.o \
+	    ./obj_PSP/core/ctype_bits.o \
+	    ./obj_PSP/core/domain_error.o \
+	    ./obj_PSP/core/exception.o \
+	    ./obj_PSP/core/export.o \
+	    ./obj_PSP/core/facet.o \
+	    ./obj_PSP/core/file.o \
+	    ./obj_PSP/core/instance.o \
+	    ./obj_PSP/core/invalid_argument.o \
+	    ./obj_PSP/core/ios.o \
+	    ./obj_PSP/core/ios_bits.o \
+	    ./obj_PSP/core/iostore.o \
+	    ./obj_PSP/core/iostream.o \
+	    ./obj_PSP/core/iso2022.o \
+	    ./obj_PSP/core/length_error.o \
+	    ./obj_PSP/core/limits.o \
+	    ./obj_PSP/core/limits_bits.o \
+	    ./obj_PSP/core/logic_error.o \
+	    ./obj_PSP/core/memory.o \
+	    ./obj_PSP/core/mman.o \
+	    ./obj_PSP/core/messages.o \
+	    ./obj_PSP/core/num_get.o \
+	    ./obj_PSP/core/num_put.o \
+	    ./obj_PSP/core/once.o \
+	    ./obj_PSP/core/out_of_range.o \
+	    ./obj_PSP/core/overflow_error.o \
+	    ./obj_PSP/core/punct.o \
+	    ./obj_PSP/core/random.o \
+	    ./obj_PSP/core/range_error.o \
+	    ./obj_PSP/core/runtime_error.o \
+	    ./obj_PSP/core/rwstderr.o \
+	    ./obj_PSP/core/setlocale.o \
+	    ./obj_PSP/core/string.o \
+	    ./obj_PSP/core/strstream.o \
+	    ./obj_PSP/core/strtol.o \
+	    ./obj_PSP/core/ti_collate.o \
+	    ./obj_PSP/core/ti_filebuf.o \
+	    ./obj_PSP/core/ti_insert_dbl.o \
+	    ./obj_PSP/core/ti_insert_int.o \
+	    ./obj_PSP/core/ti_insert_ptr.o \
+	    ./obj_PSP/core/ti_insert_ptr.o \
+	    ./obj_PSP/core/ti_ios.o \
+	    ./obj_PSP/core/ti_istream.o \
+	    ./obj_PSP/core/ti_messages.o \
+	    ./obj_PSP/core/ti_money_get.o \
+	    ./obj_PSP/core/ti_money_put.o \
+	    ./obj_PSP/core/ti_moneypunct.o \
+	    ./obj_PSP/core/ti_num_get.o \
+	    ./obj_PSP/core/ti_num_put.o \
+	    ./obj_PSP/core/ti_numpunct.o \
+	    ./obj_PSP/core/ti_ostream.o \
+	    ./obj_PSP/core/ti_podarray.o \
+	    ./obj_PSP/core/ti_streambuf.o \
+	    ./obj_PSP/core/ti_string.o \
+	    ./obj_PSP/core/ti_stringbuf.o \
+	    ./obj_PSP/core/ti_time_get.o \
+	    ./obj_PSP/core/ti_time_put.o \
+	    ./obj_PSP/core/ti_wcollate.o \
+	    ./obj_PSP/core/ti_wfilebuf.o \
+	    ./obj_PSP/core/ti_winsert_dbl.o \
+	    ./obj_PSP/core/ti_winsert_int.o \
+	    ./obj_PSP/core/ti_winsert_ptr.o \
+	    ./obj_PSP/core/ti_wios.o \
+	    ./obj_PSP/core/ti_wistream.o \
+	    ./obj_PSP/core/ti_wmessages.o \
+	    ./obj_PSP/core/ti_wmoneypunct.o \
+	    ./obj_PSP/core/ti_wmoney_get.o \
+	    ./obj_PSP/core/ti_wmoney_put.o \
+	    ./obj_PSP/core/ti_wnumpunct.o \
+	    ./obj_PSP/core/ti_wnum_get.o \
+	    ./obj_PSP/core/ti_wnum_put.o \
+	    ./obj_PSP/core/ti_wostream.o \
+	    ./obj_PSP/core/ti_wstreambuf.o \
+	    ./obj_PSP/core/ti_wstring.o \
+	    ./obj_PSP/core/ti_wstringbuf.o \
+	    ./obj_PSP/core/ti_wtime_get.o \
+	    ./obj_PSP/core/ti_wtime_put.o \
+	    ./obj_PSP/core/tmpbuf.o \
+	    ./obj_PSP/core/typeinfo.o \
+	    ./obj_PSP/core/underflow_error.o \
+	    ./obj_PSP/core/valarray.o \
+	    ./obj_PSP/core/vecbool.o \
+	    ./obj_PSP/core/version.o \
+	    ./obj_PSP/core/wcodecvt.o \
+	    ./obj_PSP/core/wctype.o \
+	    ./obj_PSP/core/locale_bits.o \
+	    ./obj_PSP/core/locale_body.o \
+	    ./obj_PSP/core/locale_classic.o \
+	    ./obj_PSP/core/locale_combine.o \
+	    ./obj_PSP/core/locale_core.o \
+	    ./obj_PSP/core/locale_eq.o \
+	    ./obj_PSP/core/locale_global.o \
+            ./obj_PSP/core/locale_name.o \
+            ./obj_PSP/cxx.o
+	    
+	    
+
+## Path di ricerca per gli headers files
+
+ 
+INC0 = -I"." 
+INC1 = -I"$(NDENV_PATH)\PSP\SDK\Nanodesktop\src" 
+INC2 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoC\src"
+INC3 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoM\src"
+INC4 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoCPP\include"
+INC5 = -I"$(NDENV_PATH)\PSP\SDK\NanoCore\NanoCPP\include\ansi"
+INC6 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\include"
+INC7 = -I"$(NDENV_PATH)\PSP\SDK\PspDev\psp\sdk\include"
+
+
+
+INCLUDE = $(INC0) $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6) $(INC7)
+
+
+## Opzioni della libreria
+
+
+
+
+
+
+## Flags di compilazione
+
+CFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -O2 -g -fomit-frame-pointer -fno-exceptions -march=mips2 -fshort-double -Wall -mfp32 -msym32 -ffast-math -nostdinc++ -v
+
+CFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -fno-rtti -march=allegrex -Wall -mfp32 -msym32 -ffast-math -fshort-double -mhard-float -nostdinc++ -v
+
+
+
+
+## Compilazione di librerie
+
+all : $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+$(OUTLIB_PSPE): $(OBJS_PSPE)
+	$(LINK) r $(OUTLIB_PSPE) $(OBJS_PSPE)
+	
+$(OUTLIB_PSP): $(OBJS_PSP)
+	$(LINK) r $(OUTLIB_PSP) $(OBJS_PSP)
+
+
+
+## Compilazione dei moduli per PSPE
+
+
+./obj_PSPE/cxx.o:   ./src/cxx.cpp
+	$(CPP) -c ./src/cxx.cpp -o ./obj_PSPE/cxx.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/assert.o:   ./src/assert.cpp
+	$(CPP) -c ./src/assert.cpp -o ./obj_PSPE/core/assert.o $(CFLAGS_PSPE) $(INCLUDE)  
+	
+./obj_PSPE/core/bitset.o:   ./src/bitset.cpp
+	$(CPP) -c ./src/bitset.cpp -o ./obj_PSPE/core/bitset.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/catalog.o:   ./src/catalog.cpp
+	$(CPP) -c ./src/catalog.cpp -o ./obj_PSPE/core/catalog.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/codecvt.o:   ./src/codecvt.cpp
+	$(CPP) -c ./src/codecvt.cpp -o ./obj_PSPE/core/codecvt.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/collate.o:   ./src/collate.cpp
+	$(CPP) -c ./src/collate.cpp -o ./obj_PSPE/core/collate.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ctype.o:   ./src/ctype.cpp
+	$(CPP) -c ./src/ctype.cpp -o ./obj_PSPE/core/ctype.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ctype_bits.o:   ./src/ctype_bits.cpp
+	$(CPP) -c ./src/ctype_bits.cpp -o ./obj_PSPE/core/ctype_bits.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/domain_error.o:   ./src/domain_error.cpp
+	$(CPP) -c ./src/domain_error.cpp -o ./obj_PSPE/core/domain_error.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+./obj_PSPE/core/exception.o:   ./src/exception.cpp
+	$(CPP) -c ./src/exception.cpp -o ./obj_PSPE/core/exception.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/export.o:   ./src/export.cpp
+	$(CPP) -c ./src/export.cpp -o ./obj_PSPE/core/export.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/facet.o:   ./src/facet.cpp
+	$(CPP) -c ./src/facet.cpp -o ./obj_PSPE/core/facet.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/file.o:   ./src/file.cpp
+	$(CPP) -c ./src/file.cpp -o ./obj_PSPE/core/file.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+./obj_PSPE/core/instance.o:   ./src/instance.cpp
+	$(CPP) -c ./src/instance.cpp -o ./obj_PSPE/core/instance.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/invalid_argument.o:   ./src/invalid_argument.cpp
+	$(CPP) -c ./src/invalid_argument.cpp -o ./obj_PSPE/core/invalid_argument.o $(CFLAGS_PSPE) $(INCLUDE) 
+	
+./obj_PSPE/core/ios.o:   ./src/ios.cpp
+	$(CPP) -c ./src/ios.cpp -o ./obj_PSPE/core/ios.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ios_bits.o:   ./src/ios_bits.cpp
+	$(CPP) -c ./src/ios_bits.cpp -o ./obj_PSPE/core/ios_bits.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/iostore.o:   ./src/iostore.cpp
+	$(CPP) -c ./src/iostore.cpp -o ./obj_PSPE/core/iostore.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/iostream.o:   ./src/iostream.cpp
+	$(CPP) -c ./src/iostream.cpp -o ./obj_PSPE/core/iostream.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/iso2022.o:   ./src/iso2022.cpp
+	$(CPP) -c ./src/iso2022.cpp -o ./obj_PSPE/core/iso2022.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/length_error.o:   ./src/length_error.cpp
+	$(CPP) -c ./src/length_error.cpp -o ./obj_PSPE/core/length_error.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/limits.o:   ./src/limits.cpp
+	$(CPP) -c ./src/limits.cpp -o ./obj_PSPE/core/limits.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/limits_bits.o:   ./src/limits_bits.cpp
+	$(CPP) -c ./src/limits_bits.cpp -o ./obj_PSPE/core/limits_bits.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/logic_error.o:   ./src/logic_error.cpp
+	$(CPP) -c ./src/logic_error.cpp -o ./obj_PSPE/core/logic_error.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/memattr.o:   ./src/memattr.cpp
+	$(CPP) -c ./src/memattr.cpp -o ./obj_PSPE/core/memattr.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/memory.o:   ./src/memory.cpp
+	$(CPP) -c ./src/memory.cpp -o ./obj_PSPE/core/memory.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/messages.o:   ./src/messages.cpp
+	$(CPP) -c ./src/messages.cpp -o ./obj_PSPE/core/messages.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/mman.o:   ./src/mman.cpp
+	$(CPP) -c ./src/mman.cpp -o ./obj_PSPE/core/mman.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/num_get.o:   ./src/num_get.cpp
+	$(CPP) -c ./src/num_get.cpp -o ./obj_PSPE/core/num_get.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/num_put.o:   ./src/num_put.cpp
+	$(CPP) -c ./src/num_put.cpp -o ./obj_PSPE/core/num_put.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/once.o:   ./src/once.cpp
+	$(CPP) -c ./src/once.cpp -o ./obj_PSPE/core/once.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/out_of_range.o:   ./src/out_of_range.cpp
+	$(CPP) -c ./src/out_of_range.cpp -o ./obj_PSPE/core/out_of_range.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/overflow_error.o:   ./src/overflow_error.cpp
+	$(CPP) -c ./src/overflow_error.cpp -o ./obj_PSPE/core/overflow_error.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/punct.o:   ./src/punct.cpp
+	$(CPP) -c ./src/punct.cpp -o ./obj_PSPE/core/punct.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/random.o:   ./src/random.cpp
+	$(CPP) -c ./src/random.cpp -o ./obj_PSPE/core/random.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/range_error.o:   ./src/range_error.cpp
+	$(CPP) -c ./src/range_error.cpp -o ./obj_PSPE/core/range_error.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/runtime_error.o:   ./src/runtime_error.cpp
+	$(CPP) -c ./src/runtime_error.cpp -o ./obj_PSPE/core/runtime_error.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/rwstderr.o:   ./src/rwstderr.cpp
+	$(CPP) -c ./src/rwstderr.cpp -o ./obj_PSPE/core/rwstderr.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/setlocale.o:   ./src/setlocale.cpp
+	$(CPP) -c ./src/setlocale.cpp -o ./obj_PSPE/core/setlocale.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/string.o:   ./src/string.cpp
+	$(CPP) -c ./src/string.cpp -o ./obj_PSPE/core/string.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/strstream.o:   ./src/strstream.cpp
+	$(CPP) -c ./src/strstream.cpp -o ./obj_PSPE/core/strstream.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/strtol.o:   ./src/strtol.cpp
+	$(CPP) -c ./src/strtol.cpp -o ./obj_PSPE/core/strtol.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_collate.o:   ./src/ti_collate.cpp
+	$(CPP) -c ./src/ti_collate.cpp -o ./obj_PSPE/core/ti_collate.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_filebuf.o:   ./src/ti_filebuf.cpp
+	$(CPP) -c ./src/ti_filebuf.cpp -o ./obj_PSPE/core/ti_filebuf.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_insert_dbl.o:   ./src/ti_insert_dbl.cpp
+	$(CPP) -c ./src/ti_insert_dbl.cpp -o ./obj_PSPE/core/ti_insert_dbl.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_insert_int.o:   ./src/ti_insert_int.cpp
+	$(CPP) -c ./src/ti_insert_int.cpp -o ./obj_PSPE/core/ti_insert_int.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_insert_ptr.o:   ./src/ti_insert_ptr.cpp
+	$(CPP) -c ./src/ti_insert_ptr.cpp -o ./obj_PSPE/core/ti_insert_ptr.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_ios.o:   ./src/ti_ios.cpp
+	$(CPP) -c ./src/ti_ios.cpp -o ./obj_PSPE/core/ti_ios.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_istream.o:   ./src/ti_istream.cpp
+	$(CPP) -c ./src/ti_istream.cpp -o ./obj_PSPE/core/ti_istream.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_messages.o:   ./src/ti_messages.cpp
+	$(CPP) -c ./src/ti_messages.cpp -o ./obj_PSPE/core/ti_messages.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_money_get.o:   ./src/ti_money_get.cpp
+	$(CPP) -c ./src/ti_money_get.cpp -o ./obj_PSPE/core/ti_money_get.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_money_put.o:   ./src/ti_money_put.cpp
+	$(CPP) -c ./src/ti_money_put.cpp -o ./obj_PSPE/core/ti_money_put.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_moneypunct.o:   ./src/ti_moneypunct.cpp
+	$(CPP) -c ./src/ti_moneypunct.cpp -o ./obj_PSPE/core/ti_moneypunct.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_num_get.o:   ./src/ti_num_get.cpp
+	$(CPP) -c ./src/ti_num_get.cpp -o ./obj_PSPE/core/ti_num_get.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_num_put.o:   ./src/ti_num_put.cpp
+	$(CPP) -c ./src/ti_num_put.cpp -o ./obj_PSPE/core/ti_num_put.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_numpunct.o:   ./src/ti_numpunct.cpp
+	$(CPP) -c ./src/ti_numpunct.cpp -o ./obj_PSPE/core/ti_numpunct.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_ostream.o:   ./src/ti_ostream.cpp
+	$(CPP) -c ./src/ti_ostream.cpp -o ./obj_PSPE/core/ti_ostream.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_podarray.o:   ./src/ti_podarray.cpp
+	$(CPP) -c ./src/ti_podarray.cpp -o ./obj_PSPE/core/ti_podarray.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_streambuf.o: ./src/ti_streambuf.cpp 
+	 $(CPP) -c ./src/ti_streambuf.cpp -o ./obj_PSPE/core/ti_streambuf.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_string.o: ./src/ti_string.cpp 
+	 $(CPP) -c ./src/ti_string.cpp -o ./obj_PSPE/core/ti_string.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_stringbuf.o: ./src/ti_stringbuf.cpp 
+	 $(CPP) -c ./src/ti_stringbuf.cpp -o ./obj_PSPE/core/ti_stringbuf.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_time_get.o: ./src/ti_time_get.cpp 
+	 $(CPP) -c ./src/ti_time_get.cpp -o ./obj_PSPE/core/ti_time_get.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_time_put.o: ./src/ti_time_put.cpp 
+	 $(CPP) -c ./src/ti_time_put.cpp -o ./obj_PSPE/core/ti_time_put.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_wcollate.o: ./src/ti_wcollate.cpp 
+	 $(CPP) -c ./src/ti_wcollate.cpp -o ./obj_PSPE/core/ti_wcollate.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_wfilebuf.o: ./src/ti_wfilebuf.cpp 
+	 $(CPP) -c ./src/ti_wfilebuf.cpp -o ./obj_PSPE/core/ti_wfilebuf.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_winsert_dbl.o: ./src/ti_winsert_dbl.cpp 
+	 $(CPP) -c ./src/ti_winsert_dbl.cpp -o ./obj_PSPE/core/ti_winsert_dbl.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_winsert_int.o: ./src/ti_winsert_int.cpp 
+	 $(CPP) -c ./src/ti_winsert_int.cpp -o ./obj_PSPE/core/ti_winsert_int.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_winsert_ptr.o: ./src/ti_winsert_ptr.cpp 
+	 $(CPP) -c ./src/ti_winsert_ptr.cpp -o ./obj_PSPE/core/ti_winsert_ptr.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_wios.o: ./src/ti_wios.cpp 
+	 $(CPP) -c ./src/ti_wios.cpp -o ./obj_PSPE/core/ti_wios.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_wistream.o: ./src/ti_wistream.cpp 
+	 $(CPP) -c ./src/ti_wistream.cpp -o ./obj_PSPE/core/ti_wistream.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_wmessages.o: ./src/ti_wmessages.cpp 
+	 $(CPP) -c ./src/ti_wmessages.cpp -o ./obj_PSPE/core/ti_wmessages.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_wmoneypunct.o: ./src/ti_wmoneypunct.cpp 
+	 $(CPP) -c ./src/ti_wmoneypunct.cpp -o ./obj_PSPE/core/ti_wmoneypunct.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_wmoney_get.o: ./src/ti_wmoney_get.cpp 
+	 $(CPP) -c ./src/ti_wmoney_get.cpp -o ./obj_PSPE/core/ti_wmoney_get.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_wmoney_put.o: ./src/ti_wmoney_put.cpp 
+	 $(CPP) -c ./src/ti_wmoney_put.cpp -o ./obj_PSPE/core/ti_wmoney_put.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_wnumpunct.o: ./src/ti_wnumpunct.cpp 
+	 $(CPP) -c ./src/ti_wnumpunct.cpp -o ./obj_PSPE/core/ti_wnumpunct.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_wnum_get.o: ./src/ti_wnum_get.cpp 
+	 $(CPP) -c ./src/ti_wnum_get.cpp -o ./obj_PSPE/core/ti_wnum_get.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_wnum_put.o: ./src/ti_wnum_put.cpp 
+	 $(CPP) -c ./src/ti_wnum_put.cpp -o ./obj_PSPE/core/ti_wnum_put.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_wostream.o: ./src/ti_wostream.cpp 
+	 $(CPP) -c ./src/ti_wostream.cpp -o ./obj_PSPE/core/ti_wostream.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_wstreambuf.o: ./src/ti_wstreambuf.cpp 
+	 $(CPP) -c ./src/ti_wstreambuf.cpp -o ./obj_PSPE/core/ti_wstreambuf.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_wstring.o: ./src/ti_wstring.cpp 
+	 $(CPP) -c ./src/ti_wstring.cpp -o ./obj_PSPE/core/ti_wstring.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_wstringbuf.o: ./src/ti_wstringbuf.cpp 
+	 $(CPP) -c ./src/ti_wstringbuf.cpp -o ./obj_PSPE/core/ti_wstringbuf.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/ti_wtime_get.o: ./src/ti_wtime_get.cpp 
+	 $(CPP) -c ./src/ti_wtime_get.cpp -o ./obj_PSPE/core/ti_wtime_get.o $(CFLAGS_PSPE) $(INCLUDE) 
+
+./obj_PSPE/core/ti_wtime_put.o: ./src/ti_wtime_put.cpp 
+	 $(CPP) -c ./src/ti_wtime_put.cpp -o ./obj_PSPE/core/ti_wtime_put.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/tmpbuf.o: ./src/tmpbuf.cpp 
+	 $(CPP) -c ./src/tmpbuf.cpp -o ./obj_PSPE/core/tmpbuf.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/typeinfo.o: ./src/typeinfo.cpp 
+	 $(CPP) -c ./src/typeinfo.cpp -o ./obj_PSPE/core/typeinfo.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/underflow_error.o: ./src/underflow_error.cpp 
+	 $(CPP) -c ./src/underflow_error.cpp -o ./obj_PSPE/core/underflow_error.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/valarray.o: ./src/valarray.cpp 
+	 $(CPP) -c ./src/valarray.cpp -o ./obj_PSPE/core/valarray.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/vecbool.o: ./src/vecbool.cpp 
+	 $(CPP) -c ./src/vecbool.cpp -o ./obj_PSPE/core/vecbool.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/version.o: ./src/version.cpp 
+	 $(CPP) -c ./src/version.cpp -o ./obj_PSPE/core/version.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/wcodecvt.o: ./src/wcodecvt.cpp 
+	 $(CPP) -c ./src/wcodecvt.cpp -o ./obj_PSPE/core/wcodecvt.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/wctype.o: ./src/wctype.cpp 
+	 $(CPP) -c ./src/wctype.cpp -o ./obj_PSPE/core/wctype.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/locale_bits.o: ./src/locale_bits.cpp 
+	 $(CPP) -c ./src/locale_bits.cpp -o ./obj_PSPE/core/locale_bits.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/locale_body.o: ./src/locale_body.cpp 
+	 $(CPP) -c ./src/locale_body.cpp -o ./obj_PSPE/core/locale_body.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/locale_classic.o: ./src/locale_classic.cpp 
+	 $(CPP) -c ./src/locale_classic.cpp -o ./obj_PSPE/core/locale_classic.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/locale_combine.o: ./src/locale_combine.cpp 
+	 $(CPP) -c ./src/locale_combine.cpp -o ./obj_PSPE/core/locale_combine.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/locale_core.o: ./src/locale_core.cpp 
+	 $(CPP) -c ./src/locale_core.cpp -o ./obj_PSPE/core/locale_core.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/locale_eq.o: ./src/locale_eq.cpp 
+	 $(CPP) -c ./src/locale_eq.cpp -o ./obj_PSPE/core/locale_eq.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/locale_global.o: ./src/locale_global.cpp 
+	 $(CPP) -c ./src/locale_global.cpp -o ./obj_PSPE/core/locale_global.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+./obj_PSPE/core/locale_name.o: ./src/locale_name.cpp 
+	 $(CPP) -c ./src/locale_name.cpp -o ./obj_PSPE/core/locale_name.o $(CFLAGS_PSPE) $(INCLUDE)  
+
+
+
+
+## Compilazione dei moduli per PSP
+
+
+./obj_PSP/cxx.o:   ./src/cxx.cpp
+	$(CPP) -c ./src/cxx.cpp -o ./obj_PSP/cxx.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/assert.o:   ./src/assert.cpp
+	$(CPP) -c ./src/assert.cpp -o ./obj_PSP/core/assert.o $(CFLAGS_PSP) $(INCLUDE)  
+	
+./obj_PSP/core/bitset.o:   ./src/bitset.cpp
+	$(CPP) -c ./src/bitset.cpp -o ./obj_PSP/core/bitset.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/catalog.o:   ./src/catalog.cpp
+	$(CPP) -c ./src/catalog.cpp -o ./obj_PSP/core/catalog.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/codecvt.o:   ./src/codecvt.cpp
+	$(CPP) -c ./src/codecvt.cpp -o ./obj_PSP/core/codecvt.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/collate.o:   ./src/collate.cpp
+	$(CPP) -c ./src/collate.cpp -o ./obj_PSP/core/collate.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ctype.o:   ./src/ctype.cpp
+	$(CPP) -c ./src/ctype.cpp -o ./obj_PSP/core/ctype.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ctype_bits.o:   ./src/ctype_bits.cpp
+	$(CPP) -c ./src/ctype_bits.cpp -o ./obj_PSP/core/ctype_bits.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/domain_error.o:   ./src/domain_error.cpp
+	$(CPP) -c ./src/domain_error.cpp -o ./obj_PSP/core/domain_error.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+./obj_PSP/core/exception.o:   ./src/exception.cpp
+	$(CPP) -c ./src/exception.cpp -o ./obj_PSP/core/exception.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/export.o:   ./src/export.cpp
+	$(CPP) -c ./src/export.cpp -o ./obj_PSP/core/export.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/facet.o:   ./src/facet.cpp
+	$(CPP) -c ./src/facet.cpp -o ./obj_PSP/core/facet.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/file.o:   ./src/file.cpp
+	$(CPP) -c ./src/file.cpp -o ./obj_PSP/core/file.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+./obj_PSP/core/instance.o:   ./src/instance.cpp
+	$(CPP) -c ./src/instance.cpp -o ./obj_PSP/core/instance.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/invalid_argument.o:   ./src/invalid_argument.cpp
+	$(CPP) -c ./src/invalid_argument.cpp -o ./obj_PSP/core/invalid_argument.o $(CFLAGS_PSP) $(INCLUDE) 
+	
+./obj_PSP/core/ios.o:   ./src/ios.cpp
+	$(CPP) -c ./src/ios.cpp -o ./obj_PSP/core/ios.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ios_bits.o:   ./src/ios_bits.cpp
+	$(CPP) -c ./src/ios_bits.cpp -o ./obj_PSP/core/ios_bits.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/iostore.o:   ./src/iostore.cpp
+	$(CPP) -c ./src/iostore.cpp -o ./obj_PSP/core/iostore.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/iostream.o:   ./src/iostream.cpp
+	$(CPP) -c ./src/iostream.cpp -o ./obj_PSP/core/iostream.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/iso2022.o:   ./src/iso2022.cpp
+	$(CPP) -c ./src/iso2022.cpp -o ./obj_PSP/core/iso2022.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/length_error.o:   ./src/length_error.cpp
+	$(CPP) -c ./src/length_error.cpp -o ./obj_PSP/core/length_error.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/limits.o:   ./src/limits.cpp
+	$(CPP) -c ./src/limits.cpp -o ./obj_PSP/core/limits.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/limits_bits.o:   ./src/limits_bits.cpp
+	$(CPP) -c ./src/limits_bits.cpp -o ./obj_PSP/core/limits_bits.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/logic_error.o:   ./src/logic_error.cpp
+	$(CPP) -c ./src/logic_error.cpp -o ./obj_PSP/core/logic_error.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/memattr.o:   ./src/memattr.cpp
+	$(CPP) -c ./src/memattr.cpp -o ./obj_PSP/core/memattr.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/memory.o:   ./src/memory.cpp
+	$(CPP) -c ./src/memory.cpp -o ./obj_PSP/core/memory.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/messages.o:   ./src/messages.cpp
+	$(CPP) -c ./src/messages.cpp -o ./obj_PSP/core/messages.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/mman.o:   ./src/mman.cpp
+	$(CPP) -c ./src/mman.cpp -o ./obj_PSP/core/mman.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/num_get.o:   ./src/num_get.cpp
+	$(CPP) -c ./src/num_get.cpp -o ./obj_PSP/core/num_get.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/num_put.o:   ./src/num_put.cpp
+	$(CPP) -c ./src/num_put.cpp -o ./obj_PSP/core/num_put.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/once.o:   ./src/once.cpp
+	$(CPP) -c ./src/once.cpp -o ./obj_PSP/core/once.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/out_of_range.o:   ./src/out_of_range.cpp
+	$(CPP) -c ./src/out_of_range.cpp -o ./obj_PSP/core/out_of_range.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/overflow_error.o:   ./src/overflow_error.cpp
+	$(CPP) -c ./src/overflow_error.cpp -o ./obj_PSP/core/overflow_error.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/punct.o:   ./src/punct.cpp
+	$(CPP) -c ./src/punct.cpp -o ./obj_PSP/core/punct.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/random.o:   ./src/random.cpp
+	$(CPP) -c ./src/random.cpp -o ./obj_PSP/core/random.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/range_error.o:   ./src/range_error.cpp
+	$(CPP) -c ./src/range_error.cpp -o ./obj_PSP/core/range_error.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/runtime_error.o:   ./src/runtime_error.cpp
+	$(CPP) -c ./src/runtime_error.cpp -o ./obj_PSP/core/runtime_error.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/rwstderr.o:   ./src/rwstderr.cpp
+	$(CPP) -c ./src/rwstderr.cpp -o ./obj_PSP/core/rwstderr.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/setlocale.o:   ./src/setlocale.cpp
+	$(CPP) -c ./src/setlocale.cpp -o ./obj_PSP/core/setlocale.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/string.o:   ./src/string.cpp
+	$(CPP) -c ./src/string.cpp -o ./obj_PSP/core/string.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/strstream.o:   ./src/strstream.cpp
+	$(CPP) -c ./src/strstream.cpp -o ./obj_PSP/core/strstream.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/strtol.o:   ./src/strtol.cpp
+	$(CPP) -c ./src/strtol.cpp -o ./obj_PSP/core/strtol.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_collate.o:   ./src/ti_collate.cpp
+	$(CPP) -c ./src/ti_collate.cpp -o ./obj_PSP/core/ti_collate.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_filebuf.o:   ./src/ti_filebuf.cpp
+	$(CPP) -c ./src/ti_filebuf.cpp -o ./obj_PSP/core/ti_filebuf.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_insert_dbl.o:   ./src/ti_insert_dbl.cpp
+	$(CPP) -c ./src/ti_insert_dbl.cpp -o ./obj_PSP/core/ti_insert_dbl.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_insert_int.o:   ./src/ti_insert_int.cpp
+	$(CPP) -c ./src/ti_insert_int.cpp -o ./obj_PSP/core/ti_insert_int.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_insert_ptr.o:   ./src/ti_insert_ptr.cpp
+	$(CPP) -c ./src/ti_insert_ptr.cpp -o ./obj_PSP/core/ti_insert_ptr.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_ios.o:   ./src/ti_ios.cpp
+	$(CPP) -c ./src/ti_ios.cpp -o ./obj_PSP/core/ti_ios.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_istream.o:   ./src/ti_istream.cpp
+	$(CPP) -c ./src/ti_istream.cpp -o ./obj_PSP/core/ti_istream.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_messages.o:   ./src/ti_messages.cpp
+	$(CPP) -c ./src/ti_messages.cpp -o ./obj_PSP/core/ti_messages.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_money_get.o:   ./src/ti_money_get.cpp
+	$(CPP) -c ./src/ti_money_get.cpp -o ./obj_PSP/core/ti_money_get.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_money_put.o:   ./src/ti_money_put.cpp
+	$(CPP) -c ./src/ti_money_put.cpp -o ./obj_PSP/core/ti_money_put.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_moneypunct.o:   ./src/ti_moneypunct.cpp
+	$(CPP) -c ./src/ti_moneypunct.cpp -o ./obj_PSP/core/ti_moneypunct.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_num_get.o:   ./src/ti_num_get.cpp
+	$(CPP) -c ./src/ti_num_get.cpp -o ./obj_PSP/core/ti_num_get.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_num_put.o:   ./src/ti_num_put.cpp
+	$(CPP) -c ./src/ti_num_put.cpp -o ./obj_PSP/core/ti_num_put.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_numpunct.o:   ./src/ti_numpunct.cpp
+	$(CPP) -c ./src/ti_numpunct.cpp -o ./obj_PSP/core/ti_numpunct.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_ostream.o:   ./src/ti_ostream.cpp
+	$(CPP) -c ./src/ti_ostream.cpp -o ./obj_PSP/core/ti_ostream.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_podarray.o:   ./src/ti_podarray.cpp
+	$(CPP) -c ./src/ti_podarray.cpp -o ./obj_PSP/core/ti_podarray.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_streambuf.o: ./src/ti_streambuf.cpp 
+	 $(CPP) -c ./src/ti_streambuf.cpp -o ./obj_PSP/core/ti_streambuf.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_string.o: ./src/ti_string.cpp 
+	 $(CPP) -c ./src/ti_string.cpp -o ./obj_PSP/core/ti_string.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_stringbuf.o: ./src/ti_stringbuf.cpp 
+	 $(CPP) -c ./src/ti_stringbuf.cpp -o ./obj_PSP/core/ti_stringbuf.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_time_get.o: ./src/ti_time_get.cpp 
+	 $(CPP) -c ./src/ti_time_get.cpp -o ./obj_PSP/core/ti_time_get.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_time_put.o: ./src/ti_time_put.cpp 
+	 $(CPP) -c ./src/ti_time_put.cpp -o ./obj_PSP/core/ti_time_put.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_wcollate.o: ./src/ti_wcollate.cpp 
+	 $(CPP) -c ./src/ti_wcollate.cpp -o ./obj_PSP/core/ti_wcollate.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_wfilebuf.o: ./src/ti_wfilebuf.cpp 
+	 $(CPP) -c ./src/ti_wfilebuf.cpp -o ./obj_PSP/core/ti_wfilebuf.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_winsert_dbl.o: ./src/ti_winsert_dbl.cpp 
+	 $(CPP) -c ./src/ti_winsert_dbl.cpp -o ./obj_PSP/core/ti_winsert_dbl.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_winsert_int.o: ./src/ti_winsert_int.cpp 
+	 $(CPP) -c ./src/ti_winsert_int.cpp -o ./obj_PSP/core/ti_winsert_int.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_winsert_ptr.o: ./src/ti_winsert_ptr.cpp 
+	 $(CPP) -c ./src/ti_winsert_ptr.cpp -o ./obj_PSP/core/ti_winsert_ptr.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_wios.o: ./src/ti_wios.cpp 
+	 $(CPP) -c ./src/ti_wios.cpp -o ./obj_PSP/core/ti_wios.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_wistream.o: ./src/ti_wistream.cpp 
+	 $(CPP) -c ./src/ti_wistream.cpp -o ./obj_PSP/core/ti_wistream.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_wmessages.o: ./src/ti_wmessages.cpp 
+	 $(CPP) -c ./src/ti_wmessages.cpp -o ./obj_PSP/core/ti_wmessages.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_wmoneypunct.o: ./src/ti_wmoneypunct.cpp 
+	 $(CPP) -c ./src/ti_wmoneypunct.cpp -o ./obj_PSP/core/ti_wmoneypunct.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_wmoney_get.o: ./src/ti_wmoney_get.cpp 
+	 $(CPP) -c ./src/ti_wmoney_get.cpp -o ./obj_PSP/core/ti_wmoney_get.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_wmoney_put.o: ./src/ti_wmoney_put.cpp 
+	 $(CPP) -c ./src/ti_wmoney_put.cpp -o ./obj_PSP/core/ti_wmoney_put.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_wnumpunct.o: ./src/ti_wnumpunct.cpp 
+	 $(CPP) -c ./src/ti_wnumpunct.cpp -o ./obj_PSP/core/ti_wnumpunct.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_wnum_get.o: ./src/ti_wnum_get.cpp 
+	 $(CPP) -c ./src/ti_wnum_get.cpp -o ./obj_PSP/core/ti_wnum_get.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_wnum_put.o: ./src/ti_wnum_put.cpp 
+	 $(CPP) -c ./src/ti_wnum_put.cpp -o ./obj_PSP/core/ti_wnum_put.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_wostream.o: ./src/ti_wostream.cpp 
+	 $(CPP) -c ./src/ti_wostream.cpp -o ./obj_PSP/core/ti_wostream.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_wstreambuf.o: ./src/ti_wstreambuf.cpp 
+	 $(CPP) -c ./src/ti_wstreambuf.cpp -o ./obj_PSP/core/ti_wstreambuf.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_wstring.o: ./src/ti_wstring.cpp 
+	 $(CPP) -c ./src/ti_wstring.cpp -o ./obj_PSP/core/ti_wstring.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_wstringbuf.o: ./src/ti_wstringbuf.cpp 
+	 $(CPP) -c ./src/ti_wstringbuf.cpp -o ./obj_PSP/core/ti_wstringbuf.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/ti_wtime_get.o: ./src/ti_wtime_get.cpp 
+	 $(CPP) -c ./src/ti_wtime_get.cpp -o ./obj_PSP/core/ti_wtime_get.o $(CFLAGS_PSP) $(INCLUDE) 
+
+./obj_PSP/core/ti_wtime_put.o: ./src/ti_wtime_put.cpp 
+	 $(CPP) -c ./src/ti_wtime_put.cpp -o ./obj_PSP/core/ti_wtime_put.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/tmpbuf.o: ./src/tmpbuf.cpp 
+	 $(CPP) -c ./src/tmpbuf.cpp -o ./obj_PSP/core/tmpbuf.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/typeinfo.o: ./src/typeinfo.cpp 
+	 $(CPP) -c ./src/typeinfo.cpp -o ./obj_PSP/core/typeinfo.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/underflow_error.o: ./src/underflow_error.cpp 
+	 $(CPP) -c ./src/underflow_error.cpp -o ./obj_PSP/core/underflow_error.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/valarray.o: ./src/valarray.cpp 
+	 $(CPP) -c ./src/valarray.cpp -o ./obj_PSP/core/valarray.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/vecbool.o: ./src/vecbool.cpp 
+	 $(CPP) -c ./src/vecbool.cpp -o ./obj_PSP/core/vecbool.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/version.o: ./src/version.cpp 
+	 $(CPP) -c ./src/version.cpp -o ./obj_PSP/core/version.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/wcodecvt.o: ./src/wcodecvt.cpp 
+	 $(CPP) -c ./src/wcodecvt.cpp -o ./obj_PSP/core/wcodecvt.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/wctype.o: ./src/wctype.cpp 
+	 $(CPP) -c ./src/wctype.cpp -o ./obj_PSP/core/wctype.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/locale_bits.o: ./src/locale_bits.cpp 
+	 $(CPP) -c ./src/locale_bits.cpp -o ./obj_PSP/core/locale_bits.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/locale_body.o: ./src/locale_body.cpp 
+	 $(CPP) -c ./src/locale_body.cpp -o ./obj_PSP/core/locale_body.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/locale_classic.o: ./src/locale_classic.cpp 
+	 $(CPP) -c ./src/locale_classic.cpp -o ./obj_PSP/core/locale_classic.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/locale_combine.o: ./src/locale_combine.cpp 
+	 $(CPP) -c ./src/locale_combine.cpp -o ./obj_PSP/core/locale_combine.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/locale_core.o: ./src/locale_core.cpp 
+	 $(CPP) -c ./src/locale_core.cpp -o ./obj_PSP/core/locale_core.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/locale_eq.o: ./src/locale_eq.cpp 
+	 $(CPP) -c ./src/locale_eq.cpp -o ./obj_PSP/core/locale_eq.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/locale_global.o: ./src/locale_global.cpp 
+	 $(CPP) -c ./src/locale_global.cpp -o ./obj_PSP/core/locale_global.o $(CFLAGS_PSP) $(INCLUDE)  
+
+./obj_PSP/core/locale_name.o: ./src/locale_name.cpp 
+	 $(CPP) -c ./src/locale_name.cpp -o ./obj_PSP/core/locale_name.o $(CFLAGS_PSP) $(INCLUDE)  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,511 @@
+# ------------------------------------------------------------------------------
+#
+# ndOpenCv (Cv) (PSP/PSPE Version)
+#
+# Makefile for GNU C/C++ 3.x or later
+# 
+# Questo Makefile è stato creato da Filippo Battaglia
+#
+# ------------------------------------------------------------------------------
+
+
+CXX = psp-g++
+PACK = psp-ar
+
+## Librerie finali da generare
+
+OUTLIB_PSPE = ../../lib/libNdCv_PSPE.a
+OUTLIB_PSP  = ../../lib/libNdCv_PSP.a
+
+## Short names dei files oggetto
+
+OBJ_SHRT = cvadapthresh.o cvcalccontrasthistogram.o cvcanny.o cvcolor.o cvcontours.o \
+cvconvolve.o cvcorner.o cvcornersubpix.o cvderiv.o cvfeatureselect.o cvfloodfill.o \
+cvhistogram.o cvimgwarp.o cvmoments.o cvmorph.o cvpyramids.o cvsamplers.o cvsmooth.o \
+cvtemplmatch.o cvthresh.o cvapprox.o cvcontourtree.o cvconvhull.o cvdistransform.o \
+cvdominants.o cvemd.o cvgeometry.o cvhough.o cvlinefit.o cvmatchcontours.o cvpgh.o \
+cvpyrsegmentation.o cvrotcalipers.o cvshapedescr.o cvsubdivision2d.o cvcamshift.o \
+cvcondens.o cvkalman.o cvlkpyramid.o cvmotempl.o cvoptflowbm.o cvoptflowhs.o \
+cvoptflowlk.o cvsnakes.o cvcalcimagehomography.o cvcalibinit.o cvcalibration.o \
+cvfundam.o cvposit.o cvundistort.o cvhaar.o cvaccum.o cvsumpixels.o cvswitcher.o \
+cvtables.o cvutils.o cvprecomp.o 
+
+
+## Nomi dei files oggetto per PSPE e per PSP 
+
+OBJS_PSPE = ../../_temp/cv_Rls_gcc_PSPE/cvadapthresh.o \
+../../_temp/cv_Rls_gcc_PSPE/cvcalccontrasthistogram.o ../../_temp/cv_Rls_gcc_PSPE/cvcanny.o \
+../../_temp/cv_Rls_gcc_PSPE/cvcolor.o ../../_temp/cv_Rls_gcc_PSPE/cvcontours.o \
+../../_temp/cv_Rls_gcc_PSPE/cvconvolve.o ../../_temp/cv_Rls_gcc_PSPE/cvcorner.o \
+../../_temp/cv_Rls_gcc_PSPE/cvcornersubpix.o ../../_temp/cv_Rls_gcc_PSPE/cvderiv.o \
+../../_temp/cv_Rls_gcc_PSPE/cvfeatureselect.o ../../_temp/cv_Rls_gcc_PSPE/cvfloodfill.o \
+../../_temp/cv_Rls_gcc_PSPE/cvhistogram.o ../../_temp/cv_Rls_gcc_PSPE/cvimgwarp.o \
+../../_temp/cv_Rls_gcc_PSPE/cvmoments.o ../../_temp/cv_Rls_gcc_PSPE/cvmorph.o \
+../../_temp/cv_Rls_gcc_PSPE/cvpyramids.o ../../_temp/cv_Rls_gcc_PSPE/cvsamplers.o \
+../../_temp/cv_Rls_gcc_PSPE/cvsmooth.o ../../_temp/cv_Rls_gcc_PSPE/cvtemplmatch.o \
+../../_temp/cv_Rls_gcc_PSPE/cvthresh.o ../../_temp/cv_Rls_gcc_PSPE/cvapprox.o \
+../../_temp/cv_Rls_gcc_PSPE/cvcontourtree.o ../../_temp/cv_Rls_gcc_PSPE/cvconvhull.o \
+../../_temp/cv_Rls_gcc_PSPE/cvdistransform.o ../../_temp/cv_Rls_gcc_PSPE/cvdominants.o \
+../../_temp/cv_Rls_gcc_PSPE/cvemd.o ../../_temp/cv_Rls_gcc_PSPE/cvgeometry.o \
+../../_temp/cv_Rls_gcc_PSPE/cvhough.o ../../_temp/cv_Rls_gcc_PSPE/cvlinefit.o \
+../../_temp/cv_Rls_gcc_PSPE/cvmatchcontours.o ../../_temp/cv_Rls_gcc_PSPE/cvpgh.o \
+../../_temp/cv_Rls_gcc_PSPE/cvpyrsegmentation.o ../../_temp/cv_Rls_gcc_PSPE/cvrotcalipers.o \
+../../_temp/cv_Rls_gcc_PSPE/cvshapedescr.o ../../_temp/cv_Rls_gcc_PSPE/cvsubdivision2d.o \
+../../_temp/cv_Rls_gcc_PSPE/cvcamshift.o ../../_temp/cv_Rls_gcc_PSPE/cvcondens.o \
+../../_temp/cv_Rls_gcc_PSPE/cvkalman.o ../../_temp/cv_Rls_gcc_PSPE/cvlkpyramid.o \
+../../_temp/cv_Rls_gcc_PSPE/cvmotempl.o ../../_temp/cv_Rls_gcc_PSPE/cvoptflowbm.o \
+../../_temp/cv_Rls_gcc_PSPE/cvoptflowhs.o ../../_temp/cv_Rls_gcc_PSPE/cvoptflowlk.o \
+../../_temp/cv_Rls_gcc_PSPE/cvsnakes.o ../../_temp/cv_Rls_gcc_PSPE/cvcalcimagehomography.o \
+../../_temp/cv_Rls_gcc_PSPE/cvcalibinit.o ../../_temp/cv_Rls_gcc_PSPE/cvcalibration.o \
+../../_temp/cv_Rls_gcc_PSPE/cvfundam.o ../../_temp/cv_Rls_gcc_PSPE/cvposit.o \
+../../_temp/cv_Rls_gcc_PSPE/cvundistort.o ../../_temp/cv_Rls_gcc_PSPE/cvhaar.o \
+../../_temp/cv_Rls_gcc_PSPE/cvaccum.o ../../_temp/cv_Rls_gcc_PSPE/cvsumpixels.o \
+../../_temp/cv_Rls_gcc_PSPE/cvswitcher.o ../../_temp/cv_Rls_gcc_PSPE/cvtables.o \
+../../_temp/cv_Rls_gcc_PSPE/cvutils.o ../../_temp/cv_Rls_gcc_PSPE/cvprecomp.o 
+
+
+OBJS_PSP = ../../_temp/cv_Rls_gcc_PSP/cvadapthresh.o \
+../../_temp/cv_Rls_gcc_PSP/cvcalccontrasthistogram.o ../../_temp/cv_Rls_gcc_PSP/cvcanny.o \
+../../_temp/cv_Rls_gcc_PSP/cvcolor.o ../../_temp/cv_Rls_gcc_PSP/cvcontours.o \
+../../_temp/cv_Rls_gcc_PSP/cvconvolve.o ../../_temp/cv_Rls_gcc_PSP/cvcorner.o \
+../../_temp/cv_Rls_gcc_PSP/cvcornersubpix.o ../../_temp/cv_Rls_gcc_PSP/cvderiv.o \
+../../_temp/cv_Rls_gcc_PSP/cvfeatureselect.o ../../_temp/cv_Rls_gcc_PSP/cvfloodfill.o \
+../../_temp/cv_Rls_gcc_PSP/cvhistogram.o ../../_temp/cv_Rls_gcc_PSP/cvimgwarp.o \
+../../_temp/cv_Rls_gcc_PSP/cvmoments.o ../../_temp/cv_Rls_gcc_PSP/cvmorph.o \
+../../_temp/cv_Rls_gcc_PSP/cvpyramids.o ../../_temp/cv_Rls_gcc_PSP/cvsamplers.o \
+../../_temp/cv_Rls_gcc_PSP/cvsmooth.o ../../_temp/cv_Rls_gcc_PSP/cvtemplmatch.o \
+../../_temp/cv_Rls_gcc_PSP/cvthresh.o ../../_temp/cv_Rls_gcc_PSP/cvapprox.o \
+../../_temp/cv_Rls_gcc_PSP/cvcontourtree.o ../../_temp/cv_Rls_gcc_PSP/cvconvhull.o \
+../../_temp/cv_Rls_gcc_PSP/cvdistransform.o ../../_temp/cv_Rls_gcc_PSP/cvdominants.o \
+../../_temp/cv_Rls_gcc_PSP/cvemd.o ../../_temp/cv_Rls_gcc_PSP/cvgeometry.o \
+../../_temp/cv_Rls_gcc_PSP/cvhough.o ../../_temp/cv_Rls_gcc_PSP/cvlinefit.o \
+../../_temp/cv_Rls_gcc_PSP/cvmatchcontours.o ../../_temp/cv_Rls_gcc_PSP/cvpgh.o \
+../../_temp/cv_Rls_gcc_PSP/cvpyrsegmentation.o ../../_temp/cv_Rls_gcc_PSP/cvrotcalipers.o \
+../../_temp/cv_Rls_gcc_PSP/cvshapedescr.o ../../_temp/cv_Rls_gcc_PSP/cvsubdivision2d.o \
+../../_temp/cv_Rls_gcc_PSP/cvcamshift.o ../../_temp/cv_Rls_gcc_PSP/cvcondens.o \
+../../_temp/cv_Rls_gcc_PSP/cvkalman.o ../../_temp/cv_Rls_gcc_PSP/cvlkpyramid.o \
+../../_temp/cv_Rls_gcc_PSP/cvmotempl.o ../../_temp/cv_Rls_gcc_PSP/cvoptflowbm.o \
+../../_temp/cv_Rls_gcc_PSP/cvoptflowhs.o ../../_temp/cv_Rls_gcc_PSP/cvoptflowlk.o \
+../../_temp/cv_Rls_gcc_PSP/cvsnakes.o ../../_temp/cv_Rls_gcc_PSP/cvcalcimagehomography.o \
+../../_temp/cv_Rls_gcc_PSP/cvcalibinit.o ../../_temp/cv_Rls_gcc_PSP/cvcalibration.o \
+../../_temp/cv_Rls_gcc_PSP/cvfundam.o ../../_temp/cv_Rls_gcc_PSP/cvposit.o \
+../../_temp/cv_Rls_gcc_PSP/cvundistort.o ../../_temp/cv_Rls_gcc_PSP/cvhaar.o \
+../../_temp/cv_Rls_gcc_PSP/cvaccum.o ../../_temp/cv_Rls_gcc_PSP/cvsumpixels.o \
+../../_temp/cv_Rls_gcc_PSP/cvswitcher.o ../../_temp/cv_Rls_gcc_PSP/cvtables.o \
+../../_temp/cv_Rls_gcc_PSP/cvutils.o ../../_temp/cv_Rls_gcc_PSP/cvprecomp.o 
+
+
+## Directories include
+
+INC1 = -I"." 
+INC2 = -I"../include" 
+INC3 = -I"../../cxcore/include" 
+INC4 = -I"../../../SDK/PspDev/psp\sdk\include" 
+INC5 = -I"../../../SDK/Nanodesktop/src" 
+INC6 = -I"../../../SDK/NanoCore/NanoC/src" 
+INC7 = -I"../../../SDK/NanoCore/NanoM/src" 
+
+XINC = $(INC1) $(INC2) $(INC3) $(INC4) $(INC5) $(INC6) $(INC7)
+
+
+## Flags di piattaforma per PSPE e PSP
+
+XFLAGS_PSPE = -D"PSPE_PLATFORM" -D"ND_LIBRARY" -O3 -g -fomit-frame-pointer -fno-exceptions -fno-rtti -march=mips2 -Wall -msym32 -mfp32 -ffast-math -fshort-double -v
+
+XFLAGS_PSP  = -D"PSP_PLATFORM" -D"ND_LIBRARY" -O3 -G0 -g -fomit-frame-pointer -fno-exceptions -fno-rtti -march=allegrex -mgp32 -mfp32 -msym32 -ffast-math -mhard-float -fshort-double -v -Wall
+
+
+
+## Flags per il compilatore C++
+
+CXXFLAGS_PSPE = -D"NDEBUG" -D"CVAPI_EXPORTS" $(XINC) $(XFLAGS_PSPE)  
+
+CXXFLAGS_PSP  = -D"NDEBUG" -D"CVAPI_EXPORTS" $(XINC) $(XFLAGS_PSP) 
+
+
+
+## Flags per il packer
+
+PACKFLAGS = r
+
+
+
+## Assemblaggio delle librerie
+
+all: $(OUTLIB_PSPE) $(OUTLIB_PSP)
+
+
+
+$(OUTLIB_PSPE): $(OBJS_PSPE)
+	$(PACK) $(PACKFLAGS) $(OUTLIB_PSPE) $(OBJS_PSPE) 
+	
+$(OUTLIB_PSP): $(OBJS_PSP)
+	$(PACK) $(PACKFLAGS) $(OUTLIB_PSP) $(OBJS_PSP) 
+
+
+## Creazione del campo xheaders
+
+HD1 = ../include/cv.h 
+HD2 = ../include/cv.hpp 
+HD3 = ../include/cvcompat.h 
+HD4 = ../include/cvtypes.h 
+HD5 = ./_cv.h 
+HD6 = ./_cvgeom.h 
+HD7 = ./_cvimgproc.h 
+HD8 = ./_cvipp.h 
+HD9 = ./_cvlist.h 
+HD10 = ./_cvmatrix.h
+
+XHEADERS = $(HD1) $(HD2) $(HD3) $(HD4) $(HD5) $(HD6) $(HD7) $(HD8) $(HD9) $(HD10)
+	
+
+## Compila i moduli per PSPE
+
+../../_temp/cv_Rls_gcc_PSPE/cvadapthresh.o: ./cvadapthresh.cpp $(XHEADERS)
+	@-mkdir ../../_temp/cv_Rls_gcc_PSPE 
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvadapthresh.o -c ./cvadapthresh.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvcalccontrasthistogram.o: ./cvcalccontrasthistogram.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvcalccontrasthistogram.o -c ./cvcalccontrasthistogram.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvcanny.o: ./cvcanny.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvcanny.o -c ./cvcanny.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvcolor.o: ./cvcolor.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvcolor.o -c ./cvcolor.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvcontours.o: ./cvcontours.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvcontours.o -c ./cvcontours.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvconvolve.o: ./cvconvolve.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvconvolve.o -c ./cvconvolve.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvcorner.o: ./cvcorner.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvcorner.o -c ./cvcorner.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvcornersubpix.o: ./cvcornersubpix.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvcornersubpix.o -c ./cvcornersubpix.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvderiv.o: ./cvderiv.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvderiv.o -c ./cvderiv.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvfeatureselect.o: ./cvfeatureselect.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvfeatureselect.o -c ./cvfeatureselect.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvfloodfill.o: ./cvfloodfill.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvfloodfill.o -c ./cvfloodfill.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvhistogram.o: ./cvhistogram.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvhistogram.o -c ./cvhistogram.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvimgwarp.o: ./cvimgwarp.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvimgwarp.o -c ./cvimgwarp.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvmoments.o: ./cvmoments.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvmoments.o -c ./cvmoments.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvmorph.o: ./cvmorph.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvmorph.o -c ./cvmorph.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvpyramids.o: ./cvpyramids.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvpyramids.o -c ./cvpyramids.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvsamplers.o: ./cvsamplers.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvsamplers.o -c ./cvsamplers.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvsmooth.o: ./cvsmooth.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvsmooth.o -c ./cvsmooth.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvtemplmatch.o: ./cvtemplmatch.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvtemplmatch.o -c ./cvtemplmatch.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvthresh.o: ./cvthresh.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvthresh.o -c ./cvthresh.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvapprox.o: ./cvapprox.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvapprox.o -c ./cvapprox.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvcontourtree.o: ./cvcontourtree.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvcontourtree.o -c ./cvcontourtree.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvconvhull.o: ./cvconvhull.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvconvhull.o -c ./cvconvhull.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvdistransform.o: ./cvdistransform.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvdistransform.o -c ./cvdistransform.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvdominants.o: ./cvdominants.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvdominants.o -c ./cvdominants.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvemd.o: ./cvemd.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvemd.o -c ./cvemd.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvgeometry.o: ./cvgeometry.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvgeometry.o -c ./cvgeometry.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvhough.o: ./cvhough.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvhough.o -c ./cvhough.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvlinefit.o: ./cvlinefit.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvlinefit.o -c ./cvlinefit.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvmatchcontours.o: ./cvmatchcontours.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvmatchcontours.o -c ./cvmatchcontours.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvpgh.o: ./cvpgh.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvpgh.o -c ./cvpgh.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvpyrsegmentation.o: ./cvpyrsegmentation.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvpyrsegmentation.o -c ./cvpyrsegmentation.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvrotcalipers.o: ./cvrotcalipers.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvrotcalipers.o -c ./cvrotcalipers.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvshapedescr.o: ./cvshapedescr.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvshapedescr.o -c ./cvshapedescr.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvsubdivision2d.o: ./cvsubdivision2d.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvsubdivision2d.o -c ./cvsubdivision2d.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvcamshift.o: ./cvcamshift.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvcamshift.o -c ./cvcamshift.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvcondens.o: ./cvcondens.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvcondens.o -c ./cvcondens.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvkalman.o: ./cvkalman.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvkalman.o -c ./cvkalman.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvlkpyramid.o: ./cvlkpyramid.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvlkpyramid.o -c ./cvlkpyramid.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvmotempl.o: ./cvmotempl.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvmotempl.o -c ./cvmotempl.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvoptflowbm.o: ./cvoptflowbm.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvoptflowbm.o -c ./cvoptflowbm.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvoptflowhs.o: ./cvoptflowhs.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvoptflowhs.o -c ./cvoptflowhs.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvoptflowlk.o: ./cvoptflowlk.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvoptflowlk.o -c ./cvoptflowlk.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvsnakes.o: ./cvsnakes.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvsnakes.o -c ./cvsnakes.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvcalcimagehomography.o: ./cvcalcimagehomography.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvcalcimagehomography.o -c ./cvcalcimagehomography.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvcalibinit.o: ./cvcalibinit.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvcalibinit.o -c ./cvcalibinit.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvcalibration.o: ./cvcalibration.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvcalibration.o -c ./cvcalibration.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvfundam.o: ./cvfundam.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvfundam.o -c ./cvfundam.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvposit.o: ./cvposit.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvposit.o -c ./cvposit.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvundistort.o: ./cvundistort.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvundistort.o -c ./cvundistort.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvhaar.o: ./cvhaar.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvhaar.o -c ./cvhaar.cpp 
+
+../../_temp/cv_Rls_gcc_PSPE/cvaccum.o: ./cvaccum.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvaccum.o -c ./cvaccum.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvsumpixels.o: ./cvsumpixels.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvsumpixels.o -c ./cvsumpixels.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvswitcher.o: ./cvswitcher.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvswitcher.o -c ./cvswitcher.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvtables.o: ./cvtables.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvtables.o -c ./cvtables.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvutils.o: ./cvutils.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvutils.o -c ./cvutils.cpp
+
+../../_temp/cv_Rls_gcc_PSPE/cvprecomp.o: ./cvprecomp.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSPE) -o ../../_temp/cv_Rls_gcc_PSPE/cvprecomp.o -c ./cvprecomp.cpp
+	
+	
+## Compila i moduli per PSP
+
+../../_temp/cv_Rls_gcc_PSP/cvadapthresh.o: ./cvadapthresh.cpp $(XHEADERS)
+	@-mkdir ../../_temp/cv_Rls_gcc_PSP 
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvadapthresh.o -c ./cvadapthresh.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvcalccontrasthistogram.o: ./cvcalccontrasthistogram.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvcalccontrasthistogram.o -c ./cvcalccontrasthistogram.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvcanny.o: ./cvcanny.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvcanny.o -c ./cvcanny.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvcolor.o: ./cvcolor.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvcolor.o -c ./cvcolor.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvcontours.o: ./cvcontours.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvcontours.o -c ./cvcontours.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvconvolve.o: ./cvconvolve.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvconvolve.o -c ./cvconvolve.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvcorner.o: ./cvcorner.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvcorner.o -c ./cvcorner.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvcornersubpix.o: ./cvcornersubpix.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvcornersubpix.o -c ./cvcornersubpix.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvderiv.o: ./cvderiv.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvderiv.o -c ./cvderiv.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvfeatureselect.o: ./cvfeatureselect.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvfeatureselect.o -c ./cvfeatureselect.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvfloodfill.o: ./cvfloodfill.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvfloodfill.o -c ./cvfloodfill.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvhistogram.o: ./cvhistogram.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvhistogram.o -c ./cvhistogram.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvimgwarp.o: ./cvimgwarp.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvimgwarp.o -c ./cvimgwarp.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvmoments.o: ./cvmoments.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvmoments.o -c ./cvmoments.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvmorph.o: ./cvmorph.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvmorph.o -c ./cvmorph.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvpyramids.o: ./cvpyramids.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvpyramids.o -c ./cvpyramids.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvsamplers.o: ./cvsamplers.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvsamplers.o -c ./cvsamplers.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvsmooth.o: ./cvsmooth.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvsmooth.o -c ./cvsmooth.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvtemplmatch.o: ./cvtemplmatch.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvtemplmatch.o -c ./cvtemplmatch.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvthresh.o: ./cvthresh.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvthresh.o -c ./cvthresh.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvapprox.o: ./cvapprox.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvapprox.o -c ./cvapprox.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvcontourtree.o: ./cvcontourtree.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvcontourtree.o -c ./cvcontourtree.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvconvhull.o: ./cvconvhull.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvconvhull.o -c ./cvconvhull.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvdistransform.o: ./cvdistransform.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvdistransform.o -c ./cvdistransform.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvdominants.o: ./cvdominants.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvdominants.o -c ./cvdominants.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvemd.o: ./cvemd.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvemd.o -c ./cvemd.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvgeometry.o: ./cvgeometry.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvgeometry.o -c ./cvgeometry.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvhough.o: ./cvhough.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvhough.o -c ./cvhough.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvlinefit.o: ./cvlinefit.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvlinefit.o -c ./cvlinefit.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvmatchcontours.o: ./cvmatchcontours.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvmatchcontours.o -c ./cvmatchcontours.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvpgh.o: ./cvpgh.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvpgh.o -c ./cvpgh.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvpyrsegmentation.o: ./cvpyrsegmentation.cpp $(XHEADERS) 
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvpyrsegmentation.o -c ./cvpyrsegmentation.cpp 
+
+../../_temp/cv_Rls_gcc_PSP/cvrotcalipers.o: ./cvrotcalipers.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvrotcalipers.o -c ./cvrotcalipers.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvshapedescr.o: ./cvshapedescr.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvshapedescr.o -c ./cvshapedescr.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvsubdivision2d.o: ./cvsubdivision2d.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvsubdivision2d.o -c ./cvsubdivision2d.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvcamshift.o: ./cvcamshift.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvcamshift.o -c ./cvcamshift.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvcondens.o: ./cvcondens.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvcondens.o -c ./cvcondens.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvkalman.o: ./cvkalman.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvkalman.o -c ./cvkalman.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvlkpyramid.o: ./cvlkpyramid.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvlkpyramid.o -c ./cvlkpyramid.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvmotempl.o: ./cvmotempl.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvmotempl.o -c ./cvmotempl.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvoptflowbm.o: ./cvoptflowbm.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvoptflowbm.o -c ./cvoptflowbm.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvoptflowhs.o: ./cvoptflowhs.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvoptflowhs.o -c ./cvoptflowhs.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvoptflowlk.o: ./cvoptflowlk.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvoptflowlk.o -c ./cvoptflowlk.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvsnakes.o: ./cvsnakes.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvsnakes.o -c ./cvsnakes.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvcalcimagehomography.o: ./cvcalcimagehomography.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvcalcimagehomography.o -c ./cvcalcimagehomography.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvcalibinit.o: ./cvcalibinit.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvcalibinit.o -c ./cvcalibinit.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvcalibration.o: ./cvcalibration.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvcalibration.o -c ./cvcalibration.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvfundam.o: ./cvfundam.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvfundam.o -c ./cvfundam.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvposit.o: ./cvposit.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvposit.o -c ./cvposit.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvundistort.o: ./cvundistort.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvundistort.o -c ./cvundistort.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvhaar.o: ./cvhaar.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvhaar.o -c ./cvhaar.cpp 
+
+../../_temp/cv_Rls_gcc_PSP/cvaccum.o: ./cvaccum.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvaccum.o -c ./cvaccum.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvsumpixels.o: ./cvsumpixels.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvsumpixels.o -c ./cvsumpixels.cpp 
+
+../../_temp/cv_Rls_gcc_PSP/cvswitcher.o: ./cvswitcher.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvswitcher.o -c ./cvswitcher.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvtables.o: ./cvtables.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvtables.o -c ./cvtables.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvutils.o: ./cvutils.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvutils.o -c ./cvutils.cpp
+
+../../_temp/cv_Rls_gcc_PSP/cvprecomp.o: ./cvprecomp.cpp $(XHEADERS)
+	-$(CXX) $(CXXFLAGS_PSP) -o ../../_temp/cv_Rls_gcc_PSP/cvprecomp.o -c ./cvprecomp.cpp
+
+	
